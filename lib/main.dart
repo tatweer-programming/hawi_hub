@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
-        locale: const Locale("ar"),
+        locale: const Locale("en"),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           S.delegate,

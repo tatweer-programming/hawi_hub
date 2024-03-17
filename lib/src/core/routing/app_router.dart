@@ -16,9 +16,15 @@ class AppRouter {
 
       default:
         return MaterialPageRoute(
-            builder: (_) => const SplashScreen(
-                  nextScreen: MainScreen(),
-                ));
+            builder: (_) => Scaffold(
+                    body: Center(
+                  child: Column(
+                    children: [
+                      const Icon(Icons.phonelink_erase_rounded),
+                      Text('No route defined for ${settings.name}'),
+                    ],
+                  ),
+                )));
     }
   }
 }

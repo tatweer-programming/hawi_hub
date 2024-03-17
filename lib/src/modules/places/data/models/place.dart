@@ -6,8 +6,9 @@ class Place extends Equatable {
   final List<String> images;
   final int id;
   final int ownerId;
-
-  const Place({
+  double? rating;
+  Place({
+    this.rating,
     required this.ownerId,
     required this.name,
     required this.description,
@@ -22,6 +23,7 @@ class Place extends Equatable {
       description: json['description'],
       images: json['images'],
       id: json['id'],
+      rating: null,
     );
   }
   @override
