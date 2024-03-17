@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hawihub/src/core/routing/app_router.dart';
+import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/splash_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -15,7 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
+      AppRouter appRouter = AppRouter();
       return MaterialApp(
+        initialRoute: Routes.splash,
+        onGenerateRoute: appRouter.onGenerateRoute,
         locale: const Locale("en"),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
@@ -29,7 +34,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SplashScreen(nextScreen: MainScreen()),
       );
     });
   }
