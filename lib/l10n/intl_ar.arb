@@ -1,3 +1,6 @@
 {
-  "appName" : "هاوي هب"
+  "appName" : "هاوي هب",
+  "showInMap" : "اظهار في الخريطة",
+  "totalGames" : "إجمالي الحجوزات ",
+    "ratingsCount" : "عدد التقييمات"
 }

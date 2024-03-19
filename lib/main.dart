@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       AppRouter appRouter = AppRouter();
       return MaterialApp(
+        title: "Hawihub",
         initialRoute: Routes.splash,
         onGenerateRoute: appRouter.onGenerateRoute,
         locale: const Locale("en"),
@@ -32,7 +33,6 @@ class MyApp extends StatelessWidget {
         supportedLocales: S.delegate.supportedLocales,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
         ),
       );
     });

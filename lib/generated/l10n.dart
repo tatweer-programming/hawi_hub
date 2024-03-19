@@ -59,6 +59,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Show in map`
+  String get showInMap {
+    return Intl.message(
+      'Show in map',
+      name: 'showInMap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Games`
+  String get totalGames {
+    return Intl.message(
+      'Total Games',
+      name: 'totalGames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ratings`
+  String get ratingsCount {
+    return Intl.message(
+      'Ratings',
+      name: 'ratingsCount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

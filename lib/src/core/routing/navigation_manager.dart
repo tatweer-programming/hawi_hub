@@ -5,8 +5,11 @@ extension NavigationMethods on BuildContext {
     Navigator.pop(this);
   }
 
-  void push(String route) {
-    Navigator.pushNamed(this, route);
+  void push(
+    String route, {
+    Object? arguments,
+  }) {
+    Navigator.pushNamed(this, route, arguments: arguments);
   }
 
   void pushAndRemove(String route) {
