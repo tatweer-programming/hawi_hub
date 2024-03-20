@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
-import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
-import 'package:hawihub/src/modules/main/view/screens/splash_screen.dart';
+import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:sizer/sizer.dart';
 
 import 'generated/l10n.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  await LocalizationManager.init();
   runApp(const MyApp());
 }
 
@@ -19,10 +22,10 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       AppRouter appRouter = AppRouter();
       return MaterialApp(
-        title: "Hawihub",
+        title: LocalizationManager.getAppTitle(),
         initialRoute: Routes.splash,
         onGenerateRoute: appRouter.onGenerateRoute,
-        locale: const Locale("en"),
+        locale: LocalizationManager.getCurrentLocale(),
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           S.delegate,
