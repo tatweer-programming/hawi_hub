@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
@@ -19,6 +20,10 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Sizer(builder: (context, orientation, deviceType) {
       AppRouter appRouter = AppRouter();
       return MaterialApp(
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: S.delegate.supportedLocales,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
       );
     });

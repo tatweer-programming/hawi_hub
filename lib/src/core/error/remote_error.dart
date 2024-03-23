@@ -7,59 +7,89 @@ class ExceptionManager implements Exception {
 
   String translatedMessage() {
     if (LocalizationManager.getCurrentLocale().languageCode == "en") {
-      return error.code.toString().replaceAll("-", " ");
+      return error.message;
     }
     switch (error.code) {
-      case "network-error":
-        return "خطأ في الشبكة";
-      case "network-request-failed":
-        return "خطأ في الشبكة";
-      case "email-already-in-use":
-        return "البريد الإلكتروني المدخل مستخدم بالفعل";
-      case "invalid-email":
-        return "البريد الإلكتروني المدخل غير صالح";
-      case "user-not-found":
-        return "المستخدم غير موجود";
-      case "wrong-password":
-        return "كلمة المرور غير صحيحة";
-      case "user-disabled":
-        return "تم تعطيل الحساب";
-      case "user-token-expired":
-        return "انتهت صلاحية رمز المصادقة";
-      case "permission-denied":
-        return "ليس لديك صلاحية الوصول إلى هذه البيانات";
-      case "invalid-token":
-        return "رمز المصادقة غير صالح";
-      case "cancelled":
-        return "تم إلغاء العملية";
-      case "already-exists":
-        return "المستند موجود بالفعل";
-      case "data-loss":
-        return "حدث فقدان البيانات ";
-      case "invalid-argument":
-        return "بيانات غير صالحة";
-      case "internal":
-        return "حدث خطأ داخلي في الخادم";
-      case "invalid-registration-token":
-        return "رمز التسجيل الخاص بالجهاز غير صالح";
-      case "registration-token-not-registered":
-        return "لم يتم تسجيل الجهاز لتلقي الإشعارات";
-      case "fetch-client-network":
-        return "خطأ في الاتصال بالخادم ";
-      case "fetch-throttle":
-        return "تم إيقاف جلب البيانات لفترة من الوقت بسبب الكثير من الاستعلامات";
-      case "quota-exceeded":
-        return "تم تجاوز سقف التخزين";
-      case "unauthorized":
-        return "ليس لديك صلاحية الوصول إلى هذا الملف";
-      case "object-not-found":
-        return "لم يتم العثور على الملف";
-      case "retry-limit-exceeded":
-        return "تم تجاوز الحد الأقصى لإعادة المحاولة";
-      case "unknown":
-        return "حدث خطأ غير معروف";
+      case 400:
+        return "طلب غير صالح";
+      case 401:
+        return "غير مصرح";
+      case 403:
+        return "ممنوع";
+      case 404:
+        return "غير موجود";
+      case 405:
+        return "الطريقة غير مسموح بها";
+      case 406:
+        return "غير مقبول";
+      case 407:
+        return "المصادقة بالوكيل مطلوبة";
+      case 408:
+        return "انتهت مهلة الطلب";
+      case 409:
+        return "تعارض";
+      case 410:
+        return "انتهى";
+      case 411:
+        return "الطول مطلوب";
+      case 412:
+        return "فشلت الشروط الأولية";
+      case 413:
+        return "حمولة كبيرة جدا";
+      case 414:
+        return "رابط طويل جدا";
+      case 415:
+        return "نوع الوسائط غير مدعوم";
+      case 416:
+        return "المجموعة غير مرضية";
+      case 417:
+        return "فشلت التوقعات";
+      case 418:
+        return "أنا إبريق";
+      case 421:
+        return "الطلب مضلل";
+      case 422:
+        return "المحتوى غير قابل للمعالجة";
+      case 423:
+        return "مغلق";
+      case 424:
+        return "فشل التبعية";
+      case 425:
+        return "مبكر جدًا";
+      case 426:
+        return "مطلوب الترقية";
+      case 428:
+        return "مطلوب شرط مسبق";
+      case 429:
+        return "الكثير من الطلبات";
+      case 431:
+        return "حقول رأس الطلب كبيرة جدًا";
+      case 451:
+        return "غير متوفر لأسباب قانونية";
+      case 500:
+        return "خطأ داخلي في الخادم";
+      case 501:
+        return "غير مُنفّذ";
+      case 502:
+        return "بوابة خادم غير صالحة";
+      case 503:
+        return "الخدمة غير متوفرة";
+      case 504:
+        return "مهلة البوابة المنتهية";
+      case 505:
+        return "النسخة غير مدعومة";
+      case 506:
+        return "البديل مفوض أيضًا";
+      case 507:
+        return "التخزين غير كافٍ";
+      case 508:
+        return "اكتشفت دورة مستمرة";
+      case 510:
+        return "غير موسع";
+      case 511:
+        return "مطلوب توثيق الشبكة";
       default:
-        return "  حدث خطأ غير معروف : ${error.code}";
+        return "حدث خطأ غير متوقع";
     }
   }
 }
