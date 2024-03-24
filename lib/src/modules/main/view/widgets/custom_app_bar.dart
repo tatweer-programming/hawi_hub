@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Widget child;
@@ -31,6 +32,15 @@ class CustomAppBar extends StatelessWidget {
                 : null,
             color: Colors.green,
           ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(children: actions ?? []),
+              SizedBox(height: 10.sp),
+              Center(child: child),
+            ],
+          ),
         ),
       ),
     );
@@ -54,12 +64,6 @@ class CustomAppBarClipper extends CustomClipper<Path> {
       size.width * .75,
       size.height * .90,
     );
-    // path.quadraticBezierTo(
-    //   size.width * .75,
-    //   size.height * .90,
-    //   size.width,
-    //   size.height,
-    // );
     path.quadraticBezierTo(
       size.width * .875,
       size.height * .99,
