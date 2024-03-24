@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import 'generated/l10n.dart';
@@ -24,25 +26,29 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return Sizer(builder: (context, orientation, deviceType) {
-      AppRouter appRouter = AppRouter();
-      return MaterialApp(
-        title: LocalizationManager.getAppTitle(),
-        initialRoute: Routes.splash,
-        onGenerateRoute: appRouter.onGenerateRoute,
-        locale: LocalizationManager.getCurrentLocale(),
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => MainCubit.get()),
         ],
-        supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        ),
-      );
-    });
+        child: Sizer(builder: (context, orientation, deviceType) {
+          AppRouter appRouter = AppRouter();
+          return MaterialApp(
+            title: LocalizationManager.getAppTitle(),
+            initialRoute: Routes.splash,
+            onGenerateRoute: appRouter.onGenerateRoute,
+            locale: LocalizationManager.getCurrentLocale(),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+            ),
+          );
+        }));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
@@ -10,6 +12,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MainCubit mainCubit = MainCubit.get();
     Place place = Place(
       latitudes: "",
       longitudes: "",
@@ -36,31 +39,37 @@ class MainScreen extends StatelessWidget {
     );
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
-      body: Column(
-        children: [
-          CustomAppBar(
-            //     backgroundImage: "assets/images/logo.png",
-            height: 30.h,
-            actions: const [
-              //   Icon(Icons.notifications),
-            ],
-            child: const Text(
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: BlocBuilder<MainCubit, MainState>(
+        bloc: mainCubit,
+        builder: (context, state) {
+          return Column(
+            children: [
+              CustomAppBar(
+                //     backgroundImage: "assets/images/logo.png",
+                height: 30.h,
+                actions: const [
+                  //   Icon(Icons.notifications),
+                ],
+                child: const Text(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  "",
+                ),
               ),
-              "",
-            ),
-          ),
-          // Center(
-          //   child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: PlaceItem(
-          //         place: place,
-          //       )),
-          // ),
-        ],
+              Expanded(child: mainCubit.pages[mainCubit.currentIndex]),
+              // Center(
+              //   child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: PlaceItem(
+              //         place: place,
+              //       )),
+              // ),
+            ],
+          );
+        },
       ),
     );
   }

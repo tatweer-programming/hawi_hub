@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -6,44 +8,51 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 7.5.h,
-      child: Stack(children: [
-        Center(
-          child: Container(
-            color: Colors.green,
-            height: 2.5.h,
-            width: double.infinity,
-          ),
-        ),
-        const Positioned.fill(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              NavBarItem(
-                icon: Icons.home,
-                label: "Home",
-                isSelected: true,
+    MainCubit mainCubit = MainCubit.get();
+    return BlocBuilder<MainCubit, MainState>(
+      bloc: mainCubit,
+      builder: (context, state) {
+        return SizedBox(
+          height: 7.5.h,
+          width: double.infinity,
+          child: Stack(children: [
+            Center(
+              child: Container(
+                color: Colors.green,
+                height: 2.5.h,
+                width: double.infinity,
               ),
-              NavBarItem(
-                icon: Icons.sports_football_outlined,
-                label: "Play",
-                isSelected: false,
+            ),
+            const Positioned.fill(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  NavBarItem(
+                    index: 0,
+                    icon: Icons.home,
+                    label: "Home",
+                  ),
+                  NavBarItem(
+                    icon: Icons.sports_football_outlined,
+                    label: "Play",
+                    index: 1,
+                  ),
+                  NavBarItem(
+                    icon: Icons.stadium,
+                    label: "Book",
+                    index: 2,
+                  ),
+                  NavBarItem(
+                    icon: Icons.menu,
+                    label: "More",
+                    index: 3,
+                  )
+                ],
               ),
-              NavBarItem(
-                icon: Icons.stadium,
-                label: "Book",
-                isSelected: false,
-              ),
-              NavBarItem(
-                icon: Icons.menu,
-                label: "More",
-                isSelected: false,
-              )
-            ],
-          ),
-        )
-      ]),
+            )
+          ]),
+        );
+      },
     );
   }
 }
@@ -51,40 +60,60 @@ class CustomBottomNavigationBar extends StatelessWidget {
 class NavBarItem extends StatefulWidget {
   final IconData icon;
   final String label;
-  final bool isSelected;
 
-  const NavBarItem({super.key, required this.icon, required this.label, required this.isSelected});
+  final int index;
+
+  const NavBarItem({super.key, required this.icon, required this.label, required this.index});
 
   @override
   State<NavBarItem> createState() => _NavBarItemState();
 }
 
 class _NavBarItemState extends State<NavBarItem> {
+  MainCubit cubit = MainCubit.get();
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: CircleAvatar(
-        radius: double.maxFinite,
-        backgroundColor: widget.isSelected ? Colors.green : Colors.grey[300],
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 1.h),
-              Expanded(
-                  child: Icon(widget.icon,
-                      color: widget.isSelected ? Colors.white : Colors.grey[600])),
-              FittedBox(
-                fit: BoxFit.contain,
-                child: Text(widget.label,
-                    style: TextStyle(color: widget.isSelected ? Colors.white : Colors.grey[600])),
+    return BlocBuilder<MainCubit, MainState>(
+      bloc: cubit,
+      builder: (context, state) {
+        return Expanded(
+          child: CircleAvatar(
+            radius: double.maxFinite,
+            backgroundColor: cubit.currentIndex == widget.index ? Colors.green : Colors.grey[300],
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(360),
+                radius: 360,
+                onTap: () {
+                  cubit.changePage(widget.index);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 1.h),
+                    Expanded(
+                        child: Icon(widget.icon,
+                            color: cubit.currentIndex == widget.index
+                                ? Colors.white
+                                : Colors.grey[600])),
+                    FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(widget.label,
+                          style: TextStyle(
+                              color: cubit.currentIndex == widget.index
+                                  ? Colors.white
+                                  : Colors.grey[600])),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
