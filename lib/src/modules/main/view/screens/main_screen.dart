@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
-import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
 
 import '../widgets/custom_app_bar.dart';
@@ -36,31 +35,31 @@ class MainScreen extends StatelessWidget {
       reservations: [],
     );
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
       body: Column(
         children: [
           CustomAppBar(
             //     backgroundImage: "assets/images/logo.png",
+            height: 30.h,
+            actions: const [
+              //   Icon(Icons.notifications),
+            ],
             child: const Text(
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
-              "Hawihub",
+              "",
             ),
-            height: 30.h,
-            actions: [
-              Icon(Icons.notifications),
-            ],
           ),
-          Center(
-            child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PlaceItem(
-                  place: place,
-                )),
-          ),
+          // Center(
+          //   child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: PlaceItem(
+          //         place: place,
+          //       )),
+          // ),
         ],
       ),
     );

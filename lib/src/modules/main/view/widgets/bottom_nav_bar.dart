@@ -7,7 +7,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 7.h,
+      height: 7.5.h,
       child: Stack(children: [
         Center(
           child: Container(
@@ -66,7 +66,24 @@ class _NavBarItemState extends State<NavBarItem> {
       child: CircleAvatar(
         radius: double.maxFinite,
         backgroundColor: widget.isSelected ? Colors.green : Colors.grey[300],
-        child: Icon(widget.icon, color: widget.isSelected ? Colors.white : Colors.grey[600]),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 1.h),
+              Expanded(
+                  child: Icon(widget.icon,
+                      color: widget.isSelected ? Colors.white : Colors.grey[600])),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(widget.label,
+                    style: TextStyle(color: widget.isSelected ? Colors.white : Colors.grey[600])),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
