@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
+import 'package:sizer/sizer.dart';
+
+import '../widgets/custom_app_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -32,12 +35,23 @@ class MainScreen extends StatelessWidget {
       reservations: [],
     );
     return Scaffold(
-      body: Center(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: PlaceItem(
-              place: place,
-            )),
+      body: Column(
+        children: [
+          CustomAppBar(
+            child: const Text(
+              "Hawihub",
+            ),
+            height: 30.h,
+            actions: [],
+          ),
+          Center(
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PlaceItem(
+                  place: place,
+                )),
+          ),
+        ],
       ),
     );
   }

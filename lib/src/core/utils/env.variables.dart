@@ -7,11 +7,6 @@ class EnvVariable {
 
   static final EnvVariable instance = EnvVariable._();
 
-  // String _envType = '';
-  // String _notifcationBaseUrl = '';
-  // String _firebaseKey = '';
-  // String _buildDeveloper = '';
-
   /// Initializes environment variables based on the provided environment type.
   Future<void> init({required EnvType envType}) async {
     switch (envType) {
