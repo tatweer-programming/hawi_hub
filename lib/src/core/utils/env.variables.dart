@@ -19,7 +19,7 @@ class EnvVariable {
 
     // Consider adding error handling if ENV_TYPE is not found
     // _envType = dotenv.get('ENV_TYPE');
-    // _notifcationBaseUrl = dotenv.get('NOTFICATION_BASEURL');
+    //  dotenv.env['ENV_TYPE'] == 'dev' ? _envType = 'dev' : _envType = 'prod';
     // _firebaseKey = dotenv.get('FIREBASE_KEY');
     // _buildDeveloper = dotenv.get('BUILD_DEVELOPER');
   }

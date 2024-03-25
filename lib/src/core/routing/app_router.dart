@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
@@ -16,7 +15,8 @@ class AppRouter {
                   nextScreen: MainScreen(),
                 ));
       case Routes.place:
-        return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: settings.arguments as int));
+        Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: arguments['id']));
 
       default:
         return MaterialPageRoute(

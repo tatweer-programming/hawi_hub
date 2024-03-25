@@ -32,6 +32,11 @@ dependencies:
 
   # PLACES PACKAGES
   flutter_rating_bar: ^4.0.1
+  carousel_slider: ^4.2.1
+  geolocator: ^10.0.0
+  location_picker_flutter_map:
+  flutter_geolocation_service: ^0.1.0
+
 
 dev_dependencies:
   flutter_test:

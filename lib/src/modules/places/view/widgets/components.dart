@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
@@ -16,12 +12,12 @@ class PlaceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(Routes.place, arguments: place.id);
+        context.push(Routes.place, arguments: {"id": place.id});
       },
       child: Container(
         padding: EdgeInsets.all(10.sp),
         width: 90.w,
-        height: 35.h,
+        height: 30.h,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.sp), border: Border.all()),
         child: Stack(
           children: [
@@ -37,36 +33,33 @@ class PlaceItem extends StatelessWidget {
                         image: NetworkImage(place.images.first),
                       )),
                 ),
-                Text(
-                  place.name,
-                  style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-                ),
                 Expanded(
-                  child: Text(
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    place.description,
-                    style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                    child: Row(children: [
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              place.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Text("view details", style: TextStyle(fontSize: 12.sp)),
+                          const Icon(Icons.arrow_forward)
+                        ],
+                      ),
+                      Text(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        place.address,
+                        style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                      ),
+                    ]),
                   ),
-                ),
-                RatingBar.builder(
-                  itemSize: 20.sp,
-                  initialRating: 3,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    if (kDebugMode) {
-                      print(rating);
-                    }
-                  },
-                )
+                ]))
               ]),
             ),
             Align(
@@ -77,6 +70,29 @@ class PlaceItem extends StatelessWidget {
                     Icons.favorite_outlined,
                     color: Colors.red,
                   )),
+            ),
+            Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.sp),
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                  height: 3.h,
+                  constraints: BoxConstraints(minWidth: 20.w, maxWidth: 50.w),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: Text(place.ownerName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+              ),
             )
           ],
         ),

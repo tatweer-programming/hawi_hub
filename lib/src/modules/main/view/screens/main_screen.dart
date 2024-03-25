@@ -3,16 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
-import 'package:sizer/sizer.dart';
-
-import '../widgets/custom_app_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    MainCubit mainCubit = MainCubit.get();
+    MainCubit mainCubit = MainCubit.get()..init();
     Place place = Place(
       latitudes: "",
       longitudes: "",
@@ -42,32 +39,19 @@ class MainScreen extends StatelessWidget {
       body: BlocBuilder<MainCubit, MainState>(
         bloc: mainCubit,
         builder: (context, state) {
-          return Column(
-            children: [
-              CustomAppBar(
-                //     backgroundImage: "assets/images/logo.png",
-                height: 30.h,
-                actions: const [
-                  //   Icon(Icons.notifications),
-                ],
-                child: const Text(
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  "",
-                ),
-              ),
-              Expanded(child: mainCubit.pages[mainCubit.currentIndex]),
-              // Center(
-              //   child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: PlaceItem(
-              //         place: place,
-              //       )),
-              // ),
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                mainCubit.pages[mainCubit.currentIndex],
+                // Center(
+                //   child: Padding(
+                //       padding: const EdgeInsets.all(8.0),
+                //       child: PlaceItem(
+                //         place: place,
+                //       )),
+                // ),
+              ],
+            ),
           );
         },
       ),
