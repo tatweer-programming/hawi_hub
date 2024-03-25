@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/utils/color_manager.dart';
+
 class GameItem extends StatelessWidget {
   final Game game;
 
@@ -13,7 +15,7 @@ class GameItem extends StatelessWidget {
       height: 400,
       padding: EdgeInsets.all(10.sp),
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: ColorManager.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(360),
           bottomRight: Radius.circular(360),

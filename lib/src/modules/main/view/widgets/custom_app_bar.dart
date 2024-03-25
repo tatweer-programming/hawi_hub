@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/utils/color_manager.dart';
+
 class CustomAppBar extends StatelessWidget {
   final Widget child;
   final List<Widget>? actions;
@@ -30,7 +32,7 @@ class CustomAppBar extends StatelessWidget {
                     image: AssetImage(backgroundImage!),
                   )
                 : null,
-            color: Colors.green,
+            color: ColorManager.primary,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

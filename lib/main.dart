@@ -6,6 +6,7 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
+import 'package:hawihub/src/core/utils/theme_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 
@@ -45,9 +46,7 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: S.delegate.supportedLocales,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-            ),
+            theme: getAppTheme(),
           );
         }));
   }

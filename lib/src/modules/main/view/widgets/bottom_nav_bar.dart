@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/utils/color_manager.dart';
+
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({super.key});
 
@@ -18,7 +20,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           child: Stack(children: [
             Center(
               child: Container(
-                color: Colors.green,
+                color: ColorManager.primary,
                 height: 2.5.h,
                 width: double.infinity,
               ),
@@ -80,7 +82,8 @@ class _NavBarItemState extends State<NavBarItem> {
         return Expanded(
           child: CircleAvatar(
             radius: double.maxFinite,
-            backgroundColor: cubit.currentIndex == widget.index ? Colors.green : Colors.grey[300],
+            backgroundColor:
+                cubit.currentIndex == widget.index ? ColorManager.primary : Colors.grey[300],
             child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: InkWell(

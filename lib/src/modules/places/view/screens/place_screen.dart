@@ -4,6 +4,8 @@ import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/utils/color_manager.dart';
+
 class PlaceScreen extends StatelessWidget {
   final int placeId;
   const PlaceScreen({super.key, required this.placeId});
@@ -90,13 +92,13 @@ class PlaceScreen extends StatelessWidget {
                             child: IconButton(
                               padding: EdgeInsets.zero,
                               // focusColor: Colors.white,
-                              color: Colors.green,
+                              color: ColorManager.primary,
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: CircleAvatar(
+                              icon: const CircleAvatar(
                                   backgroundColor: Colors.white,
-                                  child: const Icon(Icons.arrow_back_ios_new)),
+                                  child: Icon(Icons.arrow_back_ios_new)),
                             ),
                           )
                         ],
