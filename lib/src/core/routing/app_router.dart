@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/get_started_screen.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/login_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 
+import '../../modules/auth/presentation/screens/register_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
 
 class AppRouter {
@@ -12,9 +15,15 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
             builder: (_) => const SplashScreen(
-                  nextScreen: MainScreen(),
+                  nextScreen: GetStartedScreen(),
                 ));
       case Routes.place:
+        return MaterialPageRoute(
+            builder: (_) => PlaceScreen(placeId: settings.arguments as int));
+      case Routes.login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.register:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: arguments['id']));
 

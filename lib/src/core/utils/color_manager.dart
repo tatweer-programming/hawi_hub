@@ -5,6 +5,7 @@ class ColorManager {
   static const Color secondary = Color(0xff247945);
   static Color grey1 = Colors.grey[100]!;
   static const Color grey2 = Colors.grey;
+  static Color grey3 = Colors.grey.shade400;
   static const Color white = Colors.white;
   static const Color black = Colors.black;
   static Color error = Colors.red.shade800;
