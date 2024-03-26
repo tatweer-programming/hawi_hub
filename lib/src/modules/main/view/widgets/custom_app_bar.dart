@@ -24,7 +24,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color imageColor = color ?? ColorManager.primary;
     return SizedBox(
       height: height,
       width: double.infinity,

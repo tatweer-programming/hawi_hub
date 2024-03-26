@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 
 class DioHelper {
@@ -7,8 +8,8 @@ class DioHelper {
   static init() {
     dio = Dio(BaseOptions(
       baseUrl: ApiManager.baseUrl,
-      connectTimeout: Duration(seconds: 5),
-      receiveTimeout: Duration(seconds: 3),
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
     ));
   }
 
@@ -28,20 +29,29 @@ class DioHelper {
     required dynamic data,
     String? token,
   }) async {
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      "Connection": "keep-alive",
-    };
-    print(dio.post(
-      path,
-      queryParameters: query,
-      data: data,
-    ));
-    return await dio.post(
-      path,
-      queryParameters: query,
-      data: data,
-    );
+    try {
+      if (token != null) {
+        dio.options.headers = {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+          "Connection": "keep-alive",
+        };
+      }
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        "Connection": "keep-alive",
+      };
+      return await dio.post(
+        path,
+        queryParameters: query,
+        data: data,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error posting data: $e');
+      }
+      rethrow; // Rethrow the error to be handled elsewhere
+    }
   }
 
   static Future<Response> putData({
@@ -50,14 +60,21 @@ class DioHelper {
     required Map<String, dynamic>? data,
     String? token,
   }) async {
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      'Authorization': token ?? '',
-    };
-    return dio.put(
-      path,
-      queryParameters: query,
-      data: data,
-    );
+    try {
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': token ?? '',
+      };
+      return await dio.put(
+        path,
+        queryParameters: query,
+        data: data,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error putting data: $e');
+      }
+      rethrow; // Rethrow the error to be handled elsewhere
+    }
   }
 }
