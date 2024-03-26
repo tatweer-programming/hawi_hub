@@ -1,3 +1,3 @@
 class ApiManager {
-  static const String baseUrl = 'http://10.0.2.2:6666/api/';
+  static const String baseUrl = 'https://booking-5e8t.onrender.com/';
 }

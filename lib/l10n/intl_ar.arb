@@ -2,5 +2,7 @@
   "appName" : "هاوي هب",
   "showInMap" : "اظهار في الخريطة",
   "totalGames" : "إجمالي الحجوزات ",
-    "ratingsCount" : "عدد التقييمات"
+  "ratingsCount": "عدد التقييمات",
+  "viewDetails": "عرض التفاصيل",
+  "availableTimes": "الأوقات المتاحة"
 }

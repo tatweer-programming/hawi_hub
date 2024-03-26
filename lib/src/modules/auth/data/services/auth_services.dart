@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
-import 'package:hawihub/src/core/local/dio_helper.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:http/http.dart' as http;
+
+import '../../../../core/apis/dio_helper.dart';
 
 class AuthService {
   Future<Either<Exception, String>> registerPlayer(
@@ -14,19 +15,27 @@ class AuthService {
         'mail': player.email,
         'pass': player.password,
         'user_name': player.userName,
-        'image': await MultipartFile.fromFile(player.profilePictureFile!.path, filename: 'user_image.jpg'),
+        'image':
+            "https://www.google.com/imgres?q=image&imgurl=https%3A%2F%2Fimages.ctfassets.net%2Fhrltx12pl8hq%2F28ECAQiPJZ78hxatLTa7Ts%2F2f695d869736ae3b0de3e56ceaca3958%2Ffree-nature-images.jpg%3Ffit%3Dfill%26w%3D1200%26h%3D630&imgrefurl=https%3A%2F%2Fwww.shutterstock.com%2Fdiscover%2Ffree-nature-images&docid=uEeA4F2Pf5UbvM&tbnid=0E5dDA82VanW3M&vet=12ahUKEwj0kpPV0JCFAxXOUqQEHblSC_sQM3oECGQQAA..i&w=1200&h=630&hcb=2&ved=2ahUKEwj0kpPV0JCFAxXOUqQEHblSC_sQM3oECGQQAA",
       });
-      print(player.profilePictureFile);
+      if (kDebugMode) {
+        print(player.profilePictureFile);
+      }
 
-      Response? response ;
+      Response? response;
       await DioHelper.postData(
-        data: formData, path: EndPoints.register,
+        data: formData,
+        path: EndPoints.register,
       ).then((value) {
         response = value;
-        print(response!.data['msg']);
-
+        print(response);
+        if (kDebugMode) {
+          print(response!.data['msg']);
+        }
       });
-      print(response!.statusCode);
+      if (kDebugMode) {
+        print(response!.statusCode);
+      }
 
       return Right(response!.data['msg']);
       // var response = await http

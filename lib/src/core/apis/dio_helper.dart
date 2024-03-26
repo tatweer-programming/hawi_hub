@@ -1,19 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 
-class DioHelper{
+class DioHelper {
   static late Dio dio;
-  static init(){
+
+  static init() {
     dio = Dio(
       BaseOptions(
         baseUrl: ApiManager.baseUrl,
+        contentType: "application/json",
+        receiveTimeout: const Duration(minutes: 10),
+        sendTimeout: const Duration(minutes: 10),
+        responseType: ResponseType.json,
+        followRedirects: false,
+        headers: {
+          "Connection": "keep-alive",
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
         receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(
-          minutes: 10
-        ),
+        connectTimeout: const Duration(minutes: 10),
       ),
     );
   }
+
   static Future<Response> getData({
     required String path,
     Map<String, dynamic>? query,
@@ -29,16 +39,14 @@ class DioHelper{
     Map<String, dynamic>? query,
     required dynamic data,
     String? token,
-  }) async
-  {
-    dio.options.headers =
-    {
+  }) async {
+    dio.options.headers = {
       'Content-Type': 'application/json',
       "Connection": "keep-alive",
     };
     return dio.post(
       path,
-      queryParameters:query,
+      queryParameters: query,
       data: data,
     );
   }
@@ -48,18 +56,14 @@ class DioHelper{
     Map<String, dynamic>? query,
     required Map<String, dynamic>? data,
     String? token,
-
-  }) async
-  {
-    dio.options.headers =
-    {
+  }) async {
+    dio.options.headers = {
       'Content-Type': 'application/json',
-      'Authorization': token??'',
-
+      'Authorization': token ?? '',
     };
     return dio.put(
       path,
-      queryParameters:query,
+      queryParameters: query,
       data: data,
     );
   }

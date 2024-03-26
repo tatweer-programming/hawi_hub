@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../../../../core/utils/color_manager.dart';
 
 class PlaceScreen extends StatelessWidget {
@@ -117,13 +119,24 @@ class PlaceScreen extends StatelessWidget {
               children: [
                 Text(
                   place.name,
-                  style: TextStyle(fontSize: 16.5.sp, fontWeight: FontWeight.bold),
+                  style: TextStyleManager.getTitleBoldStyle(),
+                ),
+                SizedBox(
+                  height: 1.h,
                 ),
                 Text(
                   place.address,
-                  style: TextStyle(
-                    fontSize: 12.sp,
+                  style: TextStyleManager.getRegularStyle(),
+                ),
+                SizedBox(
+                  width: 45.w,
+                  child: Divider(
+                    height: 5.h,
                   ),
+                ),
+                Text(
+                  S.of(context).availableTimes,
+                  style: TextStyleManager.getSubTitleBoldStyle(),
                 ),
               ],
             ),

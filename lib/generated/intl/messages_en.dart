@@ -23,8 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
+        "availableTimes": MessageLookupByLibrary.simpleMessage("Available Times"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("Ratings"),
         "showInMap": MessageLookupByLibrary.simpleMessage("Show in map"),
-        "totalGames": MessageLookupByLibrary.simpleMessage("Total Games")
+        "totalGames": MessageLookupByLibrary.simpleMessage("Total Games"),
+        "viewDetails": MessageLookupByLibrary.simpleMessage("View Details")
       };
 }

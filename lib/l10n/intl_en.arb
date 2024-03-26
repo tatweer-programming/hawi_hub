@@ -2,5 +2,7 @@
   "appName" : "Hawi Hub",
   "showInMap" : "Show in map",
   "totalGames" : "Total Games",
-  "ratingsCount" : "Ratings"
+  "ratingsCount": "Ratings",
+  "viewDetails": "View Details",
+  "availableTimes": "Available Times"
 }

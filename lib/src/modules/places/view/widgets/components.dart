@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,7 +20,7 @@ class PlaceItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10.sp),
         width: 90.w,
-        height: 30.h,
+        height: 27.h,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.sp), border: Border.all()),
         child: Stack(
           children: [
@@ -44,18 +47,24 @@ class PlaceItem extends StatelessWidget {
                               place.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                              style: TextStyleManager.getSubTitleBoldStyle(),
                             ),
                           ),
-                          Text("view details", style: TextStyle(fontSize: 12.sp)),
-                          const Icon(Icons.arrow_forward)
+                          Text(S.of(context).viewDetails,
+                              style: TextStyleManager.getGoldenRegularStyle()),
+                          const Icon(
+                            Icons.arrow_forward,
+                            color: ColorManager.golden,
+                          )
                         ],
                       ),
-                      Text(
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        place.address,
-                        style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                      Expanded(
+                        child: Text(
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          place.address,
+                          style: TextStyleManager.getCaptionStyle(),
+                        ),
                       ),
                     ]),
                   ),
@@ -86,10 +95,7 @@ class PlaceItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     child: Text(place.ownerName,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.white,
-                        )),
+                        style: TextStyleManager.getBlackContainerTextStyle()),
                   ),
                 ),
               ),

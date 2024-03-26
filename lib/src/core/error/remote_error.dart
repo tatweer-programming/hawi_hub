@@ -11,83 +11,61 @@ class ExceptionManager implements Exception {
     }
     switch (error.code) {
       case 400:
-        return "طلب غير صالح";
+        return "الطلب غير صالح";
       case 401:
-        return "غير مصرح";
+        return "لا يُسمح بالدخول";
       case 403:
-        return "ممنوع";
+        return "الوصول غير مسموح";
       case 404:
-        return "غير موجود";
+        return "المورد غير موجود";
       case 405:
-        return "الطريقة غير مسموح بها";
+        return "الطريقة غير مسموحة";
       case 406:
-        return "غير مقبول";
+        return "المحتوى غير مقبول";
       case 407:
         return "المصادقة بالوكيل مطلوبة";
       case 408:
         return "انتهت مهلة الطلب";
       case 409:
-        return "تعارض";
+        return "تعارض بيانات";
       case 410:
-        return "انتهى";
+        return "المورد غير متوفر";
       case 411:
-        return "الطول مطلوب";
+        return "الطول المطلوب مفقود";
       case 412:
-        return "فشلت الشروط الأولية";
+        return "فشلت الشروط الأولية للطلب";
       case 413:
-        return "حمولة كبيرة جدا";
+        return "البيانات المرسلة كبيرة جدًا";
       case 414:
-        return "رابط طويل جدا";
+        return "رابط الطلب طويل جدًا";
       case 415:
         return "نوع الوسائط غير مدعوم";
       case 416:
-        return "المجموعة غير مرضية";
+        return "نطاق الطلب غير مرضي";
       case 417:
         return "فشلت التوقعات";
       case 418:
-        return "أنا إبريق";
+        return "أنا إبريق - طلب غير مفهوم";
       case 421:
-        return "الطلب مضلل";
+        return "الطلب مُنسّق بشكل خاطئ";
       case 422:
         return "المحتوى غير قابل للمعالجة";
       case 423:
-        return "مغلق";
+        return "المورد مُغلق";
       case 424:
         return "فشل التبعية";
       case 425:
-        return "مبكر جدًا";
+        return "الطلب مبكر جدًا";
       case 426:
-        return "مطلوب الترقية";
+        return "الترقية مطلوبة";
       case 428:
-        return "مطلوب شرط مسبق";
+        return "شرط مسبق مطلوب";
       case 429:
         return "الكثير من الطلبات";
       case 431:
         return "حقول رأس الطلب كبيرة جدًا";
       case 451:
-        return "غير متوفر لأسباب قانونية";
-      case 500:
-        return "خطأ داخلي في الخادم";
-      case 501:
-        return "غير مُنفّذ";
-      case 502:
-        return "بوابة خادم غير صالحة";
-      case 503:
-        return "الخدمة غير متوفرة";
-      case 504:
-        return "مهلة البوابة المنتهية";
-      case 505:
-        return "النسخة غير مدعومة";
-      case 506:
-        return "البديل مفوض أيضًا";
-      case 507:
-        return "التخزين غير كافٍ";
-      case 508:
-        return "اكتشفت دورة مستمرة";
-      case 510:
-        return "غير موسع";
-      case 511:
-        return "مطلوب توثيق الشبكة";
+        return "المورد غير متوفر لأسباب قانونية";
       default:
         return "حدث خطأ غير متوقع";
     }

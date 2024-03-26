@@ -1,32 +1,67 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:sizer/sizer.dart';
 
 import 'font_manager.dart';
 
-TextStyle _getTextStyle(double fontSize, FontWeight fontWeight, Color color) {
-  return TextStyle(
-    fontSize: fontSize,
-    color: color,
-    fontWeight: fontWeight,
-  );
-}
+class TextStyleManager {
+  static TextStyle getRegularStyle() {
+    return TextStyle(
+      color: ColorManager.black,
+      fontSize: FontSizeManager.s12,
+      fontWeight: FontWeightManager.regular,
+    );
+  }
 
-TextStyle getRegularStyle({double fontSize = FontSizeManager.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.regular, color);
-}
+  static TextStyle getTitleBoldStyle() {
+    return TextStyle(
+      color: ColorManager.black,
+      fontSize: FontSizeManager.s16,
+      fontWeight: FontWeightManager.bold,
+    );
+  }
 
-TextStyle getMediumStyle({double fontSize = FontSizeManager.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.medium, color);
-}
+  static TextStyle getTitleStyle() {
+    return TextStyle(
+      color: ColorManager.black,
+      fontSize: FontSizeManager.s16,
+      fontWeight: FontWeightManager.regular,
+    );
+  }
 
-TextStyle getLightStyle({double fontSize = FontSizeManager.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.light, color);
-}
+  static TextStyle getSubTitleStyle() {
+    return TextStyle(
+      color: ColorManager.black,
+      fontSize: FontSizeManager.s14,
+      fontWeight: FontWeightManager.regular,
+    );
+  }
 
-TextStyle getSemiBoldStyle({double fontSize = FontSizeManager.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.semiBold, color);
-}
+  static TextStyle getSubTitleBoldStyle() {
+    return TextStyle(
+      color: ColorManager.black,
+      fontSize: FontSizeManager.s15,
+      fontWeight: FontWeightManager.bold,
+    );
+  }
 
-TextStyle getBoldStyle({double fontSize = FontSizeManager.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.bold, color);
+  static TextStyle getGoldenRegularStyle() {
+    return TextStyle(
+      color: ColorManager.golden,
+      fontSize: FontSizeManager.s11,
+      fontWeight: FontWeightManager.regular,
+    );
+  }
+
+  static TextStyle getCaptionStyle() {
+    return TextStyle(fontSize: 13.sp, color: ColorManager.grey2);
+  }
+
+  static TextStyle getBlackContainerTextStyle() {
+    return TextStyle(
+      fontSize: 12.sp,
+      color: ColorManager.white,
+    );
+  }
 }
