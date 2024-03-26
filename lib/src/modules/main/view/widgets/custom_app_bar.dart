@@ -40,7 +40,9 @@ class CustomAppBar extends StatelessWidget {
                       color ?? ColorManager.transparent,
                       blendMode ?? BlendMode.colorDodge,
                     ),
-                    image: AssetImage(backgroundImage!),
+                    image: AssetImage(
+                      backgroundImage!,
+                    ),
                   )
                 : null,
             color: ColorManager.primary,

@@ -88,7 +88,7 @@ class AuthService {
       );
       print("response");
       print(response.statusCode);
-      return response.data;
+      return response.data.toString();
     } catch (e) {
       print(e);
       return e.toString();

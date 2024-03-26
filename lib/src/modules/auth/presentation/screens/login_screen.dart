@@ -54,8 +54,7 @@ class LoginScreen extends StatelessWidget {
                     return defaultButton(
                       onPressed: () {
                         bloc.add(LoginPlayerEvent(
-                            email: emailController.text,
-                            password: passwordController.text));
+                            email: emailController.text, password: passwordController.text));
                       },
                       text: "LOGIN",
                       fontSize: 17.sp,
@@ -96,10 +95,7 @@ class LoginScreen extends StatelessWidget {
                         width: 40.w,
                       ),
                       Column(
-                        children: [
-                          Image.asset("assets/images/google.png"),
-                          const Text("Google")
-                        ],
+                        children: [Image.asset("assets/images/google.png"), const Text("Google")],
                       ),
                     ],
                   ),
