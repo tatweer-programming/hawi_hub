@@ -31,21 +31,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 children: [
                   NavBarItem(
                     index: 0,
-                    icon: Icons.home,
+                    icon: "assets/images/icons/home.webp",
                     label: "Home",
                   ),
                   NavBarItem(
-                    icon: Icons.sports_football_outlined,
+                    icon: "assets/images/icons/play.webp",
                     label: "Play",
                     index: 1,
                   ),
                   NavBarItem(
-                    icon: Icons.stadium,
+                    icon: "assets/images/icons/book.webp",
                     label: "Book",
                     index: 2,
                   ),
                   NavBarItem(
-                    icon: Icons.menu,
+                    icon: "assets/images/icons/more.webp",
                     label: "More",
                     index: 3,
                   )
@@ -60,7 +60,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 }
 
 class NavBarItem extends StatefulWidget {
-  final IconData icon;
+  final String icon;
   final String label;
 
   final int index;
@@ -98,7 +98,11 @@ class _NavBarItemState extends State<NavBarItem> {
                   children: [
                     SizedBox(height: 1.h),
                     Expanded(
-                        child: Icon(widget.icon,
+                        child: ImageIcon(
+                            size: 33.sp,
+                            AssetImage(
+                              widget.icon,
+                            ),
                             color: cubit.currentIndex == widget.index
                                 ? Colors.white
                                 : Colors.grey[600])),

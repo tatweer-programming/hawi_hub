@@ -1,8 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:hawihub/src/modules/auth/data/models/user.dart';
-
 class Player {
   String? id;
   String? password;
@@ -22,7 +19,7 @@ class Player {
     required this.myWallet,
   });
 
-  Future<Map<String, dynamic>> toJson() async {
+  Map<String, dynamic> toJson() {
     return {
       "image": profilePictureUrl,
       "user_name": userName,

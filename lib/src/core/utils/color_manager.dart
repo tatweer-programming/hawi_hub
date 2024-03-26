@@ -12,4 +12,5 @@ class ColorManager {
   static const Color red = Colors.red;
   static const Color green = Colors.green;
   static const Color golden = Color(0xffFFC107);
+  static const Color transparent = Colors.transparent;
 }

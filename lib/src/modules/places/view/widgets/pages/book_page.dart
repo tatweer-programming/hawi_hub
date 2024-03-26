@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../core/utils/color_manager.dart';
 import '../../../../main/view/widgets/custom_app_bar.dart';
 import '../../../data/models/place.dart';
 import '../components.dart';
@@ -36,7 +37,10 @@ class BookPage extends StatelessWidget {
     return Column(
       children: [
         CustomAppBar(
-          //     backgroundImage: "assets/images/logo.png",
+          color: ColorManager.transparent,
+          opacity: .1,
+          blendMode: BlendMode.difference,
+          backgroundImage: "assets/images/app_bar_backgrounds/7.webp",
           height: 35.h,
           actions: const [
             //   Icon(Icons.notifications),

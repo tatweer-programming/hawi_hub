@@ -8,18 +8,24 @@ class CustomAppBar extends StatelessWidget {
   final List<Widget>? actions;
   final double height;
   final String? backgroundImage;
-
+  final double? opacity;
+  final BlendMode? blendMode;
+  final Color? color;
   const CustomAppBar({
     super.key,
     required this.child,
     required this.height,
     this.backgroundImage,
     this.actions,
+    this.opacity,
+    this.blendMode,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Color imageColor = color ?? ColorManager.primary;
+    return SizedBox(
       height: height,
       width: double.infinity,
       child: ClipPath(
@@ -29,6 +35,11 @@ class CustomAppBar extends StatelessWidget {
             image: backgroundImage != null
                 ? DecorationImage(
                     fit: BoxFit.fill,
+                    opacity: opacity ?? .1,
+                    colorFilter: ColorFilter.mode(
+                      color ?? ColorManager.transparent,
+                      blendMode ?? BlendMode.colorDodge,
+                    ),
                     image: AssetImage(backgroundImage!),
                   )
                 : null,

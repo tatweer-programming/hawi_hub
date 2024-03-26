@@ -5,23 +5,11 @@ class DioHelper {
   static late Dio dio;
 
   static init() {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: ApiManager.baseUrl,
-        contentType: "application/json",
-        receiveTimeout: const Duration(minutes: 10),
-        sendTimeout: const Duration(minutes: 10),
-        responseType: ResponseType.json,
-        followRedirects: false,
-        headers: {
-          "Connection": "keep-alive",
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        receiveDataWhenStatusError: true,
-        connectTimeout: const Duration(minutes: 10),
-      ),
-    );
+    dio = Dio(BaseOptions(
+      baseUrl: ApiManager.baseUrl,
+      connectTimeout: Duration(seconds: 5),
+      receiveTimeout: Duration(seconds: 3),
+    ));
   }
 
   static Future<Response> getData({
@@ -44,7 +32,12 @@ class DioHelper {
       'Content-Type': 'application/json',
       "Connection": "keep-alive",
     };
-    return dio.post(
+    print(dio.post(
+      path,
+      queryParameters: query,
+      data: data,
+    ));
+    return await dio.post(
       path,
       queryParameters: query,
       data: data,
