@@ -21,7 +21,7 @@ class Player {
 
   Map<String, dynamic> toJson() {
     return {
-      "image": profilePictureUrl,
+      // "image": profilePictureUrl,
       "user_name": userName,
       "mail": email,
       "pass": password,

@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(RegisterPlayerLoadingState());
         await _repository.registerPlayer(event.player).then((value) {
           print(value);
-          if (value == "Login Successfully") {
+          if (value == "Registration Successful") {
             emit(RegisterPlayerSuccessState());
           } else {
             emit(RegisterPlayerErrorState(value));
@@ -66,11 +66,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           emit(AcceptConfirmTermsState(true));
         }
+      }else if (event is ChangePasswordVisibilityEvent) {
+        if (event.visible) {
+          emit(ChangePasswordVisibilityState(false));
+        } else {
+          emit(ChangePasswordVisibilityState(true));
+        }
       } else if (event is SelectSportEvent) {
         List<Sport> selectedSports = event.sports;
         if (event.sports.contains(event.sport)) {
           selectedSports.remove(event.sport);
-          emit(UnSelectSportState(sports: selectedSports));
+          emit(SelectSportState(sports: selectedSports));
         } else {
           selectedSports.add(event.sport);
           emit(SelectSportState(sports: selectedSports));
