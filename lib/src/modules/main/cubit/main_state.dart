@@ -17,3 +17,22 @@ class ChangePage extends MainState {
   @override
   List<Object?> get props => [index];
 }
+
+class GetBannersLoading extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetBannersSuccess extends MainState {
+  final List<String> banners;
+
+  const GetBannersSuccess(this.banners);
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetBannersError extends MainState {
+  @override
+  List<Object> get props => [];
+}

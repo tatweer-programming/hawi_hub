@@ -4,5 +4,5 @@ class EndPoints {
   static String verifyCode = '/user/verifycode';
   static String deleteProfile = '/user/deleteprofile';
   static const String getBanners = '/banner';
-  static const String getSports = '/sports';
+  static const String getSports = '/category';
 }

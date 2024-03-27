@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
-import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
@@ -19,7 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   DioHelper.init();
-  await DioHelper.getData(path: EndPoints.getBanners).then((value) => {print(value.data)});
+
   await LocalizationManager.init();
   runApp(const MyApp());
 }

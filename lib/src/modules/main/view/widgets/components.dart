@@ -35,7 +35,7 @@ class DefaultButton extends StatelessWidget {
       height: height ?? 5.h,
       decoration: BoxDecoration(
         color: color ?? ColorManager.primary,
-        border: Border.all(color: borderColor ?? ColorManager.secondary),
+        border: Border.all(color: borderColor ?? ColorManager.primary),
         borderRadius: BorderRadius.circular(radius ?? 10),
       ),
       clipBehavior: Clip.antiAlias,

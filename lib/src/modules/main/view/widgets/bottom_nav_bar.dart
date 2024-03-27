@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/utils/font_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 
@@ -98,22 +99,25 @@ class _NavBarItemState extends State<NavBarItem> {
                   children: [
                     SizedBox(height: 1.h),
                     Expanded(
-                        child: ImageIcon(
-                            size: 33.sp,
-                            AssetImage(
-                              widget.icon,
-                            ),
-                            color: cubit.currentIndex == widget.index
-                                ? Colors.white
-                                : Colors.grey[600])),
+                        child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: ImageIcon(
+                          AssetImage(
+                            widget.icon,
+                          ),
+                          color:
+                              cubit.currentIndex == widget.index ? Colors.white : Colors.grey[600]),
+                    )),
                     FittedBox(
                       fit: BoxFit.contain,
                       child: Text(widget.label,
                           style: TextStyle(
+                              fontSize: FontSizeManager.s12,
                               color: cubit.currentIndex == widget.index
                                   ? Colors.white
                                   : Colors.grey[600])),
                     ),
+                    SizedBox(height: 1.h),
                   ],
                 ),
               ),

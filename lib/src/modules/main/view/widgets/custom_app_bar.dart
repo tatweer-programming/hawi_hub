@@ -46,15 +46,32 @@ class CustomAppBar extends StatelessWidget {
                 : null,
             color: ColorManager.primary,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(children: actions ?? []),
-              SizedBox(height: 10.sp),
-              Expanded(child: Center(child: child)),
-              SizedBox(height: 10.sp),
-            ],
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (actions != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.h, right: 2.w, left: 2.w, bottom: 1.h),
+                    child: Align(
+                      alignment: AlignmentDirectional.topEnd,
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: actions!
+                              .map((e) => Padding(
+                                    padding: EdgeInsets.all(1.sp),
+                                    child: e,
+                                  ))
+                              .toList()),
+                    ),
+                  ),
+                SizedBox(height: 10.sp),
+                child,
+                SizedBox(height: height * .3),
+              ],
+            ),
           ),
         ),
       ),
