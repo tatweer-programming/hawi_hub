@@ -13,7 +13,7 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
             builder: (_) => const SplashScreen(
-                  nextScreen: LoginScreen(),
+                  nextScreen: PlaceScreen(placeId: 1),
                 ));
       case Routes.place:
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;

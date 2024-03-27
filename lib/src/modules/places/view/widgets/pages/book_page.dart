@@ -39,7 +39,7 @@ class BookPage extends StatelessWidget {
           //color:  ,
           opacity: .1,
           // blendMode: BlendMode.saturation,
-          backgroundImage: "assets/images/app_bar_backgrounds/6 - Copy.webp",
+          backgroundImage: "assets/images/app_bar_backgrounds/6.webp",
           height: 35.h,
           actions: const [
             //   Icon(Icons.notifications),

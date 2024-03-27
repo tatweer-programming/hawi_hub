@@ -4,5 +4,22 @@
   "totalGames" : "إجمالي الحجوزات ",
   "ratingsCount": "عدد التقييمات",
   "viewDetails": "عرض التفاصيل",
-  "availableTimes": "الأوقات المتاحة"
+  "availableTimes": "الأوقات المتاحة",
+  "location": "الموقع",
+  "noRatings": "لا يوجد تقييمات",
+  "noGames": "لم يحجز من قبل",
+  "addRate": "اضافة تقييم",
+  "upcoming": "الحجوزات القادمة",
+  "sport": "الرياضة",
+  "details": "تفاصيل",
+  "games": "الحجوزات الجماعية",
+  "booking": "الحجز",
+  "owner": "المالك",
+  "bookNow": "حجز الان",
+  "createGame": "انشاء حجز جماعي",
+  "price": "السعر",
+  "minimumBooking": "الحد الادنى للحجز",
+  "hours": "ساعات",
+  "perHour": "لكل ساعة",
+  "sar": "ر.س"
 }

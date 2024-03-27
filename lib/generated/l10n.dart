@@ -108,6 +108,176 @@ class S {
       args: [],
     );
   }
+
+  /// `Location`
+  String get location {
+    return Intl.message(
+      'Location',
+      name: 'location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No ratings`
+  String get noRatings {
+    return Intl.message(
+      'No ratings',
+      name: 'noRatings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No games`
+  String get noGames {
+    return Intl.message(
+      'No games',
+      name: 'noGames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Rating`
+  String get addRate {
+    return Intl.message(
+      'Add Rating',
+      name: 'addRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `UPCOMING`
+  String get upcoming {
+    return Intl.message(
+      'UPCOMING',
+      name: 'upcoming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sport`
+  String get sport {
+    return Intl.message(
+      'Sport',
+      name: 'sport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details`
+  String get details {
+    return Intl.message(
+      'Details',
+      name: 'details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Games`
+  String get games {
+    return Intl.message(
+      'Games',
+      name: 'games',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking`
+  String get booking {
+    return Intl.message(
+      'Booking',
+      name: 'booking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Owner`
+  String get owner {
+    return Intl.message(
+      'Owner',
+      name: 'owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book Now`
+  String get bookNow {
+    return Intl.message(
+      'Book Now',
+      name: 'bookNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Game`
+  String get createGame {
+    return Intl.message(
+      'Create Game',
+      name: 'createGame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price`
+  String get price {
+    return Intl.message(
+      'Price',
+      name: 'price',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minimum Booking`
+  String get minimumBooking {
+    return Intl.message(
+      'Minimum Booking',
+      name: 'minimumBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hours`
+  String get hours {
+    return Intl.message(
+      'Hours',
+      name: 'hours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Per Hour`
+  String get perHour {
+    return Intl.message(
+      'Per Hour',
+      name: 'perHour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SAR`
+  String get sar {
+    return Intl.message(
+      'SAR',
+      name: 'sar',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

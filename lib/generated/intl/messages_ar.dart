@@ -22,11 +22,28 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
         "appName": MessageLookupByLibrary.simpleMessage("هاوي هب"),
         "availableTimes": MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
+        "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
+        "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
+        "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
+        "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),
+        "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
+        "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
+        "location": MessageLookupByLibrary.simpleMessage("الموقع"),
+        "minimumBooking": MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
+        "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
+        "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
+        "owner": MessageLookupByLibrary.simpleMessage("المالك"),
+        "perHour": MessageLookupByLibrary.simpleMessage("لكل ساعة"),
+        "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("عدد التقييمات"),
+        "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "showInMap": MessageLookupByLibrary.simpleMessage("اظهار في الخريطة"),
+        "sport": MessageLookupByLibrary.simpleMessage("الرياضة"),
         "totalGames": MessageLookupByLibrary.simpleMessage("إجمالي الحجوزات "),
+        "upcoming": MessageLookupByLibrary.simpleMessage("الحجوزات القادمة"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل")
       };
 }

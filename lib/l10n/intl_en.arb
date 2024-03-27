@@ -4,5 +4,22 @@
   "totalGames" : "Total Games",
   "ratingsCount": "Ratings",
   "viewDetails": "View Details",
-  "availableTimes": "Available Times"
+  "availableTimes": "Available Times",
+  "location": "Location",
+  "noRatings": "No ratings",
+  "noGames": "No games",
+  "addRate": "Add Rating",
+  "upcoming": "UPCOMING",
+  "sport": "Sport",
+  "details": "Details",
+  "games": "Games",
+  "booking": "Booking",
+  "owner": "Owner",
+  "bookNow": "Book Now",
+  "createGame": "Create Game",
+  "price": "Price",
+  "minimumBooking": "Minimum Booking",
+  "hours": "Hours",
+  "perHour": "Per Hour",
+  "sar": "SAR"
 }

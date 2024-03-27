@@ -22,6 +22,14 @@ class TextStyleManager {
     );
   }
 
+  static TextStyle getButtonTextStyle() {
+    return TextStyle(
+      color: ColorManager.white,
+      fontSize: FontSizeManager.s16,
+      fontWeight: FontWeightManager.bold,
+    );
+  }
+
   static TextStyle getTitleStyle() {
     return TextStyle(
       color: ColorManager.black,
@@ -54,8 +62,21 @@ class TextStyleManager {
     );
   }
 
+  static TextStyle getSecondaryRegularStyle() {
+    return TextStyle(
+      color: ColorManager.secondary,
+      fontSize: FontSizeManager.s11,
+      fontWeight: FontWeightManager.regular,
+    );
+  }
+
   static TextStyle getCaptionStyle() {
     return TextStyle(fontSize: 13.sp, color: ColorManager.grey2);
+  }
+
+  static TextStyle getBlackCaptionTextStyle() {
+    return TextStyle(
+        fontSize: 11.sp, color: ColorManager.black, fontWeight: FontWeightManager.bold);
   }
 
   static TextStyle getBlackContainerTextStyle() {
