@@ -112,7 +112,7 @@ class _NavBarItemState extends State<NavBarItem> {
                       fit: BoxFit.contain,
                       child: Text(widget.label,
                           style: TextStyle(
-                              fontSize: FontSizeManager.s12,
+                              fontSize: FontSizeManager.s11,
                               color: cubit.currentIndex == widget.index
                                   ? Colors.white
                                   : Colors.grey[600])),

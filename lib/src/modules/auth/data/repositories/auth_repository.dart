@@ -4,6 +4,8 @@ import 'package:dartz/dartz.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/services/auth_services.dart';
 
+import '../models/sport.dart';
+
 class AuthRepository {
   final AuthService _service = AuthService();
 
@@ -21,8 +23,11 @@ class AuthRepository {
     return _service.loginPlayer(email, password);
   }
 
-  Future<Either<Exception, String>> registerPlayer(Player player) async {
+  Future<String> registerPlayer(Player player) async {
     return _service.registerPlayer(player);
+  }
+  Future<Either<String, List<Sport>>> getSports()async {
+    return _service.getSports();
   }
 
 // Future<Either<Exception, String>> updateProfilePic(

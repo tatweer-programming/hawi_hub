@@ -14,6 +14,13 @@ class RegisterPlayerEvent extends AuthEvent {
 
 }
 class AddProfilePictureEvent extends AuthEvent {}
+class GetSportsEvent extends AuthEvent {}
+class SelectSportEvent extends AuthEvent {
+  final List<Sport> sports;
+  final Sport sport;
+
+  SelectSportEvent({required this.sports, required this.sport});
+}
 class AcceptConfirmTermsEvent extends AuthEvent {
   final bool accept;
 

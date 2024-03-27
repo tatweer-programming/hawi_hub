@@ -14,7 +14,7 @@ class Player {
     this.password,
     required this.userName,
     required this.email,
-    required this.profilePictureUrl,
+    this.profilePictureUrl,
     this.profilePictureFile,
     required this.myWallet,
   });

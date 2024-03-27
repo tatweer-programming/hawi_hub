@@ -24,7 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addRate": MessageLookupByLibrary.simpleMessage("Add Rating"),
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
-        "availableTimes": MessageLookupByLibrary.simpleMessage("Available Times"),
+        "availableTimes":
+            MessageLookupByLibrary.simpleMessage("Available Times"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
@@ -32,7 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
-        "minimumBooking": MessageLookupByLibrary.simpleMessage("Minimum Booking"),
+        "minimumBooking":
+            MessageLookupByLibrary.simpleMessage("Minimum Booking"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),

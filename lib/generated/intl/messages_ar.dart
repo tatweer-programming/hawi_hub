@@ -24,7 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
         "appName": MessageLookupByLibrary.simpleMessage("هاوي هب"),
-        "availableTimes": MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
+        "availableTimes":
+            MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
         "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
         "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
@@ -32,7 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
-        "minimumBooking": MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
+        "minimumBooking":
+            MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),

@@ -8,16 +8,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 import '../data/models/player.dart';
+import '../data/models/sport.dart';
 
 part 'auth_event.dart';
 
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  static AuthBloc instance = AuthBloc(AuthInitial());
+
   static AuthBloc get(BuildContext context) =>
       BlocProvider.of<AuthBloc>(context);
+
   final AuthRepository _repository = AuthRepository();
   File? image;
+  List<Sport> sports = [];
 
   AuthBloc(AuthState state) : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
@@ -25,7 +30,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(RegisterPlayerLoadingState());
         await _repository.registerPlayer(event.player).then((value) {
           print(value);
-          emit(RegisterPlayerSuccessState());
+          if (value == "Login Successfully") {
+            emit(RegisterPlayerSuccessState());
+          } else {
+            emit(RegisterPlayerErrorState(value));
+          }
         });
       } else if (event is LoginPlayerEvent) {
         emit(LoginPlayerLoadingState());
@@ -33,17 +42,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .loginPlayer(event.email, event.password)
             .then((value) {
           print(value);
-          emit(LoginPlayerSuccessState());
+          if (value == "Login Successfully") {
+            emit(LoginPlayerSuccessState());
+          } else {
+            emit(LoginPlayerErrorState(value));
+          }
         });
       } else if (event is AddProfilePictureEvent) {
         File? imagePicked = await _captureAndSaveGalleryImage();
         image = imagePicked;
         emit(AddProfilePictureSuccessState(profilePictureFile: imagePicked!));
-      }else if (event is AcceptConfirmTermsEvent) {
-        if(event.accept){
+      } else if (event is GetSportsEvent) {
+        var res = await _repository.getSports();
+        res.fold((l) {
+          emit(GetSportsErrorState(l));
+        }, (r) {
+          sports = r;
+          emit(GetSportsSuccessState());
+        });
+      } else if (event is AcceptConfirmTermsEvent) {
+        if (event.accept) {
           emit(AcceptConfirmTermsState(false));
-        }else{
+        } else {
           emit(AcceptConfirmTermsState(true));
+        }
+      } else if (event is SelectSportEvent) {
+        List<Sport> selectedSports = event.sports;
+        if (event.sports.contains(event.sport)) {
+          selectedSports.remove(event.sport);
+          emit(UnSelectSportState(sports: selectedSports));
+        } else {
+          selectedSports.add(event.sport);
+          emit(SelectSportState(sports: selectedSports));
         }
       }
     });

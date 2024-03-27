@@ -93,8 +93,8 @@ class CustomAppBarClipper extends CustomClipper<Path> {
     path.quadraticBezierTo(
       size.width * .5,
       size.height * .75,
-      size.width * .75,
-      size.height * .90,
+      size.width * .65,
+      size.height * .85,
     );
     path.quadraticBezierTo(
       size.width * .875,
