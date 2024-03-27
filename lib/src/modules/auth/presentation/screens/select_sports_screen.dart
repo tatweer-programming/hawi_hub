@@ -146,15 +146,15 @@ Widget _categoryBuilder(
         curve: Curves.easeInOut,
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: selectedSports.contains(sport)
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.end,
-              children: [
-                Align(
-                  alignment: AlignmentDirectional.center,
-                  child: Padding(
+            Padding(
+              padding: EdgeInsetsDirectional.only(
+                  start: 12.5.w,
+                  end: (selectedSports.contains(sport) ? 12.5 : 0).w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
                     padding: EdgeInsetsDirectional.only(
                       top: 2.h,
                       bottom: 1.h,
@@ -172,20 +172,18 @@ Widget _categoryBuilder(
                       ),
                     ),
                   ),
-                ),
-                if (!selectedSports.contains(sport))
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(top: 1.h, start: 1.w),
+                  if (!selectedSports.contains(sport))
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.only(top: 1.h, start: 2.w),
                       child: Icon(
                         Icons.add,
                         size: 30.sp,
                         color: ColorManager.grey3,
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
