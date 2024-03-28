@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:sizer/sizer.dart';
 
@@ -6,26 +7,25 @@ Widget defaultButton({
   required VoidCallback onPressed,
   required String text,
   double? height,
+  Color? buttonColor,
+  Color? textColor,
   double? fontSize,
 }) =>
-    Container(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusDirectional.circular(25.sp),
-      ),
-      child: MaterialButton(
-          height: height ?? 7.h,
-          minWidth: 80.w,
-          color: ColorManager.primary,
-          onPressed: onPressed,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: ColorManager.white,
-              fontSize: fontSize,
-            ),
-          )),
-    );
+    MaterialButton(
+        height: height ?? 7.h,
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadiusDirectional.circular(25.sp),
+        ),
+        minWidth: 80.w,
+        color: buttonColor ?? ColorManager.primary,
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor ?? ColorManager.white,
+            fontSize: fontSize,
+          ),
+        ));
 
 Widget authBackGround(double height) => Stack(
       children: [
@@ -85,14 +85,11 @@ mainFormField(
       width: width ?? double.infinity,
       child: TextFormField(
         textAlign: textAlign ?? TextAlign.start,
-        onTapOutside: (event) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
         controller: controller,
         keyboardType: type,
         enabled: enabled,
         obscureText: obscureText,
-        maxLines: maxLines,
+        maxLines: maxLines??1,
         minLines: minLines,
         style: const TextStyle(color: ColorManager.black),
         decoration: InputDecoration(
@@ -108,13 +105,13 @@ mainFormField(
             focusedBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : const BorderSide(color: ColorManager.grey2),
+                  : BorderSide(color: ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : const BorderSide(color: ColorManager.grey2),
+                  : BorderSide(color: ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             errorStyle: TextStyle(color: ColorManager.error),
@@ -150,4 +147,24 @@ class HalfCircleCurve extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
   }
+}
+
+Widget backIcon(BuildContext context){
+  return InkWell(
+    onTap: (){
+      context.pop();
+    },
+    child: CircleAvatar(
+      radius: 12.sp,
+      backgroundColor: ColorManager.white,
+      child: Padding(
+        padding: EdgeInsetsDirectional.only(start: 2.w),
+        child: Icon(
+          Icons.arrow_back_ios,
+          size: 15.sp,
+          color: ColorManager.primary,
+        ),
+      ),
+    ),
+  );
 }

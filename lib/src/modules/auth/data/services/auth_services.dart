@@ -13,11 +13,7 @@ class AuthService {
   ) async {
     try {
       Response response = await DioHelper.postData(
-        data: {
-          'mail': player.email,
-          'pass': player.password,
-          'user_name': player.userName,
-        },
+        data: player.toJson(),
         path: EndPoints.register,
       );
       print(response);

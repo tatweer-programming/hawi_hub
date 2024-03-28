@@ -4,6 +4,7 @@ part of 'auth_bloc.dart';
 sealed class AuthState {}
 
 class AuthInitial extends AuthState {}
+
 // register player
 class RegisterPlayerLoadingState extends AuthState {}
 
@@ -14,6 +15,7 @@ class RegisterPlayerErrorState extends AuthState {
 
   RegisterPlayerErrorState(this.error);
 }
+
 // get sports
 class GetSportsLoadingState extends AuthState {}
 
@@ -24,6 +26,7 @@ class GetSportsErrorState extends AuthState {
 
   GetSportsErrorState(this.error);
 }
+
 // login player
 class LoginPlayerLoadingState extends AuthState {}
 
@@ -41,19 +44,20 @@ class AcceptConfirmTermsState extends AuthState {
   AcceptConfirmTermsState(this.accept);
 }
 
+class ChangePasswordVisibilityState extends AuthState {
+  final bool visible;
+
+  ChangePasswordVisibilityState(this.visible);
+}
+
 class AddProfilePictureSuccessState extends AuthState {
   final File profilePictureFile;
 
   AddProfilePictureSuccessState({required this.profilePictureFile});
 }
+
 class SelectSportState extends AuthState {
   final List<Sport> sports;
 
   SelectSportState({required this.sports});
-}
-class UnSelectSportState extends AuthState {
-  final List<Sport> sports;
-
-  UnSelectSportState({required this.sports});
-
 }
