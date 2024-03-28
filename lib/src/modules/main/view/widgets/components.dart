@@ -133,6 +133,5 @@ class OutLineContainer extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

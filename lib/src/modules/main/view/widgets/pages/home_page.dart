@@ -1,14 +1,22 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/connectivity.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
+import 'package:hawihub/src/modules/places/view/widgets/components.dart';
+import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../../generated/l10n.dart';
+import '../../../../../core/utils/styles_manager.dart';
+import '../../../../games/view/widgets/shimmers/game_shimmers.dart';
 import '../../../../places/data/models/place.dart';
 
 class HomePage extends StatelessWidget {
@@ -18,6 +26,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     MainCubit mainCubit = MainCubit.get()..getBanner();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomAppBar(
           height: 33.h,
@@ -25,7 +34,9 @@ class HomePage extends StatelessWidget {
           backgroundImage: "assets/images/app_bar_backgrounds/1.webp",
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push(Routes.notifications);
+                },
                 icon: const ImageIcon(
                   AssetImage("assets/images/icons/notification.webp"),
                   color: ColorManager.golden,
@@ -65,7 +76,7 @@ class HomePage extends StatelessWidget {
                     vertical: 2.h,
                   ),
                   child: DefaultButton(
-                    text: "create game",
+                    text: S.of(context).createGame,
                     onPressed: () {},
                   ),
                 ),
@@ -98,7 +109,7 @@ class HomePage extends StatelessWidget {
                                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(20),
-                                          color: Colors.grey,
+                                          color: ColorManager.shimmerBaseColor,
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: NetworkImage(i),
@@ -111,6 +122,54 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(child: TitleText(S.of(context).nearByGames, isBold: true)),
+                    TextButton(
+                        onPressed: () {
+                          mainCubit.changePage(1);
+                        },
+                        child: Row(
+                          children: [
+                            Text(S.of(context).viewAll,
+                                style: TextStyleManager.getGoldenRegularStyle()),
+                            const Icon(Icons.arrow_forward, color: ColorManager.golden)
+                          ],
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                const HorizontalGamesShimmer(),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(child: TitleText(S.of(context).nearByVenues, isBold: true)),
+                    TextButton(
+                        onPressed: () {
+                          mainCubit.changePage(2);
+                        },
+                        child: Row(
+                          children: [
+                            Text(S.of(context).viewAll,
+                                style: TextStyleManager.getGoldenRegularStyle()),
+                            const Icon(Icons.arrow_forward, color: ColorManager.golden)
+                          ],
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                const HorizontalPlacesShimmer()
               ])),
         ),
       ],

@@ -21,5 +21,9 @@
   "minimumBooking": "Minimum Booking",
   "hours": "Hours",
   "perHour": "Per Hour",
-  "sar": "SAR"
+  "sar": "SAR",
+  "nearByVenues" : "Near by Venues",
+  "nearByGames": "Near by Games",
+  "viewAll": "View All",
+  "notifications": "Notifications"
 }

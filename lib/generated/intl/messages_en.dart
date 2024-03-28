@@ -35,8 +35,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
+        "nearByGames": MessageLookupByLibrary.simpleMessage("Near by Games"),
+        "nearByVenues": MessageLookupByLibrary.simpleMessage("Near by Venues"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "perHour": MessageLookupByLibrary.simpleMessage("Per Hour"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
@@ -46,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sport": MessageLookupByLibrary.simpleMessage("Sport"),
         "totalGames": MessageLookupByLibrary.simpleMessage("Total Games"),
         "upcoming": MessageLookupByLibrary.simpleMessage("UPCOMING"),
+        "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details")
       };
 }

@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MainCubit mainCubit = MainCubit.get()..init();
+    MainCubit mainCubit = MainCubit.get();
     Place place = Place(
       latitudes: "",
       longitudes: "",
@@ -31,8 +31,8 @@ class MainScreen extends StatelessWidget {
       rating: 0,
       ownerImageUrl: '',
       ownerName: '',
-      feedbacks: [],
-      reservations: [],
+      feedbacks: const [],
+      reservations: const [],
     );
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),

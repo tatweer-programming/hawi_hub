@@ -102,6 +102,7 @@ class _NavBarItemState extends State<NavBarItem> {
                         child: FittedBox(
                       fit: BoxFit.fill,
                       child: ImageIcon(
+                          size: 35.sp,
                           AssetImage(
                             widget.icon,
                           ),

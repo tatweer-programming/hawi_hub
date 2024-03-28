@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../main/view/widgets/custom_app_bar.dart';
@@ -31,8 +32,8 @@ class BookPage extends StatelessWidget {
         sport: '',
         price: 0,
         minimumHours: 0,
-        reservations: [],
-        feedbacks: []);
+        reservations: const [],
+        feedbacks: const []);
     return Column(
       children: [
         CustomAppBar(
@@ -55,18 +56,7 @@ class BookPage extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.all(5.w),
-          child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (itemContext, index) {
-                return PlaceItem(place: place);
-              },
-              separatorBuilder: (itemContext, index) {
-                return SizedBox(
-                  height: 10.sp,
-                );
-              },
-              itemCount: 10),
+          child: const VerticalPlacesShimmer(),
         ),
       ],
     );

@@ -14,7 +14,7 @@ class GameItem extends StatelessWidget {
     return Container(
       height: 400,
       padding: EdgeInsets.all(10.sp),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: ColorManager.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(360),

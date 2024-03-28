@@ -85,4 +85,12 @@ class TextStyleManager {
       color: ColorManager.white,
     );
   }
+
+  static TextStyle getAppBarTextStyle() {
+    return const TextStyle(
+      color: Colors.white,
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    );
+  }
 }

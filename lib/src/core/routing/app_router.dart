@@ -6,6 +6,7 @@ import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 
 import '../../modules/auth/presentation/screens/register_screen.dart';
+import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
 
 class AppRouter {
@@ -15,20 +16,22 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
             builder: (_) => const SplashScreen(
-                  nextScreen: SelectSportsScreen(),
+                  nextScreen: MainScreen(),
                 ));
       case Routes.place:
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
-        case Routes.home:
+      case Routes.home:
         return MaterialPageRoute(builder: (_) => const MainScreen());
       case Routes.register:
         return MaterialPageRoute(builder: (_) => const RegisterScreen());
+
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: arguments['id']));
-
+      case Routes.notifications:
+        return MaterialPageRoute(builder: (_) => const NotificationsScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

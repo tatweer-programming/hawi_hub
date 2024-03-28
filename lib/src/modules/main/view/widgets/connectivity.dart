@@ -60,7 +60,7 @@ class _ConnectionWidgetState extends State<ConnectionWidget> {
           DefaultButton(
             width: 40.w,
             onPressed: () async {
-              widget.onRetry!.call();
+              widget.onRetry.call();
             },
             text: 'retry',
           ),
@@ -82,7 +82,7 @@ class _ConnectionWidgetState extends State<ConnectionWidget> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
+    } on PlatformException {
       return;
     }
 

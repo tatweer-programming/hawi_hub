@@ -35,8 +35,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
+        "nearByGames": MessageLookupByLibrary.simpleMessage("الحجوزات القريبة"),
+        "nearByVenues": MessageLookupByLibrary.simpleMessage("الملاعب القريبة"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
+        "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),
         "perHour": MessageLookupByLibrary.simpleMessage("لكل ساعة"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
@@ -46,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sport": MessageLookupByLibrary.simpleMessage("الرياضة"),
         "totalGames": MessageLookupByLibrary.simpleMessage("إجمالي الحجوزات "),
         "upcoming": MessageLookupByLibrary.simpleMessage("الحجوزات القادمة"),
+        "viewAll": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل")
       };
 }

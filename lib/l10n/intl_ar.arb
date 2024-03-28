@@ -21,5 +21,9 @@
   "minimumBooking": "الحد الادنى للحجز",
   "hours": "ساعات",
   "perHour": "لكل ساعة",
-  "sar": "ر.س"
+  "sar": "ر.س",
+  "nearByVenues" : "الملاعب القريبة",
+  "nearByGames" : "الحجوزات القريبة",
+  "viewAll": "اظهار الكل",
+  "notifications": "التنبيهات"
 }

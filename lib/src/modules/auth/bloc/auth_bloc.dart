@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 
 import '../data/models/player.dart';
 import '../data/models/sport.dart';

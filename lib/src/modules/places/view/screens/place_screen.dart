@@ -40,8 +40,8 @@ class PlaceScreen extends StatelessWidget {
       sport: 'Football',
       price: 0,
       minimumHours: 0,
-      reservations: [],
-      feedbacks: [],
+      reservations: const [],
+      feedbacks: const [],
     );
     return Scaffold(
         body: Column(

@@ -279,6 +279,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Near by Venues`
+  String get nearByVenues {
+    return Intl.message(
+      'Near by Venues',
+      name: 'nearByVenues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Near by Games`
+  String get nearByGames {
+    return Intl.message(
+      'Near by Games',
+      name: 'nearByGames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View All`
+  String get viewAll {
+    return Intl.message(
+      'View All',
+      name: 'viewAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
-import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/presentation/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
