@@ -25,6 +25,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -34,7 +35,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
-          BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc(AuthInitial())),
+          BlocProvider<AuthBloc>(
+            create: (BuildContext context) => AuthBloc(
+              AuthInitial(),
+            ),
+          ),
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
           AppRouter appRouter = AppRouter();

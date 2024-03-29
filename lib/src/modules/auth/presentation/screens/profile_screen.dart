@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
+import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
+import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -10,185 +16,146 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Stack(
-              children: [
-                _appBar(context),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.symmetric(
-              horizontal: 5.w,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  "Amr Salah",
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    AuthBloc authBloc = AuthBloc.get(context)..add(GetMyProfileEvent(3));
+    Player player = authBloc.player!;
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Stack(
                   children: [
-                    _pentagonalWidget(
-                      50,
-                      "Games",
+                    _appBar(context, player.profilePictureUrl),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 5.w,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Text(
+                      player.userName,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(
-                      width: 5.w,
+                      height: 2.h,
                     ),
-                    _pentagonalWidget(
-                      30,
-                      "Booking",
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  "4.5",
-                  style:
-                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-                ),
-                RatingBar.builder(
-                  initialRating: 4.5,
-                  minRating: 1,
-                  itemSize: 25.sp,
-                  direction: Axis.horizontal,
-                  ignoreGestures: true,
-                  allowHalfRating: true,
-                  itemPadding: EdgeInsets.zero,
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {},
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "People Rate",
-                      style: TextStyle(
-                          fontSize: 15.sp, fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    _seeAll(() {})
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Stack(
-                  children: [
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 1.h,),
-                        Container(
-                          height: 12.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.sp),
-                              border: Border.all()),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 3.w, vertical: 1.h),
-                            child: Row(children: [
-                              CircleAvatar(
-                                radius: 20.sp,
-                                backgroundColor: ColorManager.grey3,
-                                backgroundImage: const NetworkImage(
-                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqHvg7s5oXlmfkuIlhEw2M15jed1xxcAg6IZTcSikEbg&s"),
-                              ),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              Expanded(
-                                child: Text(
-                                    "Success attrats there is sona dflskf aslkdmsa  kalas kslak ",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: ColorManager.black.withOpacity(0.5),
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                            ]),
-                          ),
+                        _pentagonalWidget(
+                          player.games,
+                          "Games",
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        _pentagonalWidget(
+                          player.bookings,
+                          "Booking",
                         ),
                       ],
                     ),
-                    Positioned(
-                      left: 5.w,
-                      top: -1.h,
-                      child: Container(
-                        padding: EdgeInsets.only(top: 1.h,bottom: 1.h, left: 4.w, right: 3.w),
-                        color: Colors.white,
-                        child:Row(
-                          children: [
-                            Text(
-                              "Amr Salah",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            RatingBar.builder(
-                              initialRating: 4.5,
-                              minRating: 1,
-                              itemSize: 10.sp,
-                              direction: Axis.horizontal,
-                              ignoreGestures: true,
-                              allowHalfRating: true,
-                              itemPadding: EdgeInsets.zero,
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Text(
+                      player.rate!.remainder(1).toString(),
+                      style: TextStyle(
+                          fontSize: 18.sp, fontWeight: FontWeight.bold),
+                    ),
+                    RatingBar.builder(
+                      initialRating: player.rate!,
+                      minRating: 1,
+                      itemSize: 25.sp,
+                      direction: Axis.horizontal,
+                      ignoreGestures: true,
+                      allowHalfRating: true,
+                      itemPadding: EdgeInsets.zero,
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: ColorManager.golden,
+                      ),
+                      onRatingUpdate: (rating) {},
+                    ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    player.feedbacks.isEmpty
+                        ? Container()
+                        : Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "People Rate",
+                                    style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Spacer(),
+                                  _seeAll(() {})
+                                ],
                               ),
-                              onRatingUpdate: (rating) {},
-                            ),
-                          ],
-                        ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              state is GetMyProfileLoadingState
+                                  ? ShimmerWidget(
+                                      height: 13.h,
+                                      width: double.infinity,
+                                      placeholder: ShimmerPlaceHolder(
+                                        borderRadius: 15.sp,
+                                      ),
+                                    )
+                                  : ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) =>
+                                          _peopleRateBuilder(
+                                              player.feedbacks[index]),
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
+                                            height: 2.h,
+                                          ),
+                                      itemCount:
+                                          player.feedbacks.take(2).length),
+                            ],
+                          ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        "My Wallet",
+                        style: TextStyle(
+                            fontSize: 15.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    _walletWidget(() {}, player.myWallet.toString()),
                   ],
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text(
-                    "My Wallet",
-                    style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                _walletWidget(() {}, "500"),
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -245,7 +212,10 @@ Widget _walletWidget(VoidCallback onTap, String wallet) {
   );
 }
 
-Widget _appBar(BuildContext context) {
+Widget _appBar(
+  BuildContext context,
+  String profilePictureUrl,
+) {
   return Stack(
     alignment: AlignmentDirectional.bottomCenter,
     children: [
@@ -282,8 +252,7 @@ Widget _appBar(BuildContext context) {
       CircleAvatar(
         radius: 50.sp,
         backgroundColor: ColorManager.grey3,
-        backgroundImage: const NetworkImage(
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqHvg7s5oXlmfkuIlhEw2M15jed1xxcAg6IZTcSikEbg&s"),
+        backgroundImage: NetworkImage(profilePictureUrl),
       )
     ],
   );
@@ -380,7 +349,7 @@ Widget _seeAll(VoidCallback onTap) {
           style: TextStyle(
             fontSize: 11.sp,
             fontWeight: FontWeight.w600,
-            color: const Color(0xffFFC107),
+            color: ColorManager.golden,
           ),
         ),
         Icon(
@@ -390,5 +359,85 @@ Widget _seeAll(VoidCallback onTap) {
         ),
       ],
     ),
+  );
+}
+
+Widget _peopleRateBuilder(FeedBack feedBack) {
+  return Stack(
+    children: [
+      Column(
+        children: [
+          SizedBox(
+            height: 1.h,
+          ),
+          Container(
+            height: 12.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.sp),
+                border: Border.all()),
+            child: Padding(
+              padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 3.w, vertical: 1.h),
+              child: Row(children: [
+                CircleAvatar(
+                  radius: 20.sp,
+                  backgroundColor: ColorManager.grey3,
+                  backgroundImage: NetworkImage(feedBack.userImageUrl),
+                ),
+                SizedBox(
+                  width: 4.w,
+                ),
+                Expanded(
+                  child: Text(feedBack.comment ?? "No comment",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: ColorManager.black.withOpacity(0.5),
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+              ]),
+            ),
+          ),
+        ],
+      ),
+      Positioned(
+        left: 5.w,
+        top: -1.h,
+        child: Container(
+          padding: EdgeInsetsDirectional.symmetric(
+            vertical: 1.h,
+            horizontal: 2.w,
+          ),
+          color: Colors.white,
+          child: Row(
+            children: [
+              Text(
+                feedBack.userName,
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(width: 1.w),
+              RatingBar.builder(
+                initialRating: feedBack.rating,
+                minRating: 1,
+                itemSize: 10.sp,
+                direction: Axis.horizontal,
+                ignoreGestures: true,
+                allowHalfRating: true,
+                itemPadding: EdgeInsets.zero,
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: ColorManager.golden,
+                ),
+                onRatingUpdate: (rating) {},
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }

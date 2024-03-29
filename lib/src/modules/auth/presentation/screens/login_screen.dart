@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/forget_password_screen.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/register_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/routing/routes.dart';
@@ -24,7 +26,7 @@ class LoginScreen extends StatelessWidget {
         if (state is ChangePasswordVisibilityState) {
           visible = state.visible;
         }
-        if (state is LoginPlayerSuccessState) {
+        if (state is LoginSuccessState) {
           context.pushAndRemove(Routes.home);
         }
       },
@@ -69,21 +71,11 @@ class LoginScreen extends StatelessWidget {
                             }
                             return null;
                           }),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //     children: [
-                      //       _selectOneButton("Player", ColorManager.grey3),
-                      //       _selectOneButton("Owner", ColorManager.primary),
-                      //     ],
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      state is LoginPlayerLoadingState
-                          ? const Center(child: CircularProgressIndicator())
+                      state is LoginLoadingState
+                          ? indicatorButton()
                           : defaultButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
@@ -105,7 +97,11 @@ class LoginScreen extends StatelessWidget {
                               "Keep me logged in",
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.pushWithTransition(ForgetPasswordScreen(
+                                  bloc: bloc,
+                                ));
+                              },
                               child: const Text(
                                 "Forgot password?",
                                 style: TextStyle(color: ColorManager.black),
@@ -178,7 +174,9 @@ class LoginScreen extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              context.push(Routes.register);
+                              context.pushWithTransition(RegisterScreen(
+                                bloc: bloc,
+                              ));
                             },
                             child: const Text(
                               "SIGN UP",
@@ -202,19 +200,19 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-Widget _selectOneButton(String text, Color color) => Row(
-      children: [
-        Container(
-          height: 3.h,
-          width: 5.w,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        ),
-        SizedBox(
-          width: 2.w,
-        ),
-        Text(
-          text,
-          style: TextStyle(fontSize: 15.sp, color: ColorManager.grey3),
-        )
-      ],
-    );
+// Widget _selectOneButton(String text, Color color) => Row(
+//       children: [
+//         Container(
+//           height: 3.h,
+//           width: 5.w,
+//           decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+//         ),
+//         SizedBox(
+//           width: 2.w,
+//         ),
+//         Text(
+//           text,
+//           style: TextStyle(fontSize: 15.sp, color: ColorManager.grey3),
+//         )
+//       ],
+//     );

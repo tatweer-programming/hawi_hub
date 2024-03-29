@@ -8,22 +8,24 @@ import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import '../../../../core/apis/dio_helper.dart';
 
 class AuthService {
-  Future<String> registerPlayer(
-    Player player,
-  ) async {
+  Future<String> registerPlayer({
+    required String email,
+    required String userName,
+    required String password,
+  }) async {
     try {
       Response response = await DioHelper.postData(
-        data: player.toJson(),
+        data: {
+          'mail': email,
+          'user_name': userName,
+          'pass': password,
+        },
         path: EndPoints.register,
       );
-      print(response);
-      if (kDebugMode) {
-        print("sssss${response.data['msg']}");
+      if (response.statusCode == 200) {
+        return "Registration Successful";
       }
-      if (kDebugMode) {
-        print(response.statusCode);
-      }
-      return (response.data['msg'] ?? "Registration Successful");
+      return (response.data['msg']);
     } catch (e) {
       return e.toString();
     }
@@ -38,10 +40,52 @@ class AuthService {
         },
         path: EndPoints.login,
       );
-      print(response.data.toString());
-      return (response.data['msg'] ?? "Login Successfully");
+      String token = response.data['token'];
+      int id = response.data['data']['id'];
+      if (response.statusCode == 200) {
+        return "Login Successfully";
+      }
+      return (response.data['msg']);
     } catch (e) {
-      print(e);
+      return e.toString();
+    }
+  }
+
+  Future<String> verifyCode(String email) async {
+    try {
+      Response response = await DioHelper.postData(
+        data: {
+          'mail': email,
+        },
+        path: EndPoints.verifyCode,
+      );
+      if (response.statusCode == 200) {
+        return "Code Sent";
+      }
+      return (response.data['msg']);
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<String> resetPassword(
+      {required String email,
+      required String code,
+      required String password}) async {
+    try {
+      Response response = await DioHelper.postData(
+        data: {
+          'mail': email,
+          'code': code,
+          'pass': password,
+        },
+        path: EndPoints.resetPass,
+      );
+      if (response.statusCode == 200) {
+        return "Password Reset Successful";
+      }
+      return (response.data['msg']);
+    } catch (e) {
       return e.toString();
     }
   }
@@ -51,12 +95,25 @@ class AuthService {
       Response response = await DioHelper.getData(
         path: EndPoints.getSports,
       );
-      print(response.data.toString());
       List<Sport> sports = [];
       for (var category in response.data) {
         sports.add(Sport.fromJson(category));
       }
       return Right(sports);
+    } catch (e) {
+      print(e);
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, Player>> getMyProfile(int id) async {
+    try {
+      Response response = await DioHelper.getData(
+        path: "${EndPoints.getProfile}/$id",
+      );
+      Player player;
+      player = Player.fromJson(response.data);
+      return Right(player);
     } catch (e) {
       print(e);
       return Left(e.toString());

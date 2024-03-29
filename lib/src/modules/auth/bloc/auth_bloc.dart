@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,30 +21,64 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final AuthRepository _repository = AuthRepository();
   File? image;
-  List<Sport> sports = [];
+  Player? player;
+
+  // time
+  Timer? timeToResendCodeTimer;
 
   AuthBloc(AuthState state) : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
       if (event is RegisterPlayerEvent) {
-        emit(RegisterPlayerLoadingState());
-        await _repository.registerPlayer(event.player).then((value) {
-          print(value);
+        emit(RegisterLoadingState());
+        await _repository
+            .registerPlayer(
+          email: event.email,
+          userName: event.userName,
+          password: event.password,
+        )
+            .then((value) {
+          print("value $value");
           if (value == "Registration Successful") {
-            emit(RegisterPlayerSuccessState());
+            emit(RegisterSuccessState());
           } else {
-            emit(RegisterPlayerErrorState(value));
+            emit(RegisterErrorState(value));
           }
         });
       } else if (event is LoginPlayerEvent) {
-        emit(LoginPlayerLoadingState());
+        emit(LoginLoadingState());
         await _repository
             .loginPlayer(event.email, event.password)
             .then((value) {
           print(value);
           if (value == "Login Successfully") {
-            emit(LoginPlayerSuccessState());
+            emit(LoginSuccessState());
           } else {
-            emit(LoginPlayerErrorState(value));
+            emit(LoginErrorState(value));
+          }
+        });
+      } else if (event is VerifyCodeEvent) {
+        add(StartResendCodeTimerEvent(60));
+        emit(VerifyCodeLoadingState());
+        await _repository.verifyCode(event.email).then((value) {
+          if (value == "Code Sent") {
+            emit(VerifyCodeSuccessState());
+          } else {
+            emit(VerifyCodeErrorState(value));
+          }
+        });
+      } else if (event is ResetPasswordEvent) {
+        emit(ResetPasswordLoadingState());
+        await _repository
+            .resetPassword(
+          code: event.code,
+          email: event.email,
+          password: event.password,
+        )
+            .then((value) {
+          if (value == "Password Reset Successful") {
+            emit(ResetPasswordSuccessState(value));
+          } else {
+            emit(ResetPasswordErrorState(value));
           }
         });
       } else if (event is AddProfilePictureEvent) {
@@ -51,12 +86,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         image = imagePicked;
         emit(AddProfilePictureSuccessState(profilePictureFile: imagePicked!));
       } else if (event is GetSportsEvent) {
+        emit(GetSportsLoadingState());
         var res = await _repository.getSports();
         res.fold((l) {
           emit(GetSportsErrorState(l));
         }, (r) {
-          sports = r;
-          emit(GetSportsSuccessState());
+          emit(GetSportsSuccessState(r));
+        });
+      } else if (event is GetMyProfileEvent) {
+        emit(GetMyProfileLoadingState());
+        var res = await _repository.getMyProfile(event.id);
+        res.fold((l) {
+          emit(GetMyProfileErrorState(l));
+        }, (r) {
+          player = r;
+          print(player);
+          emit(GetMyProfileSuccessState());
         });
       } else if (event is AcceptConfirmTermsEvent) {
         if (event.accept) {
@@ -64,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           emit(AcceptConfirmTermsState(true));
         }
-      }else if (event is ChangePasswordVisibilityEvent) {
+      } else if (event is ChangePasswordVisibilityEvent) {
         if (event.visible) {
           emit(ChangePasswordVisibilityState(false));
         } else {
@@ -79,6 +124,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           selectedSports.add(event.sport);
           emit(SelectSportState(sports: selectedSports));
         }
+      } else if (event is StartResendCodeTimerEvent) {
+        _startResendCodeTimer(event.timeToResendCode);
+      } else if (event is ResetCodeTimerEvent) {
+        timeToResendCodeTimer?.cancel();
+        emit(ResetCodeTimerState(time: 0));
+      }
+    });
+  }
+
+  void _startResendCodeTimer(int timeToResendCode) {
+    timeToResendCode = 60;
+    timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeToResendCode > 0) {
+        timeToResendCode--;
+        print(timeToResendCode);
+        emit(ChangeTimeToResendCodeState(time: timeToResendCode));
+      } else {
+        timeToResendCodeTimer?.cancel();
+        timeToResendCode = 0;
+        emit(ChangeTimeToResendCodeState(time: 0));
       }
     });
   }

@@ -8,10 +8,12 @@ class MainServices {
       List<String> banners = [];
       var response = await DioHelper.getData(path: EndPoints.getBanners);
       if (response.statusCode == 200) {
-        print(response.data[1]["img"].toString());
-        for (var item in response.data) {
-          if (item.containsKey('img')) {
-            banners.add(item['img']);
+        if (response.data.isNotEmpty) {
+          print(response.data[1]["img"].toString());
+          for (var item in response.data) {
+            if (item.containsKey('img')) {
+              banners.add(item['img']);
+            }
           }
         }
       }
