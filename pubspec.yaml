@@ -17,16 +17,18 @@ dependencies:
   # CORE PACKAGES
   cupertino_icons: ^1.0.6
   flutter_dotenv: ^5.1.0
+  shared_preferences: ^2.2.2
   animated_splash_screen: ^1.3.0
   sizer: ^2.0.15
   flutter_bloc: ^8.1.1
   bloc: ^8.1.1
   equatable: ^2.0.5
   dartz: ^0.10.1
-  shared_preferences: ^2.1.1
   get_it: ^7.2.0
   dio: ^5.4.1
   image_picker:
+  audioplayers: ^4.0.1
+  fluttertoast: ^8.2.4
 
   flutter_localizations:
     sdk: flutter

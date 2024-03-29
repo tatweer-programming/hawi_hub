@@ -22,6 +22,7 @@ class LoginPlayerEvent extends AuthEvent {
 class AddProfilePictureEvent extends AuthEvent {}
 
 class GetSportsEvent extends AuthEvent {}
+class LogoutEvent extends AuthEvent {}
 
 class VerifyCodeEvent extends AuthEvent {
   final String email;
@@ -29,10 +30,10 @@ class VerifyCodeEvent extends AuthEvent {
   VerifyCodeEvent(this.email);
 }
 
-class GetMyProfileEvent extends AuthEvent {
+class GetProfileEvent extends AuthEvent {
   final int id;
 
-  GetMyProfileEvent(this.id);
+  GetProfileEvent(this.id);
 }
 
 class ResetPasswordEvent extends AuthEvent {
@@ -73,4 +74,9 @@ class ChangePasswordVisibilityEvent extends AuthEvent {
   final bool visible;
 
   ChangePasswordVisibilityEvent(this.visible);
+}
+class PlaySoundEvent extends AuthEvent {
+  final String sound;
+
+  PlaySoundEvent(this.sound);
 }

@@ -60,6 +60,10 @@ class LoginErrorState extends AuthState {
 
   LoginErrorState(this.error);
 }
+// logout player
+class LogoutLoadingState extends AuthState {}
+
+class LogoutSuccessState extends AuthState {}
 
 // Reset Password
 class ResetPasswordLoadingState extends AuthState {}
@@ -111,3 +115,4 @@ class ResetCodeTimerState extends AuthState {
 
   ResetCodeTimerState({required this.time});
 }
+class PlaySoundState extends AuthState {}

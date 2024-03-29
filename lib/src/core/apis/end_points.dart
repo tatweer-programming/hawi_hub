@@ -3,7 +3,8 @@ class EndPoints {
   static String register = '/user/register';
   static String verifyCode = '/user/verifycode';
   static String resetPass = '/resetpass';
-  static String deleteProfile = '/user/deleteprofile';
+  static String deleteProfile = '/deleteprofile';
+  static String changeProfile = '/changeprofile';
   static const String getBanners = '/banner';
   static const String getSports = '/category';
   static const String getProfile = '/user';

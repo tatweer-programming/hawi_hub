@@ -6,6 +6,7 @@ import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/theme_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
@@ -18,7 +19,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   DioHelper.init();
-
+  ConstantsManager.userId = await CacheHelper.getData(key: 'id');
+  ConstantsManager.userToken = await CacheHelper.getData(key: 'token');
   await LocalizationManager.init();
   runApp(const MyApp());
 }
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
           BlocProvider<AuthBloc>(
             create: (BuildContext context) => AuthBloc(
-              AuthInitial(),
+              AuthInitial()
             ),
           ),
         ],

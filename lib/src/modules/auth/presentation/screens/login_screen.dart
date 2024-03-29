@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/forget_password_screen.dart';
@@ -27,8 +28,15 @@ class LoginScreen extends StatelessWidget {
           visible = state.visible;
         }
         if (state is LoginSuccessState) {
+          bloc.add(PlaySoundEvent("assets/audios/start.wav"));
           context.pushAndRemove(Routes.home);
+        }else if (state is LoginErrorState){
+          errorToast(msg: state.error);
         }
+        // if (state is LogoutSuccessState) {
+        //   bloc.add(PlaySoundEvent("assets/audios/end.wav"));
+        //   context.pushAndRemove(Routes.login);
+        // }
       },
       builder: (context, state) {
         return SingleChildScrollView(

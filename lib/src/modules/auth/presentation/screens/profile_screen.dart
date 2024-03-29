@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/edit_profile_screen.dart';
+import 'package:hawihub/src/modules/auth/presentation/screens/rates_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
@@ -16,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = AuthBloc.get(context)..add(GetMyProfileEvent(3));
+    AuthBloc authBloc = AuthBloc.get(context)..add(GetProfileEvent(3));
     Player player = authBloc.player!;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
@@ -27,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    _appBar(context, player.profilePictureUrl),
+                    _appBar(context, player),
                   ],
                 ),
               ),
@@ -105,7 +108,11 @@ class ProfileScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   const Spacer(),
-                                  _seeAll(() {})
+                                  _seeAll(() {
+                                    context.pushWithTransition(RatesScreen(
+                                      player: player,
+                                    ));
+                                  })
                                 ],
                               ),
                               SizedBox(
@@ -214,7 +221,7 @@ Widget _walletWidget(VoidCallback onTap, String wallet) {
 
 Widget _appBar(
   BuildContext context,
-  String profilePictureUrl,
+  Player player,
 ) {
   return Stack(
     alignment: AlignmentDirectional.bottomCenter,
@@ -244,7 +251,13 @@ Widget _appBar(
                 ),
               ),
               const Spacer(),
-              _editIcon(),
+              InkWell(
+                  onTap: () {
+                    context.pushWithTransition(EditProfileScreen(
+                      player: player,
+                    ));
+                  },
+                  child: _editIcon()),
             ],
           ),
         ),
@@ -252,7 +265,7 @@ Widget _appBar(
       CircleAvatar(
         radius: 50.sp,
         backgroundColor: ColorManager.grey3,
-        backgroundImage: NetworkImage(profilePictureUrl),
+        backgroundImage: NetworkImage(player.profilePictureUrl),
       )
     ],
   );

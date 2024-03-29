@@ -8,6 +8,7 @@ import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/routing/routes.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -34,6 +35,8 @@ class RegisterScreen extends StatelessWidget {
         }
         if (state is RegisterSuccessState) {
           context.pushAndRemove(Routes.home);
+        }else if (state is RegisterErrorState){
+          errorToast(msg: state.error);
         }
       },
       builder: (context, state) {

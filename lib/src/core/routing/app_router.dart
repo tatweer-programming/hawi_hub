@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/get_started_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/select_sports_screen.dart';
@@ -17,9 +18,13 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
-            builder: (_) => const SplashScreen(
-                  nextScreen: ProfileScreen(),
-                ));
+          builder: (_) => const SplashScreen(
+            nextScreen: ProfileScreen(),
+            // nextScreen: ConstantsManager.userToken == null
+            //     ? const GetStartedScreen()
+            //     : const MainScreen(),
+          ),
+        );
       case Routes.place:
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;

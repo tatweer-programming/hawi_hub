@@ -25,12 +25,21 @@ class AuthRepository {
     required String email,
     required String userName,
     required String password,
-}) async {
-    return _service.registerPlayer(email: email, userName: userName, password: password);
+  }) async {
+    return _service.registerPlayer(
+        email: email, userName: userName, password: password);
   }
 
   Future<String> verifyCode(String email) async {
     return _service.verifyCode(email);
+  }
+
+  Future<String> changeProfileImage(String newProfileImage) async {
+    return _service.changeProfileImage(newProfileImage);
+  }
+
+  Future<String> deleteProfileImage() async {
+    return _service.deleteProfileImage();
   }
 
   Future<String> resetPassword({
@@ -44,8 +53,9 @@ class AuthRepository {
   Future<Either<String, List<Sport>>> getSports() async {
     return _service.getSports();
   }
-  Future<Either<String, Player>> getMyProfile(int id) async {
-    return _service.getMyProfile(id);
+
+  Future<Either<String, Player>> getProfile(int id) async {
+    return _service.getProfile(id);
   }
 
 // Future<Either<Exception, String>> updateProfilePic(

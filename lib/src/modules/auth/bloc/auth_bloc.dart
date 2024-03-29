@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/local/shared_prefrences.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 import '../data/models/player.dart';
 import '../data/models/sport.dart';
 
@@ -66,6 +68,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(VerifyCodeErrorState(value));
           }
         });
+      }else if (event is LogoutEvent) {
+        emit(LogoutLoadingState());
+        _clearUserData();
+        emit(LogoutSuccessState());
       } else if (event is ResetPasswordEvent) {
         emit(ResetPasswordLoadingState());
         await _repository
@@ -93,9 +99,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) {
           emit(GetSportsSuccessState(r));
         });
-      } else if (event is GetMyProfileEvent) {
+      } else if (event is GetProfileEvent) {
         emit(GetMyProfileLoadingState());
-        var res = await _repository.getMyProfile(event.id);
+        var res = await _repository.getProfile(event.id);
         res.fold((l) {
           emit(GetMyProfileErrorState(l));
         }, (r) {
@@ -129,6 +135,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is ResetCodeTimerEvent) {
         timeToResendCodeTimer?.cancel();
         emit(ResetCodeTimerState(time: 0));
+      }else if(event is PlaySoundEvent){
+        final audioPlayer = AudioPlayer();
+        await audioPlayer.play(AssetSource(event.sound));
+        emit(PlaySoundState());
       }
     });
   }
@@ -147,6 +157,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
+}
+Future _clearUserData() async {
+  ConstantsManager.userToken = null;
+  ConstantsManager.userId = null;
+  await CacheHelper.removeData(key: "id");
+  await CacheHelper.removeData(key: "token");
 }
 
 Future<File?> _captureAndSaveGalleryImage() async {
