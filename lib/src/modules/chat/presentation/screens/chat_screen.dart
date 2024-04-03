@@ -1,383 +1,223 @@
-// import 'dart:io';
-// import 'package:almasheed/chat/bloc/chat_bloc.dart';
-// import 'package:almasheed/chat/data/models/message.dart';
-// import 'package:almasheed/core/utils/constance_manager.dart';
-// import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
-// import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/data/models/message.dart';
 import 'package:sizer/sizer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
-import '../../../../core/utils/color_manager.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../../../generated/l10n.dart';
-//
-// //ignore: must_be_immutable
-// class ChatScreen extends StatelessWidget {
-//   final String receiverId;
-//   final String receiverName;
-//   bool isEnd;
-//
-//   ChatScreen(
-//       {super.key,
-//       required this.isEnd,
-//       required this.receiverId,
-//       required this.receiverName});
-//
-//   final ScrollController listScrollController = ScrollController();
-//   bool isDown = true;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     Map<String, bool> isPlayingMap = {};
-//     TextEditingController messageController = TextEditingController();
-//     Stream<List<Message>> messagesStream = const Stream.empty();
-//     ChatBloc bloc = ChatBloc.get(context)
-//       ..add(GetMessagesEvent(receiverId: receiverId));
-//     return BlocConsumer<ChatBloc, ChatState>(
-//       listener: (context, state) {
-//         print(state);
-//         if (state is GetMessagesSuccessState) {
-//           messagesStream = state.messages;
-//           print("messages $messagesStream");
-//           bloc.add(
-//               ScrollingDownEvent(listScrollController: listScrollController));
-//         }
-//         if (state is PlayRecordUrlState) {
-//           print(state.isPlaying);
-//           isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
-//         }
-//         if (state is CompleteRecordUrlState) {
-//           print(state.isPlaying);
-//           isPlayingMap[state.voiceNoteUrl] = state.isPlaying;
-//         }
-//         if (state is SendMessagesSuccessState) {
-//           bloc.add(
-//               ScrollingDownEvent(listScrollController: listScrollController));
-//         }
-//       },
-//       builder: (context, state) {
-//         return Scaffold(
-//           appBar: AppBar(
-//               backgroundColor: ColorManager.primary,
-//               title: Text(receiverName),
-//               actions: [
-//                 if (ConstantsManager.appUser is Merchant && (!isEnd))
-//                   TextButton(
-//                       onPressed: () {
-//                         isEnd = true;
-//                         bloc.add(EndChatEvent(receiverId: receiverId));
-//                       },
-//                       child: Text(
-//                         S.of(context).endChat,
-//                         style: const TextStyle(color: ColorManager.white),
-//                       )),
-//               ]),
-//           body: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Expanded(
-//                 child: Column(
-//                   children: [
-//                     SizedBox(
-//                       height: 1.h,
-//                     ),
-//                     Expanded(
-//                       child: StreamBuilder<List<Message>>(
-//                         stream: messagesStream,
-//                         builder: (context, snapshot) {
-//                           if (snapshot.hasData) {
-//                             List<Message> messages = snapshot.data!;
-//                             return ListView.separated(
-//                               controller: listScrollController,
-//                               itemBuilder: (context, index) {
-//                                 if (messages[index].voiceNoteUrl != null) {
-//                                   return messageWidget(
-//                                       message: messages[index],
-//                                       isPlaying: isPlayingMap[
-//                                               messages[index].voiceNoteUrl] ??
-//                                           false,
-//                                       position: bloc.voiceDuration,
-//                                       playAudio: () {
-//                                         bloc.add(TurnOnRecordUrlEvent(
-//                                             isPlaying: isPlayingMap[
-//                                                     messages[index]
-//                                                         .voiceNoteUrl] ??
-//                                                 false,
-//                                             voiceNoteUrl:
-//                                                 messages[index].voiceNoteUrl!));
-//                                       });
-//                                 }
-//                                 return messageWidget(message: messages[index]);
-//                               },
-//                               separatorBuilder: (context, index) => SizedBox(
-//                                 height: 1.h,
-//                               ),
-//                               itemCount: messages.length,
-//                             );
-//                           } else {
-//                             return const Center(
-//                                 child: CircularProgressIndicator());
-//                           }
-//                         },
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               if (bloc.imageFilePath != null || bloc.voiceNoteFilePath != null)
-//                 Container(
-//                   color: ColorManager.white,
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Container(
-//                         width: double.infinity,
-//                         height: 0.2.h,
-//                         color: ColorManager.grey2,
-//                       ),
-//                       Padding(
-//                         padding: EdgeInsets.symmetric(vertical: 1.h),
-//                         child: Row(
-//                           children: [
-//                             if (bloc.imageFilePath != null)
-//                               Image.file(
-//                                 File(bloc.imageFilePath!),
-//                                 height: 10.h,
-//                                 width: 40.w,
-//                               ),
-//                             if (bloc.voiceNoteFilePath != null)
-//                               _voiceWidget(
-//                                 isSender: false,
-//                                 isPlaying: bloc.isPlaying,
-//                                 playAudio: () {
-//                                   bloc.add(TurnOnRecordFileEvent(
-//                                     isPlaying: bloc.isPlaying,
-//                                     voiceNoteUrl: bloc.voiceNoteFilePath!,
-//                                   ));
-//                                 },
-//                               ),
-//                             const Spacer(),
-//                             IconButton(
-//                               onPressed: () {
-//                                 bloc.add(RemoveRecordEvent());
-//                               },
-//                               icon: const Icon(Icons.close),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               if (!isDown)
-//                 Container(
-//                   decoration: const BoxDecoration(
-//                     shape: BoxShape.circle,
-//                     color: Color(0xffCDAE8A),
-//                   ),
-//                   child: IconButton(
-//                       icon: Icon(Icons.arrow_circle_down_outlined,
-//                           color: Colors.white),
-//                       onPressed: () {
-//                         bloc.add(ScrollingDownEvent(
-//                             listScrollController: listScrollController));
-//                       }),
-//                 ),
-//               if (!isEnd)
-//                 Container(
-//                   padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-//                   decoration: BoxDecoration(
-//                     color: Colors.grey[300],
-//                     border: Border(
-//                       top: BorderSide(
-//                         color: ColorManager.grey1,
-//                       ),
-//                     ),
-//                   ),
-//                   child: Row(
-//                     children: [
-//                       InkWell(
-//                         child: Icon(
-//                           Icons.camera_alt,
-//                           color: Colors.black,
-//                           size: 22.sp,
-//                         ),
-//                         onTap: () {
-//                           bloc.add(PickImageEvent());
-//                         },
-//                       ),
-//                       SizedBox(
-//                         width: 2.w,
-//                       ),
-//                       GestureDetector(
-//                         child: Icon(
-//                           Icons.mic,
-//                           color: Colors.black,
-//                           size: 22.sp,
-//                         ),
-//                         onLongPress: () {
-//                           bloc.add(StartRecordingEvent());
-//                         },
-//                         onLongPressEnd: (_) {
-//                           bloc.add(EndRecordingEvent());
-//                         },
-//                       ),
-//                       SizedBox(
-//                         width: 2.w,
-//                       ),
-//                       Expanded(
-//                         child: TextField(
-//                           controller: messageController,
-//                           onChanged: (value) {
-//                             messageController.text = value;
-//                           },
-//                           decoration: InputDecoration(
-//                             contentPadding:
-//                                 EdgeInsets.symmetric(horizontal: 2.w),
-//                             hintText: S.of(context).typeMessage,
-//                             enabledBorder: OutlineInputBorder(
-//                                 borderRadius: BorderRadius.circular(
-//                               25.sp,
-//                             )),
-//                             focusedBorder: OutlineInputBorder(
-//                                 borderRadius: BorderRadius.circular(
-//                               25.sp,
-//                             )),
-//                           ),
-//                         ),
-//                       ),
-//                       IconButton(
-//                         icon: const Icon(
-//                           Icons.send,
-//                           color: ColorManager.primary,
-//                         ),
-//                         onPressed: () {
-//                           if (messageController.text != "" ||
-//                               bloc.voiceNoteFilePath != null ||
-//                               bloc.imageFilePath != null) {
-//                             bloc.add(RemovePickedImageEvent());
-//                             bloc.add(RemoveRecordEvent());
-//                             bloc.add(SendMessageEvent(
-//                               message: Message(
-//                                 receiverName: receiverName,
-//                                 createdTime: Timestamp.now(),
-//                                 message: messageController.text,
-//                                 imageFilePath: bloc.imageFilePath,
-//                                 voiceNoteFilePath: bloc.voiceNoteFilePath,
-//                                 senderId: ConstantsManager.appUser!.id,
-//                                 receiverId: receiverId,
-//                               ),
-//                             ));
-//                             messageController.clear();
-//                           }
-//                         },
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-//
-// Widget messageWidget(
-//     {required Message message,
-//     void Function()? playAudio,
-//     bool? isPlaying,
-//     double? position}) {
-//   if (ConstantsManager.appUser!.id == message.senderId) {
-//     if (message.voiceNoteUrl != null && playAudio != null) {
-//       return _voiceWidget(
-//           isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
-//     } else if (message.imageUrl != null) {
-//       return _imageWidget(image: message.imageUrl!, isSender: true);
-//     } else {
-//       return _textWidget(message: message.message ?? "", isSender: false);
-//     }
-//   } else {
-//     if (message.voiceNoteUrl != null && playAudio != null) {
-//       return _voiceWidget(
-//           isSender: true, playAudio: playAudio, isPlaying: isPlaying!);
-//     } else if (message.imageUrl != null) {
-//       return _imageWidget(image: message.imageUrl!, isSender: true);
-//     } else {
-//       return _textWidget(message: message.message ?? "", isSender: true);
-//     }
-//   }
-// }
-//
-// Widget _voiceWidget({
-//   required VoidCallback playAudio,
-//   required bool isPlaying,
-//   required bool isSender,
-// }) {
-//   return Padding(
-//     padding: EdgeInsets.symmetric(horizontal: 2.w),
-//     child: Align(
-//       alignment: !isSender
-//           ? AlignmentDirectional.topStart
-//           : AlignmentDirectional.topEnd,
-//       child: Container(
-//         decoration: BoxDecoration(
-//             color: isSender ? ColorManager.primary : const Color(0xffac793d),
-//             shape: BoxShape.circle),
-//         padding: EdgeInsetsDirectional.all(5.sp),
-//         child: IconButton(
-//             onPressed: playAudio,
-//             icon: Icon(
-//               !isPlaying
-//                   ? Icons.play_circle_rounded
-//                   : Icons.pause_circle_filled_rounded,
-//               color: ColorManager.white,
-//               size: 25.sp,
-//             )),
-//       ),
-//     ),
-//   );
-// }
-//
-// Widget _imageWidget({required bool isSender, required String image}) {
-//   return BubbleNormalImage(
-//     id: image,
-//     image: Image.network(image),
-//     isSender: isSender,
-//     color: isSender ? ColorManager.primary : const Color(0xffac793d),
-//   );
-// }
-//
-// Widget _textWidget({
-//   required String message,
-//   required bool isSender,
-// }) {
-//   return BubbleSpecialThree(
-//     text: message,
-//     color: !isSender ? ColorManager.primary : const Color(0xffac793d),
-//     tail: true,
-//     textStyle: TextStyle(
-//       color: Colors.white,
-//       fontSize: 14.sp,
-//     ),
-//     isSender: isSender,
-//   );
-// }
 
-Widget _chatWidget({required String text, required VoidCallback onTap}) =>
-    Padding(
+class ChatScreen extends StatelessWidget {
+  final String receiverId;
+  final String receiverName;
+  final String imageProfile;
+
+  const ChatScreen({
+    super.key,
+    required this.receiverId,
+    required this.receiverName,
+    required this.imageProfile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Message message = Message(
+      dateOfMessage: "05:00 PM",
+      receiverId: "",
+      senderId: "",
+      imageUrl:
+          "https://static.wikia.nocookie.net/hunterxhunter/images/3/3e/HxH2011_EP147_Gon_Portrait.png/revision/latest?cb=20230904181801",
+      messageId: "",
+    );
+    Message message2 = Message(
+      dateOfMessage: "05:00 PM",
+      receiverId: "",
+      senderId: "",
+      messageId: "",
+      message: "hello",
+    );
+    Message message3 = Message(
+      dateOfMessage: "05:00 PM",
+      receiverId: "",
+      senderId: "",
+      messageId: "",
+      voiceNoteUrl: "https://dl.musichi.ir/1401/06/21/Ghors%202.mp3",
+    );
+    List<Message> messages = [message, message2, message3];
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _appBar(
+              context: context,
+              receiverName: receiverName,
+              imageProfile: imageProfile),
+          Expanded(
+              child: ListView.separated(
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 3.w,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _messageWidget(message: messages[index], isSender: true),
+                    SizedBox(
+                      height: 0.5.h,
+                    ),
+                    Text(
+                      messages[index].dateOfMessage,
+                      style: TextStyleManager.getCaptionStyle()
+                          .copyWith(fontSize: 10.sp),
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => SizedBox(
+              height: 2.h,
+            ),
+            itemCount: messages.length,
+          )),
+          _sendButton(),
+        ],
+      ),
+    );
+  }
+}
+
+Widget _appBar({
+  required BuildContext context,
+  required String receiverName,
+  required String imageProfile,
+}) {
+  return Container(
+    height: 18.h,
+    width: double.infinity,
+    color: ColorManager.grey3.withOpacity(0.6),
+    child: Padding(
       padding: EdgeInsetsDirectional.only(
         start: 5.w,
+        end: 5.w,
+        bottom: 3.h,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          VoiceMessageView(
+          backIcon(context),
+          SizedBox(
+            width: 5.w,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 16.sp,
+                backgroundColor: ColorManager.primary,
+                backgroundImage: NetworkImage(imageProfile),
+              ),
+              SizedBox(
+                width: 2.w,
+              ),
+              Text(
+                receiverName,
+                style: TextStyleManager.getSubTitleBoldStyle()
+                    .copyWith(fontWeight: FontWeight.w500, fontSize: 14.sp),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _messageWidget({required Message message, required bool isSender}) {
+  if (message.message != null) {
+    return _textWidget(isSender: isSender, message: message.message!);
+  }
+  if (message.imageUrl != null) {
+    return _imageWidget(isSender: isSender, image: message.imageUrl!);
+  }
+  if (message.voiceNoteUrl != null) {
+    return _voiceWidget(isSender: isSender, voice: message.voiceNoteUrl!);
+  }
+  return Container();
+}
+
+Widget _textWidget({required bool isSender, required String message}) {
+  return Align(
+    alignment:
+        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+    child: Container(
+      decoration: BoxDecoration(
+        color: ColorManager.grey3.withOpacity(0.4),
+        borderRadius: BorderRadiusDirectional.only(
+          topStart: Radius.circular(15.sp),
+          topEnd: Radius.circular(15.sp),
+          bottomEnd: isSender ? Radius.zero : Radius.circular(15.sp),
+          bottomStart: isSender ? Radius.circular(15.sp) : Radius.zero,
+        ),
+      ),
+      padding: EdgeInsetsDirectional.only(
+        start: 5.w,
+        end: 10.w,
+        top: 2.h,
+        bottom: 2.h,
+      ),
+      child: Text(
+        message,
+        style: TextStyleManager.getRegularStyle().copyWith(
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _imageWidget({required bool isSender, required String image}) {
+  return Align(
+    alignment:
+        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+    child: Container(
+      height: 20.h,
+      width: 60.w,
+      decoration: BoxDecoration(
+        color: ColorManager.grey3.withOpacity(0.4),
+        image: DecorationImage(
+          image: NetworkImage(image),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadiusDirectional.only(
+          topStart: Radius.circular(15.sp),
+          topEnd: Radius.circular(15.sp),
+          bottomEnd: isSender ? Radius.zero : Radius.circular(15.sp),
+          bottomStart: isSender ? Radius.circular(15.sp) : Radius.zero,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _voiceWidget({
+  required bool isSender,
+  required String voice,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Align(
+        alignment: isSender
+            ? AlignmentDirectional.topEnd
+            : AlignmentDirectional.topStart,
+        child: Directionality(
+          textDirection: isSender ? TextDirection.rtl : TextDirection.ltr,
+          child: VoiceMessageView(
             controller: VoiceController(
-              audioSrc: 'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
-              maxDuration: const Duration(seconds: 100),
+              audioSrc: voice,
+              maxDuration: const Duration(seconds: 200),
               isFile: true,
               onComplete: () {
                 /// do something on complete
@@ -392,12 +232,71 @@ Widget _chatWidget({required String text, required VoidCallback onTap}) =>
                 /// do somethin on error
               },
             ),
-            innerPadding: 4.w,
-            cornerRadius: 25,
+            innerPadding: 10.sp,
+            cornerRadius: 15.sp,
             circlesColor: ColorManager.primary,
-            backgroundColor: ColorManager.grey1,
+            backgroundColor: ColorManager.grey3.withOpacity(0.4),
             activeSliderColor: ColorManager.primary,
           ),
-        ],
+        ),
       ),
-    );
+    ],
+  );
+}
+
+Widget _sendButton() {
+  return Padding(
+    padding: EdgeInsetsDirectional.symmetric(horizontal: 8.w, vertical: 2.h),
+    child: Row(
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: ColorManager.third,
+              radius: 19.sp,
+            ),
+            CircleAvatar(
+              backgroundColor: ColorManager.white,
+              radius: 15.sp,
+              child: Icon(
+                Icons.add,
+                size: 20.sp,
+                color: ColorManager.primary,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          width: 3.w,
+        ),
+        Expanded(
+          child: SizedBox(
+            height: 6.h,
+            child: TextField(
+              decoration: InputDecoration(
+                fillColor: ColorManager.grey3.withOpacity(0.3),
+                filled: true,
+                contentPadding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 5.w,
+                ),
+                hintText: "Write a message ....",
+                hintStyle: TextStyleManager.getCaptionStyle().copyWith(
+                  fontSize: 10.sp,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.sp),
+                  borderSide: BorderSide.none,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.send),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
