@@ -4,6 +4,7 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/get_started_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/select_sports_screen.dart';
+import 'package:hawihub/src/modules/chat/presentation/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 
@@ -19,7 +20,7 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (_) => const SplashScreen(
-            nextScreen: ProfileScreen(),
+            nextScreen: ChatsScreen(),
             // nextScreen: ConstantsManager.userToken == null
             //     ? const GetStartedScreen()
             //     : const MainScreen(),

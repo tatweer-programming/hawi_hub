@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/forget_password_screen.dart';
 import 'package:hawihub/src/modules/auth/presentation/screens/register_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
           visible = state.visible;
         }
         if (state is LoginSuccessState) {
-          bloc.add(PlaySoundEvent("assets/audios/start.wav"));
+          bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
         }else if (state is LoginErrorState){
           errorToast(msg: state.error);
@@ -118,12 +119,9 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Image.asset(
-                        "assets/images/or.png",
-                        width: 60.w,
-                      ),
+                      _orImageBuilder(),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
                         child: Row(
                           children: [
                             Column(
@@ -144,9 +142,7 @@ class LoginScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            SizedBox(
-                              width: 40.w,
-                            ),
+                            const Spacer(),
                             Column(
                               children: [
                                 Image.asset(
@@ -165,6 +161,7 @@ class LoginScreen extends StatelessWidget {
                                 )
                               ],
                             ),
+                            SizedBox(width: 2.w,)
                           ],
                         ),
                       ),
@@ -208,19 +205,62 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-// Widget _selectOneButton(String text, Color color) => Row(
-//       children: [
-//         Container(
-//           height: 3.h,
-//           width: 5.w,
-//           decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-//         ),
-//         SizedBox(
-//           width: 2.w,
-//         ),
-//         Text(
-//           text,
-//           style: TextStyle(fontSize: 15.sp, color: ColorManager.grey3),
-//         )
-//       ],
-//     );
+Widget _orImageBuilder()=> Stack(
+  alignment: AlignmentDirectional.bottomCenter,
+  children: [
+    Column(
+      children: [
+        Stack(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 2.h,),
+                Container(
+                  width: 60.w,
+                  height: 10.h,
+                  decoration:  BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(10.sp),
+                        topStart: Radius.circular(10.sp),
+                      ),
+                      border: const Border(
+                        left: BorderSide(
+                          color: ColorManager.black,
+                        ),right: BorderSide(
+                        color: ColorManager.black,
+                      ),top: BorderSide(
+                        color: ColorManager.black,
+                      ),
+                      )
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              left: 25.w,
+              top: 0.h,
+              child: Container(
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: 1.h,
+                  horizontal: 2.w,
+                ),
+                color: Colors.white,
+                child: Text(
+                  "OR",
+                  style: TextStyleManager.getRegularStyle(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 0.2.h,),
+      ],
+    ),
+    Container(
+      width: 58.w,
+      height: 5.h,
+      color: ColorManager.white,
+    ),
+
+  ],
+);

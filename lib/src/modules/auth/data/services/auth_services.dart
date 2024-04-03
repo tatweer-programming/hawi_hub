@@ -24,11 +24,12 @@ class AuthService {
         },
         path: EndPoints.register,
       );
-      ConstantsManager.userId = response.data['data']['id'];
-      ConstantsManager.userToken = response.data['token'];
-      await CacheHelper.saveData(key: 'token', value: response.data['token']);
-      await CacheHelper.saveData(key: 'id', value: response.data['data']['id']);
       if (response.statusCode == 200) {
+        ConstantsManager.userId = response.data['data']['id'];
+        ConstantsManager.userToken = response.data['token'].toString();
+        await CacheHelper.saveData(key: 'token', value: response.data['token']);
+        await CacheHelper.saveData(
+            key: 'id', value: response.data['data']['id']);
         return "Registration Successful";
       }
       return (response.data['msg']);
@@ -46,17 +47,17 @@ class AuthService {
         },
         path: EndPoints.login,
       );
-
-      ConstantsManager.userId = response.data['data']['id'];
-      ConstantsManager.userToken = response.data['token'];
-      await CacheHelper.saveData(key: 'token', value: response.data['token']);
-      await CacheHelper.saveData(key: 'id', value: response.data['data']['id']);
       if (response.statusCode == 200) {
+        ConstantsManager.userId = response.data['data']['id'];
+        ConstantsManager.userToken = response.data['token'].toString();
+        await CacheHelper.saveData(key: 'token', value: response.data['token']);
+        await CacheHelper.saveData(
+            key: 'id', value: response.data['data']['id']);
         return "Login Successfully";
       }
       return (response.data['msg']);
     } catch (e) {
-      return e.toString();
+      return "Invalid username or password";
     }
   }
 
@@ -71,8 +72,9 @@ class AuthService {
       if (response.statusCode == 200) {
         return "Code Sent";
       }
-      return (response.data['msg']);
+      return "No account for this user";
     } catch (e) {
+      print("object $e");
       return e.toString();
     }
   }

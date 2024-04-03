@@ -148,7 +148,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timeToResendCode > 0) {
         timeToResendCode--;
-        print(timeToResendCode);
         emit(ChangeTimeToResendCodeState(time: timeToResendCode));
       } else {
         timeToResendCodeTimer?.cancel();

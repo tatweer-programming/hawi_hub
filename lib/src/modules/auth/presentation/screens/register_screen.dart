@@ -34,6 +34,7 @@ class RegisterScreen extends StatelessWidget {
           visible = state.visible;
         }
         if (state is RegisterSuccessState) {
+          bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
         }else if (state is RegisterErrorState){
           errorToast(msg: state.error);

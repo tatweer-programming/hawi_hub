@@ -97,15 +97,13 @@ Widget _appBar(
                 width: 20.w,
               ),
               Text(
-                "Profile",
+                "Rates",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ColorManager.white,
                   fontSize: 32.sp,
                 ),
               ),
-              const Spacer(),
-              _editIcon(),
             ],
           ),
         ),

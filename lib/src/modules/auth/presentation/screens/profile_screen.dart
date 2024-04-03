@@ -367,7 +367,7 @@ Widget _seeAll(VoidCallback onTap) {
         ),
         Icon(
           Icons.arrow_forward_rounded,
-          color: const Color(0xffFFC107),
+          color: ColorManager.golden,
           size: 18.sp,
         ),
       ],

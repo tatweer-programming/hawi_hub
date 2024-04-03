@@ -38,9 +38,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
           BlocProvider<AuthBloc>(
-            create: (BuildContext context) => AuthBloc(
-              AuthInitial()
-            ),
+            create: (BuildContext context) => AuthBloc(AuthInitial()),
           ),
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
