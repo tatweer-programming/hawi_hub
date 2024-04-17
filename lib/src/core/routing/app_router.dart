@@ -8,6 +8,11 @@ import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 
 import '../../modules/auth/presentation/screens/profile_screen.dart';
 import '../../modules/auth/presentation/screens/register_screen.dart';
+import '../../modules/chat/presentation/screens/chats_screen.dart';
+import '../../modules/games/data/models/player.dart';
+import '../../modules/games/view/widgets/screens/all_players_screen.dart';
+import '../../modules/games/view/widgets/screens/create_game_screen.dart';
+import '../../modules/games/view/widgets/screens/game_screen.dart';
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
 
