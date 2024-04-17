@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class BannersShimmer extends StatelessWidget {

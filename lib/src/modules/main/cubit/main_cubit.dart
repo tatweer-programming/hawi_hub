@@ -9,6 +9,7 @@ import 'package:hawihub/src/modules/main/view/widgets/pages/home_page.dart';
 import 'package:hawihub/src/modules/main/view/widgets/pages/more_page.dart';
 import 'package:hawihub/src/modules/places/view/widgets/pages/book_page.dart';
 
+import '../../auth/data/models/sport.dart';
 import '../../games/view/widgets/pages/play_page.dart';
 
 part 'main_state.dart';
@@ -27,6 +28,7 @@ class MainCubit extends Cubit<MainState> {
   ];
   int currentIndex = 0;
   List<String> bannerList = [];
+  List<Sport> sportsList = [];
   void changePage(int index) {
     currentIndex = index;
     emit(ChangePage(index));
@@ -48,6 +50,17 @@ class MainCubit extends Cubit<MainState> {
     }, (r) {
       bannerList = r;
       emit(GetBannersSuccess(r));
+    });
+  }
+
+  Future<void> getSports() async {
+    emit(GetSportsLoading());
+    var result = await mainServices.getSports();
+    result.fold((l) {
+      emit(GetSportsError());
+    }, (r) {
+      sportsList = r;
+      emit(GetSportsSuccess(r));
     });
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/notification_shimmers.dart';
 import 'package:sizer/sizer.dart';
@@ -31,7 +33,20 @@ class NotificationsScreen extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: const VerticalNotificationsShimmer(),
+            child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => NotificationWidget(
+                    notification: AppNotification(
+                        image:
+                            "https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436190.jpg?size=626&ext=jpg",
+                        DateTime.now(),
+                        title: "title ${index + 1}",
+                        body: "body ${index + 1} body body body  body body body  body body body ")),
+                separatorBuilder: (context, index) => SizedBox(
+                      height: 2.h,
+                    ),
+                itemCount: 10),
           ),
         ],
       )),

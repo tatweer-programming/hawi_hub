@@ -1,19 +1,20 @@
 import 'package:equatable/equatable.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 
 class FeedBack extends Equatable {
-  final int id;
+  final int? id;
   final int userId;
   final String? comment;
   final String userName;
-  final String userImageUrl;
+  final String? userImageUrl;
   final double rating;
 
   const FeedBack({
-    required this.id,
+    this.id,
     required this.userId,
     this.comment,
     required this.userName,
-    required this.userImageUrl,
+    this.userImageUrl,
     required this.rating,
   });
   factory FeedBack.fromJson(Map<String, dynamic> json) {
@@ -35,6 +36,17 @@ class FeedBack extends Equatable {
     };
   }
 
+  factory FeedBack.create({
+    String? comment,
+    required double rating,
+  }) {
+    return FeedBack(
+      comment: comment,
+      rating: rating,
+      userId: ConstantsManager.appUser!.id!,
+      userName: ConstantsManager.appUser!.userName,
+    );
+  }
   @override
   List<Object?> get props => [
         id,

@@ -44,3 +44,22 @@ class GetGamesSuccess extends GamesState {
   @override
   List<Object> get props => [games];
 }
+
+class GetGameLoading extends GamesLoading {
+  @override
+  List<Object> get props => [];
+}
+
+class GetGameError extends GamesError {
+  GetGameError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class GetGameSuccess extends GamesState {
+  final Game game;
+  const GetGameSuccess(this.game);
+  @override
+  List<Object> get props => [game];
+}

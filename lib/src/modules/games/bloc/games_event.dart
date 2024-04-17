@@ -9,6 +9,14 @@ class GetGamesEvent extends GamesEvent {
   List<Object> get props => [];
 }
 
+class GetGameEvent extends GamesEvent {
+  final int gameId;
+  const GetGameEvent(this.gameId);
+
+  @override
+  List<Object> get props => [gameId];
+}
+
 class JoinGameEvent extends GamesEvent {
   final int gameId;
 

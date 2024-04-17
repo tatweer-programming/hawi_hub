@@ -1,6 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
+import 'package:hawihub/src/modules/games/data/models/player.dart';
+
+import '../../../auth/data/models/player.dart';
 
 class Game extends Equatable {
   final int id;
@@ -15,7 +18,7 @@ class Game extends Equatable {
   final String placeAddress;
   final String placeName;
   final bool isPublic;
-  List<int> playersIds;
+  List<GamePlayer> players;
 
   Game(
       {required this.id,
@@ -30,7 +33,7 @@ class Game extends Equatable {
       required this.placeAddress,
       required this.placeName,
       required this.isPublic,
-      this.playersIds = const []});
+      this.players = const []});
 
   factory Game.fromJson(Map<String, dynamic> json) {
     return Game(
@@ -46,7 +49,7 @@ class Game extends Equatable {
       placeAddress: json['place_address'],
       placeName: json['place_name'],
       isPublic: json['is_public'],
-      playersIds: List.of(json['players_ids']).map((e) => e as int).toList(),
+      players: _extractPlayers(json['players'] as List<Map<String, dynamic>>),
     );
   }
   Map<String, dynamic> toJson() {
@@ -61,12 +64,28 @@ class Game extends Equatable {
       'place_address': placeAddress,
       'place_name': placeName,
       'is_public': isPublic,
-      'players_ids': playersIds,
+      'players': players.map((e) => e.toJson()).toList(),
     };
+  }
+
+  int getRemainingSlots() {
+    return (maxPlayers - players.length);
+  }
+
+  String getConvertedDate() {
+    return "${date.toUtc().day}/${date.toUtc().month}/${date.toUtc().year} - ${date.toUtc().hour}:${date.toUtc().minute}";
   }
 
   @override
   List<Object?> get props => [
         id,
       ];
+
+  static List<GamePlayer> _extractPlayers(List<Map<String, dynamic>> playersJson) {
+    List<GamePlayer> players = [];
+    for (Map<String, dynamic> playerJson in playersJson) {
+      players.add(GamePlayer.fromJson(playerJson));
+    }
+    return players;
+  }
 }

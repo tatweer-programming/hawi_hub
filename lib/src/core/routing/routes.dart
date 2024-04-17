@@ -8,4 +8,7 @@ class Routes {
   static const String register = '/register';
   static const String notifications = '/notifications';
   static const String profile = '/profile';
+  static const String game = '/game';
+  static const String allPlayers = '/allPlayers';
+  static const String createGame = '/createGame';
 }

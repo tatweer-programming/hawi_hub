@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Player {
-  String? id;
+  int? id;
   String? password;
   final String userName;
   final String email;

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:sizer/sizer.dart';
@@ -6,9 +5,9 @@ import 'package:sizer/sizer.dart';
 import 'font_manager.dart';
 
 class TextStyleManager {
-  static TextStyle getRegularStyle() {
+  static TextStyle getRegularStyle({Color? color}) {
     return TextStyle(
-      color: ColorManager.black,
+      color: color ?? ColorManager.black,
       fontSize: FontSizeManager.s12,
       fontWeight: FontWeightManager.regular,
     );
@@ -67,6 +66,14 @@ class TextStyleManager {
       color: ColorManager.secondary,
       fontSize: FontSizeManager.s11,
       fontWeight: FontWeightManager.regular,
+    );
+  }
+
+  static TextStyle getSecondarySubTitleStyle() {
+    return TextStyle(
+      color: ColorManager.secondary,
+      fontSize: FontSizeManager.s14,
+      fontWeight: FontWeightManager.bold,
     );
   }
 

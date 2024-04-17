@@ -25,5 +25,11 @@
   "nearByVenues" : "Near by Venues",
   "nearByGames": "Near by Games",
   "viewAll": "View All",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "slots": "Slots",
+  "only": "Only",
+  "players": "Players",
+  "join": "Join",
+  "host": "Host",
+  "allPlayers": "All Players"
 }

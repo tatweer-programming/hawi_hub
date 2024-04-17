@@ -319,6 +319,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Slots`
+  String get slots {
+    return Intl.message(
+      'Slots',
+      name: 'slots',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only`
+  String get only {
+    return Intl.message(
+      'Only',
+      name: 'only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Players`
+  String get players {
+    return Intl.message(
+      'Players',
+      name: 'players',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join`
+  String get join {
+    return Intl.message(
+      'Join',
+      name: 'join',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Host`
+  String get host {
+    return Intl.message(
+      'Host',
+      name: 'host',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Players`
+  String get allPlayers {
+    return Intl.message(
+      'All Players',
+      name: 'allPlayers',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

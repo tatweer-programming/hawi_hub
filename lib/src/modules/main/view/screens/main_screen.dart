@@ -32,7 +32,7 @@ class MainScreen extends StatelessWidget {
       ownerImageUrl: '',
       ownerName: '',
       feedbacks: const [],
-      reservations: const [],
+      completedDays: const [],
     );
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),

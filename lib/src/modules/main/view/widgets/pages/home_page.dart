@@ -1,23 +1,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/connectivity.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
-import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utils/styles_manager.dart';
+import '../../../../games/view/widgets/components.dart';
 import '../../../../games/view/widgets/shimmers/game_shimmers.dart';
+import '../../../../places/bloc/place__bloc.dart';
 import '../../../../places/data/models/place.dart';
+import '../../../../places/view/widgets/components.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,6 +27,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainCubit mainCubit = MainCubit.get()..getBanner();
+    GamesBloc gamesBloc = GamesBloc.get()..add(GetGamesEvent());
+    PlaceBloc placeBloc = PlaceBloc.get()..add(GetAllPlacesEvent());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -83,7 +87,9 @@ class HomePage extends StatelessWidget {
                   ),
                   child: DefaultButton(
                     text: S.of(context).createGame,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push(Routes.createGame);
+                    },
                   ),
                 ),
                 SizedBox(
@@ -151,7 +157,23 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                const HorizontalGamesShimmer(),
+                SizedBox(
+                  height: 15.h,
+                  child: BlocBuilder<GamesBloc, GamesState>(
+                      bloc: gamesBloc,
+                      builder: (context, state) {
+                        return state is GetGamesLoading && gamesBloc.games.isEmpty
+                            ? const HorizontalGamesShimmer()
+                            : ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) =>
+                                    GameItem(game: gamesBloc.games[index]),
+                                separatorBuilder: (context, index) => SizedBox(
+                                      width: 4.w,
+                                    ),
+                                itemCount: 3);
+                      }),
+                ),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -175,7 +197,23 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                const HorizontalPlacesShimmer()
+                SizedBox(
+                  height: 27.h,
+                  child: BlocBuilder<PlaceBloc, PlaceState>(
+                      bloc: placeBloc,
+                      builder: (context, state) {
+                        return placeBloc.allPlaces.isEmpty
+                            ? const HorizontalPlacesShimmer()
+                            : ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) =>
+                                    PlaceItem(place: placeBloc.allPlaces[index]),
+                                separatorBuilder: (context, index) => SizedBox(
+                                      width: 4.w,
+                                    ),
+                                itemCount: 3);
+                      }),
+                ),
               ])),
         ),
       ],
@@ -210,6 +248,6 @@ Place place = Place(
   sport: 'Football',
   price: 0,
   minimumHours: 0,
-  reservations: [],
-  feedbacks: [],
+  completedDays: const [],
+  feedbacks: const [],
 );

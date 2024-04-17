@@ -4,7 +4,7 @@ import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_s
 final sl = GetIt.instance;
 
 class ServiceLocator {
-  void init() {
+  static void init() {
     PlacesRemoteDataSource placesRemoteDataSource = PlacesRemoteDataSource();
     sl.registerLazySingleton(() => placesRemoteDataSource);
   }

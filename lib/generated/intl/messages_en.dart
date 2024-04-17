@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addRate": MessageLookupByLibrary.simpleMessage("Add Rating"),
+        "allPlayers": MessageLookupByLibrary.simpleMessage("All Players"),
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
         "availableTimes":
             MessageLookupByLibrary.simpleMessage("Available Times"),
@@ -31,7 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
+        "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
+        "join": MessageLookupByLibrary.simpleMessage("Join"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
@@ -40,12 +43,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "perHour": MessageLookupByLibrary.simpleMessage("Per Hour"),
+        "players": MessageLookupByLibrary.simpleMessage("Players"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("Ratings"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "showInMap": MessageLookupByLibrary.simpleMessage("Show in map"),
+        "slots": MessageLookupByLibrary.simpleMessage("Slots"),
         "sport": MessageLookupByLibrary.simpleMessage("Sport"),
         "totalGames": MessageLookupByLibrary.simpleMessage("Total Games"),
         "upcoming": MessageLookupByLibrary.simpleMessage("UPCOMING"),

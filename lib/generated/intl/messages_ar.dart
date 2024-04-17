@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
+        "allPlayers": MessageLookupByLibrary.simpleMessage("جميع اللاعبين"),
         "appName": MessageLookupByLibrary.simpleMessage("هاوي هب"),
         "availableTimes":
             MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
@@ -31,7 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
         "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
+        "host": MessageLookupByLibrary.simpleMessage("المضيف"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
+        "join": MessageLookupByLibrary.simpleMessage("انضمام"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
@@ -40,12 +43,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
         "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
+        "only": MessageLookupByLibrary.simpleMessage("فقط"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),
         "perHour": MessageLookupByLibrary.simpleMessage("لكل ساعة"),
+        "players": MessageLookupByLibrary.simpleMessage("اللاعبين"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("عدد التقييمات"),
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "showInMap": MessageLookupByLibrary.simpleMessage("اظهار في الخريطة"),
+        "slots": MessageLookupByLibrary.simpleMessage("أماكن"),
         "sport": MessageLookupByLibrary.simpleMessage("الرياضة"),
         "totalGames": MessageLookupByLibrary.simpleMessage("إجمالي الحجوزات "),
         "upcoming": MessageLookupByLibrary.simpleMessage("الحجوزات القادمة"),

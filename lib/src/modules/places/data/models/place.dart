@@ -8,14 +8,14 @@ class Place extends Equatable {
   final String address;
   final int id;
   final int ownerId;
-  int totalGames;
-  int totalRatings;
-  double? rating;
+  final int totalGames;
+  final int totalRatings;
+  final double? rating;
   final String longitudes;
   final String latitudes;
   final int minimumHours;
   final double price;
-  List<DateTime> reservations;
+  List<DateTime> completedDays;
   List<FeedBack> feedbacks;
   final String sport;
   final String ownerName;
@@ -29,7 +29,7 @@ class Place extends Equatable {
     required this.longitudes,
     required this.latitudes,
     this.feedbacks = const [],
-    this.reservations = const [],
+    this.completedDays = const [],
     this.totalRatings = 0,
     required this.address,
     this.rating,
@@ -59,7 +59,7 @@ class Place extends Equatable {
       id: json['id'],
       rating: null,
       address: json['address'],
-      reservations: List.of(json['reservations']).map((e) => DateTime.parse(e)).toList(),
+      completedDays: List.of(json['reservations']).map((e) => DateTime.parse(e)).toList(),
       feedbacks: List.of(json['feedbacks']).map((e) => FeedBack.fromJson(e)).toList(),
     );
   }
@@ -77,7 +77,7 @@ class Place extends Equatable {
       'description': description,
       'images': images,
       'address': address,
-      'reservations': reservations,
+      'reservations': completedDays,
       'feedbacks': feedbacks,
     };
   }

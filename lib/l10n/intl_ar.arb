@@ -25,5 +25,11 @@
   "nearByVenues" : "الملاعب القريبة",
   "nearByGames" : "الحجوزات القريبة",
   "viewAll": "اظهار الكل",
-  "notifications": "التنبيهات"
+  "notifications": "التنبيهات",
+  "slots": "أماكن",
+  "only": "فقط",
+  "players": "اللاعبين",
+  "join": "انضمام",
+  "host": "المضيف",
+  "allPlayers" : "جميع اللاعبين"
 }

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../main/view/widgets/pages/home_page.dart';
 
 class VerticalNotificationsShimmer extends StatelessWidget {
   const VerticalNotificationsShimmer({super.key});

@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../../main/view/widgets/pages/home_page.dart';
 
 class VerticalGamesShimmer extends StatelessWidget {
   const VerticalGamesShimmer({super.key});
@@ -41,7 +39,7 @@ class HorizontalGamesShimmer extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: 4,
           itemBuilder: (context, index) {
-            return const GameItemShimmer();
+            return const GameItemShimmer(); //  const GameItemShimmer();
           }),
     );
   }

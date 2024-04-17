@@ -36,3 +36,22 @@ class GetBannersError extends MainState {
   @override
   List<Object> get props => [];
 }
+
+class GetSportsLoading extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetSportsSuccess extends MainState {
+  final List<Sport> sports;
+
+  const GetSportsSuccess(this.sports);
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetSportsError extends MainState {
+  @override
+  List<Object> get props => [];
+}

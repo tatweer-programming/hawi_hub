@@ -4,6 +4,7 @@ import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,6 +16,7 @@ class PlaceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        PlaceBloc.get().currentPlace = place;
         context.push(Routes.place, arguments: {"id": place.id});
       },
       child: Container(
@@ -91,10 +93,11 @@ class PlaceItem extends StatelessWidget {
                   ),
                   height: 3.h,
                   constraints: BoxConstraints(minWidth: 20.w, maxWidth: 50.w),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Center(
                     child: Text(place.ownerName,
                         textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyleManager.getBlackContainerTextStyle()),
                   ),
                 ),

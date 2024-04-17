@@ -2,47 +2,26 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
+import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/routing/routes.dart';
 import '../../../../core/utils/color_manager.dart';
 
 class PlaceScreen extends StatelessWidget {
   final int placeId;
+
   const PlaceScreen({super.key, required this.placeId});
 
   @override
   Widget build(BuildContext context) {
-    Place place = Place(
-      latitudes: "",
-      longitudes: "",
-      totalGames: 122,
-      totalRatings: 90,
-      rating: 3.5,
-      address:
-          "place address place address place address place address place address place address place address place address",
-      ownerId: 1,
-      name: "Place name",
-      description:
-          "place place place place place place place place place place place place place place place place place place place place place place place place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description ",
-      images: const [
-        "https://www.sofistadium.com/assets/img/SoFiStadium_bowl-9f3e09bf67.jpg",
-        "https://www.accoes.com/wp-content/uploads/2022/08/IMG_5382-scaled.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9E2ITnbivkVxMi2refJT2OUZb4SaCOZJJeIvMjUwgWCiHoFLnKUOU7m1a4wz1Lp9_Hzo&usqp=CAU",
-      ],
-      id: 1,
-      ownerImageUrl: '',
-      ownerName: 'owner name',
-      sport: 'Football',
-      price: 0,
-      minimumHours: 0,
-      reservations: const [],
-      feedbacks: const [],
-    );
+    PlaceBloc bloc = PlaceBloc.get();
     return Scaffold(
         body: Column(
       children: [
@@ -51,6 +30,7 @@ class PlaceScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // app bar
                 SizedBox(
                   height: 40.h,
                   width: double.infinity,
@@ -82,7 +62,7 @@ class PlaceScreen extends StatelessWidget {
                                     pauseAutoPlayOnManualNavigate: true,
                                     height: 30.h,
                                   ),
-                                  items: place.images.map((i) {
+                                  items: bloc.currentPlace!.images.map((i) {
                                     return Builder(
                                       builder: (BuildContext context) {
                                         return Container(
@@ -128,12 +108,12 @@ class PlaceScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleText(place.name),
+                      TitleText(bloc.currentPlace!.name),
                       SizedBox(
                         height: 1.h,
                       ),
                       Text(
-                        place.address,
+                        bloc.currentPlace!.address,
                         style: TextStyleManager.getRegularStyle(),
                       ),
                       SizedBox(
@@ -147,7 +127,7 @@ class PlaceScreen extends StatelessWidget {
                         height: 1.h,
                       ),
                       Text(
-                        place.address,
+                        bloc.currentPlace!.address,
                         style: TextStyleManager.getCaptionStyle(),
                       ),
                       SizedBox(
@@ -162,12 +142,12 @@ class PlaceScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                                child: (place.rating != null)
+                                child: (bloc.currentPlace!.rating != null)
                                     ? Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            place.rating.toString(),
+                                            bloc.currentPlace!.rating.toString(),
                                             style: TextStyleManager.getBlackCaptionTextStyle(),
                                           ),
                                           Expanded(
@@ -180,7 +160,7 @@ class PlaceScreen extends StatelessWidget {
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
                                                   wrapAlignment: WrapAlignment.center,
-                                                  initialRating: place.rating!,
+                                                  initialRating: bloc.currentPlace!.rating!,
                                                   itemCount: 5,
                                                   glowColor: ColorManager.golden,
                                                   ignoreGestures: true,
@@ -202,7 +182,7 @@ class PlaceScreen extends StatelessWidget {
                             Expanded(
                                 child: Row(
                               children: [
-                                Text(place.totalGames.toString()),
+                                Text(bloc.currentPlace!.totalGames.toString()),
                                 SizedBox(
                                   width: 2.w,
                                 ),
@@ -237,7 +217,7 @@ class PlaceScreen extends StatelessWidget {
                       SizedBox(
                         height: 1.h,
                       ),
-                      _buildSportWidget(place.sport, context),
+                      _buildSportWidget(bloc.currentPlace!.sport, context),
                       SizedBox(
                         height: 3.h,
                       ),
@@ -245,7 +225,7 @@ class PlaceScreen extends StatelessWidget {
                       SizedBox(
                         height: 1.h,
                       ),
-                      _buildCaptionWidget(place.description),
+                      _buildCaptionWidget(bloc.currentPlace!.description),
                       Divider(
                         height: 4.h,
                       ),
@@ -253,7 +233,9 @@ class PlaceScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 2.h),
                         child: DefaultButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.push(Routes.createGame);
+                          },
                           text: S.of(context).createGame,
                           color: ColorManager.white,
                           width: 90.w,
@@ -296,7 +278,7 @@ class PlaceScreen extends StatelessWidget {
                           Expanded(
                             child: OutLineContainer(
                               child: Text(
-                                "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                                "${bloc.currentPlace!.price}  ${S.of(context).sar} ${S.of(context).perHour}",
                               ),
                             ),
                           ),
@@ -306,7 +288,7 @@ class PlaceScreen extends StatelessWidget {
                           Expanded(
                             child: OutLineContainer(
                               child: Text(
-                                "${place.minimumHours}  ${S.of(context).hours}",
+                                "${bloc.currentPlace!.minimumHours}  ${S.of(context).hours}",
                               ),
                             ),
                           )
@@ -316,6 +298,21 @@ class PlaceScreen extends StatelessWidget {
                         height: 2.h,
                       ),
                       SubTitle(S.of(context).owner),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Row(children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(bloc.currentPlace!.ownerImageUrl),
+                        ),
+                        SizedBox(
+                          width: 2.w,
+                        ),
+                        Expanded(
+                            child: Text(
+                          bloc.currentPlace!.ownerName,
+                        ))
+                      ])
                     ],
                   ),
                 ),
