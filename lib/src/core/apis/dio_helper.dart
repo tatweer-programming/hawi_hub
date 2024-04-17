@@ -77,4 +77,26 @@ class DioHelper {
       rethrow; // Rethrow the error to be handled elsewhere
     }
   }
+
+  static Future<Response> deleteData({
+    required String path,
+    Map<String, dynamic>? query,
+    String? token,
+  }) async {
+    try {
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': token ?? '',
+      };
+      return await dio.delete(
+        path,
+        queryParameters: query,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error putting data: $e');
+      }
+      rethrow; // Rethrow the error to be handled elsewhere
+    }
+  }
 }

@@ -27,7 +27,11 @@ dependencies:
   get_it: ^7.2.0
   dio: ^5.4.1
   image_picker:
-  timeago:
+  audioplayers: ^4.0.1
+  fluttertoast: ^8.2.4
+  # CHATS PACKAGES
+  voice_message_package: ^2.1.4
+
   flutter_localizations:
     sdk: flutter
 
@@ -41,7 +45,7 @@ dependencies:
   flutter_geolocation_service: ^0.1.0
   shimmer: ^3.0.0
   connectivity_plus: ^6.0.1
-
+  timeago:
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/audios/
     - assets/images/icons/
     - assets/images/app_bar_backgrounds/
     - .env.dev

@@ -7,17 +7,19 @@ import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/routing/routes.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  final AuthBloc bloc;
+
+  const RegisterScreen({super.key, required this.bloc});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController userNameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    AuthBloc bloc = AuthBloc.get(context);
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     bool acceptTerms = false;
     bool visible = false;
@@ -30,8 +32,11 @@ class RegisterScreen extends StatelessWidget {
         if (state is ChangePasswordVisibilityState) {
           visible = state.visible;
         }
-        if (state is RegisterPlayerSuccessState) {
+        if (state is RegisterSuccessState) {
+          bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
+        }else if (state is RegisterErrorState){
+          errorToast(msg: state.error);
         }
       },
       builder: (context, state) {
@@ -126,20 +131,17 @@ class RegisterScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
-                        state is RegisterPlayerLoadingState
-                            ? const Center(child: CircularProgressIndicator())
+                        state is RegisterLoadingState
+                            ? indicatorButton()
                             : defaultButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate() &&
                                       acceptTerms) {
                                     bloc.add(
                                       RegisterPlayerEvent(
-                                        player: Player(
-                                          userName: userNameController.text,
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          myWallet: 0,
-                                        ),
+                                        userName: userNameController.text,
+                                        email: emailController.text,
+                                        password: passwordController.text,
                                       ),
                                     );
                                   } else if (!acceptTerms) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
+import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:sizer/sizer.dart';
 
 Widget defaultButton({
@@ -89,7 +91,7 @@ mainFormField(
         keyboardType: type,
         enabled: enabled,
         obscureText: obscureText,
-        maxLines: maxLines??1,
+        maxLines: maxLines ?? 1,
         minLines: minLines,
         style: const TextStyle(color: ColorManager.black),
         decoration: InputDecoration(
@@ -98,7 +100,7 @@ mainFormField(
               borderSide: !border
                   ? BorderSide.none
                   : BorderSide(color: ColorManager.grey3),
-              borderRadius: BorderRadius.circular(10.sp),
+              borderRadius: BorderRadius.circular(25.sp),
             ),
             contentPadding:
                 EdgeInsetsDirectional.symmetric(horizontal: 5.w, vertical: 2.h),
@@ -149,9 +151,9 @@ class HalfCircleCurve extends CustomClipper<Path> {
   }
 }
 
-Widget backIcon(BuildContext context){
+Widget backIcon(BuildContext context) {
   return InkWell(
-    onTap: (){
+    onTap: () {
       context.pop();
     },
     child: CircleAvatar(
@@ -165,6 +167,17 @@ Widget backIcon(BuildContext context){
           color: ColorManager.primary,
         ),
       ),
+    ),
+  );
+}
+
+Widget indicatorButton({double? width}) {
+  return ShimmerWidget(
+    height: 7.h,
+    width: width ?? double.infinity,
+    placeholder: ShimmerPlaceHolder(
+      borderRadius: 25.sp,
+      height: 7.h,
     ),
   );
 }

@@ -5,7 +5,8 @@ class ConstantsManager {
   static Player? appUser;
 
   static bool? registrationSkipped;
-  static String? userId;
+  static int? userId;
+  static String? userToken;
   static String? userType;
   static bool? isNotificationsOn;
   static const String baseUrlNotification = "https://fcm.googleapis.com/fcm/send";
@@ -103,6 +104,7 @@ class ConstantsManager {
     'Muzahmiyya',
     'Al Muwayh',
   ];
+
   static List<String> get getSaudiCities {
     if (LocalizationManager.getCurrentLocale().languageCode == "ar") {
       return saudiCitiesArabic;
