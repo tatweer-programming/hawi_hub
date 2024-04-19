@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/routing/routes.dart';
+import '../widgets/widgets.dart';
 
 class RegisterScreen extends StatelessWidget {
   final AuthBloc bloc;

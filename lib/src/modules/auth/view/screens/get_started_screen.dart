@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/routing/routes.dart';
 
 class GetStartedScreen extends StatelessWidget {

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
-import 'package:hawihub/src/modules/auth/presentation/screens/reset_password_screen.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/screens/reset_password_screen.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {

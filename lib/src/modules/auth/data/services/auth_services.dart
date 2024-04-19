@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/core/utils/random_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/sport.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 
@@ -32,7 +35,7 @@ class AuthService {
             key: 'id', value: response.data['data']['id']);
         return "Registration Successful";
       }
-      return (response.data['msg']);
+      return "Registration Failed";
     } catch (e) {
       return e.toString();
     }
@@ -48,16 +51,70 @@ class AuthService {
         path: EndPoints.login,
       );
       if (response.statusCode == 200) {
-        ConstantsManager.userId = response.data['data']['id'];
-        ConstantsManager.userToken = response.data['token'].toString();
+        ConstantsManager.userToken = response.data['data']['id'];
         await CacheHelper.saveData(key: 'token', value: response.data['token']);
-        await CacheHelper.saveData(
-            key: 'id', value: response.data['data']['id']);
         return "Login Successfully";
       }
-      return (response.data['msg']);
+      return "Login Failed";
     } catch (e) {
-      return "Invalid username or password";
+      return "Invalid email or password";
+    }
+  }
+
+  Future<String> loginWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: <String>[
+          'email',
+        ],
+      );
+      var googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        await DioHelper.postData(
+          data: {
+            'mail': googleUser.email,
+            'user_name': googleUser.displayName,
+            "image": googleUser.photoUrl,
+            'pass': RandomManager.generateRandomString(),
+          },
+          path: EndPoints.register,
+        ).then((value) async {
+          ConstantsManager.userToken = googleUser.id;
+          await CacheHelper.saveData(key: 'token', value: googleUser.id);
+        });
+        return "Login Successfully";
+      }
+      return "Login Failed";
+    } catch (e) {
+      return "Invalid email or password";
+    }
+  }
+
+  Future<String> loginWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+      Map<String, dynamic>? userData;
+      if (result.status == LoginStatus.success) {
+        userData = await FacebookAuth.instance.getUserData();
+      }
+      if (result.status == LoginStatus.success && userData != null) {
+        await DioHelper.postData(
+          data: {
+            'mail': userData!["email"],
+            'user_name': userData["name"],
+            "image": userData["picture"]["data"]["url"],
+            'pass': RandomManager.generateRandomString(),
+          },
+          path: EndPoints.register,
+        ).then((value) async {
+          ConstantsManager.userToken = userData!["id"];
+          await CacheHelper.saveData(key: 'token', value: userData["id"]);
+        });
+        return "Login Successfully";
+      }
+      return "Login Failed";
+    } catch (e) {
+      return "Invalid email or password";
     }
   }
 
@@ -112,10 +169,11 @@ class AuthService {
     }
   }
 
-  Future<String> resetPassword(
-      {required String email,
-      required String code,
-      required String password}) async {
+  Future<String> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
     try {
       Response response = await DioHelper.postData(
         data: {

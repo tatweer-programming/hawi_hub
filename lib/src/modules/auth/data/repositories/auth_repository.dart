@@ -18,7 +18,15 @@ class AuthRepository {
   // }
   //
   Future<String> loginPlayer(String email, String password) async {
-    return _service.loginPlayer(email, password);
+    return await _service.loginPlayer(email, password);
+  }
+
+  Future<String> loginWithGoogle() async {
+    return await _service.loginWithGoogle();
+  }
+
+  Future<String> loginWithFacebook() async {
+    return await _service.loginWithFacebook();
   }
 
   Future<String> registerPlayer({

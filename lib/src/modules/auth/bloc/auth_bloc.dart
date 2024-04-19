@@ -68,7 +68,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(VerifyCodeErrorState(value));
           }
         });
-      }else if (event is LogoutEvent) {
+      } else if (event is LoginWithGoogleEvent) {
+        emit(LoginLoadingState());
+        await _repository.loginWithGoogle().then((value) {
+          if (value == "Login Successfully") {
+            emit(LoginSuccessState());
+          } else {
+            emit(LoginErrorState(value));
+          }
+        });
+      } else if (event is LoginWithFacebookEvent) {
+        emit(LoginLoadingState());
+        await _repository.loginWithFacebook().then((value) {
+          if (value == "Login Successfully") {
+            emit(LoginSuccessState());
+          } else {
+            emit(LoginErrorState(value));
+          }
+        });
+      } else if (event is LogoutEvent) {
         emit(LogoutLoadingState());
         _clearUserData();
         emit(LogoutSuccessState());
@@ -135,7 +153,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is ResetCodeTimerEvent) {
         timeToResendCodeTimer?.cancel();
         emit(ResetCodeTimerState(time: 0));
-      }else if(event is PlaySoundEvent){
+      } else if (event is PlaySoundEvent) {
         final audioPlayer = AudioPlayer();
         await audioPlayer.play(AssetSource(event.sound));
         emit(PlaySoundState());
@@ -157,6 +175,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 }
+
 Future _clearUserData() async {
   ConstantsManager.userToken = null;
   ConstantsManager.userId = null;

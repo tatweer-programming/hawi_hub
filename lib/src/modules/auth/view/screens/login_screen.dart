@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/auth/presentation/screens/forget_password_screen.dart';
-import 'package:hawihub/src/modules/auth/presentation/screens/register_screen.dart';
+import 'package:hawihub/src/modules/auth/view/screens/forget_password_screen.dart';
+import 'package:hawihub/src/modules/auth/view/screens/register_screen.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/routing/routes.dart';
 import '../../bloc/auth_bloc.dart';
 import '../widgets/widgets.dart';
@@ -31,7 +32,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccessState) {
           bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
-        }else if (state is LoginErrorState){
+        } else if (state is LoginErrorState) {
           errorToast(msg: state.error);
         }
         // if (state is LogoutSuccessState) {
@@ -124,44 +125,56 @@ class LoginScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 3.w),
                         child: Row(
                           children: [
-                            Column(
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons/facebook.webp",
-                                  height: 5.h,
-                                  width: 10.w,
-                                ),
-                                SizedBox(
-                                  height: 0.5.h,
-                                ),
-                                Text(
-                                  "Facebook",
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
+                            InkWell(
+                              onTap: () async {
+                                bloc.add(LoginWithFacebookEvent());
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/icons/facebook.webp",
+                                    height: 5.h,
+                                    width: 10.w,
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    "Facebook",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             const Spacer(),
-                            Column(
-                              children: [
-                                Image.asset(
-                                  "assets/images/icons/google.webp",
-                                  height: 5.h,
-                                  width: 10.w,
-                                ),
-                                SizedBox(
-                                  height: 0.5.h,
-                                ),
-                                Text(
-                                  "Google",
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
+                            InkWell(
+                              onTap: () async {
+                                bloc.add(LoginWithGoogleEvent());
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/icons/google.webp",
+                                    height: 5.h,
+                                    width: 10.w,
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    height: 0.5.h,
+                                  ),
+                                  Text(
+                                    "Google",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                            SizedBox(width: 2.w,)
+                            SizedBox(
+                              width: 2.w,
+                            )
                           ],
                         ),
                       ),
@@ -205,62 +218,66 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-Widget _orImageBuilder()=> Stack(
-  alignment: AlignmentDirectional.bottomCenter,
-  children: [
-    Column(
+Widget _orImageBuilder() => Stack(
+      alignment: AlignmentDirectional.bottomCenter,
       children: [
-        Stack(
+        Column(
           children: [
-            Column(
+            Stack(
               children: [
-                SizedBox(height: 2.h,),
-                Container(
-                  width: 60.w,
-                  height: 10.h,
-                  decoration:  BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(10.sp),
-                        topStart: Radius.circular(10.sp),
-                      ),
-                      border: const Border(
-                        left: BorderSide(
-                          color: ColorManager.black,
-                        ),right: BorderSide(
-                        color: ColorManager.black,
-                      ),top: BorderSide(
-                        color: ColorManager.black,
-                      ),
-                      )
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Container(
+                      width: 60.w,
+                      height: 10.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(10.sp),
+                            topStart: Radius.circular(10.sp),
+                          ),
+                          border: const Border(
+                            left: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                            right: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                            top: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  left: 25.w,
+                  top: 0.h,
+                  child: Container(
+                    padding: EdgeInsetsDirectional.symmetric(
+                      vertical: 1.h,
+                      horizontal: 2.w,
+                    ),
+                    color: Colors.white,
+                    child: Text(
+                      "OR",
+                      style: TextStyleManager.getRegularStyle(),
+                    ),
                   ),
                 ),
               ],
             ),
-            Positioned(
-              left: 25.w,
-              top: 0.h,
-              child: Container(
-                padding: EdgeInsetsDirectional.symmetric(
-                  vertical: 1.h,
-                  horizontal: 2.w,
-                ),
-                color: Colors.white,
-                child: Text(
-                  "OR",
-                  style: TextStyleManager.getRegularStyle(),
-                ),
-              ),
+            SizedBox(
+              height: 0.2.h,
             ),
           ],
         ),
-        SizedBox(height: 0.2.h,),
+        Container(
+          width: 58.w,
+          height: 5.h,
+          color: ColorManager.white,
+        ),
       ],
-    ),
-    Container(
-      width: 58.w,
-      height: 5.h,
-      color: ColorManager.white,
-    ),
-
-  ],
-);
+    );
