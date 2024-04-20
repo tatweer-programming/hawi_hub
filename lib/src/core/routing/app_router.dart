@@ -37,8 +37,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
-      case Routes.profile:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      // case Routes.profile:
+      //   return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case Routes.game:
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(builder: (_) => GameDetailsScreen(id: arguments['id']));

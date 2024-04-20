@@ -15,9 +15,6 @@ class GetStartedScreen extends StatelessWidget {
         child: Column(
           children: [
             authBackGround(60.h),
-            // SizedBox(
-            //   height: 6.h,
-            // ),
             Padding(
               padding: EdgeInsetsDirectional.symmetric(
                 horizontal: 25.w,

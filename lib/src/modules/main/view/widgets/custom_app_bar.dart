@@ -78,29 +78,28 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
-
 class CustomAppBarClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height * .9);
+    path.lineTo(0, size.height * .87);
     path.quadraticBezierTo(
       size.width * .125,
-      size.height * .8,
+      size.height * .77,
       size.width * .25,
-      size.height * .79,
+      size.height * .75,
     );
     path.quadraticBezierTo(
       size.width * .5,
-      size.height * .75,
-      size.width * .65,
-      size.height * .83,
+      size.height * .72,
+      size.width * .7,
+      size.height * .85,
     );
     path.quadraticBezierTo(
       size.width * .875,
       size.height * .95,
       size.width,
-      size.height * .9,
+      size.height * .91,
     );
     path.lineTo(size.width, 0);
     return path;

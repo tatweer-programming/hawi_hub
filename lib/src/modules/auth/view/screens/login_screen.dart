@@ -30,8 +30,8 @@ class LoginScreen extends StatelessWidget {
           visible = state.visible;
         }
         if (state is LoginSuccessState) {
-          bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
+          bloc.add(PlaySoundEvent("audios/start.wav"));
         } else if (state is LoginErrorState) {
           errorToast(msg: state.error);
         }
@@ -120,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      _orImageBuilder(),
+                      orImageBuilder(),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 3.w),
                         child: Row(
@@ -218,66 +218,3 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-Widget _orImageBuilder() => Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [
-        Column(
-          children: [
-            Stack(
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Container(
-                      width: 60.w,
-                      height: 10.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(10.sp),
-                            topStart: Radius.circular(10.sp),
-                          ),
-                          border: const Border(
-                            left: BorderSide(
-                              color: ColorManager.black,
-                            ),
-                            right: BorderSide(
-                              color: ColorManager.black,
-                            ),
-                            top: BorderSide(
-                              color: ColorManager.black,
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  left: 25.w,
-                  top: 0.h,
-                  child: Container(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      vertical: 1.h,
-                      horizontal: 2.w,
-                    ),
-                    color: Colors.white,
-                    child: Text(
-                      "OR",
-                      style: TextStyleManager.getRegularStyle(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 0.2.h,
-            ),
-          ],
-        ),
-        Container(
-          width: 58.w,
-          height: 5.h,
-          color: ColorManager.white,
-        ),
-      ],
-    );

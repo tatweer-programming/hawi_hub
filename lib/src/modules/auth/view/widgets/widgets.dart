@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -30,6 +31,7 @@ Widget defaultButton({
         ));
 
 Widget authBackGround(double height) => Stack(
+  alignment: AlignmentDirectional.topCenter,
       children: [
         Align(
           alignment: AlignmentDirectional.topCenter,
@@ -54,11 +56,11 @@ Widget authBackGround(double height) => Stack(
         ),
         Padding(
           padding: EdgeInsetsDirectional.only(
-            top: 2.h,
-            start: 2.w,
+            top: 4.h,
           ),
           child: Image.asset(
             "assets/images/logo2.png",
+            height: 7.h,width: 35.w,
           ),
         ),
       ],
@@ -181,3 +183,67 @@ Widget indicatorButton({double? width}) {
     ),
   );
 }
+
+Widget orImageBuilder() => Stack(
+  alignment: AlignmentDirectional.bottomCenter,
+  children: [
+    Column(
+      children: [
+        Stack(
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: 2.h,
+                ),
+                Container(
+                  width: 60.w,
+                  height: 10.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(10.sp),
+                        topStart: Radius.circular(10.sp),
+                      ),
+                      border: const Border(
+                        left: BorderSide(
+                          color: ColorManager.black,
+                        ),
+                        right: BorderSide(
+                          color: ColorManager.black,
+                        ),
+                        top: BorderSide(
+                          color: ColorManager.black,
+                        ),
+                      )),
+                ),
+              ],
+            ),
+            Positioned(
+              left: 25.w,
+              top: 0.h,
+              child: Container(
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: 1.h,
+                  horizontal: 2.w,
+                ),
+                color: Colors.white,
+                child: Text(
+                  "OR",
+                  style: TextStyleManager.getRegularStyle(),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 0.2.h,
+        ),
+      ],
+    ),
+    Container(
+      width: 58.w,
+      height: 5.h,
+      color: ColorManager.white,
+    ),
+  ],
+);

@@ -15,12 +15,13 @@ import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final Player player;
+  const ProfileScreen({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = AuthBloc.get(context)..add(GetProfileEvent(3));
-    Player player = authBloc.player!;
+    AuthBloc authBloc = AuthBloc.get(context);
+    // Player player = authBloc.player!;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
@@ -28,11 +29,7 @@ class ProfileScreen extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Stack(
-                  children: [
-                    _appBar(context, player),
-                  ],
-                ),
+                child: _appBar(context, player),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.symmetric(
