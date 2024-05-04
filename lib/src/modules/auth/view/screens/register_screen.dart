@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/routing/routes.dart';
+import '../../data/models/auth_player.dart';
+import '../widgets/widgets.dart';
 
 class RegisterScreen extends StatelessWidget {
   final AuthBloc bloc;
@@ -24,6 +22,7 @@ class RegisterScreen extends StatelessWidget {
     bool acceptTerms = false;
     bool visible = false;
     TextEditingController confirmPasswordController = TextEditingController();
+    AuthPlayer? authPlayer;
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AcceptConfirmTermsState) {
@@ -35,8 +34,17 @@ class RegisterScreen extends StatelessWidget {
         if (state is RegisterSuccessState) {
           bloc.add(PlaySoundEvent("audios/start.wav"));
           context.pushAndRemove(Routes.home);
-        }else if (state is RegisterErrorState){
+        } else if (state is RegisterErrorState) {
           errorToast(msg: state.error);
+        }
+        if (state is SignupWithGoogleSuccessState) {
+          authPlayer = state.authPlayer;
+          userNameController.text = authPlayer!.userName;
+          emailController.text = authPlayer!.email;
+        } else if (state is SignupWithFacebookSuccessState) {
+          authPlayer = state.authPlayer;
+          userNameController.text = authPlayer!.userName;
+          emailController.text = authPlayer!.email;
         }
       },
       builder: (context, state) {
@@ -123,6 +131,70 @@ class RegisterScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
+                        Align(
+                          alignment: AlignmentDirectional.center,
+                          child: orImageBuilder(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  bloc.add(SignupWithFacebookEvent());
+                                },
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/icons/facebook.webp",
+                                      height: 5.h,
+                                      width: 10.w,
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      "Facebook",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              InkWell(
+                                onTap: () async {
+                                  bloc.add(SignupWithGoogleEvent());
+                                },
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/icons/google.webp",
+                                      height: 5.h,
+                                      width: 10.w,
+                                    ),
+                                    SizedBox(
+                                      height: 0.5.h,
+                                    ),
+                                    Text(
+                                      "Google",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 2.w,
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
                         _confirmTerms(
                             onTap: () {
                               bloc.add(AcceptConfirmTermsEvent(acceptTerms));
@@ -139,22 +211,26 @@ class RegisterScreen extends StatelessWidget {
                                       acceptTerms) {
                                     bloc.add(
                                       RegisterPlayerEvent(
-                                        userName: userNameController.text,
-                                        email: emailController.text,
-                                        password: passwordController.text,
+                                        authPlayer: AuthPlayer(
+                                            password: passwordController.text,
+                                            userName: userNameController.text,
+                                            email: emailController.text,
+                                            profilePictureUrl:
+                                                authPlayer!.profilePictureUrl),
                                       ),
                                     );
                                   } else if (!acceptTerms) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              "You should agree to terms of service and privacy policy")),
-                                    );
+                                    errorToast(
+                                        msg:
+                                            "You should agree to terms of service and privacy policy");
                                   }
                                 },
                                 fontSize: 17.sp,
                                 text: "REGISTER",
                               ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
                       ],
                     ),
                   ),

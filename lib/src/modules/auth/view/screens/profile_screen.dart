@@ -5,21 +5,23 @@ import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/presentation/screens/rates_screen.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/screens/edit_profile_screen.dart';
+import 'package:hawihub/src/modules/auth/view/screens/rates_screen.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatelessWidget {
   final Player player;
-
-  const EditProfileScreen({super.key, required this.player});
+  const ProfileScreen({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = AuthBloc.get(context);
+    // Player player = authBloc.player!;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
@@ -27,11 +29,7 @@ class EditProfileScreen extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Stack(
-                  children: [
-                    _appBar(context, player.profilePictureUrl),
-                  ],
-                ),
+                child: _appBar(context, player),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.symmetric(
@@ -210,7 +208,7 @@ Widget _walletWidget(VoidCallback onTap, String wallet) {
 
 Widget _appBar(
   BuildContext context,
-  String profilePictureUrl,
+  Player player,
 ) {
   return Stack(
     alignment: AlignmentDirectional.bottomCenter,
@@ -240,7 +238,13 @@ Widget _appBar(
                 ),
               ),
               const Spacer(),
-              _editIcon(),
+              InkWell(
+                  onTap: () {
+                    context.pushWithTransition(EditProfileScreen(
+                      player: player,
+                    ));
+                  },
+                  child: _editIcon()),
             ],
           ),
         ),
@@ -248,7 +252,7 @@ Widget _appBar(
       CircleAvatar(
         radius: 50.sp,
         backgroundColor: ColorManager.grey3,
-        backgroundImage: NetworkImage(profilePictureUrl),
+        backgroundImage: NetworkImage(player.profilePictureUrl),
       )
     ],
   );
@@ -350,7 +354,7 @@ Widget _seeAll(VoidCallback onTap) {
         ),
         Icon(
           Icons.arrow_forward_rounded,
-          color: const Color(0xffFFC107),
+          color: ColorManager.golden,
           size: 18.sp,
         ),
       ],

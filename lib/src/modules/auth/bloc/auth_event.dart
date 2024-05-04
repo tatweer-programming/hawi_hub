@@ -4,12 +4,9 @@ part of 'auth_bloc.dart';
 sealed class AuthEvent {}
 
 class RegisterPlayerEvent extends AuthEvent {
-  final String email;
-  final String userName;
-  final String password;
+  final AuthPlayer authPlayer;
 
-  RegisterPlayerEvent(
-      {required this.email, required this.userName, required this.password});
+  RegisterPlayerEvent({required this.authPlayer});
 }
 
 class LoginPlayerEvent extends AuthEvent {
@@ -22,6 +19,7 @@ class LoginPlayerEvent extends AuthEvent {
 class AddProfilePictureEvent extends AuthEvent {}
 
 class GetSportsEvent extends AuthEvent {}
+
 class LogoutEvent extends AuthEvent {}
 
 class VerifyCodeEvent extends AuthEvent {
@@ -29,6 +27,14 @@ class VerifyCodeEvent extends AuthEvent {
 
   VerifyCodeEvent(this.email);
 }
+
+class LoginWithGoogleEvent extends AuthEvent {}
+
+class LoginWithFacebookEvent extends AuthEvent {}
+
+class SignupWithGoogleEvent extends AuthEvent {}
+
+class SignupWithFacebookEvent extends AuthEvent {}
 
 class GetProfileEvent extends AuthEvent {
   final int id;
@@ -75,6 +81,7 @@ class ChangePasswordVisibilityEvent extends AuthEvent {
 
   ChangePasswordVisibilityEvent(this.visible);
 }
+
 class PlaySoundEvent extends AuthEvent {
   final String sound;
 

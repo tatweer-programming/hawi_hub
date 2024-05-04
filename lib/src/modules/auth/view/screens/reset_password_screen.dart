@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 class ResetPasswordScreen extends StatelessWidget {

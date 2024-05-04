@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/chat/data/models/message.dart';
 import 'package:sizer/sizer.dart';
 import 'package:voice_message_package/voice_message_package.dart';

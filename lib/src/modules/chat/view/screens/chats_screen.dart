@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
-import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/auth/presentation/widgets/widgets.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
-import 'package:hawihub/src/modules/chat/presentation/screens/chat_screen.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/utils/color_manager.dart';

@@ -29,15 +29,13 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      profilePictureUrl: json['image'],
+      profilePictureUrl: json['profile_image'],
       id: json['id'],
-      // games: json['games'],
-      games: 50,
-      // bookings: json['bookings'],
-      bookings: 20,
+      games: json['num_games'],
+      bookings: json['num_bookings'],
       userName: json['user_name'],
-      email: json['mail'],
-      myWallet: json['money'].toDouble(),
+      email: json['email'],
+      myWallet: json['my_wallet'].toDouble(),
       rate: json['rate'] != null ? json['rate'].toDouble() : 0.0,
       feedbacks: [],
     );

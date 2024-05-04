@@ -14,7 +14,39 @@ class RegisterErrorState extends AuthState {
   final String error;
 
   RegisterErrorState(this.error);
-}// verifyCode
+}
+// Signup google
+
+class SignupWithGoogleLoadingState extends AuthState {}
+
+class SignupWithGoogleSuccessState extends AuthState {
+  final AuthPlayer authPlayer;
+
+  SignupWithGoogleSuccessState(this.authPlayer);
+}
+
+class SignupWithGoogleErrorState extends AuthState {
+  final String error;
+
+  SignupWithGoogleErrorState(this.error);
+} // Signup facebook
+
+class SignupWithFacebookLoadingState extends AuthState {}
+
+class SignupWithFacebookSuccessState extends AuthState {
+  final AuthPlayer authPlayer;
+
+  SignupWithFacebookSuccessState(this.authPlayer);
+}
+
+class SignupWithFacebookErrorState extends AuthState {
+  final String error;
+
+  SignupWithFacebookErrorState(this.error);
+}
+
+// verifyCode
+
 class VerifyCodeLoadingState extends AuthState {}
 
 class VerifyCodeSuccessState extends AuthState {}
@@ -39,6 +71,7 @@ class GetSportsErrorState extends AuthState {
 
   GetSportsErrorState(this.error);
 }
+
 // get My Profile
 class GetMyProfileLoadingState extends AuthState {}
 
@@ -60,6 +93,7 @@ class LoginErrorState extends AuthState {
 
   LoginErrorState(this.error);
 }
+
 // logout player
 class LogoutLoadingState extends AuthState {}
 
@@ -115,4 +149,5 @@ class ResetCodeTimerState extends AuthState {
 
   ResetCodeTimerState({required this.time});
 }
+
 class PlaySoundState extends AuthState {}

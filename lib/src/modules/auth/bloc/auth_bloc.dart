@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -33,11 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (event is RegisterPlayerEvent) {
         emit(RegisterLoadingState());
         await _repository
-            .registerPlayer(
-          email: event.email,
-          userName: event.userName,
-          password: event.password,
-        )
+            .registerPlayer(authPlayer: event.authPlayer)
             .then((value) {
           print("value $value");
           if (value == "Registration Successful") {
@@ -68,7 +65,55 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(VerifyCodeErrorState(value));
           }
         });
-      }else if (event is LogoutEvent) {
+      } else if (event is LoginWithGoogleEvent) {
+        emit(LoginLoadingState());
+        var result = await _repository.loginWithGoogle();
+        result.fold((l) {
+          emit(LoginErrorState(l));
+        }, (r) {
+          if (r) {
+            emit(LoginSuccessState());
+          } else {
+            emit(LoginErrorState("Something went wrong"));
+          }
+        });
+      } else if (event is LoginWithFacebookEvent) {
+        emit(LoginLoadingState());
+        var result = await _repository.loginWithFacebook();
+        result.fold((l) {
+          emit(LoginErrorState(l));
+        }, (r) {
+          if (r) {
+            emit(LoginSuccessState());
+          } else {
+            emit(LoginErrorState("Something went wrong"));
+          }
+        });
+      } else if (event is SignupWithGoogleEvent) {
+        emit(SignupWithGoogleLoadingState());
+        var result = await _repository.signupWithGoogle();
+        result.fold((l) {
+          emit(SignupWithGoogleErrorState(l));
+        }, (r) {
+          if (r != null) {
+            emit(SignupWithGoogleSuccessState(r));
+          } else {
+            emit(SignupWithGoogleErrorState("Something went wrong"));
+          }
+        });
+      } else if (event is SignupWithFacebookEvent) {
+        emit(SignupWithFacebookLoadingState());
+        var result = await _repository.signupWithFacebook();
+        result.fold((l) {
+          emit(SignupWithFacebookErrorState(l));
+        }, (r) {
+          if (r != null) {
+            emit(SignupWithFacebookSuccessState(r));
+          } else {
+            emit(SignupWithFacebookErrorState("Something went wrong"));
+          }
+        });
+      } else if (event is LogoutEvent) {
         emit(LogoutLoadingState());
         _clearUserData();
         emit(LogoutSuccessState());
@@ -135,7 +180,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is ResetCodeTimerEvent) {
         timeToResendCodeTimer?.cancel();
         emit(ResetCodeTimerState(time: 0));
-      }else if(event is PlaySoundEvent){
+      } else if (event is PlaySoundEvent) {
         final audioPlayer = AudioPlayer();
         await audioPlayer.play(AssetSource(event.sound));
         emit(PlaySoundState());
@@ -157,6 +202,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 }
+
 Future _clearUserData() async {
   ConstantsManager.userToken = null;
   ConstantsManager.userId = null;

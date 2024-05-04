@@ -46,9 +46,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc(AuthInitial())),
           BlocProvider<GamesBloc>(create: (BuildContext context) => GamesBloc.get()),
           BlocProvider<PlaceBloc>(create: (BuildContext context) => PlaceBloc.get()),
-          BlocProvider<AuthBloc>(
-            create: (BuildContext context) => AuthBloc(AuthInitial()),
-          ),
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
           AppRouter appRouter = AppRouter();
