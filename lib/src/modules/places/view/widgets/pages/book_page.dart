@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/localization_manager.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
+import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
@@ -44,6 +48,10 @@ class BookPage extends StatelessWidget {
               ),
             ),
           ],
+          leading: CityDropdown(
+              selectedCity: S.of(context).chooseSport,
+              onCitySelected: (c) {},
+              cities: LocalizationManager.getSaudiCities),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 5.w,
@@ -54,12 +62,12 @@ class BookPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               height: 7.h,
-              child: const TextField(
-                  decoration: InputDecoration(
-                hintText: "choose sport",
-                border: InputBorder.none,
-                prefixIcon: Icon(Icons.expand_circle_down),
-              )),
+              child: dropdownBuilder(
+                  text: S.of(context).chooseSport,
+                  onChanged: (val) {
+                    placeBloc.add(ChooseSportEvent(val!));
+                  },
+                  items: MainCubit.get().sportsList.map((e) => e.name).toList()),
             ),
           ),
         ),

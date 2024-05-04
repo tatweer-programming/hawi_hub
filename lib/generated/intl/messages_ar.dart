@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
         "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
         "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
+        "chooseSport": MessageLookupByLibrary.simpleMessage("اختر رياضة"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
         "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),

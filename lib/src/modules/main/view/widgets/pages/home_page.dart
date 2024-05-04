@@ -12,13 +12,11 @@ import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utils/styles_manager.dart';
 import '../../../../games/view/widgets/components.dart';
 import '../../../../games/view/widgets/shimmers/game_shimmers.dart';
 import '../../../../places/bloc/place__bloc.dart';
-import '../../../../places/data/models/place.dart';
 import '../../../../places/view/widgets/components.dart';
 
 class HomePage extends StatelessWidget {
@@ -225,29 +223,29 @@ class HomePage extends StatelessWidget {
   }
 }
 
-Place place = Place(
-  latitudes: "",
-  longitudes: "",
-  totalGames: 122,
-  totalRatings: 90,
-  rating: 3.5,
-  address:
-      "place address place address place address place address place address place address place address place address",
-  ownerId: 1,
-  name: "Place name",
-  description:
-      "place place place place place place place place place place place place place place place place place place place place place place place place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description ",
-  images: const [
-    "https://www.sofistadium.com/assets/img/SoFiStadium_bowl-9f3e09bf67.jpg",
-    "https://www.accoes.com/wp-content/uploads/2022/08/IMG_5382-scaled.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9E2ITnbivkVxMi2refJT2OUZb4SaCOZJJeIvMjUwgWCiHoFLnKUOU7m1a4wz1Lp9_Hzo&usqp=CAU",
-  ],
-  id: 1,
-  ownerImageUrl: '',
-  ownerName: 'owner name',
-  sport: 'Football',
-  price: 0,
-  minimumHours: 0,
-  completedDays: const [],
-  feedbacks: const [],
-);
+// Place place = Place(
+//   latitudes: "",
+//   longitudes: "",
+//   totalGames: 122,
+//   totalRatings: 90,
+//   rating: 3.5,
+//   address:
+//       "place address place address place address place address place address place address place address place address",
+//   ownerId: 1,
+//   name: "Place name",
+//   description:
+//       "place place place place place place place place place place place place place place place place place place place place place place place place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description place description ",
+//   images: const [
+//     "https://www.sofistadium.com/assets/img/SoFiStadium_bowl-9f3e09bf67.jpg",
+//     "https://www.accoes.com/wp-content/uploads/2022/08/IMG_5382-scaled.jpg",
+//     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9E2ITnbivkVxMi2refJT2OUZb4SaCOZJJeIvMjUwgWCiHoFLnKUOU7m1a4wz1Lp9_Hzo&usqp=CAU",
+//   ],
+//   id: 1,
+//   ownerImageUrl: '',
+//   ownerName: 'owner name',
+//   sport: 'Football',
+//   price: 0,
+//   minimumHours: 0,
+//   completedDays: const [],
+//   feedbacks: const [],
+// );

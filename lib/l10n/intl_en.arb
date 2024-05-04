@@ -31,5 +31,6 @@
   "players": "Players",
   "join": "Join",
   "host": "Host",
-  "allPlayers": "All Players"
+  "allPlayers": "All Players",
+  "chooseSport": "Choose Sport"
 }

@@ -31,5 +31,6 @@
   "players": "اللاعبين",
   "join": "انضمام",
   "host": "المضيف",
-  "allPlayers" : "جميع اللاعبين"
+  "allPlayers" : "جميع اللاعبين",
+  "chooseSport" : "اختر رياضة"
 }

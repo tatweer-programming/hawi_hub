@@ -11,6 +11,7 @@ class CustomAppBar extends StatelessWidget {
   final double? opacity;
   final BlendMode? blendMode;
   final Color? color;
+  final Widget? leading;
   const CustomAppBar({
     super.key,
     required this.child,
@@ -20,6 +21,7 @@ class CustomAppBar extends StatelessWidget {
     this.opacity,
     this.blendMode,
     this.color,
+    this.leading,
   });
 
   @override
@@ -51,22 +53,29 @@ class CustomAppBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (actions != null)
-                  Padding(
-                    padding: EdgeInsets.only(top: 2.h, right: 2.w, left: 2.w, bottom: 1.h),
-                    child: Align(
-                      alignment: AlignmentDirectional.topEnd,
-                      child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: actions!
-                              .map((e) => Padding(
-                                    padding: EdgeInsets.all(1.sp),
-                                    child: e,
-                                  ))
-                              .toList()),
-                    ),
-                  ),
+                Row(
+                  children: [
+                    if (actions != null)
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 2.h, right: 2.w, left: 2.w, bottom: 1.h),
+                          child: Align(
+                            alignment: AlignmentDirectional.topEnd,
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: actions!
+                                    .map((e) => Padding(
+                                          padding: EdgeInsets.all(1.sp),
+                                          child: e,
+                                        ))
+                                    .toList()),
+                          ),
+                        ),
+                      ),
+                    if (leading != null) leading!,
+                  ],
+                ),
                 SizedBox(height: 10.sp),
                 child,
                 SizedBox(height: height * .3),

@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Available Times"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
+        "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),

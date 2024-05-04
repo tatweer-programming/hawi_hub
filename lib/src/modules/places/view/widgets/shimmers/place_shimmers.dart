@@ -20,7 +20,7 @@ class VerticalPlacesShimmer extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return PlaceItem(place: place);
+          return const PlaceItemShimmer();
         });
   }
   // const PlaceItemShimmer()

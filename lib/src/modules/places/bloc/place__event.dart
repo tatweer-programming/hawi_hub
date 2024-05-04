@@ -57,3 +57,10 @@ class SharePlaceEvent extends PlaceEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ChooseSportEvent extends PlaceEvent {
+  final String sport;
+  const ChooseSportEvent(this.sport);
+  @override
+  List<Object?> get props => [];
+}

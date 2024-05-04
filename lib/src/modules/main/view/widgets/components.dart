@@ -203,3 +203,84 @@ class NotificationWidget extends StatelessWidget {
     );
   }
 }
+
+Widget dropdownBuilder(
+    {required String text,
+    IconData? icon,
+    required Function(String? value) onChanged,
+    required List<String> items,
+    Color? backgroundColor = ColorManager.white,
+    Color? textColor = ColorManager.black}) {
+  return DropdownMenu<String>(
+    // errorText: text,
+    // controller: TextEditingController(),
+    label: Text(text, style: TextStyle(color: textColor)),
+    enableFilter: false,
+    requestFocusOnTap: false,
+    expandedInsets: EdgeInsets.zero,
+    enableSearch: false,
+    leadingIcon: Icon(
+      icon ?? Icons.search,
+      color: ColorManager.transparent,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: backgroundColor,
+      filled: true,
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22), borderSide: BorderSide(color: textColor!)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
+      contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
+    ),
+    onSelected: onChanged,
+    menuHeight: 50.h,
+    dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
+      (String value) {
+        return DropdownMenuEntry<String>(value: value, label: value);
+      },
+    ).toList(),
+  );
+}
+
+class CityDropdown extends StatefulWidget {
+  const CityDropdown({
+    super.key,
+    required this.selectedCity,
+    required this.onCitySelected,
+    required this.cities,
+    this.color = ColorManager.white,
+  });
+
+  final String selectedCity;
+  final Function(String) onCitySelected;
+  final List<String> cities;
+
+  final Color color;
+
+  @override
+  State<CityDropdown> createState() => _CityDropdownState();
+}
+
+class _CityDropdownState extends State<CityDropdown> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          widget.selectedCity,
+          style: TextStyle(fontSize: 16, color: widget.color),
+        ),
+        const SizedBox(width: 8),
+        PopupMenuButton<String>(
+          icon: Icon(Icons.arrow_drop_down, color: widget.color),
+          onSelected: (city) => widget.onCitySelected(city),
+          itemBuilder: (context) => widget.cities
+              .map((city) => PopupMenuItem(
+                    value: city,
+                    child: Text(city),
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}

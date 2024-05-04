@@ -1,85 +1,88 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/services/location_services.dart';
+import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
+import 'package:hawihub/src/modules/places/data/models/place_location.dart';
 
 class Place extends Equatable {
-  final String name;
-  final String description;
-  final List<String> images;
-  final String address;
-  final int id;
-  final int ownerId;
-  final int totalGames;
-  final int totalRatings;
-  final double? rating;
-  final String longitudes;
-  final String latitudes;
-  final int minimumHours;
-  final double price;
-  List<DateTime> completedDays;
-  List<FeedBack> feedbacks;
-  final String sport;
-  final String ownerName;
-  final String ownerImageUrl;
+  int id;
+  String name;
+  String address;
+  List<Day>? workingHours; // int day, String startTime, String endTime
+  PlaceLocation? location; // String longitude, String latitude
+  String? description;
+  int sportId;
+  double price;
+  int ownerId;
+  int? minimumHours;
+  List<String> images;
+  int totalGames;
+  int totalRatings;
+  double? rating;
+  List<Feedback>? feedbacks;
+  String ownerName;
+  String ownerImageUrl;
+
   Place({
-    required this.ownerImageUrl,
-    required this.ownerName,
-    required this.sport,
-    required this.price,
-    required this.minimumHours,
-    required this.longitudes,
-    required this.latitudes,
-    this.feedbacks = const [],
-    this.completedDays = const [],
-    this.totalRatings = 0,
-    required this.address,
-    this.rating,
-    required this.ownerId,
-    required this.name,
-    required this.description,
-    required this.images,
     required this.id,
-    this.totalGames = 0,
+    required this.name,
+    required this.address,
+    this.workingHours,
+    this.location,
+    this.description,
+    required this.sportId,
+    required this.price,
+    required this.ownerId,
+    this.minimumHours,
+    required this.images,
+    required this.totalGames,
+    required this.totalRatings,
+    this.rating,
+    this.feedbacks,
+    required this.ownerName,
+    required this.ownerImageUrl,
   });
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
-      sport: json['sport'],
-      price: json['price'],
-      minimumHours: json['minimum_hours'],
-      ownerImageUrl: json['owner_image_url'],
-      ownerName: json['owner_name'],
-      longitudes: json['longitudes'],
-      latitudes: json['latitudes'],
-      totalRatings: json['total_ratings'],
-      totalGames: json['total_games'],
-      ownerId: json['owner_id'],
+      id: json['id'],
       name: json['name'],
       description: json['description'],
-      images: List.of(json['images']).map((e) => e.toString()).toList(),
-      id: json['id'],
-      rating: null,
       address: json['address'],
-      completedDays: List.of(json['reservations']).map((e) => DateTime.parse(e)).toList(),
-      feedbacks: List.of(json['feedbacks']).map((e) => FeedBack.fromJson(e)).toList(),
+      images: json['images'],
+      ownerId: json['owner_id'],
+      minimumHours: json['minimum_hours'],
+      price: json['price'],
+      totalGames: json['total_games'],
+      totalRatings: json['total_ratings'],
+      ownerName: json['owner_name'],
+      ownerImageUrl: json['owner_image_url'],
+      rating: json['rating'],
+      feedbacks: json['feedbacks'],
+      workingHours: List<Day>.from(
+        json['working_hours'].map((x) => Day.fromJson(x)),
+      ),
+      location: PlaceLocation.fromJson(json['location']),
+      sportId: json['sport_id'],
     );
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'sport': sport,
-      'price': price,
-      'minimum_hours': minimumHours,
-      'longitudes': longitudes,
-      'latitudes': latitudes,
-      'total_ratings': totalRatings,
-      'total_games': totalGames,
-      'owner_id': ownerId,
-      'name': name,
-      'description': description,
-      'images': images,
-      'address': address,
-      'reservations': completedDays,
-      'feedbacks': feedbacks,
-    };
+
+  static List<Day> getWeekDays(Map<int, List<int>> weekDays) {
+    List<Day> days = [];
+    weekDays.entries.forEach((element) {
+      days.add(Day.fromJson(element));
+    });
+    return days;
+  }
+
+  double getDistance() {
+    return LocationServices.calculateDistance(
+      location!.latitude,
+      location!.longitude,
+    );
   }
 
   @override

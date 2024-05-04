@@ -22,12 +22,11 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
-          builder: (_) => const SplashScreen(
-            nextScreen: ChatsScreen(),
-            // nextScreen: ConstantsManager.userToken == null
-            //     ? const GetStartedScreen()
-            //     : const MainScreen(),
-          ),
+          builder: (_) => const SplashScreen(nextScreen: MainScreen() //
+              // nextScreen: ConstantsManager.userToken == null
+              //     ? const GetStartedScreen()
+              //     : const MainScreen(),
+              ),
         );
       case Routes.place:
         Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;

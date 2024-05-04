@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
-import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -217,7 +217,12 @@ class PlaceScreen extends StatelessWidget {
                       SizedBox(
                         height: 1.h,
                       ),
-                      _buildSportWidget(bloc.currentPlace!.sport, context),
+                      _buildSportWidget(
+                          MainCubit.get()
+                              .sportsList
+                              .firstWhere((element) => bloc.currentPlace!.sportId == element.id)
+                              .name,
+                          context),
                       SizedBox(
                         height: 3.h,
                       ),
@@ -225,7 +230,7 @@ class PlaceScreen extends StatelessWidget {
                       SizedBox(
                         height: 1.h,
                       ),
-                      _buildCaptionWidget(bloc.currentPlace!.description),
+                      _buildCaptionWidget(bloc.currentPlace!.description ?? ""),
                       Divider(
                         height: 4.h,
                       ),
