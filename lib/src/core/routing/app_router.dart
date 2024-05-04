@@ -53,7 +53,7 @@ class AppRouter {
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
-                body: Center(
+                    body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
