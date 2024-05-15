@@ -10,6 +10,7 @@ import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/connectivity.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
+import 'package:hawihub/src/modules/main/view/widgets/main_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
@@ -25,60 +26,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MainCubit mainCubit = MainCubit.get()..getBanner();
-    GamesBloc gamesBloc = GamesBloc.get()..add(GetGamesEvent());
-    PlaceBloc placeBloc = PlaceBloc.get()..add(GetAllPlacesEvent());
+    MainCubit mainCubit = MainCubit.get()..initializeHomePage();
+    GamesBloc gamesBloc = GamesBloc.get();
+    PlaceBloc placeBloc = PlaceBloc.get();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          heightFactor: 0.85,
-          child: CustomAppBar(
-            height: 33.h,
-            opacity: .15,
-            backgroundImage: "assets/images/app_bar_backgrounds/1.webp",
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    context.push(Routes.notifications);
-                  },
-                  icon: const ImageIcon(
-                    AssetImage("assets/images/icons/notification.webp"),
-                    color: ColorManager.golden,
-                  )),
-              InkWell(
-                radius: 360,
-                onTap: () {
-                  context.push(Routes.profile);
-                },
-                child: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://img.freepik.com/free-vector/isolated-young-handsome-man-set-different-poses-white-background-illustration_632498-649.jpg?t=st=1711503056~exp=1711506656~hmac=9aea7449b3ae3f763053d68d15a49e3c70fa1e73e98311d518de5f01c2c3d41c&w=740"),
-                  backgroundColor: ColorManager.golden,
-                ),
-              ),
-            ],
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 5.w,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ColorManager.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                height: 7.h,
-                child: const TextField(
-                    decoration: InputDecoration(
-                  hintText: "choose sport",
-                  border: InputBorder.none,
-                  prefixIcon: Icon(Icons.expand_circle_down),
-                )),
-              ),
-            ),
-          ),
-        ),
+        const MainAppBar(),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
           child: ConnectionWidget(
@@ -209,12 +163,15 @@ class HomePage extends StatelessWidget {
                             ? const HorizontalPlacesShimmer()
                             : ListView.separated(
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) =>
-                                    PlaceItem(place: placeBloc.allPlaces[index]),
+                                itemBuilder: (context, index) => PlaceItem(
+                                      place: placeBloc.allPlaces[index],
+                                    ),
                                 separatorBuilder: (context, index) => SizedBox(
                                       width: 4.w,
                                     ),
-                                itemCount: 3);
+                                itemCount: placeBloc.allPlaces.length > 3
+                                    ? 3
+                                    : placeBloc.allPlaces.length);
                       }),
                 ),
               ])),

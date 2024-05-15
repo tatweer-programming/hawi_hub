@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/services/auth_services.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 
 import '../models/auth_player.dart';
-import '../models/sport.dart';
 
 class AuthRepository {
   final AuthService _service = AuthService();

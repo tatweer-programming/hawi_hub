@@ -64,20 +64,20 @@ class GetPlaceSuccess extends PlaceState {
   List<Object> get props => [place];
 }
 
-class GetCompletedDaysSuccess extends PlaceState {
-  final List<DateTime> days;
-  const GetCompletedDaysSuccess(this.days);
+class GetPlaceBookingsSuccess extends PlaceState {
+  final List<Booking> bookings;
+  const GetPlaceBookingsSuccess(this.bookings);
   @override
-  List<Object> get props => [days];
+  List<Object> get props => [bookings];
 }
 
-class GetCompletedDaysError extends PlaceError {
-  const GetCompletedDaysError(super.exception);
+class GetPlaceBookingsError extends PlaceError {
+  const GetPlaceBookingsError(super.exception);
   @override
   List<Object> get props => [exception];
 }
 
-class GetCompletedDaysLoading extends PlaceLoading {
+class GetPlaceBookingsLoading extends PlaceLoading {
   @override
   List<Object> get props => [];
 }
@@ -127,4 +127,29 @@ class RatePlaceError extends PlaceError {
   const RatePlaceError(super.exception);
   @override
   List<Object> get props => [exception];
+}
+
+class SendBookingRequestLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}
+
+class SendBookingRequestSuccess extends PlaceState {
+  @override
+  List<Object> get props => [];
+}
+
+class SendBookingRequestError extends PlaceError {
+  const SendBookingRequestError(super.exception);
+  @override
+  List<Object> get props => [exception];
+}
+
+class SelectSportSuccess extends PlaceState {
+  final int sportId;
+  const SelectSportSuccess(this.sportId);
+  @override
+  List<Object> get props => [
+        sportId,
+      ];
 }

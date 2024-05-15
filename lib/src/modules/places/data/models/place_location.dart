@@ -7,16 +7,19 @@ class PlaceLocation {
     required this.longitude,
   });
 
-  factory PlaceLocation.fromJson(Map<String, dynamic> json) {
-    return PlaceLocation(
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-    );
+  static PlaceLocation? fromString(String string) {
+    List<String> parts = string.split(",");
+    if (parts.length == 2) {
+      double? latitude = double.tryParse(parts[0]);
+      double? longitude = double.tryParse(parts[1]);
+      if (latitude == null || longitude == null) {
+        return null;
+      }
+    }
+    return null;
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'latitude': latitude,
-      'longitude': longitude,
-    };
+
+  String toStr() {
+    return "$latitude,$longitude";
   }
 }

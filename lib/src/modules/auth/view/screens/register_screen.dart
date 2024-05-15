@@ -56,15 +56,13 @@ class RegisterScreen extends StatelessWidget {
                 children: [
                   authBackGround(40.h),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Get Started",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 22.sp),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.sp),
                         ),
                         SizedBox(
                           height: 3.h,
@@ -101,12 +99,9 @@ class RegisterScreen extends StatelessWidget {
                           obscureText: visible,
                           suffix: IconButton(
                               onPressed: () {
-                                bloc.add(
-                                    ChangePasswordVisibilityEvent(visible));
+                                bloc.add(ChangePasswordVisibilityEvent(visible));
                               },
-                              icon: Icon(visible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility)),
+                              icon: Icon(visible ? Icons.visibility_off : Icons.visibility)),
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Please enter password';
@@ -207,16 +202,14 @@ class RegisterScreen extends StatelessWidget {
                             ? indicatorButton()
                             : defaultButton(
                                 onPressed: () {
-                                  if (formKey.currentState!.validate() &&
-                                      acceptTerms) {
+                                  if (formKey.currentState!.validate() && acceptTerms) {
                                     bloc.add(
                                       RegisterPlayerEvent(
                                         authPlayer: AuthPlayer(
                                             password: passwordController.text,
                                             userName: userNameController.text,
                                             email: emailController.text,
-                                            profilePictureUrl:
-                                                authPlayer!.profilePictureUrl),
+                                            profilePictureUrl: authPlayer?.profilePictureUrl),
                                       ),
                                     );
                                   } else if (!acceptTerms) {
@@ -244,14 +237,11 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-Widget _confirmTerms(
-        {required VoidCallback onTap, required bool acceptTerms}) =>
-    Row(
+Widget _confirmTerms({required VoidCallback onTap, required bool acceptTerms}) => Row(
       children: [
         IconButton(
             onPressed: onTap,
-            icon: Icon(
-                acceptTerms ? Icons.check_box : Icons.check_box_outline_blank)),
+            icon: Icon(acceptTerms ? Icons.check_box : Icons.check_box_outline_blank)),
         Expanded(
             child: Text(
           "I agree to the Terms of Service and Privacy Policy.",

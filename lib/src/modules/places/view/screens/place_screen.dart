@@ -1,13 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/core/utils/font_manager.dart';
+import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/data/models/day.dart';
+import 'package:hawihub/src/modules/places/data/models/place.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -21,310 +31,321 @@ class PlaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PlaceBloc bloc = PlaceBloc.get();
+    PlaceBloc cubit = PlaceBloc.get();
+    Place place = cubit.currentPlace!;
+
     return Scaffold(
         body: Column(
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // app bar
-                SizedBox(
-                  height: 40.h,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      CustomAppBar(
-                          blendMode: BlendMode.exclusion,
-                          backgroundImage: "assets/images/app_bar_backgrounds/6.webp",
-                          height: 35.h,
-                          child: const SizedBox()),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                            width: 95.w,
-                            height: 30.h,
-                            child: Stack(
-                              children: [
-                                CarouselSlider(
-                                  options: CarouselOptions(
-                                    enableInfiniteScroll: false,
-                                    reverse: false,
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    autoPlay: true,
-                                    pauseAutoPlayInFiniteScroll: true,
-                                    pauseAutoPlayOnTouch: true,
-                                    // aspectRatio: 90.w / 30.h,
-                                    viewportFraction: 0.99,
-                                    padEnds: false,
-                                    pauseAutoPlayOnManualNavigate: true,
-                                    height: 30.h,
+            child: BlocListener<PlaceBloc, PlaceState>(
+              bloc: cubit,
+              listener: (context, state) {
+                if (state is PlaceError) {
+                  errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+                }
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // app bar
+                  SizedBox(
+                    height: 40.h,
+                    width: double.infinity,
+                    child: Stack(
+                      children: [
+                        CustomAppBar(
+                            blendMode: BlendMode.exclusion,
+                            backgroundImage: "assets/images/app_bar_backgrounds/6.webp",
+                            height: 35.h,
+                            child: const SizedBox()),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                              width: 95.w,
+                              height: 30.h,
+                              child: Stack(
+                                children: [
+                                  CarouselSlider(
+                                    options: CarouselOptions(
+                                      enableInfiniteScroll: false,
+                                      reverse: false,
+                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                      autoPlay: true,
+                                      pauseAutoPlayInFiniteScroll: true,
+                                      pauseAutoPlayOnTouch: true,
+                                      // aspectRatio: 90.w / 30.h,
+                                      viewportFraction: 0.99,
+                                      padEnds: false,
+                                      pauseAutoPlayOnManualNavigate: true,
+                                      height: 30.h,
+                                    ),
+                                    items: place.images.map((i) {
+                                      return Builder(
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            width: 88.w,
+                                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(50),
+                                                color: Colors.grey,
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(i),
+                                                )),
+                                          );
+                                        },
+                                      );
+                                    }).toList(),
                                   ),
-                                  items: bloc.currentPlace!.images.map((i) {
-                                    return Builder(
-                                      builder: (BuildContext context) {
-                                        return Container(
-                                          width: 88.w,
-                                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(50),
-                                              color: Colors.grey,
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(i),
-                                              )),
-                                        );
-                                      },
-                                    );
-                                  }).toList(),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional.topStart,
-                                  child: IconButton(
-                                    padding: EdgeInsets.zero,
-                                    // focusColor: Colors.white,
-                                    color: ColorManager.primary,
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        child: Icon(Icons.arrow_back_ios_new)),
-                                  ),
-                                )
-                              ],
-                            )),
-                      ),
-                    ],
+                                  Align(
+                                    alignment: AlignmentDirectional.topStart,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          // focusColor: Colors.white,
+                                          color: ColorManager.primary,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              child: Icon(Icons.arrow_back_ios_new)),
+                                        ),
+                                        SizedBox(
+                                          height: 2.h,
+                                        ),
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          // focusColor: Colors.white,
+                                          color: ColorManager.primary,
+                                          onPressed: () {
+                                            Share.shareUri(Uri.parse(
+                                                "${ConstantsManager.appUrl}/place/$placeId"));
+                                          },
+                                          icon: const CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              child: Icon(Icons.share)),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(5.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleText(bloc.currentPlace!.name),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      Text(
-                        bloc.currentPlace!.address,
-                        style: TextStyleManager.getRegularStyle(),
-                      ),
-                      SizedBox(
-                        width: 45.w,
-                        child: Divider(
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleText(place.name),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Text(
+                          place.address,
+                          style: TextStyleManager.getRegularStyle(),
+                        ),
+                        SizedBox(
+                          width: 45.w,
+                          child: Divider(
+                            height: 5.h,
+                          ),
+                        ),
+                        SubTitle(S.of(context).workingHours),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        _buildWorkingHours(context),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        SubTitle(S.of(context).location),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Text(
+                          place.address,
+                          style: TextStyleManager.getCaptionStyle(),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        if (place.location != null) _buildShowMapWidget(context),
+                        Divider(
                           height: 5.h,
                         ),
-                      ),
-                      SubTitle(S.of(context).location),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      Text(
-                        bloc.currentPlace!.address,
-                        style: TextStyleManager.getCaptionStyle(),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      _buildShowMapWidget(context),
-                      Divider(
-                        height: 5.h,
-                      ),
-                      SizedBox(
-                        height: 4.h,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: (bloc.currentPlace!.rating != null)
-                                    ? Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            bloc.currentPlace!.rating.toString(),
-                                            style: TextStyleManager.getBlackCaptionTextStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Center(
-                                              child: SizedBox(
-                                                height: 20.sp,
-                                                child: RatingBar.builder(
-                                                  glow: true,
-                                                  itemSize: 20.sp,
-                                                  direction: Axis.horizontal,
-                                                  allowHalfRating: true,
-                                                  wrapAlignment: WrapAlignment.center,
-                                                  initialRating: bloc.currentPlace!.rating!,
-                                                  itemCount: 5,
-                                                  glowColor: ColorManager.golden,
-                                                  ignoreGestures: true,
-                                                  itemBuilder: (context, _) => const Icon(
-                                                    Icons.star,
-                                                    color: ColorManager.golden,
-                                                  ),
-                                                  onRatingUpdate: (r) {},
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    : Center(
-                                        child: Text(S.of(context).noRatings),
-                                      )),
-                            const VerticalDivider(),
-                            Expanded(
-                                child: Row(
-                              children: [
-                                Text(bloc.currentPlace!.totalGames.toString()),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Text(S.of(context).totalGames,
-                                    style: TextStyleManager.getBlackCaptionTextStyle()),
-                              ],
-                            )),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.h),
-                        child: SizedBox(
-                          height: 7.h,
+                        SizedBox(
+                          height: 4.h,
                           child: Row(
                             children: [
-                              Expanded(child: _buildUserRatingWidget(context, true)),
-                              SizedBox(
-                                width: 3.w,
-                              ),
                               Expanded(
-                                  child: OutLineContainer(
-                                child: Text(
-                                  "5 ${S.of(context).upcoming}",
-                                ),
+                                  child: (place.rating != null)
+                                      ? Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              place.rating.toString(),
+                                              style: TextStyleManager.getBlackCaptionTextStyle(),
+                                            ),
+                                            Expanded(
+                                              child: place.rating != null
+                                                  ? Center(
+                                                      child: SizedBox(
+                                                        height: 20.sp,
+                                                        child: RatingBar.builder(
+                                                          glow: true,
+                                                          itemSize: 20.sp,
+                                                          direction: Axis.horizontal,
+                                                          allowHalfRating: true,
+                                                          wrapAlignment: WrapAlignment.center,
+                                                          initialRating: place.rating!,
+                                                          itemCount: 5,
+                                                          glowColor: ColorManager.golden,
+                                                          ignoreGestures: true,
+                                                          itemBuilder: (context, _) => const Icon(
+                                                            Icons.star,
+                                                            color: ColorManager.golden,
+                                                          ),
+                                                          onRatingUpdate: (r) {},
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Text(S.of(context).noRatings),
+                                            )
+                                          ],
+                                        )
+                                      : Center(
+                                          child: Text(S.of(context).noRatings),
+                                        )),
+                              const VerticalDivider(),
+                              Expanded(
+                                  child: Row(
+                                children: [
+                                  Text(place.totalGames.toString()),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Text(S.of(context).totalGames,
+                                      style: TextStyleManager.getBlackCaptionTextStyle()),
+                                ],
                               )),
                             ],
                           ),
                         ),
-                      ),
-                      SubTitle(S.of(context).sport),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      _buildSportWidget(
-                          MainCubit.get()
-                              .sportsList
-                              .firstWhere((element) => bloc.currentPlace!.sportId == element.id)
-                              .name,
-                          context),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      SubTitle(S.of(context).details),
-                      SizedBox(
-                        height: 1.h,
-                      ),
-                      _buildCaptionWidget(bloc.currentPlace!.description ?? ""),
-                      Divider(
-                        height: 4.h,
-                      ),
-                      SubTitle(S.of(context).games),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.h),
-                        child: DefaultButton(
-                          onPressed: () {
-                            context.push(Routes.createGame);
-                          },
-                          text: S.of(context).createGame,
-                          color: ColorManager.white,
-                          width: 90.w,
-                          borderColor: ColorManager.primary,
-                          textColor: ColorManager.secondary,
-                          icon: CupertinoIcons.add,
-                          height: 6.h,
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(vertical: 2.h),
+                        //   child: SizedBox(
+                        //     height: 7.h,
+                        //     child: Row(
+                        //       children: [
+                        //         Expanded(child: _buildUserRatingWidget(context, true)),
+                        //         SizedBox(
+                        //           width: 3.w,
+                        //         ),
+                        //         // Expanded(
+                        //         //     child: OutLineContainer(
+                        //         //       child: Text(
+                        //         //         "${cubit.currentPlac} ${S.of(context).upcoming}",
+                        //         //       ),
+                        //         //     )),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        SubTitle(S.of(context).sport),
+                        SizedBox(
+                          height: 1.h,
                         ),
-                      ),
-                      SubTitle(S.of(context).booking),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                S.of(context).price,
-                              ),
-                            ),
-                          ),
-                          const VerticalDivider(),
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                S.of(context).minimumBooking,
-                              ),
-                            ),
-                          )
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Expanded(
-                            child: OutLineContainer(
-                              child: Text(
-                                "${bloc.currentPlace!.price}  ${S.of(context).sar} ${S.of(context).perHour}",
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 3.w,
-                          ),
-                          Expanded(
-                            child: OutLineContainer(
-                              child: Text(
-                                "${bloc.currentPlace!.minimumHours}  ${S.of(context).hours}",
-                              ),
-                            ),
-                          )
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      SubTitle(S.of(context).owner),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(bloc.currentPlace!.ownerImageUrl),
+                        _buildSportWidget(
+                            MainCubit.get()
+                                .sportsList
+                                .firstWhere((element) => element == place.sport,
+                                    orElse: () => Sport.unKnown())
+                                .name,
+                            context),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        SubTitle(S.of(context).details),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        _buildCaptionWidget(place.description ?? ""),
+                        Divider(
+                          height: 4.h,
+                        ),
+                        SubTitle(S.of(context).booking),
+                        SizedBox(
+                          height: 2.h,
                         ),
                         SizedBox(
-                          width: 2.w,
+                          height: 3.h,
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  S.of(context).price,
+                                ),
+                              ),
+                            ),
+                            const VerticalDivider(),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  S.of(context).minimumBooking,
+                                ),
+                              ),
+                            )
+                          ]),
                         ),
-                        Expanded(
-                            child: Text(
-                          bloc.currentPlace!.ownerName,
-                        ))
-                      ])
-                    ],
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            Expanded(
+                              child: OutLineContainer(
+                                child: Text(
+                                  "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 3.w,
+                            ),
+                            Expanded(
+                              child: OutLineContainer(
+                                child: Text(
+                                  "${place.minimumHours ?? S.of(context).noMinimumBooking}  ${S.of(context).hours}",
+                                ),
+                              ),
+                            )
+                          ]),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-              ],
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -333,6 +354,7 @@ class PlaceScreen extends StatelessWidget {
           child: DefaultButton(
               text: S.of(context).bookNow,
               onPressed: () {
+                context.push(Routes.bookNow, arguments: {"id": place.id});
                 debugPrint("Book Now");
               }),
         ),
@@ -341,61 +363,62 @@ class PlaceScreen extends StatelessWidget {
   }
 
   Widget _buildShowMapWidget(BuildContext context) {
-    return Container(
-        height: 4.h,
-        width: 35.w,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: ColorManager.secondary,
+    return InkWell(
+      onTap: () {
+        context.push(Routes.placeLocation,
+            arguments: {"location": PlaceBloc.get().currentPlace!.location});
+      },
+      child: Container(
+          height: 4.h,
+          width: 35.w,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: ColorManager.secondary,
+            ),
+            borderRadius: BorderRadius.circular(10),
           ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-            child: Row(
-          children: [
-            Icon(
-              color: ColorManager.error,
-              Icons.location_on,
-            ),
-            Expanded(
-              child: Text(
-                S.of(context).showInMap,
-                style: TextStyleManager.getSecondaryRegularStyle(),
+          child: Center(
+              child: Row(
+            children: [
+              Icon(
+                color: ColorManager.error,
+                Icons.location_on,
               ),
-            ),
-          ],
-        )));
-  }
-
-  Widget _buildUserRatingWidget(BuildContext context, bool hasRated) {
-    return OutLineContainer(
-      child: hasRated
-          ? Center(
-              child: SizedBox(
-                height: 20.sp,
-                child: RatingBar.builder(
-                  glow: true,
-                  itemSize: 20.sp,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  wrapAlignment: WrapAlignment.center,
-                  initialRating: 2.5,
-                  // user rating
-                  itemCount: 5,
-                  glowColor: ColorManager.golden,
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: ColorManager.golden,
-                  ),
-                  onRatingUpdate: (r) {},
+              Expanded(
+                child: Text(
+                  S.of(context).showInMap,
+                  style: TextStyleManager.getSecondaryRegularStyle(),
                 ),
               ),
-            )
-          : Center(
-              child: Text(S.of(context).addRate),
-            ),
+            ],
+          ))),
     );
   }
+
+  // Widget _buildUserRatingWidget(BuildContext context, bool hasRated) {
+  //   return OutLineContainer(
+  //       child: Center(
+  //     child: SizedBox(
+  //       height: 20.sp,
+  //       child: RatingBar.builder(
+  //         glow: true,
+  //         itemSize: 20.sp,
+  //         direction: Axis.horizontal,
+  //         allowHalfRating: true,
+  //         wrapAlignment: WrapAlignment.center,
+  //         initialRating: 2.5,
+  //         // user rating
+  //         itemCount: 5,
+  //         glowColor: ColorManager.golden,
+  //         itemBuilder: (context, _) => const Icon(
+  //           Icons.star,
+  //           color: ColorManager.golden,
+  //         ),
+  //         onRatingUpdate: (r) {},
+  //       ),
+  //     ),
+  //   ));
+  // }
 
   Widget _buildSportWidget(String sport, BuildContext context) {
     return Container(
@@ -415,5 +438,111 @@ class PlaceScreen extends StatelessWidget {
 
   Widget _buildCaptionWidget(String caption) {
     return Text(caption, style: TextStyleManager.getCaptionStyle());
+  }
+
+  Widget _buildWorkingHours(BuildContext context) {
+    Place place = PlaceBloc.get().currentPlace!;
+    if (_placeIsAlwaysOpen()) {
+      return OutLineContainer(child: Text(S.of(context).alwaysOpen));
+    } else {
+      return SizedBox(
+        child: Column(children: [
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            Expanded(
+              child: _buildDay(
+                place.workingHours![0],
+                context,
+              ),
+            ),
+            SizedBox(
+              width: 2.w,
+            ),
+            Expanded(
+              child: _buildDay(
+                place.workingHours![1],
+                context,
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 1.h,
+          ),
+          Row(children: [
+            Expanded(
+              child: _buildDay(
+                place.workingHours![2],
+                context,
+              ),
+            ),
+            SizedBox(
+              width: 2.w,
+            ),
+            Expanded(
+              child: _buildDay(
+                place.workingHours![3],
+                context,
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 1.h,
+          ),
+          Row(children: [
+            Expanded(
+              child: _buildDay(
+                place.workingHours![4],
+                context,
+              ),
+            ),
+            SizedBox(
+              width: 2.w,
+            ),
+            Expanded(
+              child: _buildDay(
+                place.workingHours![5],
+                context,
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 1.h,
+          ),
+          _buildDay(
+            place.workingHours![6],
+            context,
+          ),
+        ]),
+      );
+    }
+  }
+
+  bool _placeIsAlwaysOpen() {
+    Place place = PlaceBloc.get().currentPlace!;
+    // check if place working hours list is all open from 00:00 to 24:00
+    return place.workingHours!.where((element) => element.isAllDay()).length ==
+        place.workingHours!.length;
+  }
+
+  Widget _buildDay(
+    Day day,
+    BuildContext context,
+  ) {
+    return OutLineContainer(
+      child: Padding(
+        padding: const EdgeInsets.all(3),
+        child: Text(
+            maxLines: 2,
+            softWrap: true,
+            day.isAllDay()
+                ? S.of(context).alwaysOpen
+                : day.isWeekend()
+                    ? "${LocalizationManager.getDays()[day.dayOfWeek]}: ${S.of(context).weekend}"
+                    : "${LocalizationManager.getDays()[day.dayOfWeek]}: ${day.startTime.format(context)} - ${day.endTime.format(context)}",
+            style: TextStyle(
+              fontWeight: FontWeightManager.bold,
+              fontSize: FontSizeManager.s10,
+            )),
+      ),
+    );
   }
 }

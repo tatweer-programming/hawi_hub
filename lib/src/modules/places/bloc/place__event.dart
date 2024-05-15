@@ -5,6 +5,8 @@ abstract class PlaceEvent extends Equatable {
 }
 
 class GetAllPlacesEvent extends PlaceEvent {
+  final int cityId;
+  const GetAllPlacesEvent(this.cityId);
   @override
   List<Object> get props => [];
 }
@@ -18,9 +20,9 @@ class GetPlaceEvent extends PlaceEvent {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class GetCompletedDaysEvent extends PlaceEvent {
+class GetPlaceBookingsEvent extends PlaceEvent {
   final int placeId;
-  const GetCompletedDaysEvent(this.placeId);
+  const GetPlaceBookingsEvent(this.placeId);
   @override
   List<Object?> get props => [placeId];
 }
@@ -63,4 +65,11 @@ class ChooseSportEvent extends PlaceEvent {
   const ChooseSportEvent(this.sport);
   @override
   List<Object?> get props => [];
+}
+
+class SelectSport extends PlaceEvent {
+  final int sportId;
+  const SelectSport(this.sportId);
+  @override
+  List<Object?> get props => [sportId];
 }

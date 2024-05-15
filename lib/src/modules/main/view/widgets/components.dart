@@ -19,18 +19,19 @@ class DefaultButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? radius;
-
+  final bool isLoading;
   const DefaultButton(
       {super.key,
-      required this.text,
-      required this.onPressed,
-      this.color,
-      this.textColor,
-      this.borderColor,
-      this.icon,
-      this.width,
-      this.height,
-      this.radius});
+        required this.text,
+        required this.onPressed,
+        this.color,
+        this.textColor,
+        this.borderColor,
+        this.icon,
+        this.width,
+        this.height,
+        this.radius,
+        this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +49,17 @@ class DefaultButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null)
+            if (icon != null && !isLoading)
               Icon(
                 icon,
                 color: textColor ?? ColorManager.white,
               ),
             SizedBox(width: 5.sp),
-            Text(text,
+            isLoading
+                ? CircularProgressIndicator.adaptive(
+              valueColor: AlwaysStoppedAnimation<Color>(textColor ?? ColorManager.white),
+            )
+                : Text(text,
                 style: TextStyle(
                   color: textColor ?? ColorManager.white,
                   fontSize: 16.sp,

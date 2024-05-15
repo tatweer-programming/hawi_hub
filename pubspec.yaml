@@ -52,6 +52,7 @@ dependencies:
 
   # PAYMENT PACKAGE
   my_fatoorah: ^3.2.0
+  app_links: ^6.0.1
 
 dev_dependencies:
   flutter_test:

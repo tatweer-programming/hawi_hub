@@ -55,3 +55,17 @@ class GetSportsError extends MainState {
   @override
   List<Object> get props => [];
 }
+
+class GetCitySuccessState extends MainState {
+  final int id;
+  const GetCitySuccessState(this.id);
+  @override
+  List<Object> get props => [];
+}
+
+class SelectCityState extends MainState {
+  final int id;
+  const SelectCityState(this.id);
+  @override
+  List<Object> get props => [id];
+}

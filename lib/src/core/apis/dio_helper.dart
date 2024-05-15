@@ -8,8 +8,13 @@ class DioHelper {
   static init() {
     dio = Dio(BaseOptions(
       baseUrl: ApiManager.baseUrl,
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 3),
+      headers: {
+        "Authorization": ApiManager.authToken,
+        "Connection": "keep-alive",
+      },
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
+      validateStatus: (_) => true,
     ));
   }
 
@@ -30,17 +35,6 @@ class DioHelper {
     String? token,
   }) async {
     try {
-      if (token != null) {
-        dio.options.headers = {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-          "Connection": "keep-alive",
-        };
-      }
-      dio.options.headers = {
-        'Content-Type': 'application/json',
-        "Connection": "keep-alive",
-      };
       return await dio.post(
         path,
         queryParameters: query,
@@ -61,10 +55,26 @@ class DioHelper {
     String? token,
   }) async {
     try {
-      dio.options.headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token ?? '',
-      };
+      return await dio.put(
+        path,
+        queryParameters: query,
+        data: data,
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error putting data: $e');
+      }
+      rethrow; // Rethrow the error to be handled elsewhere
+    }
+  }
+
+  static Future<Response> putDataFormData({
+    required String path,
+    Map<String, dynamic>? query,
+    required FormData data,
+    String? token,
+  }) async {
+    try {
       return await dio.put(
         path,
         queryParameters: query,
@@ -84,10 +94,6 @@ class DioHelper {
     String? token,
   }) async {
     try {
-      dio.options.headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token ?? '',
-      };
       return await dio.delete(
         path,
         queryParameters: query,
@@ -98,5 +104,18 @@ class DioHelper {
       }
       rethrow; // Rethrow the error to be handled elsewhere
     }
+  }
+
+  static Future<Response> postFormData(String path, FormData formData) async {
+    return await dio
+        .post(
+      path,
+      data: formData,
+    )
+        .catchError((e) {
+      if (kDebugMode) {
+        print('Error ########################: $e');
+      }
+    });
   }
 }

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:hawihub/src/core/services/location_services.dart';
+
 import 'package:hawihub/src/modules/places/data/models/day.dart';
-import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
 
 class Place extends Equatable {
@@ -14,79 +11,112 @@ class Place extends Equatable {
   List<Day>? workingHours; // int day, String startTime, String endTime
   PlaceLocation? location; // String longitude, String latitude
   String? description;
-  int sportId;
+  int sport;
   double price;
   int ownerId;
-  int? minimumHours;
+  double? minimumHours;
   List<String> images;
   int totalGames;
   int totalRatings;
   double? rating;
   List<Feedback>? feedbacks;
   String ownerName;
-  String ownerImageUrl;
+  String ownerImage;
 
-  Place({
-    required this.id,
-    required this.name,
-    required this.address,
-    this.workingHours,
-    this.location,
-    this.description,
-    required this.sportId,
-    required this.price,
-    required this.ownerId,
-    this.minimumHours,
-    required this.images,
-    required this.totalGames,
-    required this.totalRatings,
-    this.rating,
-    this.feedbacks,
-    required this.ownerName,
-    required this.ownerImageUrl,
-  });
+  int citId;
+  int approvalStatus;
+  Place(
+      {required this.id,
+      required this.name,
+      required this.address,
+      this.workingHours,
+      this.location,
+      this.description,
+      required this.sport,
+      required this.price,
+      required this.ownerId,
+      this.minimumHours,
+      required this.images,
+      required this.totalGames,
+      required this.totalRatings,
+      this.rating,
+      this.feedbacks,
+      required this.citId,
+      this.approvalStatus = 0,
+      required this.ownerName,
+      required this.ownerImage});
 
   factory Place.fromJson(Map<String, dynamic> json) {
-    return Place(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      address: json['address'],
-      images: json['images'],
-      ownerId: json['owner_id'],
-      minimumHours: json['minimum_hours'],
-      price: json['price'],
-      totalGames: json['total_games'],
-      totalRatings: json['total_ratings'],
-      ownerName: json['owner_name'],
-      ownerImageUrl: json['owner_image_url'],
-      rating: json['rating'],
-      feedbacks: json['feedbacks'],
-      workingHours: List<Day>.from(
-        json['working_hours'].map((x) => Day.fromJson(x)),
-      ),
-      location: PlaceLocation.fromJson(json['location']),
-      sportId: json['sport_id'],
-    );
-  }
-
-  static List<Day> getWeekDays(Map<int, List<int>> weekDays) {
+    List openTimesList = json["openTimes"];
+    print(openTimesList);
     List<Day> days = [];
-    weekDays.entries.forEach((element) {
+    openTimesList.forEach((element) {
+      print(Day.fromJson(element));
       days.add(Day.fromJson(element));
     });
+    return Place(
+        citId: json['cityId'],
+        id: json['stadiumId'],
+        name: json['name'],
+        description: json['description'],
+        address: json['address'],
+        images: const [
+          "https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=400",
+          "https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=400",
+          "https://images.pexels.com/photos/61135/pexels-photo-61135.jpeg?auto=compress&cs=tinysrgb&w=400"
+        ],
+        /*
+       json['images'].map((x) => x['url']).toList(),
+       */
+        approvalStatus: json['approvalStatus'],
+        ownerId: json['ownerId'],
+        minimumHours: json['minHoursReservation'],
+        price: json['pricePerHour'],
+        totalGames: json['totalGames'] ?? 0,
+        totalRatings: json['totalRatings'] ?? 0,
+        rating: json['rating'],
+        feedbacks: [],
+        workingHours: List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
+        location: PlaceLocation.fromString(json['location']),
+        sport: json['category'] ?? 0,
+        ownerName: json['ownerName'] ?? "",
+        ownerImage: json['ownerImage'] ?? "");
+  }
+
+  static List<Day> getWeekDays(List<Map<String, dynamic>> weekDays) {
+    List<Day> days = [];
+    for (var element in weekDays) {
+      days.add(Day.fromJson(element));
+    }
     return days;
   }
 
-  double getDistance() {
-    return LocationServices.calculateDistance(
-      location!.latitude,
-      location!.longitude,
-    );
+  bool isBookingAllowed(DateTime startTime, DateTime endTime) {
+    // get day index
+    // check if time is in working hours
+    int dayIndex = getDayIndex(startTime);
+    return workingHours![dayIndex].isBookingAllowed(startTime, endTime);
+  }
+
+  int getDayIndex(DateTime startTime) {
+    switch (startTime.weekday) {
+      case DateTime.sunday:
+        return 0;
+      case DateTime.monday:
+        return 1;
+      case DateTime.tuesday:
+        return 2;
+      case DateTime.wednesday:
+        return 3;
+      case DateTime.thursday:
+        return 4;
+      case DateTime.friday:
+        return 5;
+      default:
+        return 6;
+    }
   }
 
   @override
-  List<Object?> get props => [
-        id,
-      ];
+  List<Object?> get props => [];
 }

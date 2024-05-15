@@ -15,6 +15,11 @@ class GamesLoading extends GamesState {
   List<Object> get props => [];
 }
 
+class CreateGameLoading extends GamesLoading {
+  @override
+  List<Object> get props => [];
+}
+
 class GetGamesLoading extends GamesState {
   @override
   List<Object> get props => [];
@@ -30,6 +35,17 @@ class GamesError extends GamesState {
 
   @override
   List<Object> get props => [exception];
+}
+
+class CreateGameError extends GamesError {
+  CreateGameError(super.exception);
+}
+
+class CreateGameSuccess extends GamesState {
+  final int gameId;
+  const CreateGameSuccess(this.gameId);
+  @override
+  List<Object> get props => [game];
 }
 
 class GetGamesError extends GamesError {
@@ -62,4 +78,11 @@ class GetGameSuccess extends GamesState {
   const GetGameSuccess(this.game);
   @override
   List<Object> get props => [game];
+}
+
+class ChangGameAvailabilitySuccess extends GamesState {
+  final bool isPublic;
+  const ChangGameAvailabilitySuccess(this.isPublic);
+  @override
+  List<Object> get props => [isPublic];
 }

@@ -389,6 +389,216 @@ class S {
       args: [],
     );
   }
+
+  /// `Working Hours`
+  String get workingHours {
+    return Intl.message(
+      'Working Hours',
+      name: 'workingHours',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Minimum Booking`
+  String get noMinimumBooking {
+    return Intl.message(
+      'No Minimum Booking',
+      name: 'noMinimumBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Login First`
+  String get loginFirst {
+    return Intl.message(
+      'Please Login First',
+      name: 'loginFirst',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Activate Your Account`
+  String get shouldActivate {
+    return Intl.message(
+      'Please Activate Your Account',
+      name: 'shouldActivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Always Open`
+  String get alwaysOpen {
+    return Intl.message(
+      'Always Open',
+      name: 'alwaysOpen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekend`
+  String get weekend {
+    return Intl.message(
+      'Weekend',
+      name: 'weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To`
+  String get to {
+    return Intl.message(
+      'To',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From`
+  String get from {
+    return Intl.message(
+      'From',
+      name: 'from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End time must be after start time`
+  String get endTimeMustBeAfterStartTime {
+    return Intl.message(
+      'End time must be after start time',
+      name: 'endTimeMustBeAfterStartTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All fields are required`
+  String get allFieldsIsRequired {
+    return Intl.message(
+      'All fields are required',
+      name: 'allFieldsIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request Sent Successfully`
+  String get requestSent {
+    return Intl.message(
+      'Request Sent Successfully',
+      name: 'requestSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minimum Players`
+  String get minPlayers {
+    return Intl.message(
+      'Minimum Players',
+      name: 'minPlayers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum Players`
+  String get maxPlayers {
+    return Intl.message(
+      'Maximum Players',
+      name: 'maxPlayers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Place`
+  String get place {
+    return Intl.message(
+      'Place',
+      name: 'place',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accessibility`
+  String get accessibility {
+    return Intl.message(
+      'Accessibility',
+      name: 'accessibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public`
+  String get public {
+    return Intl.message(
+      'Public',
+      name: 'public',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private`
+  String get private {
+    return Intl.message(
+      'Private',
+      name: 'private',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

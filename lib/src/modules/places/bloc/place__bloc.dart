@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
+import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
 import '../../../core/services/dep_injection.dart';
 import '../data/models/feedback.dart';
@@ -18,7 +19,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
     on<PlaceEvent>((event, emit) async {
       if (event is GetAllPlacesEvent) {
         emit(GetAllPlacesLoading());
-        var result = await placesRemoteDataSource.getAllPlaces();
+        var result = await placesRemoteDataSource.getAllPlaces(cityId: event.cityId);
         result.fold((l) {
           emit(GetAllPlacesError(l));
         }, (r) {
@@ -34,13 +35,13 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         }, (r) {
           emit(GetPlaceSuccess(r));
         });
-      } else if (event is GetCompletedDaysEvent) {
-        emit(GetCompletedDaysLoading());
-        var result = await placesRemoteDataSource.getCompletedDays(placeId: event.placeId);
+      } else if (event is GetPlaceBookingsEvent) {
+        emit(GetPlaceBookingsLoading());
+        var result = await placesRemoteDataSource.getPlaceBookings(placeId: event.placeId);
         result.fold((l) {
-          emit(GetCompletedDaysError(l));
+          emit(GetPlaceBookingsError(l));
         }, (r) {
-          emit(GetCompletedDaysSuccess(r));
+          emit(GetPlaceBookingsSuccess(r));
         });
       } else if (event is GetDayBookingsEvent) {
         emit(GetDayBookingsLoading());
@@ -69,6 +70,9 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         }, (r) {
           emit(RatePlaceSuccess());
         });
+      } else if (event is SelectSport) {
+        viewedPlaces = allPlaces.where((element) => element.sport == event.sportId).toList();
+        emit(SelectSportSuccess(event.sportId));
       }
     });
   }

@@ -9,8 +9,8 @@ import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../../main/data/models/sport.dart';
 import '../data/models/player.dart';
-import '../data/models/sport.dart';
 
 part 'auth_event.dart';
 

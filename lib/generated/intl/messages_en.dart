@@ -22,41 +22,68 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accessibility": MessageLookupByLibrary.simpleMessage("Accessibility"),
         "addRate": MessageLookupByLibrary.simpleMessage("Add Rating"),
+        "allFieldsIsRequired":
+            MessageLookupByLibrary.simpleMessage("All fields are required"),
         "allPlayers": MessageLookupByLibrary.simpleMessage("All Players"),
+        "alwaysOpen": MessageLookupByLibrary.simpleMessage("Always Open"),
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
         "availableTimes":
             MessageLookupByLibrary.simpleMessage("Available Times"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
+        "date": MessageLookupByLibrary.simpleMessage("Date"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
+        "endTimeMustBeAfterStartTime": MessageLookupByLibrary.simpleMessage(
+            "End time must be after start time"),
+        "from": MessageLookupByLibrary.simpleMessage("From"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
         "join": MessageLookupByLibrary.simpleMessage("Join"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
+        "loginFirst":
+            MessageLookupByLibrary.simpleMessage("Please Login First"),
+        "maxPlayers": MessageLookupByLibrary.simpleMessage("Maximum Players"),
+        "minPlayers": MessageLookupByLibrary.simpleMessage("Minimum Players"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
         "nearByGames": MessageLookupByLibrary.simpleMessage("Near by Games"),
         "nearByVenues": MessageLookupByLibrary.simpleMessage("Near by Venues"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
+        "noMinimumBooking":
+            MessageLookupByLibrary.simpleMessage("No Minimum Booking"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "perHour": MessageLookupByLibrary.simpleMessage("Per Hour"),
+        "place": MessageLookupByLibrary.simpleMessage("Place"),
         "players": MessageLookupByLibrary.simpleMessage("Players"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
+        "private": MessageLookupByLibrary.simpleMessage("Private"),
+        "public": MessageLookupByLibrary.simpleMessage("Public"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("Ratings"),
+        "requestSent":
+            MessageLookupByLibrary.simpleMessage("Request Sent Successfully"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "shouldActivate": MessageLookupByLibrary.simpleMessage(
+            "Please Activate Your Account"),
         "showInMap": MessageLookupByLibrary.simpleMessage("Show in map"),
         "slots": MessageLookupByLibrary.simpleMessage("Slots"),
         "sport": MessageLookupByLibrary.simpleMessage("Sport"),
+        "to": MessageLookupByLibrary.simpleMessage("To"),
         "totalGames": MessageLookupByLibrary.simpleMessage("Total Games"),
         "upcoming": MessageLookupByLibrary.simpleMessage("UPCOMING"),
         "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
-        "viewDetails": MessageLookupByLibrary.simpleMessage("View Details")
+        "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
+        "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
+        "workingHours": MessageLookupByLibrary.simpleMessage("Working Hours")
       };
 }

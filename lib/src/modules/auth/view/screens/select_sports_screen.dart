@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/modules/auth/data/models/sport.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
 

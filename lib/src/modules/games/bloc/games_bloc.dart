@@ -14,6 +14,8 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   List<Game> games = [];
   List<Game> filteredGames = [];
   Game? currentGame;
+  bool isPublic = false;
+
   GamesRemoteDataSource remoteDataSource = GamesRemoteDataSource();
   GamesBloc() : super(GamesInitial()) {
     on<GamesEvent>((event, emit) async {
@@ -26,6 +28,10 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
             emit(GetGamesSuccess(r));
           });
         }
+      }
+      if (event is ChangeGameAccessEvent) {
+        isPublic = event.isPublic;
+        emit(ChangGameAvailabilitySuccess(isPublic));
       }
     });
   }

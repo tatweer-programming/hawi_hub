@@ -5,6 +5,8 @@ import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
+import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
+import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 
 import '../../modules/games/data/models/player.dart';
@@ -21,7 +23,7 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (_) => const SplashScreen(
-            nextScreen: GetStartedScreen(),
+            nextScreen: MainScreen(),
             // nextScreen: ConstantsManager.userToken == null
             //     ? const GetStartedScreen()
             //     : const MainScreen(),
@@ -50,6 +52,15 @@ class AppRouter {
             builder: (_) => AllPlayersScreen(players: arguments['players'] as List<GamePlayer>));
       case Routes.createGame:
         return MaterialPageRoute(builder: (_) => const CreateGameScreen());
+      case Routes.placeLocation:
+        Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => PlaceLocationScreen(location: arguments['location']));
+
+      case Routes.bookNow:
+        Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => AddBookingScreen(placeId: arguments['id']));
+
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

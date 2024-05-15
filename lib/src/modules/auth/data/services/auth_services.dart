@@ -8,8 +8,8 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/random_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
-import 'package:hawihub/src/modules/auth/data/models/sport.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 
 import '../../../../core/apis/dio_helper.dart';
 
