@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
@@ -50,20 +51,7 @@ class MorePage extends StatelessWidget {
                 _settingWidget(
                   onTap: () {
                     context.pushWithTransition(
-                      MyWallet(
-                        player: Player(
-                          id: 1,
-                          userName: "Mohamed",
-                          bookings: 8,
-                          games: 5,
-                          email: "",
-                          profilePictureUrl:
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyXXkiqJLhMZE69a4dTnH4Qd6GyzyFmqcmHu8EAhx8DQ&s",
-                          myWallet: 900,
-                          feedbacks: [],
-                          rate: 5,
-                        ),
-                      ),
+                      MyWallet(player: ConstantsManager.appUser!),
                     );
                   },
                   icon: "assets/images/icons/money.webp",

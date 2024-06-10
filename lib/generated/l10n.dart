@@ -380,6 +380,526 @@ class S {
     );
   }
 
+  /// `You should login first`
+  String get loginFirst {
+    return Intl.message(
+      'You should login first',
+      name: 'loginFirst',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The ID card is being verified now`
+  String get identificationPending {
+    return Intl.message(
+      'The ID card is being verified now',
+      name: 'identificationPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You must verify your account first `
+  String get mustVerifyAccount {
+    return Intl.message(
+      'You must verify your account first ',
+      name: 'mustVerifyAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File Uploaded`
+  String get fileUploaded {
+    return Intl.message(
+      'File Uploaded',
+      name: 'fileUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload`
+  String get upload {
+    return Intl.message(
+      'Upload',
+      name: 'upload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Wallet`
+  String get myWallet {
+    return Intl.message(
+      'My Wallet',
+      name: 'myWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SIGN UP`
+  String get signUp {
+    return Intl.message(
+      'SIGN UP',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don’t have an account ?`
+  String get noAccount {
+    return Intl.message(
+      'Don’t have an account ?',
+      name: 'noAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep me logged in`
+  String get keepMeLoggedIn {
+    return Intl.message(
+      'Keep me logged in',
+      name: 'keepMeLoggedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LOGIN`
+  String get login {
+    return Intl.message(
+      'LOGIN',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter password`
+  String get enterPassword {
+    return Intl.message(
+      'Please enter password',
+      name: 'enterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter email`
+  String get enterEmail {
+    return Intl.message(
+      'Please enter email',
+      name: 'enterEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter username`
+  String get enterUsername {
+    return Intl.message(
+      'Please enter username',
+      name: 'enterUsername',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot password ?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot password ?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Username`
+  String get username {
+    return Intl.message(
+      ' Username',
+      name: 'username',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Password does not match`
+  String get passwordDoesNotMatch {
+    return Intl.message(
+      ' Password does not match',
+      name: 'passwordDoesNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Email`
+  String get email {
+    return Intl.message(
+      ' Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter confirm password`
+  String get enterConfirmPassword {
+    return Intl.message(
+      'Please enter confirm password',
+      name: 'enterConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter new password`
+  String get enterNewPassword {
+    return Intl.message(
+      'Please enter new password',
+      name: 'enterNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Started`
+  String get start {
+    return Intl.message(
+      'Get Started',
+      name: 'start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message(
+      'Profile',
+      name: 'profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code`
+  String get code {
+    return Intl.message(
+      'Code',
+      name: 'code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset Password`
+  String get resetPassword {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Code`
+  String get sendCode {
+    return Intl.message(
+      'Send Code',
+      name: 'sendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received Code`
+  String get receivedCode {
+    return Intl.message(
+      'Received Code',
+      name: 'receivedCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `seconds`
+  String get seconds {
+    return Intl.message(
+      'seconds',
+      name: 'seconds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can resend code after `
+  String get sendCodeAfter {
+    return Intl.message(
+      'You can resend code after ',
+      name: 'sendCodeAfter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset successfully`
+  String get passwordResetSuccessfully {
+    return Intl.message(
+      'Password reset successfully',
+      name: 'passwordResetSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Created Successfully`
+  String get accountCreatedSuccessfully {
+    return Intl.message(
+      'Account Created Successfully',
+      name: 'accountCreatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is not exists.`
+  String get userNotFound {
+    return Intl.message(
+      'Email is not exists.',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is already exists.`
+  String get emailAlreadyExist {
+    return Intl.message(
+      'Email is already exists.',
+      name: 'emailAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username is already exists.`
+  String get usernameAlreadyExist {
+    return Intl.message(
+      'Username is already exists.',
+      name: 'usernameAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters.`
+  String get shortPassword {
+    return Intl.message(
+      'Password must be at least 6 characters.',
+      name: 'shortPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email or password.`
+  String get invalidEmailOrPassword {
+    return Intl.message(
+      'Invalid email or password.',
+      name: 'invalidEmailOrPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account LogedIn Successfully`
+  String get loginSuccessfully {
+    return Intl.message(
+      'Account LogedIn Successfully',
+      name: 'loginSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong.`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong.',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong password !`
+  String get wrongPassword {
+    return Intl.message(
+      'Wrong password !',
+      name: 'wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password has been changed successfully`
+  String get passwordChangedSuccessfully {
+    return Intl.message(
+      'Password has been changed successfully',
+      name: 'passwordChangedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset code sent successfully to `
+  String get resetCodeSentSuccessfully {
+    return Intl.message(
+      'Reset code sent successfully to ',
+      name: 'resetCodeSentSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proof of identity has been added successfully`
+  String get proofOfIdentityAddedSuccessfully {
+    return Intl.message(
+      'Proof of identity has been added successfully',
+      name: 'proofOfIdentityAddedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Profile`
+  String get updateProfile {
+    return Intl.message(
+      'Update Profile',
+      name: 'updateProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change `
+  String get change {
+    return Intl.message(
+      'Change ',
+      name: 'change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Password`
+  String get changePassword {
+    return Intl.message(
+      'Change Password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No comment`
+  String get noComment {
+    return Intl.message(
+      'No comment',
+      name: 'noComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `People Rate`
+  String get peopleRate {
+    return Intl.message(
+      'People Rate',
+      name: 'peopleRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See all`
+  String get seeAll {
+    return Intl.message(
+      'See all',
+      name: 'seeAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter code`
+  String get enterCode {
+    return Intl.message(
+      'Please enter code',
+      name: 'enterCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Password`
+  String get newPassword {
+    return Intl.message(
+      'New Password',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I agree to the Terms of Service and Privacy Policy.`
+  String get agreeTerms {
+    return Intl.message(
+      'I agree to the Terms of Service and Privacy Policy.',
+      name: 'agreeTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The file was rejected. Check the required information carefully and try again`
+  String get rejectIdCard {
+    return Intl.message(
+      'The file was rejected. Check the required information carefully and try again',
+      name: 'rejectIdCard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose Sport`
   String get chooseSport {
     return Intl.message(
@@ -405,16 +925,6 @@ class S {
     return Intl.message(
       'No Minimum Booking',
       name: 'noMinimumBooking',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please Login First`
-  String get loginFirst {
-    return Intl.message(
-      'Please Login First',
-      name: 'loginFirst',
       desc: '',
       args: [],
     );
@@ -585,6 +1095,106 @@ class S {
     return Intl.message(
       'Public',
       name: 'public',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CHECK YOUR NETWORK`
+  String get checkYourNetwork {
+    return Intl.message(
+      'CHECK YOUR NETWORK',
+      name: 'checkYourNetwork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email is not exists`
+  String get emailNotExists {
+    return Intl.message(
+      'Email is not exists',
+      name: 'emailNotExists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get userName {
+    return Intl.message(
+      'Username',
+      name: 'userName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What is the Howie Hub application?\n\nIt is an application that connects stadium owners with tenants, facilitating the process of booking stadiums individually or collectively.\n\nWho can use the Howie Hub application?\n\nAnyone can download and use the app, but it specifically targets young people in Saudi Arabia.\n\nWhat services does the application provide?\n\nBook pitches individually:\nSelect the stadium you want.\nChoose the appropriate date and time.\nComplete the payment process.\nCreate group bookings and share them with friends:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share with your friends.\nCreate group bookings open to all app users:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share it with everyone.\nHow is payment made in the Howie Hub application?\n\nPayment is made by credit card or online payment card.\n\nWhat is the percentage of the company that owns the application of the reservation value?\n\nThe percentage of the reservation value of the company that owns the application varies depending on the type of reservation.\n\nHow can I add a playground to the app?\n\nIf you are a stadium owner, you can contact the company that owns the application through https://www.infohub.com/ to learn more about how to add your stadium to the application.\n\nHow can I contact the company that owns the application?\n\nYou can contact the company that owns the application through https://www.infohub.com/\n\nAre there any restrictions or specific conditions for using the application?\n\nThere are no restrictions or conditions for using the app, but you must respect all users on the app and refrain from any abusive or illegal behavior.\n\nAre there any behaviors prohibited on the application?\n\nYes, there are some behaviors that are prohibited on the application, such as:\n\nBullying or harassment.\nPosting hate speech or offensive content.\nSharing personal or sensitive information.\nUse the application for illegal purposes.\nWhat happens if I violate the terms of use?\n\nIf you violate the Terms of Use, your account may be permanently banned from the application.\n\nCan I cancel my account?\n\nYes, you can cancel your account at any time.\n\nCan I change my account information?\n\nYes, you can change your account information at any time.\n\nHow can I get help using the application?\n\nYou can review the help center in the application or contact the company that owns the application through https://www.infohub.com/\n\nIs the Howie Hub application safe?\n\nYes, Howie Hub is very secure. We use the latest security technologies to protect users' data.\n\nIs my data shared with anyone else?\n\nNo, your data is not shared with anyone else unless you have expressly agreed to this.\n\nWhat is the privacy policy of the Howie Hub application?\n\nYou can review the Howie Hub privacy policy at https://www.infohub.com/\n\nIs there anything else I should know?\n\nWe advise you to read the terms of use and privacy policy carefully before using the application.\n\nThank you for using Howie Hub!\n\nnote:\nThis FAQ may be updated from time to time. Please check this page periodically to see the latest changes.`
+  String get questions {
+    return Intl.message(
+      'What is the Howie Hub application?\n\nIt is an application that connects stadium owners with tenants, facilitating the process of booking stadiums individually or collectively.\n\nWho can use the Howie Hub application?\n\nAnyone can download and use the app, but it specifically targets young people in Saudi Arabia.\n\nWhat services does the application provide?\n\nBook pitches individually:\nSelect the stadium you want.\nChoose the appropriate date and time.\nComplete the payment process.\nCreate group bookings and share them with friends:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share with your friends.\nCreate group bookings open to all app users:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share it with everyone.\nHow is payment made in the Howie Hub application?\n\nPayment is made by credit card or online payment card.\n\nWhat is the percentage of the company that owns the application of the reservation value?\n\nThe percentage of the reservation value of the company that owns the application varies depending on the type of reservation.\n\nHow can I add a playground to the app?\n\nIf you are a stadium owner, you can contact the company that owns the application through https://www.infohub.com/ to learn more about how to add your stadium to the application.\n\nHow can I contact the company that owns the application?\n\nYou can contact the company that owns the application through https://www.infohub.com/\n\nAre there any restrictions or specific conditions for using the application?\n\nThere are no restrictions or conditions for using the app, but you must respect all users on the app and refrain from any abusive or illegal behavior.\n\nAre there any behaviors prohibited on the application?\n\nYes, there are some behaviors that are prohibited on the application, such as:\n\nBullying or harassment.\nPosting hate speech or offensive content.\nSharing personal or sensitive information.\nUse the application for illegal purposes.\nWhat happens if I violate the terms of use?\n\nIf you violate the Terms of Use, your account may be permanently banned from the application.\n\nCan I cancel my account?\n\nYes, you can cancel your account at any time.\n\nCan I change my account information?\n\nYes, you can change your account information at any time.\n\nHow can I get help using the application?\n\nYou can review the help center in the application or contact the company that owns the application through https://www.infohub.com/\n\nIs the Howie Hub application safe?\n\nYes, Howie Hub is very secure. We use the latest security technologies to protect users\' data.\n\nIs my data shared with anyone else?\n\nNo, your data is not shared with anyone else unless you have expressly agreed to this.\n\nWhat is the privacy policy of the Howie Hub application?\n\nYou can review the Howie Hub privacy policy at https://www.infohub.com/\n\nIs there anything else I should know?\n\nWe advise you to read the terms of use and privacy policy carefully before using the application.\n\nThank you for using Howie Hub!\n\nnote:\nThis FAQ may be updated from time to time. Please check this page periodically to see the latest changes.',
+      name: 'questions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Howie Hub application terms and conditions\nintroduction:\n\nWelcome to the Howie Hub app! This application aims to connect stadium owners with tenants, facilitating the process of booking stadiums individually or collectively. Before using the application, please read these terms and conditions carefully.\n\n1. General information:\n\nApplication name: Howie Hub\nApplication type: Sports application\nThe application's target audience: youth in the Kingdom of Saudi Arabia\nServices provided by the application:\nBook pitches individually\nCreate group bookings and share them with friends\nCreate group bookings that are open to all app users\nApplication business model:\nThe user pays the full reservation price.\nThe company that owns the application receives a percentage of ......% of the reservation value after deducting the bank commissions for electronic payment service providers, which are ..........%.\nThe stadium owner gets the rest of the reservation value.\n2. Legal information:\n\nCountry of headquarters of the company that owns the application: Kingdom of Saudi Arabia\n\n3. Privacy Policy:\n\nData collection:\nNormal user:\nthe name\nthe age\nE-mail\nStadium owner:\nSome documents are required to authenticate the stadium owner’s account and documents to prove his ownership of the places before agreeing to display them in the application. All required documents are shown in the legal requirements screen. \ndata usage:\nThese data and documents are kept and the data is only shared with the competent legal authorities only when needed and in accordance with Saudi laws.\nData protection:\nAll legal measures are taken to protect user data.\n4. Terms of use:\nAcceptance of the Terms: Using the application means accepting these terms and conditions.\nthe accounts:\nCreate a free user account.\nVerifying the identity of stadium owners.\nReservations:\nUsers can book pitches individually or as a group.\nThe stadium owner can accept or reject reservations.\nThe reservation value is paid by the user.\nThe company that owns the application receives a percentage of the reservation value.\nThe stadium owner gets the rest of the reservation value.\nBehaviors:\nYou must respect all users on the application and refrain from any abusive or illegal behavior.\nthe responsibility:\nThe user is responsible for all his actions on the application.\nThe Company does not bear any responsibility for any damages resulting from the use of the application.\nthe changes:\nThe Company reserves the right to modify these terms and conditions at any time without prior notice.\nRegulating law:\nThese terms and conditions are subject to the laws of the Kingdom of Saudi Arabia.\n5. Dispute resolution:\nIf any dispute arises between the User and the Application, every effort will be made to resolve it amicably.\nIf the amicable solution fails, arbitration is resorted to at the Commercial Arbitration Center of the Kingdom of Saudi Arabia.\n6. Contact:\n\nYou can contact the company that owns the application through...\nnote:\nThese terms and conditions may be updated from time to time. Please check this page periodically to see the latest changes.\nThank you for using Howie Hub!`
+  String get termsAndConditions {
+    return Intl.message(
+      'Howie Hub application terms and conditions\nintroduction:\n\nWelcome to the Howie Hub app! This application aims to connect stadium owners with tenants, facilitating the process of booking stadiums individually or collectively. Before using the application, please read these terms and conditions carefully.\n\n1. General information:\n\nApplication name: Howie Hub\nApplication type: Sports application\nThe application\'s target audience: youth in the Kingdom of Saudi Arabia\nServices provided by the application:\nBook pitches individually\nCreate group bookings and share them with friends\nCreate group bookings that are open to all app users\nApplication business model:\nThe user pays the full reservation price.\nThe company that owns the application receives a percentage of ......% of the reservation value after deducting the bank commissions for electronic payment service providers, which are ..........%.\nThe stadium owner gets the rest of the reservation value.\n2. Legal information:\n\nCountry of headquarters of the company that owns the application: Kingdom of Saudi Arabia\n\n3. Privacy Policy:\n\nData collection:\nNormal user:\nthe name\nthe age\nE-mail\nStadium owner:\nSome documents are required to authenticate the stadium owner’s account and documents to prove his ownership of the places before agreeing to display them in the application. All required documents are shown in the legal requirements screen. \ndata usage:\nThese data and documents are kept and the data is only shared with the competent legal authorities only when needed and in accordance with Saudi laws.\nData protection:\nAll legal measures are taken to protect user data.\n4. Terms of use:\nAcceptance of the Terms: Using the application means accepting these terms and conditions.\nthe accounts:\nCreate a free user account.\nVerifying the identity of stadium owners.\nReservations:\nUsers can book pitches individually or as a group.\nThe stadium owner can accept or reject reservations.\nThe reservation value is paid by the user.\nThe company that owns the application receives a percentage of the reservation value.\nThe stadium owner gets the rest of the reservation value.\nBehaviors:\nYou must respect all users on the application and refrain from any abusive or illegal behavior.\nthe responsibility:\nThe user is responsible for all his actions on the application.\nThe Company does not bear any responsibility for any damages resulting from the use of the application.\nthe changes:\nThe Company reserves the right to modify these terms and conditions at any time without prior notice.\nRegulating law:\nThese terms and conditions are subject to the laws of the Kingdom of Saudi Arabia.\n5. Dispute resolution:\nIf any dispute arises between the User and the Application, every effort will be made to resolve it amicably.\nIf the amicable solution fails, arbitration is resorted to at the Commercial Arbitration Center of the Kingdom of Saudi Arabia.\n6. Contact:\n\nYou can contact the company that owns the application through...\nnote:\nThese terms and conditions may be updated from time to time. Please check this page periodically to see the latest changes.\nThank you for using Howie Hub!',
+      name: 'termsAndConditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms And Conditions`
+  String get preferenceAndPrivacy {
+    return Intl.message(
+      'Terms And Conditions',
+      name: 'preferenceAndPrivacy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share`
+  String get share {
+    return Intl.message(
+      'Share',
+      name: 'share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Common Questions`
+  String get commonQuestions {
+    return Intl.message(
+      'Common Questions',
+      name: 'commonQuestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please add what is required below from the file`
+  String get addRequiredPdf {
+    return Intl.message(
+      'Please add what is required below from the file',
+      name: 'addRequiredPdf',
       desc: '',
       args: [],
     );

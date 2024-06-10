@@ -75,9 +75,11 @@ class HomePage extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return Container(
                                       width: 88.w,
-                                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           color: ColorManager.shimmerBaseColor,
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
@@ -97,7 +99,9 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(child: TitleText(S.of(context).nearByGames, isBold: true)),
+                    Expanded(
+                        child:
+                            TitleText(S.of(context).nearByGames, isBold: true)),
                     TextButton(
                         onPressed: () {
                           mainCubit.changePage(1);
@@ -105,8 +109,10 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(S.of(context).viewAll,
-                                style: TextStyleManager.getGoldenRegularStyle()),
-                            const Icon(Icons.arrow_forward, color: ColorManager.golden)
+                                style:
+                                    TextStyleManager.getGoldenRegularStyle()),
+                            const Icon(Icons.arrow_forward,
+                                color: ColorManager.golden)
                           ],
                         ))
                   ],
@@ -119,7 +125,8 @@ class HomePage extends StatelessWidget {
                   child: BlocBuilder<GamesBloc, GamesState>(
                       bloc: gamesBloc,
                       builder: (context, state) {
-                        return state is GetGamesLoading && gamesBloc.games.isEmpty
+                        return state is GetGamesLoading &&
+                                gamesBloc.games.isEmpty
                             ? const HorizontalGamesShimmer()
                             : ListView.separated(
                                 scrollDirection: Axis.horizontal,
@@ -137,7 +144,9 @@ class HomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(child: TitleText(S.of(context).nearByVenues, isBold: true)),
+                    Expanded(
+                        child: TitleText(S.of(context).nearByVenues,
+                            isBold: true)),
                     TextButton(
                         onPressed: () {
                           mainCubit.changePage(2);
@@ -145,8 +154,10 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(S.of(context).viewAll,
-                                style: TextStyleManager.getGoldenRegularStyle()),
-                            const Icon(Icons.arrow_forward, color: ColorManager.golden)
+                                style:
+                                    TextStyleManager.getGoldenRegularStyle()),
+                            const Icon(Icons.arrow_forward,
+                                color: ColorManager.golden)
                           ],
                         ))
                   ],

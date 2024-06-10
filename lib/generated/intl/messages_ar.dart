@@ -23,7 +23,13 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accessibility": MessageLookupByLibrary.simpleMessage("الوصول"),
+        "accountCreatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم انشاء حسابك بنجاح"),
         "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
+        "addRequiredPdf": MessageLookupByLibrary.simpleMessage(
+            "يرجي إلحاق المطلوب ادناه من الملف "),
+        "agreeTerms": MessageLookupByLibrary.simpleMessage(
+            "أوافق على شروط الخدمة وسياسة الخصوصية."),
         "allFieldsIsRequired":
             MessageLookupByLibrary.simpleMessage("جميع الحقول مطلوبة"),
         "allPlayers": MessageLookupByLibrary.simpleMessage("جميع اللاعبين"),
@@ -34,29 +40,76 @@ class MessageLookup extends MessageLookupByLibrary {
         "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
         "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
-        "chooseSport": MessageLookupByLibrary.simpleMessage("اختر رياضة"),
+        "change": MessageLookupByLibrary.simpleMessage("تغير "),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
+        "checkYourNetwork":
+            MessageLookupByLibrary.simpleMessage("تحقق من الشبكة"),
+        "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "code": MessageLookupByLibrary.simpleMessage("الرمز "),
+        "commonQuestions":
+            MessageLookupByLibrary.simpleMessage("الاسئلة الشائعة"),
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "confirmPassword":
+            MessageLookupByLibrary.simpleMessage("تأكيد كلمة السر"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
         "date": MessageLookupByLibrary.simpleMessage("الموعد"),
         "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),
+        "email": MessageLookupByLibrary.simpleMessage(" الإيميل"),
+        "emailAlreadyExist": MessageLookupByLibrary.simpleMessage(
+            "البريد الإلكتروني موجود مسبقا."),
+        "emailNotExists":
+            MessageLookupByLibrary.simpleMessage("البريد الإلكتروني غير موجود"),
         "endTimeMustBeAfterStartTime": MessageLookupByLibrary.simpleMessage(
             "وقت الانتهاء يجب أن يكون بعد وقت البدء"),
+        "enterCode":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال الرمز "),
+        "enterConfirmPassword": MessageLookupByLibrary.simpleMessage(
+            "الرجاء إدخال تأكيد كلمة المرور"),
+        "enterEmail":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال الإيميل"),
+        "enterNewPassword": MessageLookupByLibrary.simpleMessage(
+            "الرجاء إدخال كلمة المرور الجديدة"),
+        "enterPassword":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة المرور"),
+        "enterUsername":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال الإسم"),
+        "fileUploaded": MessageLookupByLibrary.simpleMessage("تم رفع الملف "),
+        "forgotPassword":
+            MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر ؟"),
         "from": MessageLookupByLibrary.simpleMessage("من"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
         "host": MessageLookupByLibrary.simpleMessage("المضيف"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
+        "identificationPending":
+            MessageLookupByLibrary.simpleMessage("يتم مراجعة الملف الان"),
+        "invalidEmailOrPassword": MessageLookupByLibrary.simpleMessage(
+            "البريد الإلكتروني أو كلمة السر خاطئة."),
         "join": MessageLookupByLibrary.simpleMessage("انضمام"),
+        "keepMeLoggedIn":
+            MessageLookupByLibrary.simpleMessage("أبقِ تسجيل دخولي"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
+        "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginFirst":
             MessageLookupByLibrary.simpleMessage("يجب تسجيل الدخول أولا"),
+        "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تم تسجيل الدخول إلى الحساب بنجاح"),
+        "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "maxPlayers":
             MessageLookupByLibrary.simpleMessage("الحد الاقصى للاعبين"),
         "minPlayers":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للاعبين"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
+        "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
+            "يجب عليك التحقق من حسابك أولا "),
+        "myWallet": MessageLookupByLibrary.simpleMessage("محفظتي"),
         "nearByGames": MessageLookupByLibrary.simpleMessage("الحجوزات القريبة"),
         "nearByVenues": MessageLookupByLibrary.simpleMessage("الملاعب القريبة"),
+        "newPassword":
+            MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
+        "noAccount": MessageLookupByLibrary.simpleMessage("لا تمتلك حساب ؟"),
+        "noComment": MessageLookupByLibrary.simpleMessage("لا تعليق"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("لا يوجد حد أدنى"),
@@ -64,28 +117,75 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
         "only": MessageLookupByLibrary.simpleMessage("فقط"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),
+        "password": MessageLookupByLibrary.simpleMessage("كلمة السر"),
+        "passwordChangedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم تغيير كلمة المرور بنجاح."),
+        "passwordDoesNotMatch":
+            MessageLookupByLibrary.simpleMessage("كلمة السر غير متطابقة"),
+        "passwordResetSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تم إعادة تعيين كلمة المرور بنجاح"),
+        "peopleRate": MessageLookupByLibrary.simpleMessage("تقيم الأشخاص"),
         "perHour": MessageLookupByLibrary.simpleMessage("لكل ساعة"),
         "place": MessageLookupByLibrary.simpleMessage("الملعب"),
         "players": MessageLookupByLibrary.simpleMessage("اللاعبين"),
+        "preferenceAndPrivacy":
+            MessageLookupByLibrary.simpleMessage("التفضيل والخصوصية"),
         "price": MessageLookupByLibrary.simpleMessage("السعر"),
         "private": MessageLookupByLibrary.simpleMessage("خاص"),
+        "profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+        "proofOfIdentityAddedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم أضافة الملف بنجاح."),
         "public": MessageLookupByLibrary.simpleMessage("عام"),
+        "questions": MessageLookupByLibrary.simpleMessage(
+            "ما هو تطبيق هاوي هب؟\n\nهو تطبيق يربط أصحاب الملاعب مع المستأجرين، مما يسهل عملية حجز الملاعب بشكل فردي أو جماعي.\n\nمن يستطيع استخدام تطبيق هاوي هب؟\n\nيمكن لأي شخص تحميل التطبيق واستخدامه، لكنه يستهدف بشكل خاص الشباب في المملكة العربية السعودية.\n\nما هي الخدمات التي يقدمها التطبيق؟\n\nحجز الملاعب بشكل فردي:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nأكمل عملية الدفع.\nإنشاء حجوزات جماعية ومشاركتها مع الأصدقاء:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nحدد عدد اللاعبين.\nانشئ رابطًا للحجز وشارك أصدقائك.\nإنشاء حجوزات جماعية مفتوحة لجميع مستخدمي التطبيق:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nحدد عدد اللاعبين.\nانشئ رابطًا للحجز وشاركه مع الجميع.\nكيف يتم الدفع في تطبيق هاوي هب؟\n\nيتم الدفع من خلال بطاقة الائتمان أو بطاقة الدفع عبر الإنترنت.\n\nما هي نسبة الشركة المالكة للتطبيق من قيمة الحجز؟\n\nتختلف نسبة الشركة المالكة للتطبيق من قيمة الحجز حسب نوع الحجز.\n\nكيف يمكنني إضافة ملعب إلى التطبيق؟\n\nإذا كنت صاحب ملعب، يمكنك التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/ لمعرفة المزيد عن كيفية إضافة ملعبك إلى التطبيق.\n\nكيف يمكنني التواصل مع الشركة المالكة للتطبيق؟\n\nيمكنك التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/\n\nهل هناك أي قيود أو شروط محددة لاستخدام التطبيق؟\n\nلا يوجد أي قيود أو شروط لاستخدام التطبيق، لكن يجب عليك احترام جميع المستخدمين على التطبيق والامتناع عن أي سلوكيات مسيئة أو غير قانونية.\n\nهل هناك أي سلوكيات ممنوعة على التطبيق؟\n\nنعم، هناك بعض السلوكيات الممنوعة على التطبيق، مثل:\n\nالتنمر أو المضايقة.\nنشر خطاب الكراهية أو المحتوى المسيء.\nمشاركة المعلومات الشخصية أو الحساسة.\nاستخدام التطبيق لأغراض غير قانونية.\nماذا يحدث إذا انتهكت شروط الاستخدام؟\n\nإذا انتهكت شروط الاستخدام، فقد يتم حظر حسابك من التطبيق بشكل دائم.\n\nهل يمكنني إلغاء حسابي؟\n\nنعم، يمكنك إلغاء حسابك في أي وقت.\n\nهل يمكنني تغيير معلومات حسابي؟\n\nنعم، يمكنك تغيير معلومات حسابك في أي وقت.\n\nكيف يمكنني الحصول على مساعدة في استخدام التطبيق؟\n\nيمكنك مراجعة مركز المساعدة في التطبيق أو التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/\n\nهل تطبيق هاوي هب آمن؟\n\nنعم، تطبيق هاوي هب آمن للغاية. نستخدم أحدث تقنيات الأمان لحماية بيانات المستخدمين.\n\nهل يتم مشاركة بياناتي مع أي شخص آخر؟\n\nلا، لا يتم مشاركة بياناتك مع أي شخص آخر إلا إذا كنت قد وافقت على ذلك صراحةً.\n\nما هي سياسة الخصوصية الخاصة بتطبيق هاوي هب؟\n\nيمكنك مراجعة سياسة الخصوصية الخاصة بتطبيق هاوي هب في https://www.infohub.com/\n\nهل هناك أي شيء آخر يجب أن أعرفه؟\n\nننصحك بقراءة شروط الاستخدام وسياسة الخصوصية بعناية قبل استخدام التطبيق.\n\nشكرًا لك على استخدام تطبيق هاوي هب!\n\nملاحظة:\nقد يتم تحديث هذه الأسئلة الشائعة من وقت لآخر. يرجى مراجعة هذه الصفحة بشكل دوري للاطلاع على أحدث التغييرات."),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("عدد التقييمات"),
+        "receivedCode": MessageLookupByLibrary.simpleMessage("استلمت الرمز"),
+        "rejectIdCard": MessageLookupByLibrary.simpleMessage(
+            "تم رفض الملف تأكد من المطلوب جيدا واعد المحاولة"),
         "requestSent":
             MessageLookupByLibrary.simpleMessage("تم ارسال الطلب بنجاح"),
+        "resetCodeSentSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم ارسال الرمز بنجاح ل "),
+        "resetPassword":
+            MessageLookupByLibrary.simpleMessage(" اعادة تعيين كلمة المرور"),
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+        "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
+        "seeAll": MessageLookupByLibrary.simpleMessage("رؤية الكل"),
+        "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الرمز"),
+        "sendCodeAfter":
+            MessageLookupByLibrary.simpleMessage("يمكنك الارسال بعد "),
+        "share": MessageLookupByLibrary.simpleMessage("مشاركة"),
+        "shortPassword": MessageLookupByLibrary.simpleMessage(
+            "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل."),
         "shouldActivate":
             MessageLookupByLibrary.simpleMessage("يجب تفعيل الحساب أولا"),
         "showInMap": MessageLookupByLibrary.simpleMessage("اظهار في الخريطة"),
+        "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "slots": MessageLookupByLibrary.simpleMessage("أماكن"),
+        "somethingWentWrong":
+            MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
         "sport": MessageLookupByLibrary.simpleMessage("الرياضة"),
+        "start": MessageLookupByLibrary.simpleMessage("البدء"),
+        "termsAndConditions": MessageLookupByLibrary.simpleMessage(
+            "شروط وأحكام تطبيق هاوي هب\nمقدمة:\n\nمرحبًا بك في تطبيق هاوي هب! يهدف هذا التطبيق إلى ربط أصحاب الملاعب مع المستأجرين، مما يسهل عملية حجز الملاعب بشكل فردي أو جماعي. قبل استخدام التطبيق، يرجى قراءة هذه الشروط والأحكام بعناية.\n\n1. معلومات عامة:\n\nاسم التطبيق: هاوي هب\nنوع التطبيق: تطبيق رياضي\nجمهور التطبيق المستهدف: فئة الشباب في المملكة العربية السعودية\nالخدمات التي يقدمها التطبيق:\nحجز الملاعب بشكل فردي\nإنشاء حجوزات جماعية ومشاركتها مع الأصدقاء\nإنشاء حجوزات جماعية مفتوحة لجميع مستخدمي التطبيق\nنموذج عمل التطبيق:\nيدفع المستخدم قيمة الحجز كاملة.\nتحصل الشركة المالكة للتطبيق على نسبة ...... % من قيمة الحجز بعد خصم العمولات البنكية الخاصة بمقدمي خدمة الدفع الالكتروني وهي ......... %.\nيحصل صاحب الملعب على باقي قيمة الحجز.\n2. معلومات قانونية:\n\nبلد مقر الشركة المالكة للتطبيق: المملكة العربية السعودية\n\n3. سياسة الخصوصية:\n\nجمع البيانات:\nالمستخدم العادي:\nالاسم\nالعمر\nالبريد الإلكتروني\nصاحب الملعب:\nيتم طلب بعض المستندات الخاصة بتوثيق حساب صاحب الملعب و مستندات لاثبات ملكيته للأماكن قبل الموافقة على عرضها في التطبيق وجميع المستندات المطلوبة موضحة في شاشة المتطلبات القانونية \nاستخدام البيانات:\nتحتفظ بهذه البيانات و المستندات ولا يتم مشاركة البيانات إلا مع الجهات القانونية المختصة فقط عند الحاجة وطبقًا للقوانين السعودية.\nحماية البيانات:\nيتم اتخاذ كافة سبل الحماية القانونية لحماية بيانات المستخدمين.\n4. شروط الاستخدام:\nقبول الشروط: استخدام التطبيق يعني قبول هذه الشروط والأحكام.\nالحسابات:\nإنشاء حساب مجاني للمستخدمين.\nالتحقق من هوية أصحاب الملاعب.\nالحجوزات:\nيمكن للمستخدمين حجز الملاعب بشكل فردي أو جماعي.\nيمكن لصاحب الملعب قبول أو رفض الحجوزات.\nيتم دفع قيمة الحجز من قبل المستخدم.\nتحصل الشركة المالكة للتطبيق على نسبة من قيمة الحجز.\nيحصل صاحب الملعب على باقي قيمة الحجز.\nالسلوكيات:\nيجب احترام جميع المستخدمين على التطبيق و الامتناع عن أي سلوكيات مسيئة أو غير قانونية.\nالمسؤولية:\nيتحمل المستخدم مسؤولية جميع تصرفاته على التطبيق.\nلا تتحمل الشركة أي مسؤولية عن أي أضرار ناتجة عن استخدام التطبيق.\nالتغييرات:\nتحتفظ الشركة بحق تعديل هذه الشروط والأحكام في أي وقت دون إشعار مسبق.\nالقانون المنظم:\nتخضع هذه الشروط والأحكام لقوانين المملكة العربية السعودية.\n5. حل النزاعات:\nفي حال نشوء أي نزاع بين المستخدم والتطبيق، سيتم بذل قصارى الجهد لحلّه وديًا.\nإذا فشل الحل الودي، يتم اللجوء إلى التحكيم في مركز التحكيم التجاري للمملكة العربية السعودية.\n6. الاتصال:\n\nيمكن التواصل مع الشركة المالكة للتطبيق من خلال ............\nملاحظة:\nقد يتم تحديث هذه الشروط والأحكام من وقت لآخر. يرجى مراجعة هذه الصفحة بشكل دوري للاطلاع على أحدث التغييرات.\nشكرًا لك على استخدام تطبيق هاوي هب!"),
         "to": MessageLookupByLibrary.simpleMessage("إلى"),
         "totalGames": MessageLookupByLibrary.simpleMessage("إجمالي الحجوزات "),
         "upcoming": MessageLookupByLibrary.simpleMessage("الحجوزات القادمة"),
+        "updateProfile":
+            MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
+        "upload": MessageLookupByLibrary.simpleMessage("رفع"),
+        "userName": MessageLookupByLibrary.simpleMessage("الأسم"),
+        "userNotFound": MessageLookupByLibrary.simpleMessage(
+            "البريد الإلكتروني غير موجود."),
+        "username": MessageLookupByLibrary.simpleMessage(" الإسم"),
+        "usernameAlreadyExist":
+            MessageLookupByLibrary.simpleMessage("الأسم موجود مسبقا."),
         "viewAll": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),
         "weekend": MessageLookupByLibrary.simpleMessage("عطلة"),
-        "workingHours": MessageLookupByLibrary.simpleMessage("ساعات العمل")
+        "workingHours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
+        "wrongPassword":
+            MessageLookupByLibrary.simpleMessage("كلمة المرور خاطئة.")
       };
 }

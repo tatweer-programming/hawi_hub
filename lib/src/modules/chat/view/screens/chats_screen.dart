@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
+import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
+import 'package:hawihub/src/modules/chat/view/components.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,51 +18,51 @@ class ChatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Chat chat = const Chat(
-      dateOfLastSeen: "05:00 PM",
-      imageProfile:
-          "https://static.wikia.nocookie.net/hunterxhunter/images/3/3e/HxH2011_EP147_Gon_Portrait.png/revision/latest?cb=20230904181801",
-      lastMessage: "Bye",
-      name: "John",
-      numberOfUnreadMessages: 1,
-      userId: '',
-    );
-    List<Chat> chats = [
-      chat,
-      chat,
-      chat,
-      chat,
-      chat,
-    ];
-    return RefreshIndicator(
-      onRefresh: () async {
-        // chatBloc.add(GetChatsEvent());
+    ChatBloc chatBloc = ChatBloc.get(context)..add(GetAllChatsEvent());
+    List<Chat> chats = [];
+    return BlocConsumer<ChatBloc, ChatState>(
+      listener: (context, state) {
+        if (state is GetAllChatsSuccessState) {
+          chats = state.chats;
+        }
       },
-      child: Scaffold(
-        body: Column(
-          children: [
-            _appBar(context),
-            Expanded(
-              child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => _chatWidget(
-                        chat: chats[index],
-                        onTap: () {
-                          context.pushWithTransition(ChatScreen(
-                              receiverId: chats[index].userId,
-                              receiverName: chats[index].name,
-                              imageProfile: chats[index].imageProfile));
-                        },
-                      ),
-                  itemCount: 2),
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            chatBloc.add(GetAllChatsEvent());
+          },
+          child: Scaffold(
+            body: Column(
+              children: [
+                _appBar(context),
+                if (chats.isNotEmpty)
+                  Expanded(
+                    child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) => _chatWidget(
+                              lastMessage: chats[index].lastMessage,
+                              onTap: () {
+                                context.pushWithTransition(ChatScreen(
+                                  chatBloc: chatBloc,
+                                  chat: chats[index],
+                                ));
+                                chatBloc.add(GetChatMessagesEvent(
+                                  conversationId: chats[index].conversationId,
+                                  index: index,
+                                ));
+                              },
+                            ),
+                        itemCount: chats.length),
+                  ),
+                SizedBox(
+                  height: 1.h,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 1.h,
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -100,80 +103,66 @@ Widget _appBar(
   );
 }
 
-Widget _chatWidget({required Chat chat, required VoidCallback onTap}) => Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 7.w,
-        vertical: 2.h,
-      ),
-      child: InkWell(
-        onTap: onTap,
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: ColorManager.grey3,
-              radius: 22.sp,
-              backgroundImage: NetworkImage(chat.imageProfile),
+Widget _chatWidget(
+    {required LastMessage lastMessage, required VoidCallback onTap}) {
+  String formattedDate = utcToLocal(lastMessage.timestamp ?? "");
+  return Padding(
+    padding: EdgeInsets.symmetric(
+      horizontal: 7.w,
+      vertical: 2.h,
+    ),
+    child: InkWell(
+      onTap: onTap,
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: ColorManager.grey3,
+            radius: 22.sp,
+            backgroundImage: lastMessage.player.profilePictureUrl == null
+                ? null
+                : NetworkImage(lastMessage.player.profilePictureUrl!),
+          ),
+          SizedBox(
+            width: 4.w,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        lastMessage.player.userName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 15.sp, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Text(
+                      formattedDate,
+                      style: TextStyleManager.getCaptionStyle()
+                          .copyWith(fontSize: 10.sp),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Text(
+                  lastMessage.messageContent ?? "",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyleManager.getRegularStyle(),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 4.w,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          chat.name,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Text(
-                        chat.dateOfLastSeen,
-                        style: TextStyleManager.getCaptionStyle().copyWith(fontSize: 10.sp),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          chat.lastMessage,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyleManager.getRegularStyle(),
-                        ),
-                      ),
-                      if (chat.numberOfUnreadMessages > 0)
-                        Container(
-                          padding: EdgeInsetsDirectional.symmetric(
-                            vertical: 0.4.h,
-                            horizontal: 1.5.w,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorManager.golden,
-                            borderRadius: BorderRadius.circular(5.sp),
-                          ),
-                          child: Text(
-                            chat.numberOfUnreadMessages.toString(),
-                            style: TextStyleManager.getRegularStyle().copyWith(
-                              color: ColorManager.white,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
-    );
+    ),
+  );
+}

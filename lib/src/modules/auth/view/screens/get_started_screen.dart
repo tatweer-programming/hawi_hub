@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
-import '../../../../core/routing/routes.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key});
@@ -51,7 +52,8 @@ class GetStartedScreen extends StatelessWidget {
               height: 3.h,
             ),
             defaultButton(
-              onPressed: () {
+              onPressed: () async {
+                CacheHelper.saveData(key: "firstTime", value: false);
                 context.push(Routes.login);
               },
               fontSize: 17.sp,

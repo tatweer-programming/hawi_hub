@@ -5,6 +5,8 @@ import 'localization_manager.dart';
 class ConstantsManager {
   static Player? appUser;
 
+  static String? connectionId;
+  static String? connectionToken;
   static bool? registrationSkipped;
   static int? userId;
   static String? userToken;
@@ -17,7 +19,8 @@ class ConstantsManager {
 //     "https://fcm.googleapis.com/fcm/send";
   static String? userType;
   static bool? isNotificationsOn;
-  static const String baseUrlNotification = "https://fcm.googleapis.com/fcm/send";
+  static const String baseUrlNotification =
+      "https://fcm.googleapis.com/fcm/send";
   static const String firebaseMessagingAPI =
       "AAAAg2F4b1U:APA91bEp1nenkuZMlwu3PmiNRJTWOiG4zncmBF_23UiLcdtm42HZ1lDaoR-sRP21PFquem76ZHVKj5wGXI76Mx6WvqgUS2xxFAjuvM0hBMMd8cNvDcLEH6XKc65wBk_3C4IRr5znOi1M";
   static const String appUrl = "http://www.hawihub.com/app";

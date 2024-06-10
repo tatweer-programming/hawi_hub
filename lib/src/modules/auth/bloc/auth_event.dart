@@ -16,16 +16,35 @@ class LoginPlayerEvent extends AuthEvent {
   LoginPlayerEvent({required this.email, required this.password});
 }
 
-class AddProfilePictureEvent extends AuthEvent {}
+class AddImageEvent extends AuthEvent {}
 
 class GetSportsEvent extends AuthEvent {}
+
+class SelectSportEvent extends AuthEvent {
+  final List<Sport> sports;
+  final Sport sport;
+
+  SelectSportEvent({required this.sports, required this.sport});
+}
+
+class DeleteImageEvent extends AuthEvent {}
 
 class LogoutEvent extends AuthEvent {}
 
 class VerifyCodeEvent extends AuthEvent {
   final String email;
+  final String code;
+  final String password;
 
-  VerifyCodeEvent(this.email);
+  VerifyCodeEvent(
+      {required this.email, required this.code, required this.password});
+}
+
+class ChangePasswordEvent extends AuthEvent {
+  final String oldPassword;
+  final String newPassword;
+
+  ChangePasswordEvent({required this.oldPassword, required this.newPassword});
 }
 
 class LoginWithGoogleEvent extends AuthEvent {}
@@ -36,6 +55,8 @@ class SignupWithGoogleEvent extends AuthEvent {}
 
 class SignupWithFacebookEvent extends AuthEvent {}
 
+class OpenPdfEvent extends AuthEvent {}
+
 class GetProfileEvent extends AuthEvent {
   final int id;
 
@@ -44,11 +65,9 @@ class GetProfileEvent extends AuthEvent {
 
 class ResetPasswordEvent extends AuthEvent {
   final String email;
-  final String code;
-  final String password;
+  final BuildContext context;
 
-  ResetPasswordEvent(
-      {required this.email, required this.code, required this.password});
+  ResetPasswordEvent(this.email, this.context);
 }
 
 class StartResendCodeTimerEvent extends AuthEvent {
@@ -63,11 +82,10 @@ class ResetCodeTimerEvent extends AuthEvent {
   ResetCodeTimerEvent(this.timeToResendCode);
 }
 
-class SelectSportEvent extends AuthEvent {
-  final List<Sport> sports;
-  final Sport sport;
+class UploadNationalIdEvent extends AuthEvent {
+  final File nationalId;
 
-  SelectSportEvent({required this.sports, required this.sport});
+  UploadNationalIdEvent(this.nationalId);
 }
 
 class AcceptConfirmTermsEvent extends AuthEvent {
@@ -86,4 +104,10 @@ class PlaySoundEvent extends AuthEvent {
   final String sound;
 
   PlaySoundEvent(this.sound);
+}
+
+class UpdateProfilePictureEvent extends AuthEvent {
+  final File profileImage;
+
+  UpdateProfilePictureEvent(this.profileImage);
 }

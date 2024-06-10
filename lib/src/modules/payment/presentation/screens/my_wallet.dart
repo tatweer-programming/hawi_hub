@@ -43,13 +43,14 @@ class MyWallet extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     "My Wallet",
-                    style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
-                _walletWidget( player.myWallet.toString()),
+                _walletWidget(player.myWallet.toString()),
               ],
             ),
           ),
@@ -90,11 +91,15 @@ Widget _appBar(BuildContext context, Player player) {
           ),
         ),
       ),
-      CircleAvatar(
-        radius: 50.sp,
-        backgroundColor: ColorManager.grey3,
-        backgroundImage: NetworkImage(player.profilePictureUrl),
-      )
+      if (player.profilePictureUrl != null)
+        CircleAvatar(
+          radius: 50.sp,
+          backgroundColor: ColorManager.grey3,
+          backgroundImage: player.profilePictureUrl != null
+              ? NetworkImage(player.profilePictureUrl!)
+              : const AssetImage("assets/images/icons/user.png")
+                  as ImageProvider<Object>,
+        ),
     ],
   );
 }

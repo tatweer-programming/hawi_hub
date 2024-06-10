@@ -1,21 +1,27 @@
-import 'package:dartz/dartz.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/data/services/auth_services.dart';
-import 'package:hawihub/src/modules/main/data/models/sport.dart';
+import 'dart:io';
 
-import '../models/auth_player.dart';
+import 'package:dartz/dartz.dart';
+import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
+import '../services/auth_services.dart';
 
 class AuthRepository {
   final AuthService _service = AuthService();
-  Future<String> loginPlayer(String email, String password) async {
-    return await _service.loginPlayer(email, password);
+
+  Future<String> loginPlayer(
+      {required String email,
+      required String password,
+      required bool loginWithFBOrGG}) async {
+    return await _service.loginOwner(
+        email: email, password: password, loginWithFBOrGG: loginWithFBOrGG);
   }
 
-  Future<Either<String, bool>> loginWithGoogle() async {
+  Future<Either<String, String>> loginWithGoogle() async {
     return await _service.loginWithGoogle();
   }
 
-  Future<Either<String, bool>>loginWithFacebook() async {
+  Future<Either<String, String>> loginWithFacebook() async {
     return await _service.loginWithFacebook();
   }
 
@@ -23,54 +29,55 @@ class AuthRepository {
     return await _service.signupWithGoogle();
   }
 
-  Future<Either<String, AuthPlayer?>>  signupWithFacebook() async {
+  Future<Either<String, AuthPlayer?>> signupWithFacebook() async {
     return await _service.signupWithFacebook();
   }
 
-  Future<String> registerPlayer({
+  Future<Either<String, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
-    return _service.registerPlayer(authPlayer: authPlayer,);
+    return _service.registerPlayer(
+      authPlayer: authPlayer,
+    );
   }
 
-  Future<String> verifyCode(String email) async {
-    return _service.verifyCode(email);
-  }
-
-  Future<String> changeProfileImage(String newProfileImage) async {
-    return _service.changeProfileImage(newProfileImage);
-  }
-
-  Future<String> deleteProfileImage() async {
-    return _service.deleteProfileImage();
-  }
-
-  Future<String> resetPassword({
-    required String email,
-    required String code,
-    required String password,
-  }) async {
-    return _service.resetPassword(email: email, code: code, password: password);
+  Future<String> resetPassword(String email) async {
+    return _service.resetPassword(email);
   }
 
   Future<Either<String, List<Sport>>> getSports() async {
     return _service.getSports();
   }
 
+  Future<String> changeProfileImage(File newProfileImage) async {
+    return _service.changeProfileImage(newProfileImage);
+  }
+
+  Future<Either<String, String>> uploadNationalId(File nationalId) async {
+    return _service.verificationNationalId(nationalId);
+  }
+
+  Future<Either<String, String>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    return _service.changePassword(
+        oldPassword: oldPassword, newPassword: newPassword);
+  }
+
+  // Future<String> deleteProfileImage() async {
+  //   return _service.deleteProfileImage();
+  // }
+
+  Future<Either<String, String>> verifyCode({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    return _service.verifyCode(email: email, code: code, password: password);
+  }
+
   Future<Either<String, Player>> getProfile(int id) async {
     return _service.getProfile(id);
   }
-
-// Future<Either<Exception, String>> updateProfilePic(
-//     File newImage) async {
-//   return await _service.uploadProfilePic(newImage);
-// }
-//
-// Future updateImageInFireStore(String newImageUrl) async {
-//   return await _service.updateImageInFireStore(newImageUrl);
-// }
-//
-// Future deleteOldPic(String url) async {
-//   return await _service.deleteOldPic(url);
-// }
 }

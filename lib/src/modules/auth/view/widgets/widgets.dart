@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
-import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
-import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../../generated/l10n.dart';
+import '../../../../core/utils/color_manager.dart';
+import '../../../../core/utils/styles_manager.dart';
 
 Widget defaultButton({
   required VoidCallback onPressed,
@@ -32,44 +32,45 @@ Widget defaultButton({
 
 Widget authBackGround(double height) => Stack(
   alignment: AlignmentDirectional.topCenter,
-      children: [
-        Align(
-          alignment: AlignmentDirectional.topCenter,
-          heightFactor: 0.9,
-          child: ClipPath(
-            clipper: HalfCircleCurve(height / 3),
-            child: Container(
-              height: height,
-              width: double.infinity,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              decoration: BoxDecoration(
-                color: ColorManager.grey1,
-                image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    "assets/images/auth_background.png",
-                  ),
-                ),
+  children: [
+    Align(
+      alignment: AlignmentDirectional.topCenter,
+      heightFactor: 0.9,
+      child: ClipPath(
+        clipper: HalfCircleCurve(height / 3),
+        child: Container(
+          height: height,
+          width: double.infinity,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            color: ColorManager.grey1,
+            image: const DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage(
+                "assets/images/auth_background.png",
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsetsDirectional.only(
-            top: 4.h,
-          ),
-          child: Image.asset(
-            "assets/images/logo2.png",
-            height: 7.h,width: 35.w,
-          ),
-        ),
-      ],
-    );
+      ),
+    ),
+    Padding(
+      padding: EdgeInsetsDirectional.only(
+        top: 4.h,
+      ),
+      child: Image.asset(
+        "assets/images/logo2.png",
+        height: 7.h,width: 35.w,
+      ),
+    ),
+  ],
+);
 
 mainFormField(
         {String? label,
         Icon? prefix,
         String? hint,
+        String? helper,
         IconButton? suffix,
         bool? enabled = true,
         Color? fillColor,
@@ -123,7 +124,8 @@ mainFormField(
             filled: true,
             suffixIcon: suffix,
             labelText: label,
-            helperText: hint,
+            hintText: hint,
+            helperText: helper,
             labelStyle: labelStyle ??
                 TextStyle(color: ColorManager.grey3, fontSize: 12.sp)),
         validator: validator,
@@ -169,17 +171,6 @@ Widget backIcon(BuildContext context) {
           color: ColorManager.primary,
         ),
       ),
-    ),
-  );
-}
-
-Widget indicatorButton({double? width}) {
-  return ShimmerWidget(
-    height: 7.h,
-    width: width ?? double.infinity,
-    placeholder: ShimmerPlaceHolder(
-      borderRadius: 25.sp,
-      height: 7.h,
     ),
   );
 }
@@ -247,3 +238,19 @@ Widget orImageBuilder() => Stack(
     ),
   ],
 );
+
+String handleResponseTranslation(String state, BuildContext context) {
+  if(state == "Account Created Successfully")return S.of(context).accountCreatedSuccessfully;
+  if(state == "Email is not exists.")return S.of(context).emailNotExists;
+  if(state == "Email is already exists.")return S.of(context).emailAlreadyExist;
+  if(state == "Username is already exists.")return S.of(context).usernameAlreadyExist;
+  if(state == "Password reset successfully")return S.of(context).passwordResetSuccessfully;
+  if(state == "Invalid email or password.")return S.of(context).invalidEmailOrPassword;
+  if(state == "Account LogedIn Successfully")return S.of(context).loginSuccessfully;
+  if(state == "Something went wrong")return S.of(context).somethingWentWrong;
+  if(state == "Wrong password !")return S.of(context).wrongPassword;
+  if(state == "CHECK YOUR NETWORK")return S.of(context).checkYourNetwork;
+  if(state == "Password has been changed successfully")return S.of(context).passwordChangedSuccessfully;
+  if(state == "Proof of identity has been added successfully")return S.of(context).proofOfIdentityAddedSuccessfully;
+  return state;
+}

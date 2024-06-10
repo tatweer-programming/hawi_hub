@@ -8,7 +8,11 @@ class AuthInitial extends AuthState {}
 // register player
 class RegisterLoadingState extends AuthState {}
 
-class RegisterSuccessState extends AuthState {}
+class RegisterSuccessState extends AuthState {
+  final String value;
+
+  RegisterSuccessState({required this.value});
+}
 
 class RegisterErrorState extends AuthState {
   final String error;
@@ -49,27 +53,16 @@ class SignupWithFacebookErrorState extends AuthState {
 
 class VerifyCodeLoadingState extends AuthState {}
 
-class VerifyCodeSuccessState extends AuthState {}
+class VerifyCodeSuccessState extends AuthState {
+  final String value;
+
+  VerifyCodeSuccessState({required this.value});
+}
 
 class VerifyCodeErrorState extends AuthState {
   final String error;
 
   VerifyCodeErrorState(this.error);
-}
-
-// get sports
-class GetSportsLoadingState extends AuthState {}
-
-class GetSportsSuccessState extends AuthState {
-  final List<Sport> sports;
-
-  GetSportsSuccessState(this.sports);
-}
-
-class GetSportsErrorState extends AuthState {
-  final String error;
-
-  GetSportsErrorState(this.error);
 }
 
 // get My Profile
@@ -86,12 +79,29 @@ class GetMyProfileErrorState extends AuthState {
 // login player
 class LoginLoadingState extends AuthState {}
 
-class LoginSuccessState extends AuthState {}
+class LoginSuccessState extends AuthState {
+  final String value;
+
+  LoginSuccessState(this.value);
+}
 
 class LoginErrorState extends AuthState {
   final String error;
 
   LoginErrorState(this.error);
+}
+// Change pass
+
+class ChangePasswordErrorState extends AuthState {
+  final String error;
+
+  ChangePasswordErrorState(this.error);
+}
+
+class ChangePasswordSuccessState extends AuthState {
+  final String value;
+
+  ChangePasswordSuccessState(this.value);
 }
 
 // logout player
@@ -114,11 +124,19 @@ class ResetPasswordErrorState extends AuthState {
   ResetPasswordErrorState(this.error);
 }
 
+// accept confirm terms
 class AcceptConfirmTermsState extends AuthState {
   final bool accept;
 
   AcceptConfirmTermsState(this.accept);
 }
+
+// update profile
+class UpdateProfileLoadingState extends AuthState {}
+
+class UpdateProfileSuccessfulState extends AuthState {}
+
+class UpdateProfileErrorState extends AuthState {}
 
 class ChangePasswordVisibilityState extends AuthState {
   final bool visible;
@@ -126,18 +144,31 @@ class ChangePasswordVisibilityState extends AuthState {
   ChangePasswordVisibilityState(this.visible);
 }
 
-class AddProfilePictureSuccessState extends AuthState {
-  final File profilePictureFile;
+class AddImageSuccessState extends AuthState {
+  final File? imagePicked;
 
-  AddProfilePictureSuccessState({required this.profilePictureFile});
+  AddImageSuccessState({required this.imagePicked});
 }
 
-class SelectSportState extends AuthState {
-  final List<Sport> sports;
+// upload national id
+class UploadNationalIdSuccessState extends AuthState {
+  final String msg;
 
-  SelectSportState({required this.sports});
+  UploadNationalIdSuccessState(this.msg);
 }
 
+class UploadNationalIdLoadingState extends AuthState {}
+
+class UploadNationalIdErrorState extends AuthState {
+  final String error;
+
+  UploadNationalIdErrorState(this.error);
+}
+
+// delete image
+class DeleteImageState extends AuthState {}
+
+// timer resend code
 class ChangeTimeToResendCodeState extends AuthState {
   final int time;
 
@@ -150,4 +181,24 @@ class ResetCodeTimerState extends AuthState {
   ResetCodeTimerState({required this.time});
 }
 
+// play sound
 class PlaySoundState extends AuthState {}
+// get sports
+class GetSportsLoadingState extends AuthState {}
+
+class GetSportsSuccessState extends AuthState {
+  final List<Sport> sports;
+
+  GetSportsSuccessState(this.sports);
+}
+
+class GetSportsErrorState extends AuthState {
+  final String error;
+
+  GetSportsErrorState(this.error);
+}
+class SelectSportState extends AuthState {
+  final List<Sport> sports;
+
+  SelectSportState({required this.sports});
+}

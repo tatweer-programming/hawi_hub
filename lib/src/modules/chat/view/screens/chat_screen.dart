@@ -1,91 +1,179 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
+import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/message.dart';
+import 'package:hawihub/src/modules/chat/view/components.dart';
 import 'package:sizer/sizer.dart';
-import 'package:voice_message_package/voice_message_package.dart';
+import '../../../../core/utils/styles_manager.dart';
+import '../../../auth/view/widgets/widgets.dart';
 
 class ChatScreen extends StatelessWidget {
-  final String receiverId;
-  final String receiverName;
-  final String imageProfile;
+  final ChatBloc chatBloc;
+  final Chat? chat;
 
   const ChatScreen({
     super.key,
-    required this.receiverId,
-    required this.receiverName,
-    required this.imageProfile,
+    required this.chat,
+    required this.chatBloc,
   });
 
   @override
   Widget build(BuildContext context) {
-    Message message = Message(
-      dateOfMessage: "05:00 PM",
-      receiverId: "",
-      senderId: "",
-      imageUrl:
-          "https://static.wikia.nocookie.net/hunterxhunter/images/3/3e/HxH2011_EP147_Gon_Portrait.png/revision/latest?cb=20230904181801",
-      messageId: "",
-    );
-    Message message2 = Message(
-      dateOfMessage: "05:00 PM",
-      receiverId: "",
-      senderId: "",
-      messageId: "",
-      message: "hello",
-    );
-    Message message3 = Message(
-      dateOfMessage: "05:00 PM",
-      receiverId: "",
-      senderId: "",
-      messageId: "",
-      voiceNoteUrl: "https://dl.musichi.ir/1401/06/21/Ghors%202.mp3",
-    );
-    List<Message> messages = [message, message2, message3];
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _appBar(context: context, receiverName: receiverName, imageProfile: imageProfile),
-          Expanded(
-              child: ListView.separated(
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 3.w,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _messageWidget(message: messages[index], isSender: true),
-                    SizedBox(
-                      height: 0.5.h,
+    TextEditingController messageController = TextEditingController();
+    final ScrollController scrollController = ScrollController();
+    String? imagePath;
+    List<Message> messages = [];
+    return BlocConsumer<ChatBloc, ChatState>(
+      listener: (context, state) {
+        if (state is GetChatMessagesSuccessState) {
+          messages = state.messages;
+          chatBloc.add(StreamMessagesEvent());
+          if (messages.isNotEmpty) {
+            chatBloc.add(
+                ScrollingDownEvent(listScrollController: scrollController));
+          }
+        }
+        if (state is GetChatMessagesSuccessState) {
+          messages = state.messages;
+          chatBloc.add(StreamMessagesEvent());
+          if (messages.isNotEmpty) {
+            chatBloc.add(
+                ScrollingDownEvent(listScrollController: scrollController));
+          }
+        }
+        if (state is StreamMessagesSuccessState) {
+          messages.add(state.streamMessage);
+          chatBloc
+              .add(ScrollingDownEvent(listScrollController: scrollController));
+        }
+        if (state is PickImageState) {
+          imagePath = state.imagePath;
+        } else if (state is RemovePickedImageState) {
+          imagePath = null;
+        }
+        if (state is SendMessageSuccessState) {
+          state.message.attachmentUrl =
+              ApiManager.handleImageUrl(state.message.attachmentUrl!);
+          messages.add(state.message);
+          chatBloc
+              .add(ScrollingDownEvent(listScrollController: scrollController));
+          messageController.clear();
+          imagePath = null;
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _appBar(
+                  context: context,
+                  receiverName: chat!.lastMessage.player.userName,
+                  imageProfile: chat!.lastMessage.player.profilePictureUrl),
+              Expanded(
+                  child: ListView.separated(
+                padding: EdgeInsetsDirectional.zero,
+                controller: scrollController,
+                itemBuilder: (context, index) {
+                  String formattedDate = '';
+                  if (messages[index].timeStamp != null) {
+                    formattedDate = utcToLocal(messages[index].timeStamp!);
+                  }
+                  bool? isOwner = messages[index].isOwner;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 3.w,
                     ),
-                    Text(
-                      messages[index].dateOfMessage,
-                      style: TextStyleManager.getCaptionStyle().copyWith(fontSize: 10.sp),
+                    child: Column(
+                      crossAxisAlignment: !isOwner!
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.start,
+                      children: [
+                        _messageWidget(
+                            message: messages[index], isSender: !isOwner),
+                        SizedBox(
+                          height: 0.5.h,
+                        ),
+                        Text(
+                          formattedDate,
+                          style: TextStyleManager.getCaptionStyle().copyWith(
+                              fontSize: 10.sp, color: ColorManager.black),
+                        ),
+                      ],
                     ),
-                  ],
+                  );
+                },
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 2.h,
                 ),
-              );
-            },
-            separatorBuilder: (context, index) => SizedBox(
-              height: 2.h,
-            ),
-            itemCount: messages.length,
-          )),
-          _sendButton(),
-        ],
-      ),
+                itemCount: messages.length,
+              )),
+              if (imagePath != null)
+                _messageInput(imagePath, () {
+                  chatBloc.add(RemovePickedImageEvent());
+                }),
+              _sendButton(
+                (String? value) async {
+                  if (value == 'image') {
+                    chatBloc.add(PickImageEvent());
+                  }
+                },
+                () {
+                  if (messageController.text.isNotEmpty || imagePath != null) {
+                    chatBloc.add(SendMessageEvent(
+                      message: Message(
+                        message: messageController.text,
+                        conversationId: chat!.conversationId,
+                        attachmentUrl: imagePath,
+                        isOwner: false,
+                        timeStamp: DateTime.now()
+                            .add(const Duration(hours: -3))
+                            .toString(),
+                      ),
+                    ));
+                  }
+                },
+                messageController,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
+}
+
+Widget _messageInput(String? image, VoidCallback onTap) {
+  return SizedBox(
+    width: double.infinity,
+    child: Stack(
+      alignment: AlignmentDirectional.topStart,
+      children: [
+        Image.file(
+          File(image!),
+          fit: BoxFit.cover,
+        ),
+        IconButton(
+            onPressed: onTap,
+            icon: const CircleAvatar(
+                foregroundColor: ColorManager.white,
+                child: Icon(
+                  Icons.close,
+                  color: ColorManager.primary,
+                )))
+      ],
+    ),
+  );
 }
 
 Widget _appBar({
   required BuildContext context,
   required String receiverName,
-  required String imageProfile,
+  required String? imageProfile,
 }) {
   return Container(
     height: 18.h,
@@ -111,7 +199,8 @@ Widget _appBar({
               CircleAvatar(
                 radius: 16.sp,
                 backgroundColor: ColorManager.primary,
-                backgroundImage: NetworkImage(imageProfile),
+                backgroundImage:
+                    imageProfile == null ? null : NetworkImage(imageProfile),
               ),
               SizedBox(
                 width: 2.w,
@@ -132,19 +221,16 @@ Widget _appBar({
 Widget _messageWidget({required Message message, required bool isSender}) {
   if (message.message != null) {
     return _textWidget(isSender: isSender, message: message.message!);
-  }
-  if (message.imageUrl != null) {
-    return _imageWidget(isSender: isSender, image: message.imageUrl!);
-  }
-  if (message.voiceNoteUrl != null) {
-    return _voiceWidget(isSender: isSender, voice: message.voiceNoteUrl!);
+  } else if (message.attachmentUrl != null) {
+    return _imageWidget(isSender: isSender, image: message.attachmentUrl!);
   }
   return Container();
 }
 
 Widget _textWidget({required bool isSender, required String message}) {
   return Align(
-    alignment: isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+    alignment:
+        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
     child: Container(
       decoration: BoxDecoration(
         color: ColorManager.grey3.withOpacity(0.4),
@@ -173,7 +259,8 @@ Widget _textWidget({required bool isSender, required String message}) {
 
 Widget _imageWidget({required bool isSender, required String image}) {
   return Align(
-    alignment: isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+    alignment:
+        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
     child: Container(
       height: 20.h,
       width: 60.w,
@@ -194,70 +281,87 @@ Widget _imageWidget({required bool isSender, required String image}) {
   );
 }
 
-Widget _voiceWidget({
-  required bool isSender,
-  required String voice,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Align(
-        alignment: isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
-        child: Directionality(
-          textDirection: isSender ? TextDirection.rtl : TextDirection.ltr,
-          child: VoiceMessageView(
-            controller: VoiceController(
-              audioSrc: voice,
-              maxDuration: const Duration(seconds: 200),
-              isFile: true,
-              onComplete: () {
-                /// do something on complete
-              },
-              onPause: () {
-                /// do something on pause
-              },
-              onPlaying: () {
-                /// do something on playing
-              },
-              onError: (err) {
-                /// do somethin on error
-              },
-            ),
-            innerPadding: 10.sp,
-            cornerRadius: 15.sp,
-            circlesColor: ColorManager.primary,
-            backgroundColor: ColorManager.grey3.withOpacity(0.4),
-            activeSliderColor: ColorManager.primary,
-          ),
-        ),
-      ),
-    ],
-  );
-}
+// Widget _voiceWidget({
+//   required bool isSender,
+//   required String voice,
+//   required bool isFile,
+// }) {
+//   print("voice" + voice);
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     mainAxisSize: MainAxisSize.min,
+//     children: [
+//       Align(
+//         alignment: isSender
+//             ? AlignmentDirectional.topEnd
+//             : AlignmentDirectional.topStart,
+//         child: Directionality(
+//           textDirection: isSender ? ui.TextDirection.rtl : ui.TextDirection.ltr,
+//           child: VoiceMessageView(
+//             controller: VoiceController(
+//               audioSrc: voice,
+//               maxDuration: const Duration(seconds: 200),
+//               isFile: true,
+//               onComplete: () {
+//                 /// do something on complete
+//               },
+//               onPause: () {
+//                 /// do something on pause
+//               },
+//               onPlaying: () {
+//                 /// do something on playing
+//               },
+//               onError: (err) {
+//                 /// do somethin on error
+//               },
+//             ),
+//             innerPadding: 10.sp,
+//             cornerRadius: 15.sp,
+//             circlesColor: ColorManager.primary,
+//             backgroundColor: ColorManager.grey3.withOpacity(0.4),
+//             activeSliderColor: ColorManager.primary,
+//           ),
+//         ),
+//       ),
+//     ],
+//   );
+// }
 
-Widget _sendButton() {
+Widget _sendButton(ValueChanged<String?> onTap, VoidCallback onSend,
+    TextEditingController messageController) {
   return Padding(
-    padding: EdgeInsetsDirectional.symmetric(horizontal: 8.w, vertical: 2.h),
+    padding: EdgeInsetsDirectional.symmetric(horizontal: 8.w, vertical: 1.h),
     child: Row(
       children: [
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: ColorManager.third,
-              radius: 19.sp,
-            ),
-            CircleAvatar(
-              backgroundColor: ColorManager.white,
-              radius: 15.sp,
-              child: Icon(
-                Icons.add,
-                size: 20.sp,
-                color: ColorManager.primary,
+        SizedBox(
+          height: 8.h,
+          child: DropdownButton<String>(
+            items: const [
+              DropdownMenuItem<String>(
+                value: 'image',
+                child: Icon(Icons.image),
               ),
+            ],
+            underline: Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                CircleAvatar(
+                  backgroundColor: ColorManager.third,
+                  radius: 19.sp,
+                ),
+                CircleAvatar(
+                  backgroundColor: ColorManager.white,
+                  radius: 15.sp,
+                  child: Icon(
+                    Icons.add,
+                    size: 20.sp,
+                    color: ColorManager.primary,
+                  ),
+                ),
+              ],
             ),
-          ],
+            onChanged: onTap,
+          ),
         ),
         SizedBox(
           width: 3.w,
@@ -266,6 +370,7 @@ Widget _sendButton() {
           child: SizedBox(
             height: 6.h,
             child: TextField(
+              controller: messageController,
               decoration: InputDecoration(
                 fillColor: ColorManager.grey3.withOpacity(0.3),
                 filled: true,
@@ -281,7 +386,7 @@ Widget _sendButton() {
                   borderSide: BorderSide.none,
                 ),
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: onSend,
                   icon: const Icon(Icons.send),
                 ),
               ),

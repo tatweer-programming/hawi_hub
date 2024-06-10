@@ -1,51 +1,53 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 
 //ignore: must_be_immutable
 class Message extends Equatable {
-  String? messageId;
-  String? imageUrl;
+  final int? conversationId;
+  final String? connectionId;
+  final bool? isOwner;
   String? message;
-  String? imageFilePath;
-  final String senderId;
-  final String dateOfMessage;
-  final String receiverId;
+  String? attachmentUrl;
+  final String? timeStamp;
   String? voiceNoteUrl;
-  String? voiceNoteFilePath;
 
   Message({
-    this.voiceNoteFilePath,
     this.voiceNoteUrl,
-    this.imageUrl,
+    this.connectionId,
+    this.conversationId,
     this.message,
-    this.messageId,
-    this.imageFilePath,
-    required this.dateOfMessage,
-    required this.senderId,
-    required this.receiverId,
+    this.timeStamp,
+    this.isOwner,
+    this.attachmentUrl,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      imageUrl: json["imageUrl"],
-      dateOfMessage: json["dateOfMessage"],
-      message: json["message"],
-      senderId: json["senderId"],
-      receiverId: json["receiverId"],
-      voiceNoteUrl: json["voiceNoteUrl"],
+      message: json["messageContent"],
+      attachmentUrl: json["messageAttachmentUrl"] != null
+          ? ApiManager.handleImageUrl(json["messageAttachmentUrl"])
+          : null,
+      timeStamp: json["timestamp"],
+      isOwner: json["playerToOwner"],
     );
+  }
+
+  String jsonBody() {
+    print(toJson());
+    String argumentsJson = jsonEncode([toJson()]);
+    return '{"type":1, "target":"SendMessageToPlayer", "arguments":$argumentsJson}';
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "senderId": senderId,
-      "voice": voiceNoteFilePath,
-      "image": imageFilePath,
-      "dateOfMessage": dateOfMessage,
-      "text": message,
-      "receiverId": receiverId,
+      "ConversationId": conversationId,
+      "Message": message,
+      "AttachmentUrl": attachmentUrl
     };
   }
 
   @override
-  List<Object?> get props => [senderId, message, receiverId];
+  List<Object?> get props => [message, attachmentUrl];
 }
