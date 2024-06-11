@@ -10,6 +10,7 @@ import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/screens/rates_screen.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -64,7 +65,10 @@ class ProfileScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Stack(
                     children: [
-                      _appBar(context: context, player: player),
+                      AuthAppBar(
+                        context: context,
+                        player: player, title: S.of(context).profile,
+                      ),
                     ],
                   ),
                 ),
@@ -85,6 +89,28 @@ class ProfileScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _pentagonalWidget(
+                            player.games,
+                            S.of(context).games,
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          _pentagonalWidget(
+                            player.bookings,
+                            S.of(context).booking,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
                       _emailConfirmed(
                           bloc: bloc,
                           player: player,
@@ -102,101 +128,73 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Widget _walletWidget(VoidCallback onTap, String wallet) {
-  return Container(
-    height: 5.h,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: const Color(0xff757575),
-      borderRadius: BorderRadius.circular(25.sp),
-    ),
-    child: Row(
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: 4.w,
-            top: 1.h,
-            bottom: 1.h,
-          ),
-          child: Text(
-            "$wallet \$",
-            style: const TextStyle(
-              color: ColorManager.white,
+Widget _pentagonalWidget(int number, String text) {
+  return Stack(
+    alignment: AlignmentDirectional.center,
+    children: [
+      ClipPath(
+        clipper: TriangleClipper(),
+        child: Container(
+          width: 30.w,
+          height: 15.h,
+          color: ColorManager.black,
+        ),
+      ),
+      ClipPath(
+        clipper: TriangleClipper(),
+        child: Container(
+          width: 29.w,
+          height: 14.5.h,
+          color: ColorManager.white,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 1.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  number.toString(),
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: ColorManager.primary,
+                    fontSize: 25.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: ColorManager.grey3,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-      ],
-    ),
-  );
-}
-
-Widget _appBar({
-  required BuildContext context,
-  required Player player,
-}) {
-  return Stack(
-    alignment: AlignmentDirectional.bottomCenter,
-    children: [
-      CustomAppBar(
-        blendMode: BlendMode.exclusion,
-        backgroundImage: "assets/images/app_bar_backgrounds/4.webp",
-        height: 32.h,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5.w,
-            vertical: 2.h,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              backIcon(context),
-              SizedBox(
-                width: 20.w,
-              ),
-              Text(
-                S.of(context).profile,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: ColorManager.white,
-                  fontSize: 32.sp,
-                ),
-              ),
-              const Spacer(),
-              if (player.approvalStatus == 2)
-                InkWell(
-                    onTap: () {
-                      context.pushWithTransition(EditProfileScreen(
-                        player: player,
-                      ));
-                    },
-                    child: _editIcon()),
-            ],
-          ),
-        ),
       ),
-      if (player.profilePictureUrl != null)
-        CircleAvatar(
-          radius: 50.sp,
-          backgroundColor: ColorManager.grey3,
-          backgroundImage: player.profilePictureUrl != null
-              ? NetworkImage(player.profilePictureUrl!)
-              : const AssetImage("assets/images/icons/user.png")
-                  as ImageProvider<Object>,
-        ),
     ],
   );
 }
 
-Widget _editIcon() {
-  return CircleAvatar(
-    radius: 12.sp,
-    backgroundColor: ColorManager.white,
-    child: Image.asset(
-      "assets/images/icons/edit.webp",
-      height: 3.h,
-      width: 4.w,
-    ),
-  );
+class TriangleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, 0);
+    path.lineTo(0, size.height * .7);
+    path.lineTo(size.width / 2, size.height);
+    path.lineTo(size.width, size.height * .7);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(TriangleClipper oldClipper) => false;
 }
 
 Widget _seeAll(VoidCallback onTap, BuildContext context) {
@@ -538,6 +536,6 @@ Widget _verified({
       height: 2.h,
     ),
     if (ConstantsManager.userId == player.id)
-      _walletWidget(() {}, player.myWallet.toString()),
+      walletWidget(() {}, player.myWallet.toString()),
   ]);
 }

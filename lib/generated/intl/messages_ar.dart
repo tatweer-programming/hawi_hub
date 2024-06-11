@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accessibility": MessageLookupByLibrary.simpleMessage("الوصول"),
         "accountCreatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم انشاء حسابك بنجاح"),
+        "addComment": MessageLookupByLibrary.simpleMessage("إضافة ملاحطة"),
         "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
         "addRequiredPdf": MessageLookupByLibrary.simpleMessage(
             "يرجي إلحاق المطلوب ادناه من الملف "),
@@ -46,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkYourNetwork":
             MessageLookupByLibrary.simpleMessage("تحقق من الشبكة"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "clubRate": MessageLookupByLibrary.simpleMessage("تقييم الملعب"),
         "code": MessageLookupByLibrary.simpleMessage("الرمز "),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("الاسئلة الشائعة"),
@@ -88,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("انضمام"),
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("أبقِ تسجيل دخولي"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginFirst":
@@ -117,6 +120,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
         "only": MessageLookupByLibrary.simpleMessage("فقط"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),
+        "ownerRate": MessageLookupByLibrary.simpleMessage("تقييم صاحب الملعب"),
+        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
+            "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل"),
+        "passMustContainNumber": MessageLookupByLibrary.simpleMessage(
+            "يجب ان تحتوي كلمة المرور على الاقل رقما واحدا"),
+        "passMustContainSpecialChar": MessageLookupByLibrary.simpleMessage(
+            "يجب أن تحتوي كلمة المرور على حرف مثل # * على الأقل"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة السر"),
         "passwordChangedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تغيير كلمة المرور بنجاح."),
@@ -152,10 +162,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
         "seeAll": MessageLookupByLibrary.simpleMessage("رؤية الكل"),
+        "send": MessageLookupByLibrary.simpleMessage("إرسال"),
         "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الرمز"),
         "sendCodeAfter":
             MessageLookupByLibrary.simpleMessage("يمكنك الارسال بعد "),
         "share": MessageLookupByLibrary.simpleMessage("مشاركة"),
+        "shareApp":
+            MessageLookupByLibrary.simpleMessage("لمشاركة التطبيق زور  "),
         "shortPassword": MessageLookupByLibrary.simpleMessage(
             "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل."),
         "shouldActivate":

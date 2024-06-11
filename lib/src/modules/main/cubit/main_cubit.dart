@@ -25,6 +25,7 @@ class MainCubit extends Cubit<MainState> {
 
   static MainCubit get() => cubit;
   MainServices mainServices = MainServices();
+
   MainCubit() : super(MainInitial());
   List<Widget> pages = [
     const HomePage(),
@@ -36,6 +37,7 @@ class MainCubit extends Cubit<MainState> {
   List<String> bannerList = [];
   List<Sport> sportsList = [];
   int? currentCityId;
+
   void changePage(int index) {
     currentIndex = index;
     emit(ChangePage(index));
@@ -97,6 +99,15 @@ class MainCubit extends Cubit<MainState> {
     });
   }
 
+  Future<void> showDialog() async {
+    emit(ShowDialogState());
+  }
+
+  Future<void> changeLanguage(int index) async {
+    await LocalizationManager.setLocale(index);
+    emit(ChangeLocaleState(index));
+  }
+
   Future initializeHomePage() async {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
@@ -105,7 +116,7 @@ class MainCubit extends Cubit<MainState> {
       gamesBloc.add(GetGamesEvent(currentCityId!));
       placeBloc.add(GetAllPlacesEvent(currentCityId!));
     });
-    getBanner();
-    getSports();
+    await getBanner();
+    await getSports();
   }
 }

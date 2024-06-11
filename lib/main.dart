@@ -28,8 +28,7 @@ Future<void> main() async {
   await CacheHelper.init();
   DioHelper.init();
   ServiceLocator.init();
-  ConstantsManager.userId = await CacheHelper.getData(key: 'id');
-  ConstantsManager.userToken = await CacheHelper.getData(key: 'token');
+  ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
   await LocalizationManager.init();
   runApp(const MyApp());
 }
@@ -65,7 +64,7 @@ class _MyAppState extends State<MyApp> {
 
     // Handle links
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      print('onAppLink: $uri');
+      // print('onAppLink: $uri');
       openAppLink(uri);
     });
   }

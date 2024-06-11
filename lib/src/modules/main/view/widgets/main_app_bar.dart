@@ -4,6 +4,7 @@ import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -35,12 +36,17 @@ class MainAppBar extends StatelessWidget {
           InkWell(
             radius: 360,
             onTap: () {
-              context.push(Routes.profile);
+              context.push(
+                Routes.profile,
+                arguments: ConstantsManager.appUser,
+              );
             },
-            child: const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://img.freepik.com/free-vector/isolated-young-handsome-man-set-different-poses-white-background-illustration_632498-649.jpg?t=st=1711503056~exp=1711506656~hmac=9aea7449b3ae3f763053d68d15a49e3c70fa1e73e98311d518de5f01c2c3d41c&w=740"),
-              backgroundColor: ColorManager.golden,
+            child: CircleAvatar(
+              backgroundColor: ColorManager.grey3,
+              backgroundImage: ConstantsManager.appUser != null && ConstantsManager.appUser!.profilePictureUrl != null
+                  ? NetworkImage(ConstantsManager.appUser!.profilePictureUrl!)
+                  : const AssetImage("assets/images/icons/user.png")
+              as ImageProvider<Object>,
             ),
           ),
         ],

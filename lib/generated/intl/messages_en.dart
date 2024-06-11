@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accessibility": MessageLookupByLibrary.simpleMessage("Accessibility"),
         "accountCreatedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Account Created Successfully"),
+        "addComment": MessageLookupByLibrary.simpleMessage("Add Comment"),
         "addRate": MessageLookupByLibrary.simpleMessage("Add Rating"),
         "addRequiredPdf": MessageLookupByLibrary.simpleMessage(
             "Please add what is required below from the file"),
@@ -46,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkYourNetwork":
             MessageLookupByLibrary.simpleMessage("CHECK YOUR NETWORK"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "clubRate": MessageLookupByLibrary.simpleMessage("Club Rate"),
         "code": MessageLookupByLibrary.simpleMessage("Code"),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("Common Questions"),
@@ -87,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("Join"),
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("Keep me logged in"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "login": MessageLookupByLibrary.simpleMessage("LOGIN"),
         "loginFirst":
@@ -114,6 +117,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
+        "ownerRate": MessageLookupByLibrary.simpleMessage("Owner Rate"),
+        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one letter"),
+        "passMustContainNumber": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one number"),
+        "passMustContainSpecialChar": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one special character"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordChangedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Password has been changed successfully"),
@@ -149,10 +159,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
         "seeAll": MessageLookupByLibrary.simpleMessage("See all"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send Code"),
         "sendCodeAfter":
             MessageLookupByLibrary.simpleMessage("You can resend code after "),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
+        "shareApp": MessageLookupByLibrary.simpleMessage(
+            "hey! to share our app visit "),
         "shortPassword": MessageLookupByLibrary.simpleMessage(
             "Password must be at least 6 characters."),
         "shouldActivate": MessageLookupByLibrary.simpleMessage(

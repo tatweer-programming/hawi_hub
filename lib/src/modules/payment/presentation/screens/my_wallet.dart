@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,7 +21,11 @@ class MyWallet extends StatelessWidget {
         children: [
           SizedBox(
             width: double.infinity,
-            child: _appBar(context, player),
+            child: AuthAppBar(
+              player: player,
+              context: context,
+              title: S.of(context).myWallet,
+            ),
           ),
           SizedBox(
             height: 2.h,
@@ -50,7 +57,8 @@ class MyWallet extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                _walletWidget(player.myWallet.toString()),
+                if (ConstantsManager.userId == player.id)
+                  walletWidget(() {}, player.myWallet.toString()),
               ],
             ),
           ),
@@ -58,76 +66,4 @@ class MyWallet extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _appBar(BuildContext context, Player player) {
-  return Stack(
-    alignment: AlignmentDirectional.bottomCenter,
-    children: [
-      CustomAppBar(
-        blendMode: BlendMode.exclusion,
-        backgroundImage: "assets/images/app_bar_backgrounds/4.webp",
-        height: 32.h,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5.w,
-            vertical: 2.h,
-          ),
-          child: Row(
-            children: [
-              backIcon(context),
-              SizedBox(
-                width: 20.w,
-              ),
-              Text(
-                "Wallet",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: ColorManager.white,
-                  fontSize: 32.sp,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      if (player.profilePictureUrl != null)
-        CircleAvatar(
-          radius: 50.sp,
-          backgroundColor: ColorManager.grey3,
-          backgroundImage: player.profilePictureUrl != null
-              ? NetworkImage(player.profilePictureUrl!)
-              : const AssetImage("assets/images/icons/user.png")
-                  as ImageProvider<Object>,
-        ),
-    ],
-  );
-}
-
-Widget _walletWidget(String wallet) {
-  return Container(
-    height: 5.h,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: const Color(0xff757575),
-      borderRadius: BorderRadius.circular(25.sp),
-    ),
-    child: Row(
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: 5.w,
-            top: 1.h,
-            bottom: 1.h,
-          ),
-          child: Text(
-            "$wallet \$",
-            style: const TextStyle(
-              color: ColorManager.white,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }

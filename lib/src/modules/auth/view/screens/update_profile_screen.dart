@@ -150,7 +150,10 @@ Widget _appBar(
           return CircleAvatar(
             radius: 50.sp,
             backgroundColor: ColorManager.grey3,
-            backgroundImage: NetworkImage(player.profilePictureUrl!),
+            backgroundImage: player.profilePictureUrl != null
+                ? NetworkImage(player.profilePictureUrl!)
+                : const AssetImage("assets/images/icons/user.png")
+                    as ImageProvider<Object>,
             child: Align(
               alignment: AlignmentDirectional.bottomStart,
               child: IconButton(
@@ -226,12 +229,7 @@ Widget changePassWidget(
                     controller: newPasswordController,
                     label: S.of(context).newPassword,
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return S.of(context).enterNewPassword;
-                      } else if (value.length < 6) {
-                        return S.of(context).shortPassword;
-                      }
-                      return null;
+                      return validPassword(value, context);
                     }),
                 SizedBox(
                   height: 2.h,

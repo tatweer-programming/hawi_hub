@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
@@ -8,13 +6,11 @@ import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
-import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
-import 'package:hawihub/src/modules/payment/presentation/screens/my_wallet.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../../../generated/l10n.dart';
 import '../custom_app_bar.dart';
 
 class MorePage extends StatelessWidget {
@@ -23,86 +19,106 @@ class MorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = AuthBloc.get(context);
-    return BlocConsumer<AuthBloc, AuthState>(
+    MainCubit mainCubit = MainCubit.get();
+    return BlocConsumer<MainCubit, MainState>(
       listener: (context, state) {
-        if (state is LogoutSuccessState) {
-          bloc.add(PlaySoundEvent("audios/end.wav"));
-          context.pushAndRemove(Routes.login);
+        if (state is ShowDialogState) {
+          _showDialogForLanguage(context, mainCubit);
         }
       },
       builder: (context, state) {
-        return Column(children: [
-          SizedBox(
-            width: double.infinity,
-            child: Stack(
-              children: [
-                _appBar(context,
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyXXkiqJLhMZE69a4dTnH4Qd6GyzyFmqcmHu8EAhx8DQ&s"),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 3.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
-            child: Column(
-              children: [
-                _settingWidget(
-                  onTap: () {
-                    context.pushWithTransition(
-                      MyWallet(player: ConstantsManager.appUser!),
-                    );
-                  },
-                  icon: "assets/images/icons/money.webp",
-                  title: "My Wallet",
-                ),
-                _settingWidget(
-                  onTap: () {},
-                  icon: "assets/images/icons/privacy.png",
-                  title: "Preference and Privacy",
-                ),
-                _settingWidget(
-                  onTap: () {},
-                  icon: "assets/images/icons/history.png",
-                  title: "History",
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 1.h),
-                  child: Container(
-                    width: double.infinity,
-                    height: 0.2.h,
-                    color: ColorManager.grey3,
+        return SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  _appBar(
+                    context,
                   ),
-                ),
-                _settingWidget(
-                  onTap: () {},
-                  color: ColorManager.grey1,
-                  icon: "assets/images/icons/question.webp",
-                  title: "Common Questions",
-                ),
-                _settingWidget(
-                  onTap: () {
-                    Share.share(
-                        'hey! to share our app visit :https://play.google.com/store/apps/details?id=com.instagram.android',
-                        subject: 'Look what I made!');
-                  },
-                  icon: "assets/images/icons/share_2.webp",
-                  title: "Share",
-                  color: ColorManager.grey1,
-                ),
-                _settingWidget(
-                  onTap: () {
-                    showLogoutDialog(context, bloc);
-                  },
-                  icon: "assets/images/icons/logout.webp",
-                  title: "Logout",
-                  color: ColorManager.grey1,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]);
+            SizedBox(
+              height: 3.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
+              child: Column(
+                children: [
+                  _settingWidget(
+                    onTap: () {
+                      context.push(
+                        Routes.wallet,
+                        arguments: ConstantsManager.appUser,
+                      );
+                    },
+                    icon: "assets/images/icons/money.webp",
+                    title: S.of(context).myWallet,
+                  ),
+                  _settingWidget(
+                    onTap: () {
+                      context.push(Routes.termsAndCondition);
+                    },
+                    icon: "assets/images/icons/privacy.webp",
+                    title: S.of(context).preferenceAndPrivacy,
+                  ),
+                  _settingWidget(
+                    onTap: () {
+                      mainCubit.showDialog();
+                    },
+                    icon: "assets/images/icons/lang.png",
+                    title: S.of(context).language,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.h),
+                    child: Container(
+                      width: double.infinity,
+                      height: 0.2.h,
+                      color: ColorManager.grey3,
+                    ),
+                  ),
+                  _settingWidget(
+                    onTap: () {
+                      context.push(Routes.questions);
+                    },
+                    color: ColorManager.grey1,
+                    icon: "assets/images/icons/question.webp",
+                    title: S.of(context).commonQuestions,
+                  ),
+                  _settingWidget(
+                    onTap: () {
+                      Share.share(
+                        '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
+                      );
+                    },
+                    icon: "assets/images/icons/share_2.webp",
+                    title: S.of(context).share,
+                    color: ColorManager.grey1,
+                  ),
+                  BlocConsumer<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is LogoutSuccessState) {
+                        bloc.add(PlaySoundEvent("audios/end.wav"));
+                        context.pushAndRemove(Routes.login);
+                      }
+                    },
+                    builder: (context, state) {
+                      return _settingWidget(
+                        onTap: () {
+                          showLogoutDialog(context, bloc);
+                        },
+                        icon: "assets/images/icons/logout.webp",
+                        title: S.of(context).logout,
+                        color: ColorManager.grey1,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ]),
+        );
       },
     );
   }
@@ -158,49 +174,56 @@ Widget _settingWidget({
 
 Widget _appBar(
   BuildContext context,
-  String imageProfileUrl,
 ) {
-  return Stack(
-    alignment: AlignmentDirectional.bottomCenter,
-    children: [
-      Align(
-        alignment: AlignmentDirectional.topCenter,
-        heightFactor: 0.85,
-        child: CustomAppBar(
-          blendMode: BlendMode.exclusion,
-          backgroundImage: "assets/images/app_bar_backgrounds/4.webp",
-          height: 32.h,
-          child: Column(
+  return Align(
+    alignment: AlignmentDirectional.topCenter,
+    heightFactor: 0.85,
+    child: CustomAppBar(
+      blendMode: BlendMode.exclusion,
+      backgroundImage: "assets/images/app_bar_backgrounds/4.webp",
+      height: 32.h,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 3.h,
+          ),
+          Stack(
+            alignment: AlignmentDirectional.center,
             children: [
-              SizedBox(
-                height: 3.h,
-              ),
-              Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Container(
-                    height: (42.sp) * 2,
-                    width: (42.sp) * 2,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: ColorManager.white,
-                        width: 0.5.w,
-                      ),
-                    ),
+              Container(
+                height: (42.sp) * 2,
+                width: (42.sp) * 2,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: ColorManager.white,
+                    width: 0.5.w,
                   ),
-                  CircleAvatar(
-                    radius: 30.sp,
-                    backgroundColor: ColorManager.grey3,
-                    backgroundImage: NetworkImage(imageProfileUrl),
-                  ),
-                ],
+                ),
               ),
+              InkWell(
+                onTap: () {
+                  context.push(
+                    Routes.profile,
+                    arguments: ConstantsManager.appUser,
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundImage: ConstantsManager.appUser != null &&
+                          ConstantsManager.appUser!.profilePictureUrl != null
+                      ? NetworkImage(
+                          ConstantsManager.appUser!.profilePictureUrl!)
+                      : const AssetImage("assets/images/icons/user.png")
+                          as ImageProvider<Object>,
+                  backgroundColor: ColorManager.golden,
+                  radius: 30.sp,
+                ),
+              )
             ],
           ),
-        ),
+        ],
       ),
-    ],
+    ),
   );
 }
 
@@ -208,35 +231,56 @@ showLogoutDialog(BuildContext context, AuthBloc bloc) {
   return showDialog(
     context: context,
     builder: (context) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.sp),
-        ),
-        child: AlertDialog(
-          actions: [
-            TextButton(
-              onPressed: () {
-                context.pop();
-              },
-              child: const Text(
-                "Cancel",
-              ),
+      return AlertDialog(
+        actions: [
+          TextButton(
+            onPressed: () {
+              context.pop();
+            },
+            child: Text(
+              S.of(context).cancel,
             ),
-            TextButton(
-              onPressed: () {
-                bloc.add(LogoutEvent());
-              },
-              child: const Text(
-                "Logout",
-              ),
-            )
-          ],
-          title: Text(
-            "Do you want to logout ?",
-            style: TextStyleManager.getRegularStyle(),
           ),
+          TextButton(
+            onPressed: () {
+              bloc.add(LogoutEvent());
+            },
+            child: Text(
+              S.of(context).logout,
+            ),
+          )
+        ],
+        title: Text(
+          "Do you want to logout ?",
+          style: TextStyleManager.getRegularStyle(),
         ),
       );
     },
   );
+}
+
+_showDialogForLanguage(BuildContext context, MainCubit mainCubit) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+            title: Row(
+          children: [
+            Expanded(
+                child: TextButton(
+                    onPressed: () {
+                      mainCubit.changeLanguage(0);
+                      context.pop();
+                    },
+                    child: const Text("Arabic"))),
+            Expanded(
+                child: TextButton(
+                    onPressed: () {
+                      mainCubit.changeLanguage(1);
+                      context.pop();
+                    },
+                    child: const Text("English"))),
+          ],
+        ));
+      });
 }

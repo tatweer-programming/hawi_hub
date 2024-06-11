@@ -14,5 +14,6 @@ class Routes {
   static const String bookNow = '/bookNow';
   static const String placeLocation = '/placeLocation';
   static const String termsAndCondition = '/termsAndCondition';
+  static const String wallet = '/wallet';
   static const String questions = '/questions';
 }

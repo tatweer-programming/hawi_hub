@@ -23,6 +23,20 @@ class GetBannersLoading extends MainState {
   List<Object> get props => [];
 }
 
+class ChangeLocaleState extends MainState {
+  final int index;
+
+  const ChangeLocaleState(this.index);
+
+  @override
+  List<Object> get props => [];
+}
+
+class ShowDialogState extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
 class GetBannersSuccess extends MainState {
   final List<String> banners;
 
@@ -58,14 +72,18 @@ class GetSportsError extends MainState {
 
 class GetCitySuccessState extends MainState {
   final int id;
+
   const GetCitySuccessState(this.id);
+
   @override
   List<Object> get props => [];
 }
 
 class SelectCityState extends MainState {
   final int id;
+
   const SelectCityState(this.id);
+
   @override
   List<Object> get props => [id];
 }

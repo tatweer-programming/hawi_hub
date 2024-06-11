@@ -31,10 +31,14 @@ dependencies:
   fluttertoast: ^8.2.4
   shimmer: ^3.0.0
   share_plus: any
+  open_file_plus: ^3.4.1+1
+  file_picker: ^8.0.2
+
 
   # AUTH PACKAGES
   flutter_facebook_auth: ^6.2.0
   google_sign_in: ^6.2.1
+
 
   # PLACES PACKAGES
   flutter_rating_bar: ^4.0.1
@@ -49,6 +53,8 @@ dependencies:
   voice_message_package: ^2.1.4
   audioplayers: any
   record: ^5.0.5
+  path_provider:
+  permission_handler:
 
   # PAYMENT PACKAGE
   my_fatoorah: ^3.2.0
@@ -75,6 +81,7 @@ flutter:
     - assets/audios/
     - assets/images/icons/
     - assets/images/app_bar_backgrounds/
+    - assets/pdfs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -114,5 +114,14 @@
   "share": "Share",
   "commonQuestions": "Common Questions",
   "addRequiredPdf": "Please add what is required below from the file",
+  "passMustContainLetter": "Password must contain at least one letter",
+  "passMustContainSpecialChar": "Password must contain at least one special character",
+  "passMustContainNumber": "Password must contain at least one number",
+  "language": "Language",
+  "clubRate": "Club Rate",
+  "ownerRate": "Owner Rate",
+  "addComment": "Add Comment",
+  "send": "Send",
+  "shareApp": "hey! to share our app visit ",
   "private": "Private"
 }

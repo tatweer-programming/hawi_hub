@@ -47,9 +47,10 @@ class RegisterScreen extends StatelessWidget {
           authPlayer = state.authPlayer;
           userNameController.text = authPlayer!.userName;
           emailController.text = authPlayer!.email;
-        }
-        else if (state is SignupWithGoogleErrorState || state is SignupWithFacebookErrorState) {
-          errorToast(msg: handleResponseTranslation("Something went wrong", context));
+        } else if (state is SignupWithGoogleErrorState ||
+            state is SignupWithFacebookErrorState) {
+          errorToast(
+              msg: handleResponseTranslation("Something went wrong", context));
         }
       },
       builder: (context, state) {
@@ -113,12 +114,7 @@ class RegisterScreen extends StatelessWidget {
                                   ? Icons.visibility_off
                                   : Icons.visibility)),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return S.of(context).enterPassword;
-                            } else if (value.length < 6) {
-                              return S.of(context).shortPassword;
-                            }
-                            return null;
+                            return validPassword(value, context);
                           },
                         ),
                         SizedBox(
@@ -264,18 +260,16 @@ Widget _confirmTerms(
                 acceptTerms ? Icons.check_box : Icons.check_box_outline_blank)),
         Expanded(
             child: InkWell(
-              onTap: (){
-                context.push(Routes.termsAndCondition);
-              },
-              child: Padding(
-                padding: EdgeInsetsDirectional.symmetric(
-                  vertical: 1.5.h
-                ),
-                child: Text(
-                          S.of(context).agreeTerms,
-                          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
-                        ),
-              ),
-            ))
+          onTap: () {
+            context.push(Routes.termsAndCondition);
+          },
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(vertical: 1.5.h),
+            child: Text(
+              S.of(context).agreeTerms,
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
+            ),
+          ),
+        ))
       ],
     );

@@ -114,5 +114,14 @@
   "commonQuestions": "الاسئلة الشائعة",
   "emailNotExists": "البريد الإلكتروني غير موجود",
   "addRequiredPdf": "يرجي إلحاق المطلوب ادناه من الملف ",
+  "passMustContainLetter": "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل",
+  "passMustContainSpecialChar": "يجب أن تحتوي كلمة المرور على حرف مثل # * على الأقل",
+  "passMustContainNumber": "يجب ان تحتوي كلمة المرور على الاقل رقما واحدا",
+  "language": "اللغة",
+  "shareApp": "لمشاركة التطبيق زور  ",
+  "clubRate": "تقييم الملعب",
+  "ownerRate": "تقييم صاحب الملعب",
+  "addComment": "إضافة ملاحطة",
+  "send": "إرسال",
   "rejectIdCard": "تم رفض الملف تأكد من المطلوب جيدا واعد المحاولة"
 }
