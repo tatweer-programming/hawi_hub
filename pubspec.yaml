@@ -44,11 +44,12 @@ dependencies:
   flutter_geolocation_service: ^0.1.0
   connectivity_plus: ^6.0.1
   timeago:
-
+  firebase_messaging:
+  firebase_core:
   # CHATS PACKAGES
   voice_message_package: ^2.1.4
   audioplayers: any
-  record: ^5.0.5
+  #record: ^5.0.5
 
   # PAYMENT PACKAGE
   my_fatoorah: ^3.2.0

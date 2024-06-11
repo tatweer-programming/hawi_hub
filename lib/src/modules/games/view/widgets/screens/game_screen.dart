@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -23,7 +24,7 @@ class GameDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GamesBloc bloc = GamesBloc.get()..add(GetGameEvent(id));
-    Game game = bloc.games[0];
+    Game game = bloc.games.firstWhere((e) => e.id == id);
     return Scaffold(
         body: BlocBuilder<GamesBloc, GamesState>(
             bloc: bloc,
@@ -45,7 +46,7 @@ class GameDetailsScreen extends StatelessWidget {
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                            game.sportImageUrl,
+                                              ApiManager.handleImageUrl( game.sportImageUrl),
                                           )))),
                               Align(
                                 alignment: Alignment.bottomCenter,
@@ -125,7 +126,7 @@ class GameDetailsScreen extends StatelessWidget {
                               SubTitle("${S.of(context).players} (${game.players.length})"),
                               SizedBox(height: 2.h),
                               _buildHost(
-                                  context, game.players.firstWhere((element) => element.isHost)),
+                                  context, game.host),
                               SizedBox(height: 2.h),
                               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                                 SizedBox(

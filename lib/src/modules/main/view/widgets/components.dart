@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -155,55 +157,74 @@ class NotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 10.h,
-      width: 90.w,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: ColorManager.primary.withOpacity(.1),
-        borderRadius: BorderRadius.circular(180),
-      ),
-      child: Row(
+    return Dismissible(
+      direction: DismissDirection.startToEnd,
+      background: Row(
+
         children: [
-          if (notification.image != null)
-            CircleAvatar(
-              radius: 5.h,
-              backgroundImage: NetworkImage(notification.image!),
-              backgroundColor: ColorManager.primary,
-            ),
-          Expanded(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                        child: Text(notification.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyleManager.getSubTitleBoldStyle())),
-                    Text(
-                        timeago.format(notification.dateTime!,
-                            locale: LocalizationManager.getCurrentLocale().languageCode),
-                        style: TextStyleManager.getSubTitleStyle()),
-                    SizedBox(width: 1.w),
-                    const FittedBox(
-                        child: Icon(
-                      Icons.access_time,
-                    )),
-                    SizedBox(width: 3.w),
-                  ],
-                ),
-                SizedBox(height: .5.h),
-                Text(notification.body,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyleManager.getRegularStyle()),
-              ]))
+          Icon(
+            Icons.mark_chat_read,
+            color: ColorManager.primary,
+          ),
+          Spacer(),
+
         ],
+      ),
+      key: UniqueKey(),
+      onDismissed:  (context) {
+        MainCubit.get().markNotificationAsRead(notification.id);
+      },
+      child: Container(
+        height: 10.h,
+        width: 90.w,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: ColorManager.primary.withOpacity(.1),
+          borderRadius: BorderRadius.circular(180),
+        ),
+        child: Row(
+          children: [
+            if (notification.image != null)
+              CircleAvatar(
+                radius: 5.h,
+                backgroundImage: NetworkImage(ApiManager.handleImageUrl(notification.image!)),
+                backgroundColor: ColorManager.primary,
+              ),
+            Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                              child: Text(notification.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyleManager.getSubTitleBoldStyle())),
+                          Text(
+                              timeago.format(notification.dateTime!,
+                                  locale: LocalizationManager.getCurrentLocale()
+                                      .languageCode),
+                              style: TextStyleManager.getSubTitleStyle()),
+                          SizedBox(width: 1.w),
+                          const FittedBox(
+                              child: Icon(
+                                Icons.access_time,
+                              )),
+                          SizedBox(width: 3.w),
+                        ],
+                      ),
+                      SizedBox(height: .5.h),
+                      Text(notification.body,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyleManager.getRegularStyle()),
+                    ]))
+          ],
+        ),
       ),
     );
   }

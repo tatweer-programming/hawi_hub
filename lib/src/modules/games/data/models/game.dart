@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
+import 'package:hawihub/src/modules/games/data/data_source/games_remote_data_source.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
 
 import '../../../auth/data/models/player.dart';
@@ -18,8 +19,12 @@ class Game extends Equatable {
   final String placeAddress;
   final String placeName;
   final bool isPublic;
+  final DateTime startTime;
+  final DateTime endTime;
+  final DateTime deadline;
   List<GamePlayer> players;
-
+  GamePlayer host;
+  final int sportId;
   Game(
       {required this.id,
       required this.sportName,
@@ -33,38 +38,46 @@ class Game extends Equatable {
       required this.placeAddress,
       required this.placeName,
       required this.isPublic,
-      this.players = const []});
+      this.players = const [] ,
+      required this.startTime,
+      required this.endTime,
+       required this.deadline,
+      required this.sportId,
+      required this.host,
+      });
 
   factory Game.fromJson(Map<String, dynamic> json) {
     return Game(
-      id: json['id'],
-      sportName: json['sport_name'],
-      price: json['price'],
-      date: DateTime.parse(json['date']),
-      placeId: json['place_id'],
-      maxPlayers: json['max_players'],
-      minPlayers: json['min_players'],
-      hours: json['hours'],
-      sportImageUrl: json['sport_image_url'],
-      placeAddress: json['place_address'],
-      placeName: json['place_name'],
-      isPublic: json['is_public'],
-      players: _extractPlayers(json['players'] as List<Map<String, dynamic>>),
+      id: json['gameId'],
+      sportName: "",
+      price: json['gamePrice'],
+      date: DateTime.parse(json['gameStartTime']),
+      placeId: json['stadium'] ['stadiumId'],
+      maxPlayers: json['maxPlayers'],
+      minPlayers: json['minPlayers'],
+      hours: DateTime.parse(json['gameEndTime']).difference(DateTime.parse(json['gameStartTime'])).inHours,
+      sportImageUrl: "",
+      placeAddress: json['stadium']['address'],
+      placeName: json['stadium']['name'],
+      isPublic: json['isPublic'],
+      startTime: DateTime.parse(json['gameStartTime']),
+      endTime: DateTime.parse(json['gameEndTime']),
+      deadline: DateTime.parse(json['deadline']),
+      sportId: json['stadium']['categoryId'],
+      players: _extractPlayers(json['gamePlayers']),
+      host: GamePlayer.fromJson(json['host']),
     );
   }
   Map<String, dynamic> toJson() {
     return {
-      'sport_name': sportName,
-      'date': date.toIso8601String(),
-      'place_id': placeId,
-      'max_players': maxPlayers,
-      'min_players': minPlayers,
-      'hours': hours,
-      'sport_image_url': sportImageUrl,
-      'place_address': placeAddress,
-      'place_name': placeName,
-      'is_public': isPublic,
-      'players': players.map((e) => e.toJson()).toList(),
+      "stadiumId": placeId,
+      "isPublic": isPublic,
+      "gamePrice": price,
+      "minPlayers": minPlayers,
+      "maxPlayers": maxPlayers,
+      "gameStartTime": startTime.toUtc().toIso8601String(),
+      "gameEndTime": endTime.toUtc().toIso8601String(),
+      "deadline": startTime.subtract(const Duration(hours: 1)).toUtc().toIso8601String(),
     };
   }
 
@@ -81,10 +94,11 @@ class Game extends Equatable {
         id,
       ];
 
-  static List<GamePlayer> _extractPlayers(List<Map<String, dynamic>> playersJson) {
+  static List<GamePlayer> _extractPlayers(List playersJson) {
+     List<Map<String, dynamic>> playersJsonInCast = List.castFrom<dynamic, Map<String, dynamic>>(playersJson);
     List<GamePlayer> players = [];
-    for (Map<String, dynamic> playerJson in playersJson) {
-      players.add(GamePlayer.fromJson(playerJson));
+    for (Map<String, dynamic> playerJson in playersJsonInCast) {
+       players.add(GamePlayer.fromJson(playerJson));
     }
     return players;
   }

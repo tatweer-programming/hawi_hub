@@ -135,7 +135,9 @@ class HomePage extends StatelessWidget {
                                 separatorBuilder: (context, index) => SizedBox(
                                       width: 4.w,
                                     ),
-                                itemCount: 3);
+                                itemCount: gamesBloc.games.length > 3
+                                    ? 3
+                                    : gamesBloc.games.length);
                       }),
                 ),
                 SizedBox(

@@ -14,7 +14,7 @@ class DioHelper {
       },
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
-      validateStatus: (_) => true,
+
     ));
   }
 

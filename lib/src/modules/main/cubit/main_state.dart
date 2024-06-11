@@ -8,6 +8,14 @@ final class MainInitial extends MainState {
   @override
   List<Object> get props => [];
 }
+class MainError extends MainState {
+  final Exception exception;
+
+  const MainError(this.exception);
+
+  @override
+  List<Object> get props => [];
+}
 
 class ChangePage extends MainState {
   final int index;
@@ -32,7 +40,9 @@ class GetBannersSuccess extends MainState {
   List<Object> get props => [];
 }
 
-class GetBannersError extends MainState {
+class GetBannersError extends MainError  {
+  const GetBannersError(super.exception);
+
   @override
   List<Object> get props => [];
 }
@@ -51,7 +61,9 @@ class GetSportsSuccess extends MainState {
   List<Object> get props => [];
 }
 
-class GetSportsError extends MainState {
+class GetSportsError extends MainError  {
+  const GetSportsError(super.exception);
+
   @override
   List<Object> get props => [];
 }
@@ -68,4 +80,24 @@ class SelectCityState extends MainState {
   const SelectCityState(this.id);
   @override
   List<Object> get props => [id];
+}
+class GetNotificationsLoading extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
+class GetNotificationsSuccess extends MainState {
+  final List<AppNotification> notifications;
+
+  const GetNotificationsSuccess(this.notifications);
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetNotificationsError extends MainError  {
+  const GetNotificationsError(super.exception);
+
+  @override
+  List<Object> get props => [];
 }

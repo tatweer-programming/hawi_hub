@@ -1209,6 +1209,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No Alerts`
+  String get noAlerts {
+    return Intl.message(
+      'No Alerts',
+      name: 'noAlerts',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

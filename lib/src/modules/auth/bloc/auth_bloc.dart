@@ -213,6 +213,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 }
 
 Future _clearUserData() async {
+
   ConstantsManager.userId = null;
   ConstantsManager.appUser = null;
   await CacheHelper.removeData(key: "userId");

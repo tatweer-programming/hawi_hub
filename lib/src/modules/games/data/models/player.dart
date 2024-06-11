@@ -1,3 +1,5 @@
+import 'package:hawihub/src/core/utils/images_manager.dart';
+
 class GamePlayer {
   final String name;
   final int id;
@@ -7,10 +9,10 @@ class GamePlayer {
       {required this.name, required this.id, required this.imageUrl, this.isHost = false});
   factory GamePlayer.fromJson(Map<String, dynamic> json) {
     return GamePlayer(
-      isHost: json['is_host'],
-      name: json['name'],
-      id: json['id'],
-      imageUrl: json['image_url'],
+      isHost: false,
+      name: json['userName'],
+      id: json['playerId'],
+      imageUrl: json['profilePictureUrl'] ?? ImagesManager.defaultProfile,
     );
   }
   Map<String, dynamic> toJson() {
@@ -18,7 +20,18 @@ class GamePlayer {
       'is_host': isHost,
       'name': name,
       'id': id,
-      'image_url': imageUrl,
+      'image_url': imageUrl ,
     };
+  }
+}
+class Host extends GamePlayer {
+  Host({required super.name, required super.id, required super.imageUrl , super.isHost = true});
+  @override
+  factory Host.fromJson(Map<String, dynamic> json) {
+    return Host(
+      name: json['userName'],
+      id: json['playerId'],
+      imageUrl: json['profilePictureUrl'] ?? ImagesManager.defaultProfile,
+    );
   }
 }

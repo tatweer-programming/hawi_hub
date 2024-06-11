@@ -114,5 +114,6 @@
   "share": "Share",
   "commonQuestions": "Common Questions",
   "addRequiredPdf": "Please add what is required below from the file",
-  "private": "Private"
+  "private": "Private",
+   "noAlerts": "No Alerts"
 }

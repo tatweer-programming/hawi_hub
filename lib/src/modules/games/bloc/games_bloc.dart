@@ -22,7 +22,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
       if (event is GetGamesEvent) {
         if (games.isEmpty) {
           emit(GetGamesLoading());
-          var result = await remoteDataSource.getGames();
+          var result = await remoteDataSource.getGames(cityId: event.cityId);
           result.fold((l) => null, (r) {
             games = r;
             emit(GetGamesSuccess(r));
