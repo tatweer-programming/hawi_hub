@@ -112,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "noAccount": MessageLookupByLibrary.simpleMessage("لا تمتلك حساب ؟"),
+        "noAlerts": MessageLookupByLibrary.simpleMessage("لا توجد تنبيهات"),
         "noComment": MessageLookupByLibrary.simpleMessage("لا تعليق"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noMinimumBooking":

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
@@ -21,9 +22,11 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         emit(GetAllPlacesLoading());
         var result = await placesRemoteDataSource.getAllPlaces(cityId: event.cityId);
         result.fold((l) {
+          errorToast(msg: "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
           emit(GetAllPlacesError(l));
         }, (r) {
           allPlaces = r;
+          print(r);
           viewedPlaces = allPlaces;
           emit(GetAllPlacesSuccess(r));
         });

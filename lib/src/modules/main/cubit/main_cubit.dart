@@ -9,8 +9,10 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/data/services/main_services.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/main/view/widgets/pages/home_page.dart';
 import 'package:hawihub/src/modules/main/view/widgets/pages/more_page.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
@@ -37,7 +39,7 @@ class MainCubit extends Cubit<MainState> {
   List<String> bannerList = [];
   List<Sport> sportsList = [];
   int? currentCityId;
-
+  List<AppNotification> notifications = [];
   void changePage(int index) {
     currentIndex = index;
     emit(ChangePage(index));
@@ -55,7 +57,7 @@ class MainCubit extends Cubit<MainState> {
     var result = await mainServices.getBanners();
     result.fold((l) {
       ExceptionManager(l).translatedMessage();
-      emit(GetBannersError());
+      emit(GetBannersError(l));
     }, (r) {
       bannerList = r;
       emit(GetBannersSuccess(r));
@@ -66,7 +68,7 @@ class MainCubit extends Cubit<MainState> {
     emit(GetSportsLoading());
     var result = await mainServices.getSports();
     result.fold((l) {
-      emit(GetSportsError());
+      emit(GetSportsError(l));
     }, (r) {
       sportsList = r;
       emit(GetSportsSuccess(r));
@@ -112,11 +114,25 @@ class MainCubit extends Cubit<MainState> {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
 
-    await getCurrentCity().then((value) {
+    await getCurrentCity().then((value) async{
       gamesBloc.add(GetGamesEvent(currentCityId!));
       placeBloc.add(GetAllPlacesEvent(currentCityId!));
     });
     await getBanner();
     await getSports();
+  }
+  getNotifications() async {
+    emit(GetNotificationsLoading());
+    NotificationServices notificationServices = NotificationServices();
+    var result = await notificationServices.getNotifications();
+    result.fold((l) {
+      emit(GetNotificationsError(l));
+    }, (r) {
+      notifications = r;
+      emit(GetNotificationsSuccess(r));
+    });
+  }
+  void markNotificationAsRead(int i) {
+    NotificationServices().markAsRead(i);
   }
 }

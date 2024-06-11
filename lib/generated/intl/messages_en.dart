@@ -109,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
         "noAccount":
             MessageLookupByLibrary.simpleMessage("Don’t have an account ?"),
+        "noAlerts": MessageLookupByLibrary.simpleMessage("No Alerts"),
         "noComment": MessageLookupByLibrary.simpleMessage("No comment"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
         "noMinimumBooking":

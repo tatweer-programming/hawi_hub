@@ -114,6 +114,7 @@
   "share": "Share",
   "commonQuestions": "Common Questions",
   "addRequiredPdf": "Please add what is required below from the file",
+<<<<<<< HEAD
   "passMustContainLetter": "Password must contain at least one letter",
   "passMustContainSpecialChar": "Password must contain at least one special character",
   "passMustContainNumber": "Password must contain at least one number",
@@ -124,4 +125,8 @@
   "send": "Send",
   "shareApp": "hey! to share our app visit ",
   "private": "Private"
+=======
+  "private": "Private",
+   "noAlerts": "No Alerts"
+>>>>>>> f485ae72d5ecdac5032ddec345e30500126a90c8
 }

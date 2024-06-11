@@ -201,7 +201,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         File pdfFile = await _loadPdfFromAssets();
         OpenFile.open(pdfFile.path);
         emit(OpenPdfState());
-      }else if (event is AddImageEvent) {
+      } else if (event is AddImageEvent) {
         await _captureAndSaveGalleryImage().then((imagePicked) {
           emit(AddImageSuccessState(imagePicked: imagePicked!));
         });

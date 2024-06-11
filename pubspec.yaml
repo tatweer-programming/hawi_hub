@@ -33,6 +33,7 @@ dependencies:
   share_plus: any
   open_file_plus: ^3.4.1+1
   file_picker: ^8.0.2
+  firebase_messaging:
 
 
   # AUTH PACKAGES

@@ -45,7 +45,7 @@ class CreateGameSuccess extends GamesState {
   final int gameId;
   const CreateGameSuccess(this.gameId);
   @override
-  List<Object> get props => [game];
+  List<Object> get props => [gameId];
 }
 
 class GetGamesError extends GamesError {

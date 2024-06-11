@@ -24,6 +24,8 @@ class PlacesRemoteDataSource {
           await DioHelper.getData(path: "${EndPoints.getPlaces}$cityId", query: {"cityId": cityId});
       if (response.statusCode == 200) {
         places = (response.data as List).map((e) => Place.fromJson(e)).toList();
+        print("places $places");
+
       }
       return Right(places);
     } on Exception catch (e) {

@@ -15,7 +15,10 @@ class EndPoints {
   static const String getSports = '/Category';
   static const String getPlaces = '/Stadium/GetByCity/';
   static const String getPlaceBookings = "";
-
+  /// games
+  static const String getGames = '/Stadium/GetGamesByCity/';
+  static const String createGame = '/Player/AddStadiumGame/';
+  static const String joinGame = '/Player/JoinGame/';
   /// chat
   static const String getConnection = '/Hub/negotiate?negotiateVersion=1';
   static const String addConnectionId = '/Hub/AddPlayerConnectionId/';
@@ -24,4 +27,7 @@ class EndPoints {
   static const String getConversation = '/Hub/Conversation/';
   static const String uploadConversationAttachment =
       '/Hub/UploadConversationAttachment';
+
+  static const String getNotifications = '/Hub/PlayerNotifications/';
+  static const String markAsRead = "/Hub/MarkPlayerNotificationAsRead/";
 }
