@@ -45,7 +45,7 @@ class AllPlayersScreen extends StatelessWidget {
                     return GamePlayerItem(player: players[index]);
                   },
                   separatorBuilder: (context, index) {
-                    return Divider();
+                    return const Divider();
                   }))
         ],
       )),

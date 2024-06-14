@@ -39,13 +39,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
         "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
         "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
+        "bookingConflict":
+            MessageLookupByLibrary.simpleMessage("الملعب محجوز في هذا الوقت"),
+        "bookingSuccess":
+            MessageLookupByLibrary.simpleMessage("تم إضافة الحجز بنجاح"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "change": MessageLookupByLibrary.simpleMessage("تغير "),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
         "checkYourNetwork":
             MessageLookupByLibrary.simpleMessage("تحقق من الشبكة"),
+        "chooseDate":
+            MessageLookupByLibrary.simpleMessage("يرجى أختيار التاريخ"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "chooseStadium":
+            MessageLookupByLibrary.simpleMessage("يرجى اختيار الملعب"),
         "code": MessageLookupByLibrary.simpleMessage("الرمز "),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("الاسئلة الشائعة"),
@@ -78,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر ؟"),
         "from": MessageLookupByLibrary.simpleMessage("من"),
+        "gameCreated": MessageLookupByLibrary.simpleMessage(
+            "تم انشاء الحجز الجماعي بنجاح"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
         "host": MessageLookupByLibrary.simpleMessage("المضيف"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
@@ -97,8 +107,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "maxPlayers":
             MessageLookupByLibrary.simpleMessage("الحد الاقصى للاعبين"),
+        "maxPlayersRequired":
+            MessageLookupByLibrary.simpleMessage("يجب عليك ادخال عدد اللاعبين"),
         "minPlayers":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للاعبين"),
+        "minPlayersRequired":
+            MessageLookupByLibrary.simpleMessage("يجب عليك ادخال عدد اللاعبين"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
@@ -111,7 +125,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noAccount": MessageLookupByLibrary.simpleMessage("لا تمتلك حساب ؟"),
         "noAlerts": MessageLookupByLibrary.simpleMessage("لا توجد تنبيهات"),
         "noComment": MessageLookupByLibrary.simpleMessage("لا تعليق"),
+        "noEnoughBalance":
+            MessageLookupByLibrary.simpleMessage("الرصيد غير كافي"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("لا يوجد حد أدنى"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
@@ -151,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(" اعادة تعيين كلمة المرور"),
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+        "saved": MessageLookupByLibrary.simpleMessage("تم الحفظ بنجاح"),
         "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
         "seeAll": MessageLookupByLibrary.simpleMessage("رؤية الكل"),
         "sendCode": MessageLookupByLibrary.simpleMessage("إرسال الرمز"),

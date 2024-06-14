@@ -39,13 +39,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Available Times"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
+        "bookingConflict": MessageLookupByLibrary.simpleMessage(
+            "There is a conflict with another booking"),
+        "bookingSuccess":
+            MessageLookupByLibrary.simpleMessage("Booking Added Successfully"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change "),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
         "checkYourNetwork":
             MessageLookupByLibrary.simpleMessage("CHECK YOUR NETWORK"),
+        "chooseDate": MessageLookupByLibrary.simpleMessage("Choose Date first"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
+        "chooseStadium":
+            MessageLookupByLibrary.simpleMessage("Choose Stadium first"),
         "code": MessageLookupByLibrary.simpleMessage("Code"),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("Common Questions"),
@@ -77,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password ?"),
         "from": MessageLookupByLibrary.simpleMessage("From"),
+        "gameCreated":
+            MessageLookupByLibrary.simpleMessage("Game Created Successfully"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
@@ -95,7 +104,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Account LogedIn Successfully"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "maxPlayers": MessageLookupByLibrary.simpleMessage("Maximum Players"),
+        "maxPlayersRequired": MessageLookupByLibrary.simpleMessage(
+            "Please enter number of players"),
         "minPlayers": MessageLookupByLibrary.simpleMessage("Minimum Players"),
+        "minPlayersRequired": MessageLookupByLibrary.simpleMessage(
+            "Please enter number of players"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
@@ -108,7 +121,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Don’t have an account ?"),
         "noAlerts": MessageLookupByLibrary.simpleMessage("No Alerts"),
         "noComment": MessageLookupByLibrary.simpleMessage("No comment"),
+        "noEnoughBalance":
+            MessageLookupByLibrary.simpleMessage("No enough balance"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("No Items Found"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("No Minimum Booking"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
@@ -148,6 +164,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saved": MessageLookupByLibrary.simpleMessage("Saved"),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
         "seeAll": MessageLookupByLibrary.simpleMessage("See all"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send Code"),

@@ -125,19 +125,21 @@ class HomePage extends StatelessWidget {
                   child: BlocBuilder<GamesBloc, GamesState>(
                       bloc: gamesBloc,
                       builder: (context, state) {
-                        return state is GetGamesLoading &&
-                                gamesBloc.games.isEmpty
-                            ? const HorizontalGamesShimmer()
+                         print(state);
+                        return state is GetGamesLoading ? const HorizontalGamesShimmer() :
+                                gamesBloc.filteredGames.isEmpty
+                            ? const EmptyView()
                             : ListView.separated(
                                 scrollDirection: Axis.horizontal,
+
                                 itemBuilder: (context, index) =>
-                                    GameItem(game: gamesBloc.games[index]),
+                                    GameItem(game: gamesBloc.filteredGames[index]),
                                 separatorBuilder: (context, index) => SizedBox(
                                       width: 4.w,
                                     ),
-                                itemCount: gamesBloc.games.length > 3
+                                itemCount: gamesBloc.filteredGames.length > 3
                                     ? 3
-                                    : gamesBloc.games.length);
+                                    : gamesBloc.filteredGames.length);
                       }),
                 ),
                 SizedBox(
@@ -172,19 +174,19 @@ class HomePage extends StatelessWidget {
                   child: BlocBuilder<PlaceBloc, PlaceState>(
                       bloc: placeBloc,
                       builder: (context, state) {
-                        return placeBloc.allPlaces.isEmpty
-                            ? const HorizontalPlacesShimmer()
+                        return  state is GetAllPlacesLoading ? const HorizontalPlacesShimmer() : placeBloc.viewedPlaces.isEmpty
+                            ? const EmptyView()
                             : ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) => PlaceItem(
-                                      place: placeBloc.allPlaces[index],
+                                      place: placeBloc.viewedPlaces[index],
                                     ),
                                 separatorBuilder: (context, index) => SizedBox(
                                       width: 4.w,
                                     ),
-                                itemCount: placeBloc.allPlaces.length > 3
+                                itemCount: placeBloc.viewedPlaces.length > 3
                                     ? 3
-                                    : placeBloc.allPlaces.length);
+                                    : placeBloc.viewedPlaces.length);
                       }),
                 ),
               ])),

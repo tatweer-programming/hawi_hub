@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
@@ -213,7 +212,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 }
 
 Future _clearUserData() async {
-
   ConstantsManager.userId = null;
   ConstantsManager.appUser = null;
   await CacheHelper.removeData(key: "userId");

@@ -37,7 +37,7 @@ class MainServices {
           sports.add(Sport.fromJson(item));
         }
       }
-      print(sports.map((e) => e.englishName));
+      print(sports.map((e) => e.image));
       return Right(sports);
     } on Exception catch (e) {
       return Left(e);

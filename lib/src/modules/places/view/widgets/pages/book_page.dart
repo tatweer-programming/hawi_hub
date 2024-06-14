@@ -28,15 +28,15 @@ class BookPage extends StatelessWidget {
               padding: EdgeInsets.all(5.w),
               child: state is GetPlaceLoading
                   ? const VerticalPlacesShimmer()
-                  : ListView.separated(
+                  :  placeBloc.viewedPlaces.isEmpty ? const EmptyView() : ListView.separated(
                       separatorBuilder: (context, index) => SizedBox(
                         height: 2.h,
                       ),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: placeBloc.allPlaces.length,
+                      itemCount: placeBloc.viewedPlaces.length,
                       itemBuilder: (context, index) => PlaceItem(
-                        place: placeBloc.allPlaces[index],
+                        place: placeBloc.viewedPlaces[index],
                       ),
                     ),
             );

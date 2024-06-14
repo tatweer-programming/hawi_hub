@@ -1219,6 +1219,106 @@ class S {
       args: [],
     );
   }
+
+  /// `There is a conflict with another booking`
+  String get bookingConflict {
+    return Intl.message(
+      'There is a conflict with another booking',
+      name: 'bookingConflict',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Added Successfully`
+  String get bookingSuccess {
+    return Intl.message(
+      'Booking Added Successfully',
+      name: 'bookingSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No enough balance`
+  String get noEnoughBalance {
+    return Intl.message(
+      'No enough balance',
+      name: 'noEnoughBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Items Found`
+  String get noItemsFound {
+    return Intl.message(
+      'No Items Found',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved`
+  String get saved {
+    return Intl.message(
+      'Saved',
+      name: 'saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Stadium first`
+  String get chooseStadium {
+    return Intl.message(
+      'Choose Stadium first',
+      name: 'chooseStadium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Date first`
+  String get chooseDate {
+    return Intl.message(
+      'Choose Date first',
+      name: 'chooseDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Created Successfully`
+  String get gameCreated {
+    return Intl.message(
+      'Game Created Successfully',
+      name: 'gameCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter number of players`
+  String get minPlayersRequired {
+    return Intl.message(
+      'Please enter number of players',
+      name: 'minPlayersRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter number of players`
+  String get maxPlayersRequired {
+    return Intl.message(
+      'Please enter number of players',
+      name: 'maxPlayersRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

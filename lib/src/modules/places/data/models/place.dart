@@ -69,7 +69,7 @@ class Place extends Equatable {
        json['images'].map((x) => x['url']).toList(),
        */
         approvalStatus: json['approvalStatus'],
-        ownerId: json['ownerId'],
+        ownerId: json['owner']['ownerId'],
         minimumHours: json['minHoursReservation'],
         price: json['pricePerHour'],
         totalGames: json['totalGames'] ?? 0,
@@ -79,8 +79,8 @@ class Place extends Equatable {
         workingHours: List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
         location: PlaceLocation.fromString(json['location']),
         sport: json['category'] ?? 0,
-        ownerName: json['ownerName'] ?? "",
-        ownerImage: json['ownerImage'] ?? "");
+        ownerName: json['owner']['ownerName'] ?? "",
+        ownerImage: json['owner']['ownerImage'] ?? "");
   }
 
   static List<Day> getWeekDays(List<Map<String, dynamic>> weekDays) {

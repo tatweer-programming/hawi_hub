@@ -9,6 +9,7 @@ class ConstantsManager {
   static String? connectionToken;
   static bool? registrationSkipped;
   static int? userId;
+  static bool? isFirstTime;
   static String? userToken;
   static const String successUrl =
       "https://firebasestorage.googleapis.com/v0/b/masheed-d942d.appspot.com/o/payment%2Fsuccess%20(2).HTML?alt=media&token=2d979a52-9247-4abd-a264-fba2d5f0ae2e";

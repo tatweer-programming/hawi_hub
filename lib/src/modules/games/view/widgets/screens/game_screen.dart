@@ -14,6 +14,8 @@ import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
+import '../../../../main/cubit/main_cubit.dart';
+import '../../../../main/data/models/sport.dart';
 import '../../../data/models/game.dart';
 
 class GameDetailsScreen extends StatelessWidget {
@@ -46,7 +48,8 @@ class GameDetailsScreen extends StatelessWidget {
                                       image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                              ApiManager.handleImageUrl( game.sportImageUrl),
+                                              ApiManager.handleImageUrl(
+                                                MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).image, ),
                                           )))),
                               Align(
                                 alignment: Alignment.bottomCenter,
@@ -134,21 +137,26 @@ class GameDetailsScreen extends StatelessWidget {
                                     height: 6.h,
                                     child: Stack(
                                         alignment: AlignmentDirectional.centerStart,
-                                        children: game.players
-                                            .sublist(0,
+                                        children: [
+                                          game.host ,
+                                          ...game.players
+                                        ].sublist(0,
                                                 game.players.length > 3 ? 3 : game.players.length)
                                             .map((e) => Positioned(
                                                   left: game.players.indexOf(e) * 7.w,
                                                   child: CircleAvatar(
                                                     radius: 3.h,
-                                                    backgroundImage: NetworkImage(e.imageUrl),
+                                                    backgroundImage: NetworkImage( ApiManager.handleImageUrl(e.imageUrl)),
                                                   ),
                                                 ))
                                             .toList())),
                                 TextButton(
                                   onPressed: () {
                                     context.push(Routes.allPlayers,
-                                        arguments: {"players": game.players});
+                                        arguments: {"players": [
+                                          game.host ,
+                                          ...game.players
+                                        ]});
                                   },
                                   child: Row(
                                     children: [
@@ -165,7 +173,7 @@ class GameDetailsScreen extends StatelessWidget {
                               SizedBox(
                                 height: 2.h,
                               ),
-                              _buildSportWidget(game.sportName, context),
+                              _buildSportWidget(MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).name, context),
                               SizedBox(
                                 height: 2.h,
                               ),
@@ -181,8 +189,11 @@ class GameDetailsScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                     child: DefaultButton(
+                      isLoading: state is JoinGameLoading,
                       text: S.of(context).join,
-                      onPressed: () {},
+                      onPressed: () {
+                        bloc.add(JoinGameEvent(gameId: game.id));
+                      },
                       height: 6.h,
                     ),
                   )
@@ -200,7 +211,7 @@ class GameDetailsScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 3.h,
-              backgroundImage: NetworkImage(player.imageUrl),
+              backgroundImage: NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
             ),
             SizedBox(width: 2.w),
             Column(

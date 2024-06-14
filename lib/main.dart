@@ -65,6 +65,7 @@ class _MyAppState extends State<MyApp> {
 
     // Handle links
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+
       print('onAppLink: $uri');
       openAppLink(uri);
     });
@@ -105,5 +106,6 @@ class _MyAppState extends State<MyApp> {
             theme: getAppTheme(),
           );
         }));
+
   }
 }

@@ -43,3 +43,4 @@ class CreateGameEvent extends GamesEvent {
   @override
   List<Object> get props => [minPlayers, maxPlayers];
 }
+

@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
+import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 
 import '../models/player.dart';
 
@@ -25,23 +28,28 @@ class GamesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, String>> createGame({required Game game})async {
+  Future<Either<Exception, String>> createGame({required GameCreationForm game})async {
     try {
       var response = await DioHelper.postData(data: game.toJson(), path: EndPoints.createGame);
-      return Right(response.data['']);
+      return Right(response.data['gameId'].toString());
     } on Exception catch (e) {
       return Left(e);
     }
   }
   Future<Either<Exception, Unit>> joinGame( {required int gameId})async {
        try {
-         var response = await DioHelper.postData(data: { "gameId": gameId}, path: EndPoints.joinGame + ConstantsManager.userId.toString());
+         if (kDebugMode) {
+           print(ConstantsManager.userId);
+         }
+         var response = await DioHelper.postData(data: { "gameId": gameId}, path: "${EndPoints.joinGame}${ConstantsManager.userId}", query: {"id": ConstantsManager.userId});
           if (response.statusCode == 200) {
             return const Right(unit);
           }
 
           return const Right(unit);
        } on Exception catch (e) {
+         DioException dioException = e as DioException;
+         print(dioException.response!.data  + "    " + dioException.response!.statusCode.toString());
          return Left(e);
        }
   }

@@ -86,3 +86,19 @@ class ChangGameAvailabilitySuccess extends GamesState {
   @override
   List<Object> get props => [isPublic];
 }
+
+class JoinGameSuccess extends GamesState {
+
+  const JoinGameSuccess();
+  @override
+  List<Object> get props => [];
+}
+
+class JoinGameError extends GamesError {
+  JoinGameError(super.exception);
+}
+
+class JoinGameLoading extends GamesLoading {
+  @override
+  List<Object> get props => [];
+}

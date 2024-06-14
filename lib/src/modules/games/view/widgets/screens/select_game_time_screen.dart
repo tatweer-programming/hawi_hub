@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
@@ -10,25 +7,23 @@ import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
-
-import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../data/models/booking.dart';
-
-class AddBookingScreen extends StatefulWidget {
+import 'package:intl/intl.dart';
+class SelectGameTimeScreen extends StatefulWidget {
   final int placeId;
-  const AddBookingScreen({super.key, required this.placeId});
+  const SelectGameTimeScreen({super.key, required this.placeId});
 
   @override
-  State<AddBookingScreen> createState() => _AddBookingScreenState();
+  State<SelectGameTimeScreen> createState() => _SelectGameTimeScreenState();
 }
 
-class _AddBookingScreenState extends State<AddBookingScreen> {
+class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
   TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0);
@@ -42,7 +37,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   }
 
   Future<void> _fetchBookings() async {
-      PlaceBloc.get().add(GetPlaceBookingsEvent(widget.placeId));
+    PlaceBloc.get().add(GetPlaceBookingsEvent(widget.placeId));
   }
 
   Future<void> _selectStartTime() async {
@@ -85,7 +80,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         return;
       }
     }
-    for (Day day in PlaceBloc.get().currentPlace!.workingHours ?? []) {
+    for (Day day in PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).workingHours ?? []) {
       if (!day.isBookingAllowed(start, end)) {
         errorToast(msg: S.of(context).bookingConflict);
         return;
@@ -94,14 +89,17 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
     }
     // Add the booking to the list (simulate the addition)
     setState(() {
-      double reservationPrice = PlaceBloc.get().currentPlace!.price * (end.difference(start).inMinutes / 60);
-     if (ConstantsManager.appUser!.myWallet < reservationPrice) {
-       errorToast(msg: S.of(context).noEnoughBalance);
-     }
-     else {
-       PlaceBloc.get().add(AddBookingEvent( Booking(startTime: start, endTime: end ,  reservationPrice:  reservationPrice ) , placeId: widget.placeId  ,));
-     }
+      double reservationPrice = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).price * (end.difference(start).inMinutes / 60);
+      if (ConstantsManager.appUser!.myWallet < reservationPrice) {
+        errorToast(msg: S.of(context).noEnoughBalance);
+      }
+      else {
+        GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+         defaultToast(msg: S.of(context).saved);
+        context.pop();
+      }
     });
+
 
 
   }

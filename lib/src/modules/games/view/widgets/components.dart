@@ -84,7 +84,8 @@ class GameItem extends StatelessWidget {
                     color: Colors.grey,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(ApiManager.handleImageUrl(MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).image, )),
+                      image: NetworkImage(ApiManager.handleImageUrl(
+                        MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).image, )),
                     ))),
             Expanded(
                 child: Column(
@@ -193,7 +194,11 @@ class GamePlayerItem extends StatelessWidget {
     return SizedBox(
       height: 15.h,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push(Routes.profile , arguments: {
+            "id" : player.id
+          });
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

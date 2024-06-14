@@ -46,16 +46,18 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         }, (r) {
           emit(GetPlaceBookingsSuccess(r));
         });
-      } else if (event is GetDayBookingsEvent) {
-        emit(GetDayBookingsLoading());
-        var result =
-            await placesRemoteDataSource.getDayBookings(date: event.date, placeId: event.placeId);
-        result.fold((l) {
-          emit(GetDayBookingsError(l));
-        }, (r) {
-          emit(GetDayBookingsSuccess(r));
-        });
-      } else if (event is GetPlaceReviewsEvent) {
+      }
+      // else if (event is GetDayBookingsEvent) {
+      //   emit(GetDayBookingsLoading());
+      //   var result =
+      //   await placesRemoteDataSource.ge(date: event.date, placeId: event.placeId);
+      //   result.fold((l) {
+      //     emit(GetDayBookingsError(l));
+      //   }, (r) {
+      //     emit(GetDayBookingsSuccess(r));
+      //   });
+      // }
+      else if (event is GetPlaceReviewsEvent) {
         emit(GetPlaceReviewsLoading());
         var result = await placesRemoteDataSource.getPlaceReviews(placeId: event.placeId);
         result.fold((l) {
@@ -76,6 +78,15 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       } else if (event is SelectSport) {
         viewedPlaces = allPlaces.where((element) => element.sport == event.sportId).toList();
         emit(SelectSportSuccess(event.sportId));
+      }
+      else if (event is AddBookingEvent) {
+        emit(SendBookingRequestLoading());
+        var result = await placesRemoteDataSource.addBooking(booking: event.booking , placeId: event.placeId );
+        result.fold((l) {
+          emit(SendBookingRequestError(l));
+        }, (r) {
+          emit(SendBookingRequestSuccess());
+        });
       }
     });
   }

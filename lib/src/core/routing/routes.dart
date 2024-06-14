@@ -1,5 +1,5 @@
 class Routes {
-  static const String splash = '/';
+  static const String splash = 'hawihub.com/app';
   static const String home = '/home';
   static const String places = '/places';
   static const String comments = '/comments';
@@ -15,4 +15,5 @@ class Routes {
   static const String placeLocation = '/placeLocation';
   static const String termsAndCondition = '/termsAndCondition';
   static const String questions = '/questions';
+  static const String selectGameTime = '/selectGameTime';
 }

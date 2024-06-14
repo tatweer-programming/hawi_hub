@@ -15,9 +15,10 @@ class EndPoints {
   static const String getSports = '/Category';
   static const String getProfile = '/user';
   static const String getPlaces = '/Stadium/GetByCity/';
-  static const String getPlaceBookings = "";
+  static const String getPlaceBookings = "/Stadium/StadiumReservationsTimes/";
+  static const String bookPlace = '/Player/ReserveStadium/';
   /// games
-  static const String getGames = '/Stadium/GetGamesByCity/';
+  static const String getGames = '/Stadium/Games/City/';
   static const String createGame = '/Player/AddStadiumGame/';
   static const String joinGame = '/Player/JoinGame/';
   /// chat

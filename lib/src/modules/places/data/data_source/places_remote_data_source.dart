@@ -49,11 +49,17 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
+  Future <Either<Exception ,Unit>> addBooking({required Booking booking, required int placeId})async {
+    try {
 
-  Future<Either<Exception, List<DateTime>>> getDayBookings(
-      {required DateTime date, required int placeId}) {
-    throw UnimplementedError();
+      var response = DioHelper.postData(path: "${EndPoints.bookPlace}$placeId", data: booking.toJson( stadiumId: placeId ,  reservationPrice:  booking.reservationPrice!));
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
   }
+
+
 
   Future<Either<Exception, Unit>> ratePlace({required FeedBack feedBack, required int placeId}) {
     throw UnimplementedError();

@@ -17,7 +17,7 @@ class GetPlaceEvent extends PlaceEvent {
   const GetPlaceEvent(this.placeId);
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [placeId];
 }
 
 class GetPlaceBookingsEvent extends PlaceEvent {
@@ -72,4 +72,11 @@ class SelectSport extends PlaceEvent {
   const SelectSport(this.sportId);
   @override
   List<Object?> get props => [sportId];
+}
+class AddBookingEvent extends PlaceEvent {
+  final int placeId;
+final Booking booking;
+  const AddBookingEvent( this.booking ,{required this.placeId});
+  @override
+  List<Object?> get props => [];
 }

@@ -115,5 +115,15 @@
   "commonQuestions": "Common Questions",
   "addRequiredPdf": "Please add what is required below from the file",
   "private": "Private",
-   "noAlerts": "No Alerts"
+   "noAlerts": "No Alerts",
+  "bookingConflict" : "There is a conflict with another booking",
+  "bookingSuccess" : "Booking Added Successfully",
+  "noEnoughBalance" : "No enough balance",
+  "noItemsFound" : "No Items Found",
+  "saved": "Saved",
+  "chooseStadium" : "Choose Stadium first",
+  "chooseDate" : "Choose Date first",
+  "gameCreated" : "Game Created Successfully",
+  "minPlayersRequired" : "Please enter number of players",
+  "maxPlayersRequired" : "Please enter number of players"
 }

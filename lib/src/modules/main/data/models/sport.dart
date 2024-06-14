@@ -13,7 +13,7 @@ class Sport {
       id: json['categoryId'],
       arabicName: json['categoryNameAr'],
       englishName: json['categoryNameEn'],
-      image: " json['image']",
+      image: json['categoryImageUrl'],
     );
   }
 

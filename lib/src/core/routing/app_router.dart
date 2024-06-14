@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/questions_screen.dart';
@@ -7,10 +8,12 @@ import 'package:hawihub/src/modules/main/view/screens/terms_conditions_screen.da
 import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
+import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
 import '../../modules/games/view/widgets/screens/all_players_screen.dart';
 import '../../modules/games/view/widgets/screens/create_game_screen.dart';
 import '../../modules/games/view/widgets/screens/game_screen.dart';
+import '../../modules/games/view/widgets/screens/select_game_time_screen.dart';
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
 
@@ -20,12 +23,13 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
-          builder: (_) =>
-          const SplashScreen(
-            nextScreen: MainScreen(),
-            // nextScreen: ConstantsManager.userToken == null
-            //     ? const GetStartedScreen()
-            //     : const MainScreen(),
+          builder: (_) => SplashScreen(
+            // nextScreen: MainScreen(),
+            nextScreen: ConstantsManager.userId == null
+                ? (ConstantsManager.isFirstTime == true || ConstantsManager.isFirstTime == null
+                ? const GetStartedScreen()
+                : const LoginScreen())
+                : const MainScreen(),
           ),
         );
       case Routes.place:
@@ -73,7 +77,9 @@ class AppRouter {
         settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => AddBookingScreen(placeId: arguments['id']));
-
+           case Routes.selectGameTime:
+              Map<String, dynamic> arguments =  settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(builder: (_) => SelectGameTimeScreen(placeId:  arguments['id'],));
       default:
         return MaterialPageRoute(
             builder: (_) =>

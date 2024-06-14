@@ -8,6 +8,8 @@ import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../main/view/widgets/components.dart';
+
 class PlaceItem extends StatelessWidget {
   final Place place;
   const PlaceItem({super.key, required this.place});
@@ -131,6 +133,17 @@ class SportItem extends StatelessWidget {
         ),
         Text(sportName)
       ]),
+    );
+  }
+}
+class EmptyView extends StatelessWidget {
+  const EmptyView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 5.h),
+      child: Center(child: SubTitle(S.of(context).noItemsFound)),
     );
   }
 }

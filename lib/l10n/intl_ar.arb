@@ -115,5 +115,17 @@
   "emailNotExists": "البريد الإلكتروني غير موجود",
   "addRequiredPdf": "يرجي إلحاق المطلوب ادناه من الملف ",
   "rejectIdCard": "تم رفض الملف تأكد من المطلوب جيدا واعد المحاولة",
-  "noAlerts" : "لا توجد تنبيهات"
+  "noAlerts" : "لا توجد تنبيهات",
+  "bookingConflict" : "الملعب محجوز في هذا الوقت",
+  "bookingSuccess" : "تم إضافة الحجز بنجاح",
+  "noEnoughBalance" : "الرصيد غير كافي",
+  "noItemsFound" : "لا يوجد عناصر",
+  "saved" : "تم الحفظ بنجاح",
+  "chooseStadium" : "يرجى اختيار الملعب",
+  "chooseDate" : "يرجى أختيار التاريخ",
+  "gameCreated" : "تم انشاء الحجز الجماعي بنجاح",
+  "maxPlayersRequired" : "يجب عليك ادخال عدد اللاعبين",
+  "minPlayersRequired" : "يجب عليك ادخال عدد اللاعبين"
+
+
 }

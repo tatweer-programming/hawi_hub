@@ -6,6 +6,7 @@ import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
+
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key});
 
@@ -68,3 +69,4 @@ class GetStartedScreen extends StatelessWidget {
     );
   }
 }
+
