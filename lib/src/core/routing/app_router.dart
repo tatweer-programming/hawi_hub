@@ -43,9 +43,10 @@ class AppRouter {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.profile:
-        Player arguments = settings.arguments as Player;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => ProfileScreen(player: arguments));
+            builder: (_) => ProfileScreen(id: arguments['id']));
       case Routes.wallet:
         Player arguments = settings.arguments as Player;
         return MaterialPageRoute(

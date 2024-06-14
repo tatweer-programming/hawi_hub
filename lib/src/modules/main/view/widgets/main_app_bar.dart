@@ -40,15 +40,16 @@ class MainAppBar extends StatelessWidget {
             onTap: () {
               context.push(
                 Routes.profile,
-                arguments: ConstantsManager.appUser,
+                arguments: {'id': ConstantsManager.userId},
               );
             },
             child: CircleAvatar(
               backgroundColor: ColorManager.grey3,
-              backgroundImage: ConstantsManager.appUser != null && ConstantsManager.appUser!.profilePictureUrl != null
+              backgroundImage: ConstantsManager.appUser != null &&
+                      ConstantsManager.appUser!.profilePictureUrl != null
                   ? NetworkImage(ConstantsManager.appUser!.profilePictureUrl!)
                   : const AssetImage("assets/images/icons/user.png")
-              as ImageProvider<Object>,
+                      as ImageProvider<Object>,
             ),
           ),
         ],
