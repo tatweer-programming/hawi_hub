@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accessibility": MessageLookupByLibrary.simpleMessage("الوصول"),
         "accountCreatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم انشاء حسابك بنجاح"),
+        "addComment": MessageLookupByLibrary.simpleMessage("إضافة ملاحطة"),
         "addRate": MessageLookupByLibrary.simpleMessage("اضافة تقييم"),
         "addRequiredPdf": MessageLookupByLibrary.simpleMessage(
             "يرجي إلحاق المطلوب ادناه من الملف "),
@@ -52,9 +53,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseDate":
             MessageLookupByLibrary.simpleMessage("يرجى أختيار التاريخ"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
-        "clubRate": MessageLookupByLibrary.simpleMessage("تقييم الملعب"),
         "chooseStadium":
             MessageLookupByLibrary.simpleMessage("يرجى اختيار الملعب"),
+        "clubRate": MessageLookupByLibrary.simpleMessage("تقييم الملعب"),
         "code": MessageLookupByLibrary.simpleMessage("الرمز "),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("الاسئلة الشائعة"),

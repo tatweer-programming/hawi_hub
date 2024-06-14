@@ -52,9 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("CHECK YOUR NETWORK"),
         "chooseDate": MessageLookupByLibrary.simpleMessage("Choose Date first"),
         "chooseSport": MessageLookupByLibrary.simpleMessage("Choose Sport"),
-        "clubRate": MessageLookupByLibrary.simpleMessage("Club Rate"),
         "chooseStadium":
             MessageLookupByLibrary.simpleMessage("Choose Stadium first"),
+        "clubRate": MessageLookupByLibrary.simpleMessage("Club Rate"),
         "code": MessageLookupByLibrary.simpleMessage("Code"),
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("Common Questions"),
@@ -86,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password ?"),
         "from": MessageLookupByLibrary.simpleMessage("From"),
+        "gameCreated":
+            MessageLookupByLibrary.simpleMessage("Game Created Successfully"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
@@ -96,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("Join"),
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("Keep me logged in"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "login": MessageLookupByLibrary.simpleMessage("LOGIN"),
         "loginFirst":
@@ -104,7 +107,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Account LogedIn Successfully"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "maxPlayers": MessageLookupByLibrary.simpleMessage("Maximum Players"),
+        "maxPlayersRequired": MessageLookupByLibrary.simpleMessage(
+            "Please enter number of players"),
         "minPlayers": MessageLookupByLibrary.simpleMessage("Minimum Players"),
+        "minPlayersRequired": MessageLookupByLibrary.simpleMessage(
+            "Please enter number of players"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
@@ -117,13 +124,23 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Don’t have an account ?"),
         "noAlerts": MessageLookupByLibrary.simpleMessage("No Alerts"),
         "noComment": MessageLookupByLibrary.simpleMessage("No comment"),
+        "noEnoughBalance":
+            MessageLookupByLibrary.simpleMessage("No enough balance"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("No Items Found"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("No Minimum Booking"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
+        "ownerRate": MessageLookupByLibrary.simpleMessage("Owner Rate"),
+        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one letter"),
+        "passMustContainNumber": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one number"),
+        "passMustContainSpecialChar": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one special character"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordChangedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Password has been changed successfully"),
@@ -157,12 +174,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "resetPassword": MessageLookupByLibrary.simpleMessage("Reset Password"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saved": MessageLookupByLibrary.simpleMessage("Saved"),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
         "seeAll": MessageLookupByLibrary.simpleMessage("See all"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sendCode": MessageLookupByLibrary.simpleMessage("Send Code"),
         "sendCodeAfter":
             MessageLookupByLibrary.simpleMessage("You can resend code after "),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
+        "shareApp": MessageLookupByLibrary.simpleMessage(
+            "hey! to share our app visit "),
         "shortPassword": MessageLookupByLibrary.simpleMessage(
             "Password must be at least 6 characters."),
         "shouldActivate": MessageLookupByLibrary.simpleMessage(

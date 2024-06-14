@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
+import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
+import 'package:hawihub/src/modules/games/view/widgets/screens/select_game_time_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/questions_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/terms_conditions_screen.dart';
+import 'package:hawihub/src/modules/payment/presentation/screens/my_wallet.dart';
 import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
+import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
 import '../../modules/games/view/widgets/screens/all_players_screen.dart';
 import '../../modules/games/view/widgets/screens/create_game_screen.dart';
 import '../../modules/games/view/widgets/screens/game_screen.dart';
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
+import '../utils/constance_manager.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {
