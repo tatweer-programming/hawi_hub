@@ -18,6 +18,7 @@ import 'package:intl/intl.dart';
 
 class SelectGameTimeScreen extends StatefulWidget {
   final int placeId;
+
   const SelectGameTimeScreen({super.key, required this.placeId});
 
   @override
@@ -60,8 +61,10 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
   }
 
   Future<void> _makeBooking() async {
-    DateTime start = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute);
-    DateTime end = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute);
+    DateTime start = DateTime(selectedDate.year, selectedDate.month,
+        selectedDate.day, startTime.hour, startTime.minute);
+    DateTime end = DateTime(selectedDate.year, selectedDate.month,
+        selectedDate.day, endTime.hour, endTime.minute);
     DateTime now = DateTime.now();
 
     if (_isBookingTimeInvalid(start, end, now)) return;
@@ -95,14 +98,20 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
   bool _isBookingConflict(DateTime start, DateTime end) {
     for (Booking booking in bookings) {
       if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
-          (start.isAtSameMomentAs(booking.startTime) && end.isAfter(booking.startTime)) ||
-          (end.isAtSameMomentAs(booking.endTime) && start.isBefore(booking.endTime))) {
+          (start.isAtSameMomentAs(booking.startTime) &&
+              end.isAfter(booking.startTime)) ||
+          (end.isAtSameMomentAs(booking.endTime) &&
+              start.isBefore(booking.endTime))) {
         errorToast(msg: S.of(context).bookingConflict);
         return true;
       }
     }
 
-    for (Day day in PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).workingHours ?? []) {
+    for (Day day in PlaceBloc.get()
+            .allPlaces
+            .firstWhere((e) => e.id == widget.placeId)
+            .workingHours ??
+        []) {
       if (!day.isBookingAllowed(start, end)) {
         errorToast(msg: S.of(context).bookingConflict);
         return true;
@@ -114,9 +123,15 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
 
   bool _isBelowMinimumHours(DateTime start, DateTime end) {
     double reservationHours = (end.difference(start).inMinutes / 60).abs();
-    double placeMinHours = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).minimumHours ?? 0;
+    double placeMinHours = PlaceBloc.get()
+            .allPlaces
+            .firstWhere((e) => e.id == widget.placeId)
+            .minimumHours ??
+        0;
     if (reservationHours < placeMinHours) {
-      errorToast(msg: "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
+      errorToast(
+          msg:
+              "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
       return true;
     }
 
@@ -125,14 +140,20 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
 
   void _processBooking(DateTime start, DateTime end) {
     setState(() {
-      double reservationPrice = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).price * (end.difference(start).inMinutes / 60);
+      double reservationPrice = PlaceBloc.get()
+              .allPlaces
+              .firstWhere((e) => e.id == widget.placeId)
+              .price *
+          (end.difference(start).inMinutes / 60);
       if (ConstantsManager.appUser!.myWallet < reservationPrice) {
         errorToast(msg: S.of(context).noEnoughBalance);
-        GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+        GamesBloc.get().booking = Booking(
+            startTime: start, endTime: end, reservationPrice: reservationPrice);
         defaultToast(msg: S.of(context).saved);
         context.pop();
       } else {
-        GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+        GamesBloc.get().booking = Booking(
+            startTime: start, endTime: end, reservationPrice: reservationPrice);
         defaultToast(msg: S.of(context).saved);
         context.pop();
       }
@@ -141,7 +162,8 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("bookings: ${bookings.map((e) => "start: ${e.startTime}, end: ${e.endTime}").toString()}");
+    print(
+        "bookings: ${bookings.map((e) => "start: ${e.startTime}, end: ${e.endTime}").toString()}");
     return Scaffold(
       body: Column(
         children: [
@@ -186,12 +208,15 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
       listener: (context, state) {
         if (state is GetPlaceBookingsSuccess) {
           setState(() {
-            debugPrint(state.bookings.map((e) => "start: ${e.startTime}, end: ${e.endTime}").toString());
+            debugPrint(state.bookings
+                .map((e) => "start: ${e.startTime}, end: ${e.endTime}")
+                .toString());
             bookings = state.bookings;
           });
         }
         if (state is PlaceError) {
-          errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         }
         if (state is SendBookingRequestSuccess) {
           defaultToast(msg: S.of(context).bookingSuccess);
@@ -204,15 +229,15 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
           return state is GetPlaceBookingsLoading
               ? const Center(child: CircularProgressIndicator())
               : Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Column(
-              children: [
-                _buildCalendar(),
-                _buildTimePickers(),
-                SizedBox(height: 2.h),
-              ],
-            ),
-          );
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: Column(
+                    children: [
+                      _buildCalendar(),
+                      _buildTimePickers(),
+                      SizedBox(height: 2.h),
+                    ],
+                  ),
+                );
         },
       ),
     );
@@ -271,15 +296,20 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
       width: 90.w,
       child: Row(
         children: [
-          _buildTimePicker(isStartTime: true, title: S.of(context).from, time: startTime),
+          _buildTimePicker(
+              isStartTime: true, title: S.of(context).from, time: startTime),
           const Spacer(),
-          _buildTimePicker(isStartTime: false, title: S.of(context).to, time: endTime),
+          _buildTimePicker(
+              isStartTime: false, title: S.of(context).to, time: endTime),
         ],
       ),
     );
   }
 
-  Widget _buildTimePicker({required bool isStartTime, required String title, required TimeOfDay time}) {
+  Widget _buildTimePicker(
+      {required bool isStartTime,
+      required String title,
+      required TimeOfDay time}) {
     return SizedBox(
       width: 43.w,
       child: Stack(
@@ -311,13 +341,13 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
         return state is GetPlaceBookingsLoading
             ? const SizedBox()
             : Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: DefaultButton(
-            isLoading: state is SendBookingRequestLoading,
-            text: S.of(context).save,
-            onPressed: _makeBooking,
-          ),
-        );
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                child: DefaultButton(
+                  isLoading: state is SendBookingRequestLoading,
+                  text: S.of(context).save,
+                  onPressed: _makeBooking,
+                ),
+              );
       },
     );
   }
