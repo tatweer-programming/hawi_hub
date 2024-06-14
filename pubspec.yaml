@@ -53,7 +53,7 @@ dependencies:
   # CHATS PACKAGES
   voice_message_package: ^2.1.4
   audioplayers: any
-  record: ^5.0.5
+#  record: ^5.0.5
   path_provider:
   permission_handler:
 
