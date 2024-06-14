@@ -168,6 +168,9 @@ class UploadNationalIdErrorState extends AuthState {
 // delete image
 class DeleteImageState extends AuthState {}
 
+// open pdf
+class OpenPdfState extends AuthState {}
+
 // timer resend code
 class ChangeTimeToResendCodeState extends AuthState {
   final int time;
@@ -183,6 +186,7 @@ class ResetCodeTimerState extends AuthState {
 
 // play sound
 class PlaySoundState extends AuthState {}
+
 // get sports
 class GetSportsLoadingState extends AuthState {}
 
@@ -197,6 +201,7 @@ class GetSportsErrorState extends AuthState {
 
   GetSportsErrorState(this.error);
 }
+
 class SelectSportState extends AuthState {
   final List<Sport> sports;
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
-import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/main_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/questions_screen.dart';
@@ -8,12 +7,10 @@ import 'package:hawihub/src/modules/main/view/screens/terms_conditions_screen.da
 import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
-import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
 import '../../modules/games/view/widgets/screens/all_players_screen.dart';
 import '../../modules/games/view/widgets/screens/create_game_screen.dart';
 import '../../modules/games/view/widgets/screens/game_screen.dart';
-import '../../modules/games/view/widgets/screens/select_game_time_screen.dart';
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
 
@@ -34,37 +31,44 @@ class AppRouter {
         );
       case Routes.place:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.profile:
+        Player arguments = settings.arguments as Player;
+        return MaterialPageRoute(
+            builder: (_) => ProfileScreen(player: arguments));
+      case Routes.wallet:
+        Player arguments = settings.arguments as Player;
+        return MaterialPageRoute(
+            builder: (_) => MyWallet(player: arguments));
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const MainScreen());
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
       case Routes.game:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => GameDetailsScreen(id: arguments['id']));
 
       case Routes.allPlayers:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) =>
-                AllPlayersScreen(
-                    players: arguments['players'] as List<GamePlayer>));
+            builder: (_) => AllPlayersScreen(
+                players: arguments['players'] as List<GamePlayer>));
       case Routes.createGame:
         return MaterialPageRoute(builder: (_) => const CreateGameScreen());
       case Routes.placeLocation:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) =>
                 PlaceLocationScreen(location: arguments['location']));
@@ -74,7 +78,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TermsConditionsScreen());
       case Routes.bookNow:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => AddBookingScreen(placeId: arguments['id']));
            case Routes.selectGameTime:
@@ -82,17 +86,16 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SelectGameTimeScreen(placeId:  arguments['id'],));
       default:
         return MaterialPageRoute(
-            builder: (_) =>
-                Scaffold(
+            builder: (_) => Scaffold(
                     body: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.phonelink_erase_rounded),
-                          Text('No route defined for ${settings.name}'),
-                        ],
-                      ),
-                    )));
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.phonelink_erase_rounded),
+                      Text('No route defined for ${settings.name}'),
+                    ],
+                  ),
+                )));
     }
   }
 }

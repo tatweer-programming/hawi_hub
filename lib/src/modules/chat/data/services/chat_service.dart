@@ -55,7 +55,7 @@ class ChatService {
   Future<Either<String, List<Chat>>> getAllChats() async {
     try {
       Response response = await DioHelper.getData(
-        path: EndPoints.getOwnerConversations +
+        path: EndPoints.getPlayerConversations +
             ConstantsManager.userId.toString(),
       );
       if (response.statusCode == 200) {

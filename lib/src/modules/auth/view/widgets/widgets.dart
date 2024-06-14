@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/view/screens/update_profile_screen.dart';
+import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -31,40 +34,41 @@ Widget defaultButton({
         ));
 
 Widget authBackGround(double height) => Stack(
-  alignment: AlignmentDirectional.topCenter,
-  children: [
-    Align(
       alignment: AlignmentDirectional.topCenter,
-      heightFactor: 0.9,
-      child: ClipPath(
-        clipper: HalfCircleCurve(height / 3),
-        child: Container(
-          height: height,
-          width: double.infinity,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          decoration: BoxDecoration(
-            color: ColorManager.grey1,
-            image: const DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(
-                "assets/images/auth_background.png",
+      children: [
+        Align(
+          alignment: AlignmentDirectional.topCenter,
+          heightFactor: 0.9,
+          child: ClipPath(
+            clipper: HalfCircleCurve(height / 3),
+            child: Container(
+              height: height,
+              width: double.infinity,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              decoration: BoxDecoration(
+                color: ColorManager.grey1,
+                image: const DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    "assets/images/auth_background.png",
+                  ),
+                ),
               ),
             ),
           ),
         ),
-      ),
-    ),
-    Padding(
-      padding: EdgeInsetsDirectional.only(
-        top: 4.h,
-      ),
-      child: Image.asset(
-        "assets/images/logo2.png",
-        height: 7.h,width: 35.w,
-      ),
-    ),
-  ],
-);
+        Padding(
+          padding: EdgeInsetsDirectional.only(
+            top: 4.h,
+          ),
+          child: Image.asset(
+            "assets/images/logo2.png",
+            height: 7.h,
+            width: 35.w,
+          ),
+        ),
+      ],
+    );
 
 mainFormField(
         {String? label,
@@ -74,6 +78,7 @@ mainFormField(
         IconButton? suffix,
         bool? enabled = true,
         Color? fillColor,
+        Color? borderColor,
         String? validatorText,
         TextInputType? type,
         bool border = true,
@@ -82,6 +87,7 @@ mainFormField(
         bool obscureText = false,
         double? width,
         TextStyle? labelStyle,
+        TextStyle? hintStyle,
         int? maxLines,
         int? minLines,
         TextAlign? textAlign,
@@ -102,7 +108,7 @@ mainFormField(
             disabledBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: ColorManager.grey3),
+                  : BorderSide(color: borderColor??ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             contentPadding:
@@ -110,21 +116,22 @@ mainFormField(
             focusedBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: ColorManager.grey3),
+                  : BorderSide(color: borderColor??ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: ColorManager.grey3),
+                  : BorderSide(color: borderColor??ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
-            errorStyle: TextStyle(color: ColorManager.error),
+            errorStyle: TextStyle(color: borderColor??ColorManager.error),
             fillColor: fillColor ?? ColorManager.white,
             filled: true,
             suffixIcon: suffix,
             labelText: label,
             hintText: hint,
+            hintStyle: hintStyle ?? TextStyle(color: ColorManager.grey3),
             helperText: helper,
             labelStyle: labelStyle ??
                 TextStyle(color: ColorManager.grey3, fontSize: 12.sp)),
@@ -176,81 +183,157 @@ Widget backIcon(BuildContext context) {
 }
 
 Widget orImageBuilder() => Stack(
-  alignment: AlignmentDirectional.bottomCenter,
-  children: [
-    Column(
+      alignment: AlignmentDirectional.bottomCenter,
       children: [
-        Stack(
+        Column(
           children: [
-            Column(
+            Stack(
               children: [
-                SizedBox(
-                  height: 2.h,
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    Container(
+                      width: 60.w,
+                      height: 10.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(10.sp),
+                            topStart: Radius.circular(10.sp),
+                          ),
+                          border: const Border(
+                            left: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                            right: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                            top: BorderSide(
+                              color: ColorManager.black,
+                            ),
+                          )),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 60.w,
-                  height: 10.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadiusDirectional.only(
-                        topEnd: Radius.circular(10.sp),
-                        topStart: Radius.circular(10.sp),
-                      ),
-                      border: const Border(
-                        left: BorderSide(
-                          color: ColorManager.black,
-                        ),
-                        right: BorderSide(
-                          color: ColorManager.black,
-                        ),
-                        top: BorderSide(
-                          color: ColorManager.black,
-                        ),
-                      )),
+                Positioned(
+                  left: 25.w,
+                  top: 0.h,
+                  child: Container(
+                    padding: EdgeInsetsDirectional.symmetric(
+                      vertical: 1.h,
+                      horizontal: 2.w,
+                    ),
+                    color: Colors.white,
+                    child: Text(
+                      "OR",
+                      style: TextStyleManager.getRegularStyle(),
+                    ),
+                  ),
                 ),
               ],
             ),
-            Positioned(
-              left: 25.w,
-              top: 0.h,
-              child: Container(
-                padding: EdgeInsetsDirectional.symmetric(
-                  vertical: 1.h,
-                  horizontal: 2.w,
-                ),
-                color: Colors.white,
-                child: Text(
-                  "OR",
-                  style: TextStyleManager.getRegularStyle(),
-                ),
-              ),
+            SizedBox(
+              height: 0.2.h,
             ),
           ],
         ),
-        SizedBox(
-          height: 0.2.h,
+        Container(
+          width: 58.w,
+          height: 5.h,
+          color: ColorManager.white,
         ),
       ],
+    );
+
+Widget walletWidget(VoidCallback onTap, String wallet) {
+  return Container(
+    height: 5.h,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: const Color(0xff757575),
+      borderRadius: BorderRadius.circular(25.sp),
     ),
-    Container(
-      width: 58.w,
-      height: 5.h,
-      color: ColorManager.white,
+    child: Row(
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.only(
+            start: 4.w,
+            top: 1.h,
+            bottom: 1.h,
+          ),
+          child: Text(
+            "$wallet \$",
+            style: const TextStyle(
+              color: ColorManager.white,
+            ),
+          ),
+        ),
+        const Spacer(),
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            width: 25.w,
+            height: 5.h,
+            decoration: BoxDecoration(
+              color: ColorManager.primary,
+              borderRadius: BorderRadiusDirectional.only(
+                topEnd: Radius.circular(25.sp),
+                bottomEnd: Radius.circular(25.sp),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "Add Wallet",
+                style: TextStyle(
+                    color: ColorManager.white,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        )
+      ],
     ),
-  ],
-);
+  );
+}
+
+String? validPassword(String value, BuildContext context) {
+  if (value.isEmpty) {
+    return S.of(context).enterPassword;
+  } else if (value.length < 6) {
+    return S.of(context).shortPassword;
+  } else if (!RegExp(r'[a-z]').hasMatch(value) ||
+      !RegExp(r'[A-Z]').hasMatch(value)) {
+    return S.of(context).passMustContainLetter;
+  } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+    return S.of(context).passMustContainNumber;
+  } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return S.of(context).passMustContainSpecialChar;
+  }
+  return null;
+}
 
 String handleResponseTranslation(String state, BuildContext context) {
-  if(state == "Account Created Successfully")return S.of(context).accountCreatedSuccessfully;
-  if(state == "Email is not exists.")return S.of(context).emailNotExists;
-  if(state == "Email is already exists.")return S.of(context).emailAlreadyExist;
-  if(state == "Username is already exists.")return S.of(context).usernameAlreadyExist;
-  if(state == "Password reset successfully")return S.of(context).passwordResetSuccessfully;
-  if(state == "Invalid email or password.")return S.of(context).invalidEmailOrPassword;
-  if(state == "Account LogedIn Successfully")return S.of(context).loginSuccessfully;
-  if(state == "Something went wrong")return S.of(context).somethingWentWrong;
-  if(state == "Wrong password !")return S.of(context).wrongPassword;
-  if(state == "CHECK YOUR NETWORK")return S.of(context).checkYourNetwork;
-  if(state == "Password has been changed successfully")return S.of(context).passwordChangedSuccessfully;
-  if(state == "Proof of identity has been added successfully")return S.of(context).proofOfIdentityAddedSuccessfully;
+  if (state == "Account Created Successfully")
+    return S.of(context).accountCreatedSuccessfully;
+  if (state == "Email is not exists.") return S.of(context).emailNotExists;
+  if (state == "Email is already exists.")
+    return S.of(context).emailAlreadyExist;
+  if (state == "Username is already exists.")
+    return S.of(context).usernameAlreadyExist;
+  if (state == "Password reset successfully")
+    return S.of(context).passwordResetSuccessfully;
+  if (state == "Invalid email or password.")
+    return S.of(context).invalidEmailOrPassword;
+  if (state == "Account LogedIn Successfully")
+    return S.of(context).loginSuccessfully;
+  if (state == "Something went wrong") return S.of(context).somethingWentWrong;
+  if (state == "Wrong password !") return S.of(context).wrongPassword;
+  if (state == "CHECK YOUR NETWORK") return S.of(context).checkYourNetwork;
+  if (state == "Password has been changed successfully")
+    return S.of(context).passwordChangedSuccessfully;
+  if (state == "Proof of identity has been added successfully")
+    return S.of(context).proofOfIdentityAddedSuccessfully;
   return state;
 }

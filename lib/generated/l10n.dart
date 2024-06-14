@@ -1200,6 +1200,96 @@ class S {
     );
   }
 
+  /// `Password must contain at least one letter`
+  String get passMustContainLetter {
+    return Intl.message(
+      'Password must contain at least one letter',
+      name: 'passMustContainLetter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one special character`
+  String get passMustContainSpecialChar {
+    return Intl.message(
+      'Password must contain at least one special character',
+      name: 'passMustContainSpecialChar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one number`
+  String get passMustContainNumber {
+    return Intl.message(
+      'Password must contain at least one number',
+      name: 'passMustContainNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Club Rate`
+  String get clubRate {
+    return Intl.message(
+      'Club Rate',
+      name: 'clubRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Owner Rate`
+  String get ownerRate {
+    return Intl.message(
+      'Owner Rate',
+      name: 'ownerRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Comment`
+  String get addComment {
+    return Intl.message(
+      'Add Comment',
+      name: 'addComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hey! to share our app visit `
+  String get shareApp {
+    return Intl.message(
+      'hey! to share our app visit ',
+      name: 'shareApp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Private`
   String get private {
     return Intl.message(

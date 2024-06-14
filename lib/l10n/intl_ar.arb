@@ -114,7 +114,21 @@
   "commonQuestions": "الاسئلة الشائعة",
   "emailNotExists": "البريد الإلكتروني غير موجود",
   "addRequiredPdf": "يرجي إلحاق المطلوب ادناه من الملف ",
+<<<<<<< HEAD
+  "passMustContainLetter": "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل",
+  "passMustContainSpecialChar": "يجب أن تحتوي كلمة المرور على حرف مثل # * على الأقل",
+  "passMustContainNumber": "يجب ان تحتوي كلمة المرور على الاقل رقما واحدا",
+  "language": "اللغة",
+  "shareApp": "لمشاركة التطبيق زور  ",
+  "clubRate": "تقييم الملعب",
+  "ownerRate": "تقييم صاحب الملعب",
+  "addComment": "إضافة ملاحطة",
+  "send": "إرسال",
+  "rejectIdCard": "تم رفض الملف تأكد من المطلوب جيدا واعد المحاولة"
+=======
   "rejectIdCard": "تم رفض الملف تأكد من المطلوب جيدا واعد المحاولة",
+  "noAlerts" : "لا توجد تنبيهات"
+>>>>>>> f485ae72d5ecdac5032ddec345e30500126a90c8
   "noAlerts" : "لا توجد تنبيهات",
   "bookingConflict" : "الملعب محجوز في هذا الوقت",
   "bookingSuccess" : "تم إضافة الحجز بنجاح",

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
@@ -9,6 +11,9 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
+import 'package:open_file_plus/open_file_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'auth_event.dart';
 
@@ -192,6 +197,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) {
           emit(GetSportsSuccessState(r));
         });
+      } else if (event is OpenPdfEvent) {
+        File pdfFile = await _loadPdfFromAssets();
+        OpenFile.open(pdfFile.path);
+        emit(OpenPdfState());
+      } else if (event is AddImageEvent) {
+        await _captureAndSaveGalleryImage().then((imagePicked) {
+          emit(AddImageSuccessState(imagePicked: imagePicked!));
+        });
       }
     });
   }
@@ -209,10 +222,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
-}
 
-Future _clearUserData() async {
-  ConstantsManager.userId = null;
-  ConstantsManager.appUser = null;
-  await CacheHelper.removeData(key: "userId");
+  Future<File?> _captureAndSaveGalleryImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+      allowMultiple: false,
+    );
+    if (result != null) {
+      final image = File(result.files.single.path!);
+      return image;
+    } else {
+      return null;
+    }
+  }
+
+  Future<File> _loadPdfFromAssets() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      status = await Permission.storage.request();
+    }
+    if (status.isGranted) {
+      final byteData = await rootBundle.load('assets/pdfs/Requirements.pdf');
+      final file =
+          File('${(await getTemporaryDirectory()).path}/Requirements.pdf');
+      await file.writeAsBytes(byteData.buffer.asUint8List());
+      return file;
+    } else {
+      throw Exception('Storage permission not granted');
+    }
+  }
+
+  Future _clearUserData() async {
+    ConstantsManager.userId = null;
+    ConstantsManager.appUser = null;
+    await CacheHelper.removeData(key: "userId");
+  }
 }
