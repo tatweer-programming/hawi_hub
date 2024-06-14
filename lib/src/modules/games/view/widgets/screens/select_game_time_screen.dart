@@ -67,10 +67,29 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
       });
     }
   }
-
   Future<void> _makeBooking() async {
-    DateTime start = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute  );
+    DateTime start = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute);
     DateTime end = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute);
+    DateTime now = DateTime.now();
+
+    // Check if the selected time is in the past
+    if (start.isBefore(now)) {
+      errorToast(msg: S.of(context).bookingTimeInPast);
+      return;
+    }
+
+    // Check if the start time is after the end time
+    if (end.isBefore(start) || end.isAtSameMomentAs(start)) {
+      errorToast(msg: S.of(context).endTimeBeforeStartTime);
+      return;
+    }
+
+    // Check if the start time is less than an hour from now
+    if (start.isBefore(now.add(Duration(hours: 1)))) {
+      errorToast(msg: S.of(context).startTimeTooSoon);
+      return;
+    }
+
     for (Booking booking in bookings) {
       // Check if the new booking overlaps with any existing booking
       if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
@@ -80,29 +99,78 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
         return;
       }
     }
+
     for (Day day in PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).workingHours ?? []) {
       if (!day.isBookingAllowed(start, end)) {
         errorToast(msg: S.of(context).bookingConflict);
         return;
       }
-
     }
+    double reservationHours = (end.difference(start).inMinutes / 60).abs();
+    double placeMinHours = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).minimumHours ?? 0;
+    if ( reservationHours < placeMinHours) { {
+      errorToast(msg: "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
+      return;
+    }
+
+             }
+
     // Add the booking to the list (simulate the addition)
     setState(() {
       double reservationPrice = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).price * (end.difference(start).inMinutes / 60);
       if (ConstantsManager.appUser!.myWallet < reservationPrice) {
         errorToast(msg: S.of(context).noEnoughBalance);
-      }
-      else {
+        // TODO: show error toast
         GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
-         defaultToast(msg: S.of(context).saved);
+        defaultToast(msg: S.of(context).saved);
+        context.pop();
+      } else {
+        GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+        defaultToast(msg: S.of(context).saved);
         context.pop();
       }
     });
-
-
-
   }
+
+  // Future<void> _makeBooking() async {
+  //   DateTime start = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startTime.hour, startTime.minute  );
+  //   DateTime end = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endTime.hour, endTime.minute);
+  //   for (Booking booking in bookings) {
+  //     // Check if the new booking overlaps with any existing booking
+  //     if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
+  //         (start.isAtSameMomentAs(booking.startTime) && end.isAfter(booking.startTime)) ||
+  //         (end.isAtSameMomentAs(booking.endTime) && start.isBefore(booking.endTime))) {
+  //       errorToast(msg: S.of(context).bookingConflict);
+  //       return;
+  //     }
+  //   }
+  //   for (Day day in PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).workingHours ?? []) {
+  //     if (!day.isBookingAllowed(start, end)) {
+  //       errorToast(msg: S.of(context).bookingConflict);
+  //       return;
+  //     }
+  //
+  //   }
+  //   // Add the booking to the list (simulate the addition)
+  //   setState(() {
+  //     double reservationPrice = PlaceBloc.get().allPlaces.firstWhere((e) => e.id == widget.placeId).price * (end.difference(start).inMinutes / 60);
+  //     if (ConstantsManager.appUser!.myWallet < reservationPrice) {
+  //       errorToast(msg: S.of(context).noEnoughBalance);
+  //       // TODO: show error toast
+  //       GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+  //       defaultToast(msg: S.of(context).saved);
+  //       context.pop();
+  //     }
+  //     else {
+  //       GamesBloc.get().booking = Booking(startTime: start, endTime: end, reservationPrice: reservationPrice);
+  //        defaultToast(msg: S.of(context).saved);
+  //       context.pop();
+  //     }
+  //   });
+  //
+  //
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {

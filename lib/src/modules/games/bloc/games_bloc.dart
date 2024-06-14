@@ -54,8 +54,12 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
       }
 
       else if (event is CreateGameEvent) {
-        double gamePrice = PlaceBloc.get().allPlaces.firstWhere((element) => element.id == selectedStadiumId).price * booking!.startTime.difference(booking!.endTime).
-        inMinutes / 60;
+        print("price for stadium ${PlaceBloc.get().allPlaces.firstWhere((element) => element.id == selectedStadiumId).price}");
+
+        double gamePrice = (PlaceBloc.get().allPlaces.firstWhere((element) => element.id == selectedStadiumId).price ) *(
+            booking!.endTime.difference(booking!.startTime).
+        inMinutes / 60).abs();
+        print("price $gamePrice");
         GameCreationForm gameCreationForm = GameCreationForm(
              stadiumId: selectedStadiumId!,
             isPublic: isPublic,
@@ -72,6 +76,19 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         }, (r) {
           emit( CreateGameSuccess(int.parse( r)));
         });
+      } else if (event is SelectSportEvent) {
+        if (event.sportId == -1) {
+          filteredGames = games;
+          emit(const SelectSportSuccess(-1));
+          print("games $games");
+        }
+        else {
+          filteredGames = games
+              .where((element) => element.sportId == event.sportId)
+              .toList();
+          print("games $games");
+          emit(SelectSportSuccess(event.sportId));
+        }
       }
     });
   }

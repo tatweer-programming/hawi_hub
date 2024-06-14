@@ -27,7 +27,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         }, (r) {
           allPlaces = r;
           print(r);
-          viewedPlaces = allPlaces;
+          viewedPlaces = r;
           emit(GetAllPlacesSuccess(r));
         });
       } else if (event is GetPlaceEvent) {
@@ -36,6 +36,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         result.fold((l) {
           emit(GetPlaceError(l));
         }, (r) {
+          currentPlace = r;
           emit(GetPlaceSuccess(r));
         });
       } else if (event is GetPlaceBookingsEvent) {
@@ -76,8 +77,16 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
           emit(RatePlaceSuccess());
         });
       } else if (event is SelectSport) {
-        viewedPlaces = allPlaces.where((element) => element.sport == event.sportId).toList();
-        emit(SelectSportSuccess(event.sportId));
+        if (event.sportId == -1) {
+          viewedPlaces = allPlaces;
+          emit(const SelectSportSuccess(-1));
+          print(allPlaces);
+        } else {
+           viewedPlaces = allPlaces.where((element) => element.sport == event.sportId).toList();
+          print(allPlaces);
+           emit(SelectSportSuccess(event.sportId));
+           print(state);
+        }
       }
       else if (event is AddBookingEvent) {
         emit(SendBookingRequestLoading());

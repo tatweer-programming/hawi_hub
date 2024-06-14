@@ -235,6 +235,7 @@ Widget dropdownBuilder(
     IconData? icon,
     required Function(String? value) onChanged,
     required List<String> items,
+      List<String>? images,
     Color? backgroundColor = ColorManager.white,
     Color? textColor = ColorManager.black}) {
   return DropdownMenu<String>(
@@ -259,9 +260,14 @@ Widget dropdownBuilder(
     ),
     onSelected: onChanged,
     menuHeight: 50.h,
+
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
-        return DropdownMenuEntry<String>(value: value, label: value);
+        return DropdownMenuEntry<String>(value: value, label: value ,
+        leadingIcon:    images == null ? null : CircleAvatar(
+            backgroundImage: NetworkImage(ApiManager.handleImageUrl(images[items.indexOf(value)])),
+        ),
+        );
       },
     ).toList(),
   );

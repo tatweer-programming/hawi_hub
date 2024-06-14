@@ -26,4 +26,6 @@ class Sport {
 
   static Sport unKnown() =>
       const Sport(id: 0, arabicName: "غير معروفة", englishName: "Unknown", image: "");
+  static Sport all() =>
+      const Sport(id: 0, arabicName: "جميع الرياضات", englishName: "All Sports", image: "");
 }

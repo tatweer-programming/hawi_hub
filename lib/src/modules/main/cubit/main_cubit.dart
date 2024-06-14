@@ -38,6 +38,7 @@ class MainCubit extends Cubit<MainState> {
   int currentIndex = 0;
   List<String> bannerList = [];
   List<Sport> sportsList = [];
+  String ? selectedSport ;
   int? currentCityId;
   List<AppNotification> notifications = [];
   void changePage(int index) {
@@ -71,6 +72,7 @@ class MainCubit extends Cubit<MainState> {
       emit(GetSportsError(l));
     }, (r) {
       sportsList = r;
+      print("sports $r");
       emit(GetSportsSuccess(r));
     });
   }
@@ -86,7 +88,19 @@ class MainCubit extends Cubit<MainState> {
 
   void selectSport(String sport) {
     PlaceBloc placeBloc = PlaceBloc.get();
-    // placeBloc.add( );
+    GamesBloc gamesBloc = GamesBloc.get();
+      if (sport == "all") {
+        placeBloc.add(const SelectSport(-1));
+        gamesBloc.add(const SelectSportEvent(-1));
+        selectedSport = null;
+      } else {
+        placeBloc.add(SelectSport(sportsList.firstWhere((e) => e.name == sport).id));
+        gamesBloc.add(SelectSportEvent(sportsList.firstWhere((e) => e.name == sport).id, ));
+        selectedSport = sport;
+      }
+
+
+    // placeBloc.add();
   }
 
   Future<void> getCurrentCity() async {

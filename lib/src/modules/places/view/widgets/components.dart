@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
@@ -37,7 +39,7 @@ class PlaceItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.sp),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(place.images.first),
+                        image: NetworkImage(ApiManager.handleImageUrl(place.images.first)),
                       )),
                 ),
                 Expanded(
@@ -96,11 +98,22 @@ class PlaceItem extends StatelessWidget {
                   height: 3.h,
                   constraints: BoxConstraints(minWidth: 20.w, maxWidth: 50.w),
                   child: Center(
-                    child: Text(place.ownerName,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyleManager.getBlackContainerTextStyle()),
+                    child: Column(
+                      children: [
+                        Text(place.ownerName,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyleManager.getBlackContainerTextStyle()),
+                           SizedBox(  height: 1.h,),
+                        if (place.location != null)
+                        Text("${LocationServices.calculateDistance(place.location!.latitude, place.location!.longitude)} " ,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyleManager.getBlackContainerTextStyle()),
+                      ],
+                    ),
                   ),
                 ),
               ),

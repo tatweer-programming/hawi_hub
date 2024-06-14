@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
@@ -92,7 +93,7 @@ class PlaceScreen extends StatelessWidget {
                                                 color: Colors.grey,
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: NetworkImage(i),
+                                                  image: NetworkImage(ApiManager.handleImageUrl(i)),
                                                 )),
                                           );
                                         },
@@ -338,9 +339,30 @@ class PlaceScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
+                        InkWell(
+                           onTap: () {
+                             context.push(Routes.profile, arguments: {"id": place.ownerId});
+                           },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+
+                                backgroundImage: NetworkImage(ApiManager.handleImageUrl(place.ownerImage)),
+
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Expanded(child: SubTitle(place.ownerName)),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
+
                   SizedBox(
                     height: 2.h,
                   ),
@@ -354,8 +376,13 @@ class PlaceScreen extends StatelessWidget {
           child: DefaultButton(
               text: S.of(context).bookNow,
               onPressed: () {
-                context.push(Routes.bookNow, arguments: {"id": place.id});
-                debugPrint("Book Now");
+                if (ConstantsManager.appUser == null) {
+                   errorToast(msg: S.of(context).loginFirst);
+                }
+                else {
+                  context.push(Routes.bookNow, arguments: {"id": place.id});
+                  debugPrint("Book Now");
+                }
               }),
         ),
       ],

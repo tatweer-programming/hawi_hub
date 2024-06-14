@@ -136,5 +136,9 @@
   "chooseDate" : "Choose Date first",
   "gameCreated" : "Game Created Successfully",
   "minPlayersRequired" : "Please enter number of players",
-  "maxPlayersRequired" : "Please enter number of players"
+  "maxPlayersRequired" : "Please enter number of players",
+  "all" : "All",
+  "bookingTimeInPast" : "Booking time is in the past", "endTimeBeforeStartTime" : "End time must be after start time",
+  "startTimeTooSoon" : "Start time is too soon"
+
 }

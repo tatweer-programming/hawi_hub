@@ -23,9 +23,9 @@ class GameCreationForm {
   "gamePrice": gamePrice,
   "minPlayers": minPlayers,
   "maxPlayers": maxPlayers,
-  "gameStartTime": gameStartTime,
-  "gameEndTime": gameEndTime,
-  "deadline": gameStartTime.subtract(const Duration(hours: 1))
+  "gameStartTime": gameStartTime.toUtc().toIso8601String(),
+  "gameEndTime": gameEndTime.toUtc().toIso8601String(),
+  "deadline": gameStartTime.subtract(const Duration(hours: 1)).toUtc().toUtc().toIso8601String()
   };
 
 }

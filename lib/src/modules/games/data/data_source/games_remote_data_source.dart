@@ -30,9 +30,11 @@ class GamesRemoteDataSource {
 
   Future<Either<Exception, String>> createGame({required GameCreationForm game})async {
     try {
-      var response = await DioHelper.postData(data: game.toJson(), path: EndPoints.createGame);
+      var response = await DioHelper.postData(data: game.toJson(), path: EndPoints.createGame + ConstantsManager.userId.toString() , query: {"id": ConstantsManager.userId});
       return Right(response.data['gameId'].toString());
     } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString()  + "    " + dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -41,7 +43,8 @@ class GamesRemoteDataSource {
          if (kDebugMode) {
            print(ConstantsManager.userId);
          }
-         var response = await DioHelper.postData(data: { "gameId": gameId}, path: "${EndPoints.joinGame}${ConstantsManager.userId}", query: {"id": ConstantsManager.userId});
+         var response = await DioHelper.postData(data: {"gameId": gameId}, path: "${EndPoints.joinGame}${ConstantsManager.userId}",
+             query: {"id": ConstantsManager.userId});
           if (response.statusCode == 200) {
             return const Right(unit);
           }

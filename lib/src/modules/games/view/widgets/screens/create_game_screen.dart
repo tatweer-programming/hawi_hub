@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
@@ -48,7 +50,8 @@ class CreateGameScreen extends StatelessWidget {
                       ],
                       height: 33.h,
                       opacity: .15,
-                      backgroundImage: "assets/images/app_bar_backgrounds/5.webp",
+                      backgroundImage:
+                          "assets/images/app_bar_backgrounds/5.webp",
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 5.w,
@@ -67,18 +70,40 @@ class CreateGameScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             dropdownBuilder(
-                                text: S.of(context).chooseSport,
-                                onChanged: (val) {
-                                  MainCubit.get().selectSport(val!);
-                                  },
-                                items: MainCubit.get().sportsList.map((e) => e.name).toList(),),
+                              text: S.of(context).chooseSport,
+                              images: [
+                                ...MainCubit.get()
+                                    .sportsList
+                                    .map((e) => e.image)
+                              ],
+                              onChanged: (val) {
+                                MainCubit.get().selectSport(val!);
+                              },
+                              items: MainCubit.get()
+                                  .sportsList
+                                  .map((e) => e.name)
+                                  .toList(),
+                            ),
                             SizedBox(
                               height: 3.h,
                             ),
                             dropdownBuilder(
-                                text: S.of(context).place, onChanged: (value) {
-                              bloc.selectedStadiumId = PlaceBloc.get().viewedPlaces.firstWhere((e) => e.name == value).id;
-                            }, items: PlaceBloc.get().viewedPlaces.map((e) => e.name).toList(),),
+                              images: PlaceBloc.get()
+                                  .viewedPlaces
+                                  .map((e) => e.images.first)
+                                  .toList(),
+                              text: S.of(context).place,
+                              onChanged: (value) {
+                                bloc.selectedStadiumId = PlaceBloc.get()
+                                    .viewedPlaces
+                                    .firstWhere((e) => e.name == value)
+                                    .id;
+                              },
+                              items: PlaceBloc.get()
+                                  .viewedPlaces
+                                  .map((e) => e.name)
+                                  .toList(),
+                            ),
                             SizedBox(
                               height: 3.h,
                             ),
@@ -91,7 +116,9 @@ class CreateGameScreen extends StatelessWidget {
                                       Align(
                                           alignment: Alignment.bottomCenter,
                                           child: OutLineContainer(
-                                              height: 9.h, radius: 30, child: const SizedBox())),
+                                              height: 9.h,
+                                              radius: 30,
+                                              child: const SizedBox())),
                                       Align(
                                         alignment: Alignment.topCenter,
                                         child: Container(
@@ -101,7 +128,8 @@ class CreateGameScreen extends StatelessWidget {
                                             S.of(context).accessibility,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                                backgroundColor: ColorManager.white,
+                                                backgroundColor:
+                                                    ColorManager.white,
                                                 color: ColorManager.primary),
                                           ),
                                         ),
@@ -112,7 +140,8 @@ class CreateGameScreen extends StatelessWidget {
                                               height: 9.h,
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: 2.w, vertical: 1.h),
+                                                    horizontal: 2.w,
+                                                    vertical: 1.h),
                                                 child: Row(children: [
                                                   Expanded(
                                                     child: OutLineContainer(
@@ -125,15 +154,20 @@ class CreateGameScreen extends StatelessWidget {
                                                       onPressed: () {
                                                         GamesBloc.get().add(
                                                             const ChangeGameAccessEvent(
-                                                                isPublic: true));
+                                                                isPublic:
+                                                                    true));
                                                       },
                                                       radius: 36,
                                                       child: Text(
                                                         S.of(context).public,
-                                                        style: TextStyleManager.getRegularStyle(
-                                                            color: bloc.isPublic
-                                                                ? ColorManager.white
-                                                                : ColorManager.black),
+                                                        style: TextStyleManager
+                                                            .getRegularStyle(
+                                                                color: bloc
+                                                                        .isPublic
+                                                                    ? ColorManager
+                                                                        .white
+                                                                    : ColorManager
+                                                                        .black),
                                                       ),
                                                     ),
                                                   ),
@@ -144,22 +178,29 @@ class CreateGameScreen extends StatelessWidget {
                                                     child: OutLineContainer(
                                                       borderColor: bloc.isPublic
                                                           ? null
-                                                          : ColorManager.primary,
+                                                          : ColorManager
+                                                              .primary,
                                                       color: bloc.isPublic
                                                           ? null
-                                                          : ColorManager.primary,
+                                                          : ColorManager
+                                                              .primary,
                                                       onPressed: () {
                                                         GamesBloc.get().add(
                                                             const ChangeGameAccessEvent(
-                                                                isPublic: false));
+                                                                isPublic:
+                                                                    false));
                                                       },
                                                       radius: 36,
                                                       child: Text(
                                                         S.of(context).private,
-                                                        style: TextStyleManager.getRegularStyle(
-                                                            color: bloc.isPublic
-                                                                ? ColorManager.black
-                                                                : ColorManager.white),
+                                                        style: TextStyleManager
+                                                            .getRegularStyle(
+                                                                color: bloc
+                                                                        .isPublic
+                                                                    ? ColorManager
+                                                                        .black
+                                                                    : ColorManager
+                                                                        .white),
                                                       ),
                                                     ),
                                                   ),
@@ -174,17 +215,20 @@ class CreateGameScreen extends StatelessWidget {
                               height: 3.h,
                             ),
                             OutLineContainer(
-                              onPressed:  () {
-                                if (bloc.selectedStadiumId == null) {
-                                  errorToast(msg: S.of(context).chooseStadium);
-                                }
-                                else {
-                                  context.push(Routes.selectGameTime , arguments: {
-                                    "id" : bloc.selectedStadiumId
-                                  });
-                                }
-                              },
-                                radius: 30, height: 7.h, child: Text(S.of(context).date)),
+                                onPressed: () {
+                                  if (bloc.selectedStadiumId == null) {
+                                    errorToast(
+                                        msg: S.of(context).chooseStadium);
+                                  } else {
+                                    context.push(Routes.selectGameTime,
+                                        arguments: {
+                                          "id": bloc.selectedStadiumId
+                                        });
+                                  }
+                                },
+                                radius: 30,
+                                height: 7.h,
+                                child: Text(S.of(context).date)),
                             SizedBox(
                               height: 3.h,
                             ),
@@ -195,7 +239,9 @@ class CreateGameScreen extends StatelessWidget {
                                   Align(
                                       alignment: Alignment.bottomCenter,
                                       child: OutLineContainer(
-                                          height: 9.h, radius: 36, child: const SizedBox())),
+                                          height: 9.h,
+                                          radius: 36,
+                                          child: const SizedBox())),
                                   Align(
                                     alignment: Alignment.topCenter,
                                     child: Container(
@@ -220,16 +266,25 @@ class CreateGameScreen extends StatelessWidget {
                                             child: Row(children: [
                                               Expanded(
                                                 child: TextFormField(
-                                            validator:  ( value) {
-                                          if (value == null || value.isEmpty || int.tryParse(value) == null) {
-                                          return S.of(context).maxPlayersRequired;
-                                          }
-                                          return null;
-                                          },
-                                                    controller: minPlayersController,
-                                                    keyboardType: TextInputType.number,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty ||
+                                                          int.tryParse(value) ==
+                                                              null) {
+                                                        return S
+                                                            .of(context)
+                                                            .maxPlayersRequired;
+                                                      }
+                                                      return null;
+                                                    },
+                                                    controller:
+                                                        minPlayersController,
+                                                    keyboardType:
+                                                        TextInputType.number,
                                                     decoration: InputDecoration(
-                                                      hintText: S.of(context).minPlayers,
+                                                      hintText: S
+                                                          .of(context)
+                                                          .minPlayers,
                                                     )),
                                               ),
                                               SizedBox(
@@ -237,16 +292,25 @@ class CreateGameScreen extends StatelessWidget {
                                               ),
                                               Expanded(
                                                 child: TextFormField(
-                                                    controller: maxPlayersController,
-                                                    validator:  ( value) {
-                                                      if (value == null || value.isEmpty || int.tryParse(value) == null) {
-                                                        return S.of(context).maxPlayersRequired;
+                                                    controller:
+                                                        maxPlayersController,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty ||
+                                                          int.tryParse(value) ==
+                                                              null) {
+                                                        return S
+                                                            .of(context)
+                                                            .maxPlayersRequired;
                                                       }
                                                       return null;
                                                     },
-                                                    keyboardType: TextInputType.number,
+                                                    keyboardType:
+                                                        TextInputType.number,
                                                     decoration: InputDecoration(
-                                                      hintText: S.of(context).maxPlayers,
+                                                      hintText: S
+                                                          .of(context)
+                                                          .maxPlayers,
                                                     )),
                                               )
                                             ]),
@@ -268,33 +332,39 @@ class CreateGameScreen extends StatelessWidget {
               bloc: bloc,
               builder: (context, state) {
                 return BlocListener<GamesBloc, GamesState>(
-  listener: (context, state) {
-    if (state is CreateGameSuccess) {
-       _showBookingDialog(context, "${ApiManager.baseUrl.replaceAll("/api", "/app") } /games/${state.gameId}/");
-    }
-  },
-  child: DefaultButton(
-                    isLoading: state is CreateGameLoading,
-                    text: S.of(context).createGame,
-                    onPressed: () {
-                      if (formKey.currentState!.validate() && bloc.selectedStadiumId != null && bloc.booking != null) {
-                        bloc.add(CreateGameEvent(
-                          minPlayers: int.parse(minPlayersController.text),
-                          maxPlayers: int.parse(maxPlayersController.text),
-                        ));
-                      }
-                      else{
-                        if (bloc.selectedStadiumId == null) {
-                          errorToast(msg: S.of(context).chooseStadium);
+                  listener: (context, state) {
+                    if (state is CreateGameSuccess) {
+                      _showBookingDialog(context,
+                          "${ApiManager.baseUrl.replaceAll("/api", "/app")}games/${state.gameId}");
+                    } else if (state is GamesError) {
+                      errorToast(
+                          msg: ExceptionManager(state.exception)
+                              .translatedMessage());
+                    }
+                  },
+                  child: DefaultButton(
+                      isLoading: state is CreateGameLoading,
+                      text: S.of(context).createGame,
+                      onPressed: () {
+                        if (formKey.currentState!.validate() &&
+                            bloc.selectedStadiumId != null &&
+                            bloc.booking != null) {
+                          bloc.add(CreateGameEvent(
+
+                            minPlayers: int.parse(minPlayersController.text),
+                            maxPlayers: int.parse(maxPlayersController.text),
+                          ));
+                        } else {
+                          if (bloc.selectedStadiumId == null) {
+                            errorToast(msg: S.of(context).chooseStadium);
+                          } else if (bloc.booking == null) {
+                            errorToast(msg: S.of(context).chooseDate);
+                          }
                         }
-                        else if (bloc.booking == null) {
-                          errorToast(msg: S.of(context).chooseDate);
-                        }
-                      }
-                      // context.push(Routes.bookNow, arguments: {"id": cubit.currentPlace!.id});
-                      debugPrint("Book Now");
-                    }),
-);
+                        // context.push(Routes.bookNow, arguments: {"id": cubit.currentPlace!.id});
+                        debugPrint("Book Now");
+                      }),
+                );
               },
             ),
           ),
@@ -302,6 +372,7 @@ class CreateGameScreen extends StatelessWidget {
       ),
     );
   }
+
   void _showBookingDialog(BuildContext ctx, String link) {
     showDialog(
       context: ctx,

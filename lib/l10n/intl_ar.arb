@@ -137,7 +137,10 @@
   "chooseDate" : "يرجى أختيار التاريخ",
   "gameCreated" : "تم انشاء الحجز الجماعي بنجاح",
   "maxPlayersRequired" : "يجب عليك ادخال عدد اللاعبين",
-  "minPlayersRequired" : "يجب عليك ادخال عدد اللاعبين"
+  "minPlayersRequired" : "يجب عليك ادخال عدد اللاعبين",
+  "all" : "الكل",
+  "bookingTimeInPast" : "الوقت الذي ادخلته في الماضي", "endTimeBeforeStartTime" : "وقت الانتهاء قبل وقت البدء",
+  "startTimeTooSoon" : "وقت البدء قبل الوقت المحدد"
 
 
 }

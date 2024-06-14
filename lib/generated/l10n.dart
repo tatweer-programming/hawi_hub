@@ -1409,6 +1409,46 @@ class S {
       args: [],
     );
   }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking time is in the past`
+  String get bookingTimeInPast {
+    return Intl.message(
+      'Booking time is in the past',
+      name: 'bookingTimeInPast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End time must be after start time`
+  String get endTimeBeforeStartTime {
+    return Intl.message(
+      'End time must be after start time',
+      name: 'endTimeBeforeStartTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start time is too soon`
+  String get startTimeTooSoon {
+    return Intl.message(
+      'Start time is too soon',
+      name: 'startTimeTooSoon',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -102,3 +102,9 @@ class JoinGameLoading extends GamesLoading {
   @override
   List<Object> get props => [];
 }
+class SelectSportSuccess extends GamesState {
+  final int sportId;
+  const SelectSportSuccess(this.sportId);
+  @override
+  List<Object> get props => [ sportId];
+}

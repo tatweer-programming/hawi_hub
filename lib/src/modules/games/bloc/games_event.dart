@@ -44,3 +44,9 @@ class CreateGameEvent extends GamesEvent {
   List<Object> get props => [minPlayers, maxPlayers];
 }
 
+class SelectSportEvent extends GamesEvent {
+  final int sportId;
+  const SelectSportEvent( this.sportId);
+  @override
+  List<Object> get props => [sportId];
+}

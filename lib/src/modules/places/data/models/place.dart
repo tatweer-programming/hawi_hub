@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/utils/images_manager.dart';
 
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
@@ -60,11 +61,7 @@ class Place extends Equatable {
         name: json['name'],
         description: json['description'],
         address: json['address'],
-        images: const [
-          "https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=400",
-          "https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=400",
-          "https://images.pexels.com/photos/61135/pexels-photo-61135.jpeg?auto=compress&cs=tinysrgb&w=400"
-        ],
+        images: List<String>.from(json['images'].map((x) => x['stadiumImageUrl'])),
         /*
        json['images'].map((x) => x['url']).toList(),
        */
@@ -78,9 +75,9 @@ class Place extends Equatable {
         feedbacks: [],
         workingHours: List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
         location: PlaceLocation.fromString(json['location']),
-        sport: json['category'] ?? 0,
-        ownerName: json['owner']['ownerName'] ?? "",
-        ownerImage: json['owner']['ownerImage'] ?? "");
+        sport: json['categoryId'] ?? 0,
+        ownerName: json['owner']['userName'] ?? "",
+        ownerImage: json['owner']['ownerImage'] ?? ImagesManager.defaultProfile);
   }
 
   static List<Day> getWeekDays(List<Map<String, dynamic>> weekDays) {
