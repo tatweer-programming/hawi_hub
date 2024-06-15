@@ -115,6 +115,8 @@
   "commonQuestions": "Common Questions",
   "addRequiredPdf": "Please add what is required below from the file",
   "passMustContainLetter": "Password must contain at least one letter",
+  "passMustContainLowerCase": "Password must contain at least one lowercase letter",
+  "passMustContainUpperCase": "Password must contain at least one uppercase letter",
   "passMustContainSpecialChar": "Password must contain at least one special character",
   "passMustContainNumber": "Password must contain at least one number",
   "language": "Language",
@@ -145,4 +147,13 @@
   "feedbacks": "Feedbacks",
   "viewFeedbacks": "View Feedbacks",
   "noFeedbacks": "No Feedbacks"
+  "chooseStadium": "Choose Stadium first",
+  "chooseDate": "Choose Date first",
+  "gameCreated": "Game Created Successfully",
+  "minPlayersRequired": "Please enter number of players",
+  "maxPlayersRequired": "Please enter number of players",
+  "all": "All",
+  "bookingTimeInPast": "Booking time is in the past",
+  "endTimeBeforeStartTime": "End time must be after start time",
+  "startTimeTooSoon": "Start time is too soon"
 }

@@ -66,14 +66,18 @@ class VerifyCodeErrorState extends AuthState {
 }
 
 // get My Profile
-class GetMyProfileLoadingState extends AuthState {}
+class GetProfileLoadingState extends AuthState {}
 
-class GetMyProfileSuccessState extends AuthState {}
+class GetProfileSuccessState extends AuthState {
+  final Player player;
 
-class GetMyProfileErrorState extends AuthState {
+  GetProfileSuccessState(this.player);
+}
+
+class GetProfileErrorState extends AuthState {
   final String error;
 
-  GetMyProfileErrorState(this.error);
+  GetProfileErrorState(this.error);
 }
 
 // login player

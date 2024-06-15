@@ -14,7 +14,7 @@ import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/constance_manager.dart';
 
 class AuthService {
-  Future<Either<Exception, String>> registerPlayer({
+  Future<Either<String, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     try {
@@ -27,9 +27,9 @@ class AuthService {
         await CacheHelper.saveData(key: 'userId', value: response.data['id']);
         return Right(response.data['message']);
       }
-      return Right(response.data['message']);
-    } on Exception catch (e) {
-      return Left(e);
+      return Left(response.data.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -54,8 +54,8 @@ class AuthService {
         }
       }
       return response.data.toString();
-    } catch (e) {
-      return "Email is not exists.";
+    } on DioException catch (e) {
+      return e.response.toString();
     }
   }
 
@@ -78,8 +78,8 @@ class AuthService {
         return Right(authPlayer);
       }
       return const Right(null);
-    } catch (e) {
-      return Left(e.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -98,8 +98,8 @@ class AuthService {
         return Right(message);
       }
       return const Right("Something went wrong");
-    } catch (e) {
-      return Left(e.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -120,8 +120,8 @@ class AuthService {
         return Right(authPlayer);
       }
       return const Right(null);
-    } catch (e) {
-      return Left(e.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -137,8 +137,8 @@ class AuthService {
         return Right(message);
       }
       return const Right("Something went wrong");
-    } catch (e) {
-      return Left(e.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -151,8 +151,8 @@ class AuthService {
         path: EndPoints.resetPass,
       );
       return response.data.toString();
-    } catch (e) {
-      return "CHECK YOUR NETWORK";
+    } on DioException catch (e) {
+      return e.response.toString();
     }
   }
 
@@ -175,8 +175,8 @@ class AuthService {
         }
       }
       return Left(response.data.toString());
-    } catch (e) {
-      return const Left("CHECK YOUR NETWORK");
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -193,8 +193,8 @@ class AuthService {
         // return (response.data['message']);
       }
       return (response.data.toString());
-    } catch (e) {
-      return e.toString();
+    } on DioException catch (e) {
+      return e.response.toString();
     }
   }
 
@@ -209,8 +209,8 @@ class AuthService {
         return Right(response.data['message']);
       }
       return Left(response.data.toString());
-    } catch (e) {
-      return const Left("CHECK YOUR NETWORK");
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -225,8 +225,8 @@ class AuthService {
         return response.data['proofOfIdentityUrl'];
       }
       return response.data.toString();
-    } catch (e) {
-      return "CHECK YOUR NETWORK";
+    } on DioException catch (e) {
+      return e.response.toString();
     }
   }
 
@@ -250,8 +250,8 @@ class AuthService {
         return Right(response.data['message']);
       }
       return Left(response.data.toString());
-    } catch (e) {
-      return const Left("CHECK YOUR NETWORK");
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -262,8 +262,8 @@ class AuthService {
       );
       Player player = Player.fromJson(response.data);
       return Right(player);
-    } catch (e) {
-      return const Left("CHECK YOUR NETWORK");
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 
@@ -277,9 +277,8 @@ class AuthService {
         sports.add(Sport.fromJson(category));
       }
       return Right(sports);
-    } catch (e) {
-      print(e);
-      return Left(e.toString());
+    } on DioException catch (e) {
+      return Left(e.response.toString());
     }
   }
 }

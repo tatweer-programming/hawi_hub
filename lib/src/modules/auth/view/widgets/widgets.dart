@@ -108,7 +108,7 @@ mainFormField(
             disabledBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: borderColor??ColorManager.grey3),
+                  : BorderSide(color: borderColor ?? ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             contentPadding:
@@ -116,16 +116,16 @@ mainFormField(
             focusedBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: borderColor??ColorManager.grey3),
+                  : BorderSide(color: borderColor ?? ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: !border
                   ? BorderSide.none
-                  : BorderSide(color: borderColor??ColorManager.grey3),
+                  : BorderSide(color: borderColor ?? ColorManager.grey3),
               borderRadius: BorderRadius.circular(25.sp),
             ),
-            errorStyle: TextStyle(color: borderColor??ColorManager.error),
+            errorStyle: TextStyle(color: borderColor ?? ColorManager.error),
             fillColor: fillColor ?? ColorManager.white,
             filled: true,
             suffixIcon: suffix,
@@ -303,9 +303,10 @@ String? validPassword(String value, BuildContext context) {
     return S.of(context).enterPassword;
   } else if (value.length < 6) {
     return S.of(context).shortPassword;
-  } else if (!RegExp(r'[a-z]').hasMatch(value) ||
-      !RegExp(r'[A-Z]').hasMatch(value)) {
-    return S.of(context).passMustContainLetter;
+  } else if (!RegExp(r'[a-z]').hasMatch(value)) {
+    return S.of(context).passMustContainLowerCase;
+  } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    return S.of(context).passMustContainUpperCase;
   } else if (!RegExp(r'[0-9]').hasMatch(value)) {
     return S.of(context).passMustContainNumber;
   } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
@@ -315,25 +316,33 @@ String? validPassword(String value, BuildContext context) {
 }
 
 String handleResponseTranslation(String state, BuildContext context) {
-  if (state == "Account Created Successfully")
+  if (state == "Account Created Successfully") {
     return S.of(context).accountCreatedSuccessfully;
+  }
   if (state == "Email is not exists.") return S.of(context).emailNotExists;
-  if (state == "Email is already exists.")
+  if (state == "Email is already exists.") {
     return S.of(context).emailAlreadyExist;
-  if (state == "Username is already exists.")
+  }
+  if (state == "Username is already exists.") {
     return S.of(context).usernameAlreadyExist;
-  if (state == "Password reset successfully")
+  }
+  if (state == "Password reset successfully") {
     return S.of(context).passwordResetSuccessfully;
-  if (state == "Invalid email or password.")
+  }
+  if (state == "Invalid email or password.") {
     return S.of(context).invalidEmailOrPassword;
-  if (state == "Account LogedIn Successfully")
+  }
+  if (state == "Account LogedIn Successfully") {
     return S.of(context).loginSuccessfully;
+  }
   if (state == "Something went wrong") return S.of(context).somethingWentWrong;
   if (state == "Wrong password !") return S.of(context).wrongPassword;
   if (state == "CHECK YOUR NETWORK") return S.of(context).checkYourNetwork;
-  if (state == "Password has been changed successfully")
+  if (state == "Password has been changed successfully") {
     return S.of(context).passwordChangedSuccessfully;
-  if (state == "Proof of identity has been added successfully")
+  }
+  if (state == "Proof of identity has been added successfully") {
     return S.of(context).proofOfIdentityAddedSuccessfully;
+  }
   return state;
 }

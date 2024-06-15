@@ -146,12 +146,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "ownerRate": MessageLookupByLibrary.simpleMessage("Owner Rate"),
-        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
-            "Password must contain at least one letter"),
+        "passMustContainLowerCase": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one lowercase letter"),
         "passMustContainNumber": MessageLookupByLibrary.simpleMessage(
             "Password must contain at least one number"),
         "passMustContainSpecialChar": MessageLookupByLibrary.simpleMessage(
             "Password must contain at least one special character"),
+        "passMustContainUpperCase": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one uppercase letter"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordChangedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Password has been changed successfully"),

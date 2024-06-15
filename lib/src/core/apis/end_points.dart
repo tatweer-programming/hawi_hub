@@ -10,6 +10,10 @@ class EndPoints {
   static const String uploadProof = '/Player/UploadProofOfIdentity';
   static const String verifyCode = '/verifycode';
 
+
+  /// payment
+  static const String getPaymentStatus = '/v2/GetPaymentStatus';
+
   static const String getBanners = '/Banner';
   static const String getSports = '/Category';
   static const String getPlaces = '/Stadium/GetByCity/';

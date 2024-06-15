@@ -14,119 +14,133 @@ import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
-import '../../../main/view/widgets/custom_app_bar.dart';
 import '../widgets/widgets.dart';
-import 'update_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final Player player;
+  final int id;
 
-  const ProfileScreen({super.key, required this.player});
+  const ProfileScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = AuthBloc.get(context);
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is UploadNationalIdSuccessState) {
-          context.pop();
-          bloc.add(GetProfileEvent(ConstantsManager.userId!));
-          context.pop();
-        } else if (state is UploadNationalIdErrorState) {
-          context.pop();
-          errorToast(msg: handleResponseTranslation(state.error, context));
-        }
-        if (state is UploadNationalIdLoadingState) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) {
-              return const AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
+    bloc.add(GetProfileEvent(id));
+    Player? player;
+    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state is GetProfileSuccessState) {
+        player = state.player;
+      }
+      if (state is UploadNationalIdSuccessState) {
+        context.pop();
+        bloc.add(GetProfileEvent(id));
+        context.pop();
+      } else if (state is UploadNationalIdErrorState) {
+        context.pop();
+        errorToast(msg: handleResponseTranslation(state.error, context));
+      }
+      if (state is UploadNationalIdLoadingState) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(child: CircularProgressIndicator()),
+                ],
+              ),
+            );
+          },
+        );
+      }
+    }, builder: (context, state) {
+      return FutureBuilder(
+        future: _fetchProfile(bloc, id),
+        builder: (context, snapshot) {
+          if (player == null) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: Column(
                   children: [
-                    Center(child: CircularProgressIndicator()),
-                  ],
-                ),
-              );
-            },
-          );
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      AuthAppBar(
-                        context: context,
-                        player: player,
-                        title: S.of(context).profile,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.symmetric(
-                    horizontal: 5.w,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Text(
-                        player.userName,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    SizedBox(
+                      width: double.infinity,
+                      child: Stack(
                         children: [
-                          _pentagonalWidget(
-                            player.games,
-                            S.of(context).games,
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          _pentagonalWidget(
-                            player.bookings,
-                            S.of(context).booking,
+                          AuthAppBar(
+                            context: context,
+                            player: player!,
+                            title: S.of(context).profile,
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 2.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: 5.w,
                       ),
-                      _emailConfirmed(
-                          bloc: bloc,
-                          player: player,
-                          context: context,
-                          state: state),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Text(
+                            player!.userName,
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _pentagonalWidget(
+                                player!.games,
+                                S.of(context).games,
+                              ),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              _pentagonalWidget(
+                                player!.bookings,
+                                S.of(context).booking,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          _emailConfirmed(
+                              bloc: bloc,
+                              player: player!,
+                              context: context,
+                              state: state),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    });
   }
+}
+
+Future<void> _fetchProfile(AuthBloc bloc, int id) async {
+  bloc.add(GetProfileEvent(id));
 }
 
 Widget _pentagonalWidget(int number, String text) {
@@ -221,7 +235,7 @@ Widget _seeAll(VoidCallback onTap, BuildContext context) {
   );
 }
 
-Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
+Widget _peopleRateBuilder(FeedBack feedBack, BuildContext context) {
   return Stack(
     children: [
       Column(
@@ -504,7 +518,7 @@ Widget _verified({
               SizedBox(
                 height: 2.h,
               ),
-              state is GetMyProfileLoadingState
+              state is GetProfileLoadingState
                   ? ShimmerWidget(
                       height: 13.h,
                       width: double.infinity,

@@ -9,6 +9,7 @@ import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:open_file_plus/open_file_plus.dart';
@@ -151,13 +152,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await _repository.changeProfileImage(event.profileImage);
         }
       } else if (event is GetProfileEvent) {
-        emit(GetMyProfileLoadingState());
+        emit(GetProfileLoadingState());
         var res = await _repository.getProfile(event.id);
         res.fold((l) {
-          emit(GetMyProfileErrorState(l));
+          emit(GetProfileErrorState(l));
         }, (r) {
-          ConstantsManager.appUser = r;
-          emit(GetMyProfileSuccessState());
+          emit(GetProfileSuccessState(r));
         });
       } else if (event is AcceptConfirmTermsEvent) {
         if (event.accept) {

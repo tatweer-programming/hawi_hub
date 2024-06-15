@@ -114,6 +114,8 @@
   "commonQuestions": "الاسئلة الشائعة",
   "emailNotExists": "البريد الإلكتروني غير موجود",
   "addRequiredPdf": "يرجي إلحاق المطلوب ادناه من الملف ",
+  "passMustContainUpperCase": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
+  "passMustContainLowerCase": "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل",
   "passMustContainLetter": "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل",
   "passMustContainSpecialChar": "يجب أن تحتوي كلمة المرور على حرف مثل # * على الأقل",
   "passMustContainNumber": "يجب ان تحتوي كلمة المرور على الاقل رقما واحدا",
@@ -146,4 +148,19 @@
   "feedbacks": "التعليقات",
   "viewFeedbacks": "عرض التعليقات",
   "noFeedbacks": "لا يوجد تعليقات"
+  "noAlerts": "لا توجد تنبيهات",
+  "bookingConflict": "الملعب محجوز في هذا الوقت",
+  "bookingSuccess": "تم إضافة الحجز بنجاح",
+  "noEnoughBalance": "الرصيد غير كافي",
+  "noItemsFound": "لا يوجد عناصر",
+  "saved": "تم الحفظ بنجاح",
+  "chooseStadium": "يرجى اختيار الملعب",
+  "chooseDate": "يرجى أختيار التاريخ",
+  "gameCreated": "تم انشاء الحجز الجماعي بنجاح",
+  "maxPlayersRequired": "يجب عليك ادخال عدد اللاعبين",
+  "minPlayersRequired": "يجب عليك ادخال عدد اللاعبين",
+  "all": "الكل",
+  "bookingTimeInPast": "الوقت الذي ادخلته في الماضي",
+  "endTimeBeforeStartTime": "وقت الانتهاء قبل وقت البدء",
+  "startTimeTooSoon": "وقت البدء قبل الوقت المحدد"
 }

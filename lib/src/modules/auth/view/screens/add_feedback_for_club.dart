@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
-import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
+import '../../../../core/utils/styles_manager.dart';
+import '../../../auth/view/widgets/widgets.dart';
+import '../../../main/view/widgets/custom_app_bar.dart';
 
-class AddFeedback extends StatelessWidget {
-  const AddFeedback({super.key});
+class AddFeedbackForClub extends StatelessWidget {
+  const AddFeedbackForClub({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AddFeedback extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 5.h,
-                    )
+                    ),
                   ],
                 ),
                 Container(
@@ -69,14 +69,6 @@ class AddFeedback extends StatelessWidget {
                   _rateBuilder(
                     rate: S.of(context).clubRate,
                     initialRating: 5,
-                    onRatingUpdate: (rating) {},
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  _rateBuilder(
-                    rate: S.of(context).ownerRate,
-                    initialRating: 2,
                     onRatingUpdate: (rating) {},
                   ),
                   SizedBox(

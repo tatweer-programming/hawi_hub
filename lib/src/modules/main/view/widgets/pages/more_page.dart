@@ -205,7 +205,7 @@ Widget _appBar(
                 onTap: () {
                   context.push(
                     Routes.profile,
-                    arguments: ConstantsManager.appUser,
+                    arguments: {"id": ConstantsManager.userId},
                   );
                 },
                 child: CircleAvatar(
