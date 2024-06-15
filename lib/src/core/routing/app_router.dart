@@ -10,6 +10,7 @@ import 'package:hawihub/src/modules/main/view/screens/terms_conditions_screen.da
 import 'package:hawihub/src/modules/payment/presentation/screens/my_wallet.dart';
 import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
+import 'package:hawihub/src/modules/places/view/screens/place_reviews.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
@@ -29,9 +30,10 @@ class AppRouter {
           builder: (_) => SplashScreen(
             // nextScreen: MainScreen(),
             nextScreen: ConstantsManager.userId == null
-                ? (ConstantsManager.isFirstTime == true || ConstantsManager.isFirstTime == null
-                ? const GetStartedScreen()
-                : const LoginScreen())
+                ? (ConstantsManager.isFirstTime == true ||
+                        ConstantsManager.isFirstTime == null
+                    ? const GetStartedScreen()
+                    : const LoginScreen())
                 : const MainScreen(),
           ),
         );
@@ -48,8 +50,7 @@ class AppRouter {
             builder: (_) => ProfileScreen(player: arguments));
       case Routes.wallet:
         Player arguments = settings.arguments as Player;
-        return MaterialPageRoute(
-            builder: (_) => MyWallet(player: arguments));
+        return MaterialPageRoute(builder: (_) => MyWallet(player: arguments));
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const MainScreen());
         Map<String, dynamic> arguments =
@@ -87,9 +88,20 @@ class AppRouter {
             settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => AddBookingScreen(placeId: arguments['id']));
-           case Routes.selectGameTime:
-              Map<String, dynamic> arguments =  settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(builder: (_) => SelectGameTimeScreen(placeId:  arguments['id'],));
+      case Routes.placeFeedbacks:
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => PlaceFeedbacksScreen(
+                  id: arguments['id'],
+                ));
+      case Routes.selectGameTime:
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => SelectGameTimeScreen(
+                  placeId: arguments['id'],
+                ));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

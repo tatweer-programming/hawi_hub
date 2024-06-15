@@ -67,7 +67,8 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       AuthAppBar(
                         context: context,
-                        player: player, title: S.of(context).profile,
+                        player: player,
+                        title: S.of(context).profile,
                       ),
                     ],
                   ),
@@ -220,7 +221,7 @@ Widget _seeAll(VoidCallback onTap, BuildContext context) {
   );
 }
 
-Widget _peopleRateBuilder(FeedBack feedBack, BuildContext context) {
+Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
   return Stack(
     children: [
       Column(

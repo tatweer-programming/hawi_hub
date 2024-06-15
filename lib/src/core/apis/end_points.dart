@@ -10,16 +10,20 @@ class EndPoints {
   static const String uploadProof = '/Player/UploadProofOfIdentity';
   static const String verifyCode = '/verifycode';
 
-
   static const String getBanners = '/Banner';
   static const String getSports = '/Category';
   static const String getPlaces = '/Stadium/GetByCity/';
   static const String getPlaceBookings = "/Stadium/StadiumReservationsTimes/";
   static const String bookPlace = '/Player/ReserveStadium/';
+  static const String addPlaceToFavourites = '/Player/AddStadiumToFavorite/';
+  static const String deletePlaceFromFavourites = "/Player/DeleteFromFavorite/";
+  static const String getPlaceFeedbacks = '/Stadium/StadiumReview/';
+
   /// games
   static const String getGames = '/Stadium/Games/City/';
   static const String createGame = '/Player/AddStadiumGame/';
   static const String joinGame = '/Player/JoinGame/';
+
   /// chat
   static const String getConnection = '/Hub/negotiate?negotiateVersion=1';
   static const String addConnectionId = '/Hub/AddPlayerConnectionId/';

@@ -44,7 +44,9 @@ class PlaceScreen extends StatelessWidget {
               bloc: cubit,
               listener: (context, state) {
                 if (state is PlaceError) {
-                  errorToast(msg: ExceptionManager(state.exception).translatedMessage());
+                  errorToast(
+                      msg: ExceptionManager(state.exception)
+                          .translatedMessage());
                 }
               },
               child: Column(
@@ -58,7 +60,8 @@ class PlaceScreen extends StatelessWidget {
                       children: [
                         CustomAppBar(
                             blendMode: BlendMode.exclusion,
-                            backgroundImage: "assets/images/app_bar_backgrounds/6.webp",
+                            backgroundImage:
+                                "assets/images/app_bar_backgrounds/6.webp",
                             height: 35.h,
                             child: const SizedBox()),
                         Align(
@@ -87,13 +90,17 @@ class PlaceScreen extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return Container(
                                             width: 88.w,
-                                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 5.0),
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(50),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
                                                 color: Colors.grey,
                                                 image: DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: NetworkImage(ApiManager.handleImageUrl(i)),
+                                                  image: NetworkImage(
+                                                      ApiManager.handleImageUrl(
+                                                          i)),
                                                 )),
                                           );
                                         },
@@ -103,9 +110,11 @@ class PlaceScreen extends StatelessWidget {
                                   Align(
                                     alignment: AlignmentDirectional.topStart,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         IconButton(
                                           padding: EdgeInsets.zero,
@@ -116,7 +125,8 @@ class PlaceScreen extends StatelessWidget {
                                           },
                                           icon: const CircleAvatar(
                                               backgroundColor: Colors.white,
-                                              child: Icon(Icons.arrow_back_ios_new)),
+                                              child: Icon(
+                                                  Icons.arrow_back_ios_new)),
                                         ),
                                         SizedBox(
                                           height: 2.h,
@@ -183,7 +193,8 @@ class PlaceScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
-                        if (place.location != null) _buildShowMapWidget(context),
+                        if (place.location != null)
+                          _buildShowMapWidget(context),
                         Divider(
                           height: 5.h,
                         ),
@@ -194,36 +205,50 @@ class PlaceScreen extends StatelessWidget {
                               Expanded(
                                   child: (place.rating != null)
                                       ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               place.rating.toString(),
-                                              style: TextStyleManager.getBlackCaptionTextStyle(),
+                                              style: TextStyleManager
+                                                  .getBlackCaptionTextStyle(),
                                             ),
                                             Expanded(
                                               child: place.rating != null
                                                   ? Center(
                                                       child: SizedBox(
                                                         height: 20.sp,
-                                                        child: RatingBar.builder(
+                                                        child:
+                                                            RatingBar.builder(
                                                           glow: true,
                                                           itemSize: 20.sp,
-                                                          direction: Axis.horizontal,
+                                                          direction:
+                                                              Axis.horizontal,
                                                           allowHalfRating: true,
-                                                          wrapAlignment: WrapAlignment.center,
-                                                          initialRating: place.rating!,
+                                                          wrapAlignment:
+                                                              WrapAlignment
+                                                                  .center,
+                                                          initialRating:
+                                                              place.rating!,
                                                           itemCount: 5,
-                                                          glowColor: ColorManager.golden,
+                                                          glowColor:
+                                                              ColorManager
+                                                                  .golden,
                                                           ignoreGestures: true,
-                                                          itemBuilder: (context, _) => const Icon(
+                                                          itemBuilder:
+                                                              (context, _) =>
+                                                                  const Icon(
                                                             Icons.star,
-                                                            color: ColorManager.golden,
+                                                            color: ColorManager
+                                                                .golden,
                                                           ),
-                                                          onRatingUpdate: (r) {},
+                                                          onRatingUpdate:
+                                                              (r) {},
                                                         ),
                                                       ),
                                                     )
-                                                  : Text(S.of(context).noRatings),
+                                                  : Text(
+                                                      S.of(context).noRatings),
                                             )
                                           ],
                                         )
@@ -239,12 +264,25 @@ class PlaceScreen extends StatelessWidget {
                                     width: 2.w,
                                   ),
                                   Text(S.of(context).totalGames,
-                                      style: TextStyleManager.getBlackCaptionTextStyle()),
+                                      style: TextStyleManager
+                                          .getBlackCaptionTextStyle()),
                                 ],
                               )),
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Center(
+                            child: TextButton(
+                                onPressed: () {
+                                  context.push(Routes.placeFeedbacks,
+                                      arguments: {"id": place.id});
+                                },
+                                child: Text(S.of(context).viewFeedbacks,
+                                    style: TextStyleManager
+                                        .getGoldenRegularStyle()))),
                         // Padding(
                         //   padding: EdgeInsets.symmetric(vertical: 2.h),
                         //   child: SizedBox(
@@ -293,64 +331,69 @@ class PlaceScreen extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 3.h,
-                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  S.of(context).price,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      S.of(context).price,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const VerticalDivider(),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  S.of(context).minimumBooking,
-                                ),
-                              ),
-                            )
-                          ]),
+                                const VerticalDivider(),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      S.of(context).minimumBooking,
+                                    ),
+                                  ),
+                                )
+                              ]),
                         ),
                         SizedBox(
                           height: 2.h,
                         ),
                         SizedBox(
                           height: 5.h,
-                          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            Expanded(
-                              child: OutLineContainer(
-                                child: Text(
-                                  "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: OutLineContainer(
+                                    child: Text(
+                                      "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 3.w,
-                            ),
-                            Expanded(
-                              child: OutLineContainer(
-                                child: Text(
-                                  "${place.minimumHours ?? S.of(context).noMinimumBooking}  ${S.of(context).hours}",
+                                SizedBox(
+                                  width: 3.w,
                                 ),
-                              ),
-                            )
-                          ]),
+                                Expanded(
+                                  child: OutLineContainer(
+                                    child: Text(
+                                      "${place.minimumHours ?? S.of(context).noMinimumBooking}  ${S.of(context).hours}",
+                                    ),
+                                  ),
+                                )
+                              ]),
                         ),
                         SizedBox(
                           height: 2.h,
                         ),
                         InkWell(
-                           onTap: () {
-                             context.push(Routes.profile, arguments: {"id": place.ownerId});
-                           },
+                          onTap: () {
+                            context.push(Routes.profile,
+                                arguments: {"id": place.ownerId});
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CircleAvatar(
-
-                                backgroundImage: NetworkImage(ApiManager.handleImageUrl(place.ownerImage)),
-
+                                backgroundImage: NetworkImage(
+                                    ApiManager.handleImageUrl(
+                                        place.ownerImage)),
                               ),
                               SizedBox(
                                 width: 3.w,
@@ -377,9 +420,8 @@ class PlaceScreen extends StatelessWidget {
               text: S.of(context).bookNow,
               onPressed: () {
                 if (ConstantsManager.appUser == null) {
-                   errorToast(msg: S.of(context).loginFirst);
-                }
-                else {
+                  errorToast(msg: S.of(context).loginFirst);
+                } else {
                   context.push(Routes.bookNow, arguments: {"id": place.id});
                   debugPrint("Book Now");
                 }
@@ -459,7 +501,9 @@ class PlaceScreen extends StatelessWidget {
           onTap: () {
             // TODO navigate to sport Screen
           },
-          child: Center(child: Text(sport, style: TextStyleManager.getBlackCaptionTextStyle()))),
+          child: Center(
+              child: Text(sport,
+                  style: TextStyleManager.getBlackCaptionTextStyle()))),
     );
   }
 

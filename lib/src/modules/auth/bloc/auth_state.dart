@@ -15,7 +15,7 @@ class RegisterSuccessState extends AuthState {
 }
 
 class RegisterErrorState extends AuthState {
-  final String error;
+  final Exception error;
 
   RegisterErrorState(this.error);
 }

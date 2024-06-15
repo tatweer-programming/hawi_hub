@@ -14,7 +14,6 @@ class DioHelper {
       },
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
-
     ));
   }
 
@@ -91,12 +90,14 @@ class DioHelper {
   static Future<Response> deleteData({
     required String path,
     Map<String, dynamic>? query,
+    Map<String, dynamic>? data,
     String? token,
   }) async {
     try {
       return await dio.delete(
         path,
         queryParameters: query,
+        data: data,
       );
     } catch (e) {
       if (kDebugMode) {

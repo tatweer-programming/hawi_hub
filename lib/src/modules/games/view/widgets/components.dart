@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
@@ -11,6 +14,7 @@ import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../auth/data/models/player.dart';
 import '../../data/models/player.dart';
@@ -73,112 +77,163 @@ class GameItem extends StatelessWidget {
       child: Row(children: [
         Expanded(
             child: InkWell(
-          onTap: () {
-            context.push(Routes.game, arguments: {"id": game.id});
-          },
-          child: Row(children: [
-            Container(
-                width: 25.w,
-                height: 15.h,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(ApiManager.handleImageUrl(
-                        MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).image, )),
-                    ))),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 1.h,
-                ),
+              onTap: () {
+                context.push(Routes.game, arguments: {"id": game.id});
+              },
+              child: Row(children: [
                 Container(
-                  width: 30.w,
-                  height: 2.5.h,
-                  decoration: const BoxDecoration(
-                    color: ColorManager.golden,
-                    borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(15),
-                      bottomEnd: Radius.circular(15),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      "${S.of(context).only} ${game.getRemainingSlots()} ${S.of(context).slots}",
-                      style: TextStyleManager.getRegularStyle(color: ColorManager.white),
-                    ),
-                  ),
-                ),
+                    width: 25.w,
+                    height: 15.h,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(ApiManager.handleImageUrl(
+                            MainCubit
+                                .get()
+                                .sportsList
+                                .firstWhere((sport) => sport.id == game.sportId,
+                                orElse: () => Sport.unKnown())
+                                .image,
+                          )),
+                        ))),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: .5.h,
+                          height: 1.h,
                         ),
-                        FittedBox(child: SubTitle(game.placeName)),
-                        SizedBox(
-                          height: .5.h,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.location_on_rounded,
-                              size: 15,
-                              color: ColorManager.error,
+                        Container(
+                          width: 30.w,
+                          height: 2.5.h,
+                          decoration: const BoxDecoration(
+                            color: ColorManager.golden,
+                            borderRadius: BorderRadiusDirectional.only(
+                              topEnd: Radius.circular(15),
+                              bottomEnd: Radius.circular(15),
                             ),
-                            Expanded(
-                              child: Text(
-                                "${game.placeAddress} ",
-                                style: TextStyleManager.getRegularStyle(color: ColorManager.grey2),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              "${S
+                                  .of(context)
+                                  .only} ${game.getRemainingSlots()} ${S
+                                  .of(context)
+                                  .slots}",
+                              style: TextStyleManager.getRegularStyle(
+                                  color: ColorManager.white),
                             ),
-                          ],
+                          ),
                         ),
-                        SizedBox(
-                          height: .5.h,
-                        ),
-                        FittedBox(
-                          child: Text(game.getConvertedDate(),
-                              style: TextStyleManager.getRegularStyle(color: ColorManager.grey2)),
-                        ),
-                        SizedBox(
-                          height: .5.h,
-                        ),
-                        FittedBox(
-                          child: Text("${game.price} ${S.of(context).sar}",
-                              style:
-                                  TextStyleManager.getRegularStyle(color: ColorManager.secondary)),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                FittedBox(child: SubTitle(game.placeName)),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.location_on_rounded,
+                                      size: 15,
+                                      color: ColorManager.error,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "${game.placeAddress} ",
+                                        style: TextStyleManager.getRegularStyle(
+                                            color: ColorManager.grey2),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                FittedBox(
+                                  child: Text(game.getConvertedDate(),
+                                      style: TextStyleManager.getRegularStyle(
+                                          color: ColorManager.grey2)),
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                FittedBox(
+                                  child: Text("${game.price} ${S
+                                      .of(context)
+                                      .sar}",
+                                      style: TextStyleManager.getRegularStyle(
+                                          color: ColorManager.secondary)),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-              ],
+                    )),
+              ]),
             )),
-          ]),
-        )),
-        Container(
-          width: 10.w,
-          color: ColorManager.primary,
-          child: RotatedBox(
-            quarterTurns: 1,
-            child: InkWell(
-                onTap: () {},
-                child: Center(
-                    child: Text(
-                  S.of(context).bookNow,
-                  style: TextStyleManager.getRegularStyle(color: ColorManager.white),
-                ))),
-          ),
+        BlocConsumer<GamesBloc, GamesState>(
+          listener: (context, state) {
+            if (state is JoinGameSuccess) {
+              defaultToast(msg: S
+                  .of(context)
+                  .joinedGame);
+            }
+          },
+          builder: (context, state) {
+            return Container(
+              width: 10.w,
+              color: ColorManager.primary,
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: InkWell(
+                    onTap: () {
+                      if (ConstantsManager.userId == null) {
+                        errorToast(msg: S
+                            .of(context)
+                            .loginFirst);
+                      } else {
+                        bool isJoined = game.players.any(
+                                (element) =>
+                            element.id == ConstantsManager.userId);
+                        if (isJoined) {
+                          defaultToast(msg: S
+                              .of(context)
+                              .alreadyJoined);
+                        } else {
+                          GamesBloc.get().add(JoinGameEvent(gameId: game.id));
+                        }
+                      }
+                    },
+                    child: Center(
+                        child: state is JoinGameLoading
+                            ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorManager.white),
+                        )
+                            : Text(
+                          S
+                              .of(context)
+                              .bookNow,
+                          style: TextStyleManager.getRegularStyle(
+                              color: ColorManager.white),
+                        ))),
+              ),
+            );
+          },
         )
       ]),
     );
@@ -187,39 +242,44 @@ class GameItem extends StatelessWidget {
 
 class GamePlayerItem extends StatelessWidget {
   final GamePlayer player;
+
   const GamePlayerItem({super.key, required this.player});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 15.h,
+      width: 90.w,
       child: InkWell(
         onTap: () {
-          context.push(Routes.profile , arguments: {
-            "id" : player.id
-          });
+          context.push(Routes.profile, arguments: {"id": player.id});
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 7.h,
-              backgroundImage: NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
+              radius: 6.h,
+              backgroundImage:
+              NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
             ),
             SizedBox(width: 3.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TitleText(player.name),
-                const SizedBox(height: 2),
-                if (player.isHost)
-                  Text(
-                    S.of(context).host,
-                    style: TextStyleManager.getCaptionStyle(),
-                  )
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TitleText(player.name),
+                  const SizedBox(height: 2),
+                  if (player.isHost)
+                    Text(
+                      S
+                          .of(context)
+                          .host,
+                      style: TextStyleManager.getCaptionStyle(),
+                    )
+                ],
+              ),
             )
           ],
         ),

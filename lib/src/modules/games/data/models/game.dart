@@ -14,7 +14,7 @@ class Game extends Equatable {
   final int placeId;
   final int maxPlayers;
   final int minPlayers;
-  final int hours;
+  final double hours;
   final String sportImageUrl;
   final String placeAddress;
   final String placeName;
@@ -25,26 +25,27 @@ class Game extends Equatable {
   List<GamePlayer> players;
   GamePlayer host;
   final int sportId;
-  Game(
-      {required this.id,
-      required this.sportName,
-      required this.price,
-      required this.date,
-      required this.placeId,
-      required this.maxPlayers,
-      required this.minPlayers,
-      required this.hours,
-      required this.sportImageUrl,
-      required this.placeAddress,
-      required this.placeName,
-      required this.isPublic,
-      this.players = const [] ,
-      required this.startTime,
-      required this.endTime,
-       required this.deadline,
-      required this.sportId,
-      required this.host,
-      });
+
+  Game({
+    required this.id,
+    required this.sportName,
+    required this.price,
+    required this.date,
+    required this.placeId,
+    required this.maxPlayers,
+    required this.minPlayers,
+    required this.hours,
+    required this.sportImageUrl,
+    required this.placeAddress,
+    required this.placeName,
+    required this.isPublic,
+    this.players = const [],
+    required this.startTime,
+    required this.endTime,
+    required this.deadline,
+    required this.sportId,
+    required this.host,
+  });
 
   factory Game.fromJson(Map<String, dynamic> json) {
     return Game(
@@ -52,10 +53,17 @@ class Game extends Equatable {
       sportName: "",
       price: json['gamePrice'],
       date: DateTime.parse(json['gameStartTime']),
-      placeId: json['stadium'] ['stadiumId'],
+      placeId: json['stadium']['stadiumId'],
       maxPlayers: json['maxPlayers'],
       minPlayers: json['minPlayers'],
-      hours: DateTime.parse(json['gameEndTime']).difference(DateTime.parse(json['gameStartTime'])).inHours,
+      hours: ((DateTime.parse(json['gameEndTime'])
+                          .difference(DateTime.parse(json['gameStartTime']))
+                          .inMinutes
+                          .abs() /
+                      60) *
+                  100)
+              .round() /
+          100,
       sportImageUrl: "",
       placeAddress: json['stadium']['address'],
       placeName: json['stadium']['name'],
@@ -68,6 +76,7 @@ class Game extends Equatable {
       host: GamePlayer.fromJson(json['host']),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "stadiumId": placeId,
@@ -77,7 +86,10 @@ class Game extends Equatable {
       "maxPlayers": maxPlayers,
       "gameStartTime": startTime.toUtc().toIso8601String(),
       "gameEndTime": endTime.toUtc().toIso8601String(),
-      "deadline": startTime.subtract(const Duration(hours: 1)).toUtc().toIso8601String(),
+      "deadline": startTime
+          .subtract(const Duration(hours: 1))
+          .toUtc()
+          .toIso8601String(),
     };
   }
 
@@ -95,10 +107,11 @@ class Game extends Equatable {
       ];
 
   static List<GamePlayer> _extractPlayers(List playersJson) {
-     List<Map<String, dynamic>> playersJsonInCast = List.castFrom<dynamic, Map<String, dynamic>>(playersJson);
+    List<Map<String, dynamic>> playersJsonInCast =
+        List.castFrom<dynamic, Map<String, dynamic>>(playersJson);
     List<GamePlayer> players = [];
     for (Map<String, dynamic> playerJson in playersJsonInCast) {
-       players.add(GamePlayer.fromJson(playerJson));
+      players.add(GamePlayer.fromJson(playerJson));
     }
     return players;
   }

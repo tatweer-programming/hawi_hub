@@ -6,7 +6,9 @@ abstract class PlaceEvent extends Equatable {
 
 class GetAllPlacesEvent extends PlaceEvent {
   final int cityId;
+
   const GetAllPlacesEvent(this.cityId);
+
   @override
   List<Object> get props => [];
 }
@@ -22,7 +24,9 @@ class GetPlaceEvent extends PlaceEvent {
 
 class GetPlaceBookingsEvent extends PlaceEvent {
   final int placeId;
+
   const GetPlaceBookingsEvent(this.placeId);
+
   @override
   List<Object?> get props => [placeId];
 }
@@ -30,7 +34,9 @@ class GetPlaceBookingsEvent extends PlaceEvent {
 class GetDayBookingsEvent extends PlaceEvent {
   final int placeId;
   final DateTime date;
+
   const GetDayBookingsEvent(this.placeId, this.date);
+
   @override
   List<Object?> get props => [];
 }
@@ -39,6 +45,7 @@ class RatePlaceEvent extends PlaceEvent {
   final int placeId;
   final double rate;
   final String comment;
+
   const RatePlaceEvent(this.placeId, this.rate, this.comment);
 
   @override
@@ -47,13 +54,16 @@ class RatePlaceEvent extends PlaceEvent {
 
 class GetPlaceReviewsEvent extends PlaceEvent {
   final int placeId;
+
   const GetPlaceReviewsEvent(this.placeId);
+
   @override
   List<Object?> get props => [];
 }
 
 class SharePlaceEvent extends PlaceEvent {
   final int placeId;
+
   const SharePlaceEvent({required this.placeId});
 
   @override
@@ -62,21 +72,46 @@ class SharePlaceEvent extends PlaceEvent {
 
 class ChooseSportEvent extends PlaceEvent {
   final String sport;
+
   const ChooseSportEvent(this.sport);
+
   @override
   List<Object?> get props => [];
 }
 
 class SelectSport extends PlaceEvent {
   final int sportId;
+
   const SelectSport(this.sportId);
+
   @override
   List<Object?> get props => [sportId];
 }
+
 class AddBookingEvent extends PlaceEvent {
   final int placeId;
-final Booking booking;
-  const AddBookingEvent( this.booking ,{required this.placeId});
+  final Booking booking;
+
+  const AddBookingEvent(this.booking, {required this.placeId});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class AddPlaceToFavoriteEvent extends PlaceEvent {
+  final int placeId;
+
+  const AddPlaceToFavoriteEvent(this.placeId);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletePlaceFromFavoriteEvent extends PlaceEvent {
+  final int placeId;
+
+  const DeletePlaceFromFavoriteEvent(this.placeId);
+
   @override
   List<Object?> get props => [];
 }

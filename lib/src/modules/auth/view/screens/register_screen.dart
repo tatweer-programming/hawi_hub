@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
@@ -37,7 +38,8 @@ class RegisterScreen extends StatelessWidget {
           defaultToast(msg: handleResponseTranslation(state.value, context));
           context.pushAndRemove(Routes.home);
         } else if (state is RegisterErrorState) {
-          errorToast(msg: handleResponseTranslation(state.error, context));
+          ExceptionManager(state.error).translatedMessage();
+          // errorToast(msg: handleResponseTranslation(state.error, context));
         }
         if (state is SignupWithGoogleSuccessState) {
           authPlayer = state.authPlayer;

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
@@ -28,178 +31,245 @@ class GameDetailsScreen extends StatelessWidget {
     GamesBloc bloc = GamesBloc.get()..add(GetGameEvent(id));
     Game game = bloc.games.firstWhere((e) => e.id == id);
     return Scaffold(
-        body: BlocBuilder<GamesBloc, GamesState>(
-            bloc: bloc,
-            builder: (context, state) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 50.h,
-                            child: Stack(children: [
-                              Container(
-                                  height: 50.h,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              ApiManager.handleImageUrl(
-                                                MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).image, ),
-                                          )))),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 12.h,
-                                  width: 90.w,
-                                  decoration: BoxDecoration(
-                                      color: ColorManager.white.withOpacity(.7),
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10))),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3.w),
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
+        body: BlocListener<GamesBloc, GamesState>(
+      bloc: bloc,
+      listener: (context, state) {
+        if (state is JoinGameSuccess) {
+          defaultToast(msg: S.of(context).joinedGame);
+          context.pop();
+        } else {
+          if (state is GamesError) {
+            errorToast(
+                msg: ExceptionManager(state.exception).translatedMessage());
+          }
+        }
+      },
+      child: BlocBuilder<GamesBloc, GamesState>(
+          bloc: bloc,
+          builder: (context, state) {
+            return Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 50.h,
+                          child: Stack(children: [
+                            Container(
+                                height: 50.h,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          ApiManager.handleImageUrl(
+                                            MainCubit.get()
+                                                .sportsList
+                                                .firstWhere(
+                                                    (sport) =>
+                                                        sport.id ==
+                                                        game.sportId,
+                                                    orElse: () =>
+                                                        Sport.unKnown())
+                                                .image,
+                                          ),
+                                        )))),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 12.h,
+                                width: 90.w,
+                                decoration: BoxDecoration(
+                                    color: ColorManager.white.withOpacity(.7),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10))),
+                                child: Padding(
+                                  padding: EdgeInsets.all(3.w),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            child: Row(children: [
                                           Expanded(
-                                              child: Row(children: [
-                                            Expanded(
-                                              child: TitleText(
-                                                game.placeName,
-                                              ),
+                                            child: TitleText(
+                                              game.placeName,
                                             ),
-                                            FittedBox(
-                                              child: Text(
-                                                "${S.of(context).price} : ${game.price}${S.of(context).sar}",
-                                                style: TextStyleManager.getSecondarySubTitleStyle(),
-                                              ),
+                                          ),
+                                          FittedBox(
+                                            child: Text(
+                                              "${S.of(context).price} : ${game.price}${S.of(context).sar}",
+                                              style: TextStyleManager
+                                                  .getSecondarySubTitleStyle(),
                                             ),
-                                          ])),
+                                          ),
+                                        ])),
+                                        Expanded(
+                                            child: Row(children: [
                                           Expanded(
-                                              child: Row(children: [
-                                            Expanded(
-                                              child: Text(
-                                                game.placeAddress,
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
+                                            child: Text(
+                                              game.placeAddress,
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            FittedBox(
-                                              child: Column(
-                                                children: [
-                                                  Text(game.getConvertedDate()),
-                                                  SizedBox(height: .5.h),
-                                                  Text(
-                                                      "${S.of(context).only} ${game.getRemainingSlots()} ${S.of(context).slots}"),
-                                                ],
-                                              ),
+                                          ),
+                                          FittedBox(
+                                            child: Column(
+                                              children: [
+                                                Text(game.getConvertedDate()),
+                                                SizedBox(height: .5.h),
+                                                Text(
+                                                    "${S.of(context).only} ${game.getRemainingSlots()} ${S.of(context).slots}"),
+                                              ],
                                             ),
-                                          ])),
-                                        ]),
-                                  ),
+                                          ),
+                                        ])),
+                                      ]),
                                 ),
                               ),
-                              Align(
-                                  alignment: AlignmentDirectional.topStart,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 5.h,
-                                      horizontal: 4.w,
-                                    ),
-                                    child: FloatingActionButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      mini: true,
-                                      child: const Icon(Icons.arrow_back_ios),
-                                    ),
-                                  ))
-                            ]),
-                          ),
-
-                          /// players section
-                          Padding(
-                            padding: EdgeInsets.all(6.5.w),
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              SubTitle("${S.of(context).players} (${game.players.length})"),
-                              SizedBox(height: 2.h),
-                              _buildHost(
-                                  context, game.host),
-                              SizedBox(height: 2.h),
-                              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                SizedBox(
-                                    width: 30.w,
-                                    height: 6.h,
-                                    child: Stack(
-                                        alignment: AlignmentDirectional.centerStart,
-                                        children: [
-                                          game.host ,
-                                          ...game.players
-                                        ].sublist(0,
-                                                game.players.length > 3 ? 3 : game.players.length)
-                                            .map((e) => Positioned(
-                                                  left: game.players.indexOf(e) * 7.w,
-                                                  child: CircleAvatar(
-                                                    radius: 3.h,
-                                                    backgroundImage: NetworkImage( ApiManager.handleImageUrl(e.imageUrl)),
-                                                  ),
-                                                ))
-                                            .toList())),
-                                TextButton(
-                                  onPressed: () {
-                                    context.push(Routes.allPlayers,
-                                        arguments: {"players": [
-                                          game.host ,
-                                          ...game.players
-                                        ]});
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        S.of(context).viewAll,
-                                      ),
-                                      const Icon(Icons.chevron_right)
-                                    ],
+                            ),
+                            Align(
+                                alignment: AlignmentDirectional.topStart,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 5.h,
+                                    horizontal: 4.w,
                                   ),
-                                )
-                              ]),
-                              SizedBox(height: 4.h),
-                              SubTitle(S.of(context).sport),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              _buildSportWidget(MainCubit.get().sportsList.firstWhere((sport) => sport.id == game.sportId  ,orElse: () => Sport.unKnown()).name, context),
-                              SizedBox(
-                                height: 2.h,
-                              ),
-                              SubTitle("${S.of(context).hours} : ${game.hours}"),
+                                  child: FloatingActionButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    mini: true,
+                                    child: const Icon(Icons.arrow_back_ios),
+                                  ),
+                                ))
+                          ]),
+                        ),
 
-                              // SizedBox(height: 2.h,),
-                            ]),
-                          ),
-                        ],
-                      ),
+                        /// players section
+                        Padding(
+                          padding: EdgeInsets.all(6.5.w),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SubTitle(
+                                    "${S.of(context).players} (${game.players.length})"),
+                                SizedBox(height: 2.h),
+                                _buildHost(context, game.host),
+                                SizedBox(height: 2.h),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: SizedBox(
+                                            width: 50.w,
+                                            height: 6.h,
+                                            child: Stack(
+                                                alignment:
+                                                    AlignmentDirectional.center,
+                                                children: [
+                                                  game.host,
+                                                  ...game.players
+                                                ]
+                                                    .sublist(
+                                                        0,
+                                                        game.players.length > 3
+                                                            ? 3
+                                                            : game
+                                                                .players.length)
+                                                    .map((e) =>
+                                                        PositionedDirectional(
+                                                          start: (game.players
+                                                                      .indexOf(
+                                                                          e) +
+                                                                  1) *
+                                                              5.w,
+                                                          child: CircleAvatar(
+                                                            radius: 3.h,
+                                                            backgroundImage:
+                                                                NetworkImage(ApiManager
+                                                                    .handleImageUrl(
+                                                                        e.imageUrl)),
+                                                          ),
+                                                        ))
+                                                    .toList())),
+                                      ),
+                                      if (game.players.isNotEmpty)
+                                        TextButton(
+                                          onPressed: () {
+                                            context.push(Routes.allPlayers,
+                                                arguments: {
+                                                  "players": [
+                                                    game.host,
+                                                    ...game.players
+                                                  ]
+                                                });
+                                          },
+                                          child: Row(
+                                            children: [
+                                              if (game.players.isNotEmpty)
+                                                Text(
+                                                  S.of(context).viewAll,
+                                                ),
+                                              const Icon(Icons.chevron_right)
+                                            ],
+                                          ),
+                                        )
+                                    ]),
+                                SizedBox(height: 4.h),
+                                SubTitle(S.of(context).sport),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                _buildSportWidget(
+                                    MainCubit.get()
+                                        .sportsList
+                                        .firstWhere(
+                                            (sport) => sport.id == game.sportId,
+                                            orElse: () => Sport.unKnown())
+                                        .name,
+                                    context),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                SubTitle(
+                                    "${S.of(context).hours} : ${game.hours}"),
+
+                                // SizedBox(height: 2.h,),
+                              ]),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                    child: DefaultButton(
-                      isLoading: state is JoinGameLoading,
-                      text: S.of(context).join,
-                      onPressed: () {
-                        bloc.add(JoinGameEvent(gameId: game.id));
-                      },
-                      height: 6.h,
-                    ),
-                  )
-                ],
-              );
-            }));
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                  child: DefaultButton(
+                    isLoading: state is JoinGameLoading,
+                    text: S.of(context).join,
+                    onPressed: () {
+                      if (ConstantsManager.userId == null) {
+                        errorToast(msg: S.of(context).loginFirst);
+                      } else {
+                        bool isJoined = game.players.any(
+                            (element) => element.id == ConstantsManager.userId);
+                        if (isJoined) {
+                          defaultToast(msg: S.of(context).alreadyJoined);
+                        } else {
+                          bloc.add(JoinGameEvent(gameId: game.id));
+                        }
+                      }
+                    },
+                    height: 6.h,
+                  ),
+                )
+              ],
+            );
+          }),
+    ));
   }
 
   Widget _buildHost(context, GamePlayer player) {
@@ -211,7 +281,8 @@ class GameDetailsScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 3.h,
-              backgroundImage: NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
+              backgroundImage:
+                  NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
             ),
             SizedBox(width: 2.w),
             Column(
@@ -241,10 +312,10 @@ class GameDetailsScreen extends StatelessWidget {
         color: ColorManager.grey1,
       ),
       child: InkWell(
-          onTap: () {
-            // TODO navigate to sport Screen
-          },
-          child: Center(child: Text(sport, style: TextStyleManager.getBlackCaptionTextStyle()))),
+          onTap: () {},
+          child: Center(
+              child: Text(sport,
+                  style: TextStyleManager.getBlackCaptionTextStyle()))),
     );
   }
 }

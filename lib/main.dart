@@ -64,7 +64,6 @@ class _MyAppState extends State<MyApp> {
 
     // Handle links
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-
       print('onAppLink: $uri');
       openAppLink(uri);
     });
@@ -83,9 +82,12 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
         providers: [
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
-          BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc(AuthInitial())),
-          BlocProvider<GamesBloc>(create: (BuildContext context) => GamesBloc.get()),
-          BlocProvider<PlaceBloc>(create: (BuildContext context) => PlaceBloc.get()),
+          BlocProvider<AuthBloc>(
+              create: (BuildContext context) => AuthBloc(AuthInitial())),
+          BlocProvider<GamesBloc>(
+              create: (BuildContext context) => GamesBloc.get()),
+          BlocProvider<PlaceBloc>(
+              create: (BuildContext context) => PlaceBloc.get()),
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
           AppRouter appRouter = AppRouter();

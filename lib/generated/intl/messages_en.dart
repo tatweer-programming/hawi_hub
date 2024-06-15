@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "allFieldsIsRequired":
             MessageLookupByLibrary.simpleMessage("All fields are required"),
         "allPlayers": MessageLookupByLibrary.simpleMessage("All Players"),
+        "alreadyJoined":
+            MessageLookupByLibrary.simpleMessage("Already Joined Game"),
         "alwaysOpen": MessageLookupByLibrary.simpleMessage("Always Open"),
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
         "availableTimes":
@@ -87,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter password"),
         "enterUsername":
             MessageLookupByLibrary.simpleMessage("Please enter username"),
+        "feedbacks": MessageLookupByLibrary.simpleMessage("Feedbacks"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("File Uploaded"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password ?"),
@@ -101,6 +104,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmailOrPassword":
             MessageLookupByLibrary.simpleMessage("Invalid email or password."),
         "join": MessageLookupByLibrary.simpleMessage("Join"),
+        "joinedGame":
+            MessageLookupByLibrary.simpleMessage("Joined Game Successfully"),
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("Keep me logged in"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -131,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noComment": MessageLookupByLibrary.simpleMessage("No comment"),
         "noEnoughBalance":
             MessageLookupByLibrary.simpleMessage("No enough balance"),
+        "noFeedbacks": MessageLookupByLibrary.simpleMessage("No Feedbacks"),
         "noGames": MessageLookupByLibrary.simpleMessage("No games"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No Items Found"),
         "noMinimumBooking":
@@ -217,6 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Username is already exists."),
         "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
+        "viewFeedbacks": MessageLookupByLibrary.simpleMessage("View Feedbacks"),
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
         "workingHours": MessageLookupByLibrary.simpleMessage("Working Hours"),
         "wrongPassword":

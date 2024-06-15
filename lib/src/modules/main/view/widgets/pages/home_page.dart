@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -26,7 +28,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MainCubit mainCubit = MainCubit.get()..initializeHomePage();
+    MainCubit mainCubit = MainCubit.get()
+      ..initializeHomePage();
     GamesBloc gamesBloc = GamesBloc.get();
     PlaceBloc placeBloc = PlaceBloc.get();
     return Column(
@@ -43,7 +46,9 @@ class HomePage extends StatelessWidget {
                     vertical: 2.h,
                   ),
                   child: DefaultButton(
-                    text: S.of(context).createGame,
+                    text: S
+                        .of(context)
+                        .createGame,
                     onPressed: () {
                       context.push(Routes.createGame);
                     },
@@ -71,24 +76,24 @@ class HomePage extends StatelessWidget {
                         items: mainCubit.bannerList.isEmpty
                             ? [const BannersShimmer()]
                             : mainCubit.bannerList.map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      width: 88.w,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: ColorManager.shimmerBaseColor,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(i),
-                                          )),
-                                    );
-                                  },
-                                );
-                              }).toList(),
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: 88.w,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                    color: ColorManager.shimmerBaseColor,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(i),
+                                    )),
+                              );
+                            },
+                          );
+                        }).toList(),
                       );
                     },
                   ),
@@ -101,16 +106,20 @@ class HomePage extends StatelessWidget {
                   children: [
                     Expanded(
                         child:
-                            TitleText(S.of(context).nearByGames, isBold: true)),
+                        TitleText(S
+                            .of(context)
+                            .nearByGames, isBold: true)),
                     TextButton(
                         onPressed: () {
                           mainCubit.changePage(1);
                         },
                         child: Row(
                           children: [
-                            Text(S.of(context).viewAll,
+                            Text(S
+                                .of(context)
+                                .viewAll,
                                 style:
-                                    TextStyleManager.getGoldenRegularStyle()),
+                                TextStyleManager.getGoldenRegularStyle()),
                             const Icon(Icons.arrow_forward,
                                 color: ColorManager.golden)
                           ],
@@ -125,21 +134,24 @@ class HomePage extends StatelessWidget {
                   child: BlocBuilder<GamesBloc, GamesState>(
                       bloc: gamesBloc,
                       builder: (context, state) {
-                         print(state);
-                        return state is GetGamesLoading ? const HorizontalGamesShimmer() :
-                                gamesBloc.filteredGames.isEmpty
+                        print(state);
+                        return state is GetGamesLoading
+                            ? const HorizontalGamesShimmer()
+                            :
+                        gamesBloc.filteredGames.isEmpty
                             ? const EmptyView()
                             : ListView.separated(
-                                scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.horizontal,
 
-                                itemBuilder: (context, index) =>
-                                    GameItem(game: gamesBloc.filteredGames[index]),
-                                separatorBuilder: (context, index) => SizedBox(
-                                      width: 4.w,
-                                    ),
-                                itemCount: gamesBloc.filteredGames.length > 3
-                                    ? 3
-                                    : gamesBloc.filteredGames.length);
+                            itemBuilder: (context, index) =>
+                                GameItem(game: gamesBloc.filteredGames[index]),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(
+                                  width: 4.w,
+                                ),
+                            itemCount: gamesBloc.filteredGames.length > 3
+                                ? 3
+                                : gamesBloc.filteredGames.length);
                       }),
                 ),
                 SizedBox(
@@ -149,7 +161,9 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
-                        child: TitleText(S.of(context).nearByVenues,
+                        child: TitleText(S
+                            .of(context)
+                            .nearByVenues,
                             isBold: true)),
                     TextButton(
                         onPressed: () {
@@ -157,9 +171,11 @@ class HomePage extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            Text(S.of(context).viewAll,
+                            Text(S
+                                .of(context)
+                                .viewAll,
                                 style:
-                                    TextStyleManager.getGoldenRegularStyle()),
+                                TextStyleManager.getGoldenRegularStyle()),
                             const Icon(Icons.arrow_forward,
                                 color: ColorManager.golden)
                           ],
@@ -171,23 +187,37 @@ class HomePage extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 27.h,
-                  child: BlocBuilder<PlaceBloc, PlaceState>(
-                      bloc: placeBloc,
-                      builder: (context, state) {
-                        return  state is GetAllPlacesLoading ? const HorizontalPlacesShimmer() : placeBloc.viewedPlaces.isEmpty
-                            ? const EmptyView()
-                            : ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => PlaceItem(
-                                      place: placeBloc.viewedPlaces[index],
-                                    ),
-                                separatorBuilder: (context, index) => SizedBox(
-                                      width: 4.w,
-                                    ),
-                                itemCount: placeBloc.viewedPlaces.length > 3
-                                    ? 3
-                                    : placeBloc.viewedPlaces.length);
-                      }),
+                  child: BlocListener<PlaceBloc, PlaceState>(
+                    bloc: placeBloc,
+                    listener: (context, state) {
+                      if (state is PlaceError) {
+                        errorToast(
+                            msg: ExceptionManager(state.exception)
+                                .translatedMessage());
+                      }
+                    },
+                    child: BlocBuilder<PlaceBloc, PlaceState>(
+                        bloc: placeBloc,
+                        builder: (context, state) {
+                          return state is GetAllPlacesLoading
+                              ? const HorizontalPlacesShimmer()
+                              : placeBloc.viewedPlaces.isEmpty
+                              ? const EmptyView()
+                              : ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) =>
+                                  PlaceItem(
+                                    place: placeBloc.viewedPlaces[index],
+                                  ),
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                              itemCount: placeBloc.viewedPlaces.length > 3
+                                  ? 3
+                                  : placeBloc.viewedPlaces.length);
+                        }),
+                  ),
                 ),
               ])),
         ),

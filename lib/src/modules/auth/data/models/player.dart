@@ -12,9 +12,10 @@ class Player {
   final String email;
   final String? profilePictureUrl;
   final double myWallet;
-  final List<FeedBack> feedbacks;
+  final List<AppFeedBack> feedbacks;
   File? profilePictureFile;
   String? proofOfIdentityUrl;
+  List<int> favoritePlaces;
 
   Player({
     required this.id,
@@ -29,11 +30,12 @@ class Player {
     required this.myWallet,
     required this.feedbacks,
     required this.rate,
+    this.favoritePlaces = const [],
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
-    List<FeedBack> feedbacks = List.from(json['reviews'] ?? [])
-        .map((feedback) => FeedBack.fromJson(feedback))
+    List<AppFeedBack> feedbacks = List.from(json['reviews'] ?? [])
+        .map((feedback) => AppFeedBack.fromJson(feedback))
         .toList();
     return Player(
       profilePictureUrl: json['profilePictureUrl'],
@@ -47,11 +49,13 @@ class Player {
       myWallet: json['wallet'].toDouble(),
       rate: _calculateAverage(feedbacks),
       feedbacks: feedbacks,
+      favoritePlaces: json['favoriteStadiums'] ?? [],
     );
   }
-  static double _calculateAverage(List<FeedBack>? feedbacks) {
+
+  static double _calculateAverage(List<AppFeedBack>? feedbacks) {
     List<double> numbers =
-    List.from(feedbacks!.map((feedBack) => feedBack.rating));
+        List.from(feedbacks!.map((feedBack) => feedBack.rating));
     if (numbers.isEmpty) {
       return 0.0;
     }
@@ -59,7 +63,6 @@ class Player {
     for (double number in numbers) {
       sum += number;
     }
-
     return sum / numbers.length;
   }
 }

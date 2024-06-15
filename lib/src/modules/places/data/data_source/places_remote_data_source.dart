@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -17,15 +18,15 @@ import '../../../games/data/data_source/games_remote_data_source.dart';
 import '../models/place.dart';
 
 class PlacesRemoteDataSource {
-  Future<Either<Exception, List<Place>>> getAllPlaces({required int cityId}) async {
+  Future<Either<Exception, List<Place>>> getAllPlaces(
+      {required int cityId}) async {
     try {
       List<Place> places = [];
-      var response =
-          await DioHelper.getData(path: "${EndPoints.getPlaces}$cityId", query: {"cityId": cityId});
+      var response = await DioHelper.getData(
+          path: "${EndPoints.getPlaces}$cityId", query: {"cityId": cityId});
       if (response.statusCode == 200) {
         places = (response.data as List).map((e) => Place.fromJson(e)).toList();
         print("places $places");
-
       }
       return Right(places);
     } on Exception catch (e) {
@@ -37,35 +38,80 @@ class PlacesRemoteDataSource {
     throw UnimplementedError();
   }
 
-  Future<Either<Exception, List<Booking>>> getPlaceBookings({required int placeId}) async {
+  Future<Either<Exception, List<Booking>>> getPlaceBookings(
+      {required int placeId}) async {
     try {
       List<Booking> bookings = [];
-      var response = await DioHelper.getData(path: "${EndPoints.getPlaceBookings}$placeId");
+      var response = await DioHelper.getData(
+          path: "${EndPoints.getPlaceBookings}$placeId");
       if (response.statusCode == 200) {
-        bookings = (response.data as List).map((e) => Booking.fromJson(e)).toList();
+        bookings =
+            (response.data as List).map((e) => Booking.fromJson(e)).toList();
       }
       return Right(bookings);
     } on Exception catch (e) {
       return Left(e);
     }
   }
-  Future <Either<Exception ,Unit>> addBooking({required Booking booking, required int placeId})async {
-    try {
 
-      var response = DioHelper.postData(path: "${EndPoints.bookPlace}$placeId", data: booking.toJson( stadiumId: placeId ,  reservationPrice:  booking.reservationPrice!));
+  Future<Either<Exception, Unit>> addBooking(
+      {required Booking booking, required int placeId}) async {
+    try {
+      await DioHelper.postData(
+          path: "${EndPoints.bookPlace}$placeId",
+          data: booking.toJson(
+              stadiumId: placeId, reservationPrice: booking.reservationPrice!));
       return const Right(unit);
     } on Exception catch (e) {
       return Left(e);
     }
   }
 
-
-
-  Future<Either<Exception, Unit>> ratePlace({required FeedBack feedBack, required int placeId}) {
+  Future<Either<Exception, Unit>> ratePlace(
+      {required AppFeedBack feedBack, required int placeId}) {
     throw UnimplementedError();
   }
 
-  Future<Either<Exception, List<FeedBack>>> getPlaceReviews({required int placeId}) {
-    throw UnimplementedError();
+  Future<Either<Exception, List<AppFeedBack>>> getPlaceReviews(
+      {required int placeId}) async {
+    try {
+      List<AppFeedBack> appFeedBacks = [];
+      var response = await DioHelper.getData(
+          path: EndPoints.getPlaceFeedbacks + placeId.toString(),
+          query: {"stadiumId": placeId});
+      if (response.statusCode == 200) {
+        appFeedBacks = (response.data as List)
+            .map((e) => AppFeedBack.fromJson(e))
+            .toList();
+      }
+      return Right(appFeedBacks);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, Unit>> addPlaceToFavorite(
+      {required int placeId}) async {
+    try {
+      await DioHelper.postData(
+          path: "${EndPoints.addPlaceToFavourites}${ConstantsManager.userId}",
+          data: {"stadiumId": placeId});
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, Unit>> removePlaceFromFavorite(
+      {required int placeId}) async {
+    try {
+      await DioHelper.deleteData(
+          path:
+              "${EndPoints.deletePlaceFromFavourites}${ConstantsManager.userId}",
+          data: {"stadiumId": placeId});
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
   }
 }

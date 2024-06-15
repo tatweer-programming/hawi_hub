@@ -1449,6 +1449,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Joined Game Successfully`
+  String get joinedGame {
+    return Intl.message(
+      'Joined Game Successfully',
+      name: 'joinedGame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already Joined Game`
+  String get alreadyJoined {
+    return Intl.message(
+      'Already Joined Game',
+      name: 'alreadyJoined',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedbacks`
+  String get feedbacks {
+    return Intl.message(
+      'Feedbacks',
+      name: 'feedbacks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Feedbacks`
+  String get viewFeedbacks {
+    return Intl.message(
+      'View Feedbacks',
+      name: 'viewFeedbacks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Feedbacks`
+  String get noFeedbacks {
+    return Intl.message(
+      'No Feedbacks',
+      name: 'noFeedbacks',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

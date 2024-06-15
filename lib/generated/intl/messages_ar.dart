@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "allFieldsIsRequired":
             MessageLookupByLibrary.simpleMessage("جميع الحقول مطلوبة"),
         "allPlayers": MessageLookupByLibrary.simpleMessage("جميع اللاعبين"),
+        "alreadyJoined":
+            MessageLookupByLibrary.simpleMessage("تم الانضمام بالفعل"),
         "alwaysOpen": MessageLookupByLibrary.simpleMessage("مفتوح دائما"),
         "appName": MessageLookupByLibrary.simpleMessage("هاوي هب"),
         "availableTimes":
@@ -89,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة المرور"),
         "enterUsername":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال الإسم"),
+        "feedbacks": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("تم رفع الملف "),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر ؟"),
@@ -103,6 +106,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmailOrPassword": MessageLookupByLibrary.simpleMessage(
             "البريد الإلكتروني أو كلمة السر خاطئة."),
         "join": MessageLookupByLibrary.simpleMessage("انضمام"),
+        "joinedGame": MessageLookupByLibrary.simpleMessage(
+            "تم الانضمام الى الحجز الجماعي"),
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("أبقِ تسجيل دخولي"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
@@ -135,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noComment": MessageLookupByLibrary.simpleMessage("لا تعليق"),
         "noEnoughBalance":
             MessageLookupByLibrary.simpleMessage("الرصيد غير كافي"),
+        "noFeedbacks": MessageLookupByLibrary.simpleMessage("لا يوجد تعليقات"),
         "noGames": MessageLookupByLibrary.simpleMessage("لم يحجز من قبل"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "noMinimumBooking":
@@ -222,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الأسم موجود مسبقا."),
         "viewAll": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),
+        "viewFeedbacks": MessageLookupByLibrary.simpleMessage("عرض التعليقات"),
         "weekend": MessageLookupByLibrary.simpleMessage("عطلة"),
         "workingHours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "wrongPassword":

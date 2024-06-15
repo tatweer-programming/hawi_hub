@@ -32,7 +32,9 @@ class GetDayBookingsLoading extends PlaceLoading {
 
 class GetAllPlacesSuccess extends PlaceState {
   final List<Place> places;
+
   const GetAllPlacesSuccess(this.places);
+
   @override
   List<Object> get props => [places];
 }
@@ -40,39 +42,48 @@ class GetAllPlacesSuccess extends PlaceState {
 /// all Error states will extend PlaceError
 class PlaceError extends PlaceState {
   final Exception exception;
+
   const PlaceError(this.exception);
+
   @override
   List<Object> get props => [exception];
 }
 
 class GetPlaceError extends PlaceError {
   const GetPlaceError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
 
 class GetAllPlacesError extends PlaceError {
   const GetAllPlacesError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
 
 class GetPlaceSuccess extends PlaceState {
   final Place place;
+
   const GetPlaceSuccess(this.place);
+
   @override
   List<Object> get props => [place];
 }
 
 class GetPlaceBookingsSuccess extends PlaceState {
   final List<Booking> bookings;
+
   const GetPlaceBookingsSuccess(this.bookings);
+
   @override
   List<Object> get props => [bookings];
 }
 
 class GetPlaceBookingsError extends PlaceError {
   const GetPlaceBookingsError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
@@ -84,13 +95,16 @@ class GetPlaceBookingsLoading extends PlaceLoading {
 
 class GetDayBookingsSuccess extends PlaceState {
   final List<DateTime> days;
+
   const GetDayBookingsSuccess(this.days);
+
   @override
   List<Object> get props => [days];
 }
 
 class GetDayBookingsError extends PlaceError {
   const GetDayBookingsError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
@@ -101,14 +115,17 @@ class GetPlaceReviewsLoading extends PlaceLoading {
 }
 
 class GetPlaceReviewsSuccess extends PlaceState {
-  final List<FeedBack> feedBacks;
+  final List<AppFeedBack> feedBacks;
+
   const GetPlaceReviewsSuccess(this.feedBacks);
+
   @override
   List<Object> get props => [feedBacks];
 }
 
 class GetPlaceReviewsError extends PlaceError {
   const GetPlaceReviewsError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
@@ -125,6 +142,7 @@ class RatePlaceSuccess extends PlaceState {
 
 class RatePlaceError extends PlaceError {
   const RatePlaceError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
@@ -141,15 +159,64 @@ class SendBookingRequestSuccess extends PlaceState {
 
 class SendBookingRequestError extends PlaceError {
   const SendBookingRequestError(super.exception);
+
   @override
   List<Object> get props => [exception];
 }
 
 class SelectSportSuccess extends PlaceState {
   final int sportId;
+
   const SelectSportSuccess(this.sportId);
+
   @override
   List<Object> get props => [
         sportId,
       ];
+}
+
+class AddPlaceToFavouritesSuccess extends PlaceState {
+  final int placeId;
+
+  const AddPlaceToFavouritesSuccess(this.placeId);
+
+  @override
+  List<Object> get props => [
+        placeId,
+      ];
+}
+
+class AddPlaceToFavouritesError extends PlaceError {
+  const AddPlaceToFavouritesError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class AddPlaceToFavouritesLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}
+
+class DeletePlaceFromFavouritesSuccess extends PlaceState {
+  final int placeId;
+
+  const DeletePlaceFromFavouritesSuccess(this.placeId);
+
+  @override
+  List<Object> get props => [
+        placeId,
+      ];
+}
+
+class DeletePlaceFromFavouritesError extends PlaceError {
+  const DeletePlaceFromFavouritesError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class DeletePlaceFromFavouritesLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
 }

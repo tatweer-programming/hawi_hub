@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/images_manager.dart';
 
 import 'package:hawihub/src/modules/places/data/models/day.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
 
 class Place extends Equatable {
@@ -20,12 +21,13 @@ class Place extends Equatable {
   int totalGames;
   int totalRatings;
   double? rating;
-  List<Feedback>? feedbacks;
+  List<AppFeedBack>? feedbacks;
   String ownerName;
   String ownerImage;
 
   int citId;
   int approvalStatus;
+
   Place(
       {required this.id,
       required this.name,
@@ -61,7 +63,8 @@ class Place extends Equatable {
         name: json['name'],
         description: json['description'],
         address: json['address'],
-        images: List<String>.from(json['images'].map((x) => x['stadiumImageUrl'])),
+        images:
+            List<String>.from(json['images'].map((x) => x['stadiumImageUrl'])),
         /*
        json['images'].map((x) => x['url']).toList(),
        */
@@ -73,11 +76,13 @@ class Place extends Equatable {
         totalRatings: json['totalRatings'] ?? 0,
         rating: json['rating'],
         feedbacks: [],
-        workingHours: List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
-        location: PlaceLocation.fromString(json['location']),
+        workingHours:
+            List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
+        location: PlaceLocation.fromString(json['location'] ?? ""),
         sport: json['categoryId'] ?? 0,
         ownerName: json['owner']['userName'] ?? "",
-        ownerImage: json['owner']['ownerImage'] ?? ImagesManager.defaultProfile);
+        ownerImage:
+            json['owner']['ownerImage'] ?? ImagesManager.defaultProfile);
   }
 
   static List<Day> getWeekDays(List<Map<String, dynamic>> weekDays) {

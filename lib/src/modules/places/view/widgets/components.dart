@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,6 +19,7 @@ import '../../../main/view/widgets/components.dart';
 
 class PlaceItem extends StatelessWidget {
   final Place place;
+
   const PlaceItem({super.key, required this.place});
 
   @override
@@ -27,64 +33,93 @@ class PlaceItem extends StatelessWidget {
         padding: EdgeInsets.all(10.sp),
         width: 90.w,
         height: 27.h,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.sp), border: Border.all()),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.sp), border: Border.all()),
         child: Stack(
           children: [
             Positioned.fill(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Container(
-                  width: double.infinity,
-                  height: 15.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.sp),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(ApiManager.handleImageUrl(place.images.first)),
-                      )),
-                ),
-                Expanded(
-                    child: Row(children: [
-                  Expanded(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              place.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyleManager.getSubTitleBoldStyle(),
-                            ),
-                          ),
-                          Text(S.of(context).viewDetails,
-                              style: TextStyleManager.getGoldenRegularStyle()),
-                          const Icon(
-                            Icons.arrow_forward,
-                            color: ColorManager.golden,
-                          )
-                        ],
-                      ),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 15.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.sp),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                ApiManager.handleImageUrl(place.images.first)),
+                          )),
+                    ),
+                    Expanded(
+                        child: Row(children: [
                       Expanded(
-                        child: Text(
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          place.address,
-                          style: TextStyleManager.getCaptionStyle(),
-                        ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      place.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyleManager
+                                          .getSubTitleBoldStyle(),
+                                    ),
+                                  ),
+                                  Text(S.of(context).viewDetails,
+                                      style: TextStyleManager
+                                          .getGoldenRegularStyle()),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    color: ColorManager.golden,
+                                  )
+                                ],
+                              ),
+                              Expanded(
+                                child: Text(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  place.address,
+                                  style: TextStyleManager.getCaptionStyle(),
+                                ),
+                              ),
+                            ]),
                       ),
-                    ]),
-                  ),
-                ]))
-              ]),
+                    ]))
+                  ]),
             ),
             Align(
               alignment: AlignmentDirectional.topEnd,
-              child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_outlined,
-                    color: Colors.red,
-                  )),
+              child: BlocBuilder<PlaceBloc, PlaceState>(
+                bloc: PlaceBloc.get(),
+                builder: (context, state) {
+                  return IconButton(
+                      onPressed: () {
+                        if (ConstantsManager.userId == null) {
+                          errorToast(msg: S.of(context).loginFirst);
+                        } else {
+                          if (ConstantsManager.appUser!.favoritePlaces
+                              .contains(place.id)) {
+                            PlaceBloc.get()
+                                .add(DeletePlaceFromFavoriteEvent(place.id));
+                          } else {
+                            PlaceBloc.get()
+                                .add(AddPlaceToFavoriteEvent(place.id));
+                          }
+                        }
+                      },
+                      icon: Icon(
+                        Icons.favorite_outlined,
+                        color: ConstantsManager.appUser!.favoritePlaces
+                                .contains(place.id)
+                            ? ColorManager.error
+                            : ColorManager.grey2,
+                      ));
+                },
+              ),
             ),
             Align(
               alignment: AlignmentDirectional.topStart,
@@ -104,14 +139,19 @@ class PlaceItem extends StatelessWidget {
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyleManager.getBlackContainerTextStyle()),
-                           SizedBox(  height: 1.h,),
+                            style:
+                                TextStyleManager.getBlackContainerTextStyle()),
+                        SizedBox(
+                          height: 1.h,
+                        ),
                         if (place.location != null)
-                        Text("${LocationServices.calculateDistance(place.location!.latitude, place.location!.longitude)} " ,
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyleManager.getBlackContainerTextStyle()),
+                          Text(
+                              "${LocationServices.calculateDistance(place.location!.latitude, place.location!.longitude)} ",
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyleManager
+                                  .getBlackContainerTextStyle()),
                       ],
                     ),
                   ),
@@ -128,7 +168,9 @@ class PlaceItem extends StatelessWidget {
 class SportItem extends StatelessWidget {
   final String sportName;
   final IconData sportIcon;
-  const SportItem({super.key, required this.sportName, required this.sportIcon});
+
+  const SportItem(
+      {super.key, required this.sportName, required this.sportIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +191,7 @@ class SportItem extends StatelessWidget {
     );
   }
 }
+
 class EmptyView extends StatelessWidget {
   const EmptyView({super.key});
 
@@ -157,6 +200,93 @@ class EmptyView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 5.h),
       child: Center(child: SubTitle(S.of(context).noItemsFound)),
+    );
+  }
+}
+
+class FeedBackWidget extends StatelessWidget {
+  final AppFeedBack feedBack;
+
+  const FeedBackWidget({super.key, required this.feedBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            SizedBox(
+              height: 1.h,
+            ),
+            Container(
+              height: 12.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.sp),
+                  border: Border.all()),
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 3.w, vertical: 1.h),
+                child: Row(children: [
+                  CircleAvatar(
+                    radius: 20.sp,
+                    backgroundColor: ColorManager.grey3,
+                    backgroundImage: NetworkImage(feedBack.userImageUrl!),
+                  ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
+                  Expanded(
+                    child: Text(feedBack.comment ?? S.of(context).noComment,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: ColorManager.black.withOpacity(0.5),
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                ]),
+              ),
+            ),
+          ],
+        ),
+        Positioned(
+          left: 5.w,
+          top: -1.h,
+          child: Container(
+            padding: EdgeInsetsDirectional.symmetric(
+              vertical: 1.h,
+              horizontal: 2.w,
+            ),
+            color: Colors.white,
+            child: Row(
+              children: [
+                Text(
+                  feedBack.userName,
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(width: 1.w),
+                RatingBar.builder(
+                  initialRating: feedBack.rating,
+                  minRating: 1,
+                  itemSize: 10.sp,
+                  direction: Axis.horizontal,
+                  ignoreGestures: true,
+                  allowHalfRating: true,
+                  itemPadding: EdgeInsets.zero,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: ColorManager.golden,
+                  ),
+                  onRatingUpdate: (rating) {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

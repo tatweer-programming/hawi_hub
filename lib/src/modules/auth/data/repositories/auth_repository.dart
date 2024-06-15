@@ -9,10 +9,9 @@ import '../services/auth_services.dart';
 class AuthRepository {
   final AuthService _service = AuthService();
 
-  Future<String> loginPlayer(
-      {required String email,
-      required String password,
-      required bool loginWithFBOrGG}) async {
+  Future<String> loginPlayer({required String email,
+    required String password,
+    required bool loginWithFBOrGG}) async {
     return await _service.loginOwner(
         email: email, password: password, loginWithFBOrGG: loginWithFBOrGG);
   }
@@ -33,7 +32,7 @@ class AuthRepository {
     return await _service.signupWithFacebook();
   }
 
-  Future<Either<String, String>> registerPlayer({
+  Future<Either<Exception, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     return _service.registerPlayer(
