@@ -146,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "only": MessageLookupByLibrary.simpleMessage("Only"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "ownerRate": MessageLookupByLibrary.simpleMessage("Owner Rate"),
+        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one letter"),
         "passMustContainLowerCase": MessageLookupByLibrary.simpleMessage(
             "Password must contain at least one lowercase letter"),
         "passMustContainNumber": MessageLookupByLibrary.simpleMessage(

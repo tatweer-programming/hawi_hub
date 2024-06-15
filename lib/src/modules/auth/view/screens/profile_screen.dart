@@ -235,7 +235,7 @@ Widget _seeAll(VoidCallback onTap, BuildContext context) {
   );
 }
 
-Widget _peopleRateBuilder(FeedBack feedBack, BuildContext context) {
+Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
   return Stack(
     children: [
       Column(

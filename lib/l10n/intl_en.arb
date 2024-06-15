@@ -126,7 +126,6 @@
   "send": "Send",
   "shareApp": "hey! to share our app visit ",
   "private": "Private",
-  "private": "Private",
   "noAlerts": "No Alerts",
   "bookingConflict": "There is a conflict with another booking",
   "bookingSuccess": "Booking Added Successfully",
@@ -147,13 +146,4 @@
   "feedbacks": "Feedbacks",
   "viewFeedbacks": "View Feedbacks",
   "noFeedbacks": "No Feedbacks"
-  "chooseStadium": "Choose Stadium first",
-  "chooseDate": "Choose Date first",
-  "gameCreated": "Game Created Successfully",
-  "minPlayersRequired": "Please enter number of players",
-  "maxPlayersRequired": "Please enter number of players",
-  "all": "All",
-  "bookingTimeInPast": "Booking time is in the past",
-  "endTimeBeforeStartTime": "End time must be after start time",
-  "startTimeTooSoon": "Start time is too soon"
 }

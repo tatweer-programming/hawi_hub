@@ -1200,6 +1200,16 @@ class S {
     );
   }
 
+  /// `Password must contain at least one letter`
+  String get passMustContainLetter {
+    return Intl.message(
+      'Password must contain at least one letter',
+      name: 'passMustContainLetter',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Password must contain at least one lowercase letter`
   String get passMustContainLowerCase {
     return Intl.message(

@@ -150,6 +150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "only": MessageLookupByLibrary.simpleMessage("فقط"),
         "owner": MessageLookupByLibrary.simpleMessage("المالك"),
         "ownerRate": MessageLookupByLibrary.simpleMessage("تقييم صاحب الملعب"),
+        "passMustContainLetter": MessageLookupByLibrary.simpleMessage(
+            "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل"),
         "passMustContainLowerCase": MessageLookupByLibrary.simpleMessage(
             "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل"),
         "passMustContainNumber": MessageLookupByLibrary.simpleMessage(

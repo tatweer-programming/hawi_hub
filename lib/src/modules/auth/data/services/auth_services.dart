@@ -14,7 +14,7 @@ import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/constance_manager.dart';
 
 class AuthService {
-  Future<Either<String, String>> registerPlayer({
+  Future<Either<Exception, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     try {
@@ -27,9 +27,9 @@ class AuthService {
         await CacheHelper.saveData(key: 'userId', value: response.data['id']);
         return Right(response.data['message']);
       }
-      return Left(response.data.toString());
+      return Right(response.data['message']);
     } on DioException catch (e) {
-      return Left(e.response.toString());
+      return Left(e);
     }
   }
 
