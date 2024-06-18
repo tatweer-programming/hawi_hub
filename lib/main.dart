@@ -10,6 +10,7 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/services/dep_injection.dart';
+import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/theme_manager.dart';
@@ -33,45 +34,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-  late AppLinks _appLinks;
-  StreamSubscription<Uri>? _linkSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    initDeepLinks();
-  }
-
-  @override
-  void dispose() {
-    _linkSubscription?.cancel();
-
-    super.dispose();
-  }
-
-  Future<void> initDeepLinks() async {
-    _appLinks = AppLinks();
-
-    // Handle links
-    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
-      print('onAppLink: $uri');
-      openAppLink(uri);
-    });
-  }
-
-  void openAppLink(Uri uri) {
-    _navigatorKey.currentState?.pushNamed(uri.fragment);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,21 +55,32 @@ class _MyAppState extends State<MyApp> {
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
           AppRouter appRouter = AppRouter();
-          return MaterialApp(
-            title: LocalizationManager.getAppTitle(),
-            initialRoute: Routes.splash,
-            onGenerateRoute: appRouter.onGenerateRoute,
-            locale: LocalizationManager.getCurrentLocale(),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            theme: getAppTheme(),
+          return BlocBuilder<MainCubit, MainState>(
+            bloc: MainCubit.get(),
+            builder: (context, state) {
+              return MaterialApp(
+                title: LocalizationManager.getAppTitle(),
+                initialRoute: Routes.splash,
+                onGenerateRoute: appRouter.onGenerateRoute,
+                locale: LocalizationManager.getCurrentLocale(),
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                theme: getAppTheme(),
+              );
+            },
           );
         }));
   }
 }
+
+/*
+TODO:
+
+7. game players in owner app and notifications
+ */

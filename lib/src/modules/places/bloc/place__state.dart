@@ -220,3 +220,37 @@ class DeletePlaceFromFavouritesLoading extends PlaceLoading {
   @override
   List<Object> get props => [];
 }
+
+class AddPlaceFeedbackSuccess extends PlaceState {
+  @override
+  List<Object> get props => [];
+}
+
+class AddPlaceFeedbackError extends PlaceError {
+  const AddPlaceFeedbackError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class AddPlaceFeedbackLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}
+
+class AddOwnerFeedbackSuccess extends PlaceState {
+  @override
+  List<Object> get props => [];
+}
+
+class AddOwnerFeedbackError extends PlaceError {
+  const AddOwnerFeedbackError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class AddOwnerFeedbackLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}

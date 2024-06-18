@@ -1,13 +1,19 @@
 class ApiManager {
   static const String baseUrl = 'http://abdoo120-001-site1.ctempurl.com/api/';
+  static const String domain = 'hawihub.com/';
   static const String myFatoorahBaseUrl = 'https://apitest.myfatoorah.com/';
   static const String authToken = "Basic MTExNzM2NDY6NjAtZGF5ZnJlZXRyaWFs";
-  static const String webSocket = "ws://abdoo120-001-site1.ctempurl.com/api/hub";
+  static const String webSocket =
+      "ws://abdoo120-001-site1.ctempurl.com/api/hub";
+
   static String handleImageUrl(String filePath) {
-    return baseUrl.replaceAll("/api", "") + filePath.toString().replaceAll("\\", "/");
+    return baseUrl.replaceAll("/api", "") +
+        filePath.toString().replaceAll("\\", "/");
   }
 
   static String convertUrlToPath(String url) {
-    return url.replaceAll("/", "\\").replaceAll(baseUrl.replaceAll("/api", ""), "");
+    return url
+        .replaceAll("/", "\\")
+        .replaceAll(baseUrl.replaceAll("/api", ""), "");
   }
 }

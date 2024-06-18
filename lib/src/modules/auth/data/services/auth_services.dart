@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
 import '../../../../core/apis/dio_helper.dart';
 import '../../../../core/apis/end_points.dart';

@@ -34,8 +34,14 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Place>> getPlace({required int id}) {
-    throw UnimplementedError();
+  Future<Either<Exception, Place>> getPlace({required int id}) async {
+    try {
+      var response = await DioHelper.getData(path: "${EndPoints.getPlace}$id");
+
+      return Right(Place.fromJson(response.data));
+    } on Exception catch (e) {
+      return Left(e);
+    }
   }
 
   Future<Either<Exception, List<Booking>>> getPlaceBookings(
@@ -109,6 +115,32 @@ class PlacesRemoteDataSource {
           path:
               "${EndPoints.deletePlaceFromFavourites}${ConstantsManager.userId}",
           data: {"stadiumId": placeId});
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, Unit>> addOwnerFeedback(int ownerId,
+      {required AppFeedBack review}) async {
+    try {
+      await DioHelper.postData(
+          data: review.toJson(userType: "player"),
+          path: EndPoints.addOwnerFeedback + ownerId.toString(),
+          query: {"id": ownerId});
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, Unit>> addPlaceFeedback(int placeId,
+      {required AppFeedBack review}) async {
+    try {
+      await DioHelper.postData(
+          data: review.toJson(userType: "player"),
+          path: EndPoints.addPlaceFeedback + placeId.toString(),
+          query: {"stadiumId": placeId});
       return const Right(unit);
     } on Exception catch (e) {
       return Left(e);

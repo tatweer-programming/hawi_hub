@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/modules/games/data/data_source/games_remote_data_source.dart';
@@ -17,7 +18,8 @@ class MainServices {
 
       if (response.statusCode == 200 && response.data.isNotEmpty) {
         for (var item in response.data) {
-          banners.add(item.toString());
+          banners.add(
+              ApiManager.handleImageUrl(item["bannerImageUrl"].toString()));
         }
         return Right(banners);
       }

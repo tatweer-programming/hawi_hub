@@ -125,6 +125,24 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
           ConstantsManager.appUser!.favoritePlaces.remove(event.placeId);
           emit(DeletePlaceFromFavouritesSuccess(event.placeId));
         });
+      } else if (event is AddOwnerFeedbackEvent) {
+        emit(AddOwnerFeedbackLoading());
+        var result = await placesRemoteDataSource
+            .addOwnerFeedback(event.ownerId, review: event.review);
+        result.fold((l) {
+          emit(AddOwnerFeedbackError(l));
+        }, (r) {
+          emit(AddOwnerFeedbackSuccess());
+        });
+      } else if (event is AddPlaceFeedbackEvent) {
+        emit(AddPlaceFeedbackLoading());
+        var result = await placesRemoteDataSource
+            .addPlaceFeedback(event.placeId, review: event.review);
+        result.fold((l) {
+          emit(AddPlaceFeedbackError(l));
+        }, (r) {
+          emit(AddPlaceFeedbackSuccess());
+        });
       }
     });
   }

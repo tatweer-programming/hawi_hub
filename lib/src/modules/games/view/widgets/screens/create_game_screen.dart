@@ -334,8 +334,9 @@ class CreateGameScreen extends StatelessWidget {
                 return BlocListener<GamesBloc, GamesState>(
                   listener: (context, state) {
                     if (state is CreateGameSuccess) {
-                      _showBookingDialog(context,
-                          "${ApiManager.baseUrl.replaceAll("/api", "/app")}games/${state.gameId}");
+                      Uri uri = Uri.parse(
+                          "${ApiManager.domain}game/?id=${state.gameId}");
+                      _showBookingDialog(context, uri.toString());
                     } else if (state is GamesError) {
                       errorToast(
                           msg: ExceptionManager(state.exception)
@@ -350,7 +351,6 @@ class CreateGameScreen extends StatelessWidget {
                             bloc.selectedStadiumId != null &&
                             bloc.booking != null) {
                           bloc.add(CreateGameEvent(
-
                             minPlayers: int.parse(minPlayersController.text),
                             maxPlayers: int.parse(maxPlayersController.text),
                           ));

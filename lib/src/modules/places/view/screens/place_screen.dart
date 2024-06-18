@@ -137,7 +137,7 @@ class PlaceScreen extends StatelessWidget {
                                           color: ColorManager.primary,
                                           onPressed: () {
                                             Share.shareUri(Uri.parse(
-                                                "${ConstantsManager.appUrl}/place/$placeId"));
+                                                "${ApiManager.domain}/place/?id=${place.id}"));
                                           },
                                           icon: const CircleAvatar(
                                               backgroundColor: Colors.white,
