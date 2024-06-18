@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
+import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
@@ -18,7 +19,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   List<Game> filteredGames = [];
   Game? currentGame;
   bool isPublic = false;
-  int ? selectedStadiumId;
+  int? selectedStadiumId;
   Booking? booking;
   GamesRemoteDataSource remoteDataSource = GamesRemoteDataSource();
 
@@ -36,8 +37,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
             emit(GetGamesSuccess(r));
           });
         }
-      }
-      else if (event is GetGameEvent) {
+      } else if (event is GetGameEvent) {
         emit(GetGameLoading());
         var result = await remoteDataSource.getGame(gameId: event.gameId);
         result.fold((l) {
@@ -46,38 +46,32 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
           currentGame = r;
           emit(GetGameSuccess(r));
         });
-      }
-      else if (event is JoinGameEvent) {
+      } else if (event is JoinGameEvent) {
         emit(JoinGameLoading());
         var result = await remoteDataSource.joinGame(gameId: event.gameId);
         result.fold((l) {
           emit(JoinGameError(l));
         }, (r) {
+          games
+              .firstWhere((e) => e.id == event.gameId)
+              .players
+              .add(GamePlayer.currentPlayer());
           emit(const JoinGameSuccess());
         });
       }
       if (event is ChangeGameAccessEvent) {
         isPublic = event.isPublic;
         emit(ChangGameAvailabilitySuccess(isPublic));
-      }
+      } else if (event is CreateGameEvent) {
+        print(
+            "price for stadium ${PlaceBloc.get().allPlaces.firstWhere((element) => element.id == selectedStadiumId).price}");
 
-      else if (event is CreateGameEvent) {
-        print("price for stadium ${PlaceBloc
-            .get()
-            .allPlaces
-            .firstWhere((element) => element.id == selectedStadiumId)
-            .price}");
-
-        double gamePrice = (PlaceBloc
-            .get()
-            .allPlaces
-            .firstWhere((element) => element.id == selectedStadiumId)
-            .price) * (
-            booking!
-                .endTime
-                .difference(booking!.startTime)
-                .
-            inMinutes / 60).abs();
+        double gamePrice = (PlaceBloc.get()
+                .allPlaces
+                .firstWhere((element) => element.id == selectedStadiumId)
+                .price) *
+            (booking!.endTime.difference(booking!.startTime).inMinutes / 60)
+                .abs();
         print("price $gamePrice");
         GameCreationForm gameCreationForm = GameCreationForm(
           stadiumId: selectedStadiumId!,
@@ -100,8 +94,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
           filteredGames = games;
           emit(const SelectSportSuccess(-1));
           print("games $games");
-        }
-        else {
+        } else {
           filteredGames = games
               .where((element) => element.sportId == event.sportId)
               .toList();
