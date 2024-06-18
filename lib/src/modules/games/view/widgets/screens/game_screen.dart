@@ -254,8 +254,9 @@ class GameDetailsScreen extends StatelessWidget {
                       if (ConstantsManager.userId == null) {
                         errorToast(msg: S.of(context).loginFirst);
                       } else {
-                        bool isJoined = game.players.any(
-                            (element) => element.id == ConstantsManager.userId);
+                        bool isJoined = game.players.any((element) =>
+                                element.id == ConstantsManager.userId) ||
+                            game.host.id == ConstantsManager.userId;
                         if (isJoined) {
                           defaultToast(msg: S.of(context).alreadyJoined);
                         } else {
