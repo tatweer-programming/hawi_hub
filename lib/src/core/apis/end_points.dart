@@ -44,4 +44,5 @@ class EndPoints {
 
   static const String getNotifications = '/Hub/PlayerNotifications/';
   static const String markAsRead = "/Hub/MarkPlayerNotificationAsRead/";
+  static const String saveNotificationToOwner = '/Hub/AddOwnerNotification/';
 }

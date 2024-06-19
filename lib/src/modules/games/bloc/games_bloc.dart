@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/games/view/widgets/components.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
@@ -51,12 +55,21 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         var result = await remoteDataSource.joinGame(gameId: event.gameId);
         result.fold((l) {
           emit(JoinGameError(l));
-        }, (r) {
+        }, (r) async {
           games
               .firstWhere((e) => e.id == event.gameId)
               .players
               .add(GamePlayer.currentPlayer());
           emit(const JoinGameSuccess());
+          await NotificationServices().sendNotification(AppNotification(
+              title: "${ConstantsManager.appUser?.userName} joined your game",
+              body:
+                  "${ConstantsManager.appUser?.userName} joined your game in ${games.firstWhere((element) => element.id == event.gameId).placeName}",
+              id: 1,
+              receiverId: games
+                  .firstWhere((element) => element.id == event.gameId)
+                  .host
+                  .id));
         });
       }
       if (event is ChangeGameAccessEvent) {

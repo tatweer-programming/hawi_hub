@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import '../../../../core/utils/constance_manager.dart';
@@ -11,14 +10,15 @@ class AppNotification {
   final String? image;
   final String? link;
   final DateTime? dateTime;
+
   AppNotification(
       {required this.title,
-        required this.body,
-        required this.id,
-        this.image,
-        this.link,
-        this.dateTime,
-        required this.receiverId});
+      required this.body,
+      required this.id,
+      this.image,
+      this.link,
+      this.dateTime,
+      required this.receiverId});
 
   factory AppNotification.fromJson(Map<String, dynamic> json) {
     return AppNotification(
@@ -34,11 +34,9 @@ class AppNotification {
 
   Map<String, dynamic> toJson() {
     return {
-      'title': title,
-      'body': body,
-      'image': image,
-      'link': link,
-      'date_time': DateTime.now().toIso8601String(),
+      "title": title,
+      "message": body,
+      "imageUrl": image,
     };
   }
 

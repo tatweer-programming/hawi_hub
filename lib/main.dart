@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:app_links/app_links.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,16 +9,16 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/routing/app_router.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/services/dep_injection.dart';
-import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/theme_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:sizer/sizer.dart';
-
+import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -28,6 +27,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
   DioHelper.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  NotificationServices.init();
   ServiceLocator.init();
   ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
   await LocalizationManager.init();

@@ -12,6 +12,7 @@ import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,8 +38,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(RegisterLoadingState());
         var result =
             await _repository.registerPlayer(authPlayer: event.authPlayer);
-        result.fold((l) => emit(RegisterErrorState(l)),
-            (r) => emit(RegisterSuccessState(value: r)));
+        result.fold((l) => emit(RegisterErrorState(l)), (r) async {
+          emit(RegisterSuccessState(value: r));
+          NotificationServices().subscribeToTopic();
+        });
       } else if (event is LoginPlayerEvent) {
         emit(LoginLoadingState());
         await _repository
