@@ -145,5 +145,9 @@
   "all": "الكل",
   "bookingTimeInPast": "الوقت الذي ادخلته في الماضي",
   "endTimeBeforeStartTime": "وقت الانتهاء قبل وقت البدء",
-  "startTimeTooSoon": "وقت البدء قبل الوقت المحدد"
+  "startTimeTooSoon": "وقت البدء قبل الوقت المحدد",
+  "home": "الرئيسية",
+  "book": "احجز",
+  "play": "لعب",
+  "more": "المزيد"
 }

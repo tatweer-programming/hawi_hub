@@ -145,5 +145,9 @@
   "alreadyJoined": "Already Joined Game",
   "feedbacks": "Feedbacks",
   "viewFeedbacks": "View Feedbacks",
-  "noFeedbacks": "No Feedbacks"
+  "noFeedbacks": "No Feedbacks",
+  "home": "home",
+  "book": "book",
+  "play": "play",
+  "more": "More"
 }

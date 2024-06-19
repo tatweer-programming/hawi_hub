@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("هاوي هب"),
         "availableTimes":
             MessageLookupByLibrary.simpleMessage("الأوقات المتاحة"),
+        "book": MessageLookupByLibrary.simpleMessage("احجز"),
         "bookNow": MessageLookupByLibrary.simpleMessage("حجز الان"),
         "booking": MessageLookupByLibrary.simpleMessage("الحجز"),
         "bookingConflict":
@@ -99,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gameCreated": MessageLookupByLibrary.simpleMessage(
             "تم انشاء الحجز الجماعي بنجاح"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
+        "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "host": MessageLookupByLibrary.simpleMessage("المضيف"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
         "identificationPending":
@@ -128,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يجب عليك ادخال عدد اللاعبين"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("الحد الادنى للحجز"),
+        "more": MessageLookupByLibrary.simpleMessage("المزيد"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
             "يجب عليك التحقق من حسابك أولا "),
         "myWallet": MessageLookupByLibrary.simpleMessage("محفظتي"),
@@ -170,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "peopleRate": MessageLookupByLibrary.simpleMessage("تقيم الأشخاص"),
         "perHour": MessageLookupByLibrary.simpleMessage("لكل ساعة"),
         "place": MessageLookupByLibrary.simpleMessage("الملعب"),
+        "play": MessageLookupByLibrary.simpleMessage("لعب"),
         "players": MessageLookupByLibrary.simpleMessage("اللاعبين"),
         "preferenceAndPrivacy":
             MessageLookupByLibrary.simpleMessage("التفضيل والخصوصية"),

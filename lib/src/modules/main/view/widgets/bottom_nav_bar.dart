@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/utils/font_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
@@ -26,28 +27,28 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
-            const Positioned.fill(
+            Positioned.fill(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   NavBarItem(
                     index: 0,
                     icon: "assets/images/icons/home.webp",
-                    label: "Home",
+                    label: S.of(context).home,
                   ),
                   NavBarItem(
                     icon: "assets/images/icons/play.webp",
-                    label: "Play",
+                    label: S.of(context).play,
                     index: 1,
                   ),
                   NavBarItem(
                     icon: "assets/images/icons/book.webp",
-                    label: "Book",
+                    label: S.of(context).book,
                     index: 2,
                   ),
                   NavBarItem(
                     icon: "assets/images/icons/more.webp",
-                    label: "More",
+                    label: S.of(context).more,
                     index: 3,
                   )
                 ],
@@ -66,7 +67,11 @@ class NavBarItem extends StatefulWidget {
 
   final int index;
 
-  const NavBarItem({super.key, required this.icon, required this.label, required this.index});
+  const NavBarItem(
+      {super.key,
+      required this.icon,
+      required this.label,
+      required this.index});
 
   @override
   State<NavBarItem> createState() => _NavBarItemState();
@@ -83,8 +88,9 @@ class _NavBarItemState extends State<NavBarItem> {
         return Expanded(
           child: CircleAvatar(
             radius: double.maxFinite,
-            backgroundColor:
-                cubit.currentIndex == widget.index ? ColorManager.primary : Colors.grey[300],
+            backgroundColor: cubit.currentIndex == widget.index
+                ? ColorManager.primary
+                : Colors.grey[300],
             child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: InkWell(
@@ -106,8 +112,9 @@ class _NavBarItemState extends State<NavBarItem> {
                           AssetImage(
                             widget.icon,
                           ),
-                          color:
-                              cubit.currentIndex == widget.index ? Colors.white : Colors.grey[600]),
+                          color: cubit.currentIndex == widget.index
+                              ? Colors.white
+                              : Colors.grey[600]),
                     )),
                     FittedBox(
                       fit: BoxFit.contain,

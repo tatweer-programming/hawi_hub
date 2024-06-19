@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("Hawi Hub"),
         "availableTimes":
             MessageLookupByLibrary.simpleMessage("Available Times"),
+        "book": MessageLookupByLibrary.simpleMessage("book"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book Now"),
         "booking": MessageLookupByLibrary.simpleMessage("Booking"),
         "bookingConflict": MessageLookupByLibrary.simpleMessage(
@@ -97,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gameCreated":
             MessageLookupByLibrary.simpleMessage("Game Created Successfully"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
+        "home": MessageLookupByLibrary.simpleMessage("home"),
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
         "identificationPending": MessageLookupByLibrary.simpleMessage(
@@ -124,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter number of players"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
+        "more": MessageLookupByLibrary.simpleMessage("More"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
             "You must verify your account first "),
         "myWallet": MessageLookupByLibrary.simpleMessage("My Wallet"),
@@ -166,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "peopleRate": MessageLookupByLibrary.simpleMessage("People Rate"),
         "perHour": MessageLookupByLibrary.simpleMessage("Per Hour"),
         "place": MessageLookupByLibrary.simpleMessage("Place"),
+        "play": MessageLookupByLibrary.simpleMessage("play"),
         "players": MessageLookupByLibrary.simpleMessage("Players"),
         "preferenceAndPrivacy":
             MessageLookupByLibrary.simpleMessage("Terms And Conditions"),
