@@ -92,7 +92,6 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
-
     <!-- Associated Domains -->
     <key>com.apple.developer.associated-domains</key>
     <array>
