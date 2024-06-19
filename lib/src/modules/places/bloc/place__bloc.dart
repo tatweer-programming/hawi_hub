@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
@@ -104,6 +106,14 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
           emit(SendBookingRequestError(l));
         }, (r) {
           emit(SendBookingRequestSuccess());
+          NotificationServices().sendNotification(AppNotification(
+            title: "Booking Request",
+            body:
+                "You have a booking request from ${ConstantsManager.appUser!.userName}",
+            receiverId: currentPlace!.ownerId,
+            id: 1,
+            image: ConstantsManager.appUser!.profilePictureUrl,
+          ));
         });
       } else if (event is AddPlaceToFavoriteEvent) {
         emit(AddPlaceToFavouritesLoading());
