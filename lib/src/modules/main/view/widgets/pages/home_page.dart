@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
     if (ConstantsManager.userId != null) {
       print(
           "userId : ${ConstantsManager.userId} , user : ${ConstantsManager.appUser}");
-      authBloc.add(GetProfileEvent(ConstantsManager.userId!));
+      authBloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
