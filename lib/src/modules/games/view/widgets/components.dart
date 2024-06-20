@@ -77,120 +77,111 @@ class GameItem extends StatelessWidget {
       child: Row(children: [
         Expanded(
             child: InkWell(
-              onTap: () {
-                context.push(Routes.game, arguments: {"id": game.id});
-              },
-              child: Row(children: [
-                Container(
-                    width: 25.w,
-                    height: 15.h,
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(ApiManager.handleImageUrl(
-                            MainCubit
-                                .get()
-                                .sportsList
-                                .firstWhere((sport) => sport.id == game.sportId,
+          onTap: () {
+            context.push(Routes.game, arguments: {"id": game.id});
+          },
+          child: Row(children: [
+            Container(
+                width: 25.w,
+                height: 15.h,
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(ApiManager.handleImageUrl(
+                        MainCubit.get()
+                            .sportsList
+                            .firstWhere((sport) => sport.id == game.sportId,
                                 orElse: () => Sport.unKnown())
-                                .image,
-                          )),
-                        ))),
+                            .image,
+                      )),
+                    ))),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 1.h,
+                ),
+                Container(
+                  width: 30.w,
+                  height: 2.5.h,
+                  decoration: const BoxDecoration(
+                    color: ColorManager.golden,
+                    borderRadius: BorderRadiusDirectional.only(
+                      topEnd: Radius.circular(15),
+                      bottomEnd: Radius.circular(15),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "${S.of(context).only} ${game.getRemainingSlots()} ${S.of(context).slots}",
+                      style: TextStyleManager.getRegularStyle(
+                          color: ColorManager.white),
+                    ),
+                  ),
+                ),
                 Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 1.h,
+                          height: .5.h,
                         ),
-                        Container(
-                          width: 30.w,
-                          height: 2.5.h,
-                          decoration: const BoxDecoration(
-                            color: ColorManager.golden,
-                            borderRadius: BorderRadiusDirectional.only(
-                              topEnd: Radius.circular(15),
-                              bottomEnd: Radius.circular(15),
+                        FittedBox(child: SubTitle(game.placeName)),
+                        SizedBox(
+                          height: .5.h,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_on_rounded,
+                              size: 15,
+                              color: ColorManager.error,
                             ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              "${S
-                                  .of(context)
-                                  .only} ${game.getRemainingSlots()} ${S
-                                  .of(context)
-                                  .slots}",
+                            Expanded(
+                              child: Text(
+                                "${game.placeAddress} ",
+                                style: TextStyleManager.getRegularStyle(
+                                    color: ColorManager.grey2),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: .5.h,
+                        ),
+                        FittedBox(
+                          child: Text(game.getConvertedDate(),
                               style: TextStyleManager.getRegularStyle(
-                                  color: ColorManager.white),
-                            ),
-                          ),
+                                  color: ColorManager.grey2)),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 2.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                FittedBox(child: SubTitle(game.placeName)),
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.location_on_rounded,
-                                      size: 15,
-                                      color: ColorManager.error,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "${game.placeAddress} ",
-                                        style: TextStyleManager.getRegularStyle(
-                                            color: ColorManager.grey2),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                FittedBox(
-                                  child: Text(game.getConvertedDate(),
-                                      style: TextStyleManager.getRegularStyle(
-                                          color: ColorManager.grey2)),
-                                ),
-                                SizedBox(
-                                  height: .5.h,
-                                ),
-                                FittedBox(
-                                  child: Text("${game.price} ${S
-                                      .of(context)
-                                      .sar}",
-                                      style: TextStyleManager.getRegularStyle(
-                                          color: ColorManager.secondary)),
-                                ),
-                              ],
-                            ),
-                          ),
+                        SizedBox(
+                          height: .5.h,
+                        ),
+                        FittedBox(
+                          child: Text("${game.price} ${S.of(context).sar}",
+                              style: TextStyleManager.getRegularStyle(
+                                  color: ColorManager.secondary)),
                         ),
                       ],
-                    )),
-              ]),
+                    ),
+                  ),
+                ),
+              ],
             )),
+          ]),
+        )),
         BlocConsumer<GamesBloc, GamesState>(
           listener: (context, state) {
             if (state is JoinGameSuccess) {
-              defaultToast(msg: S
-                  .of(context)
-                  .joinedGame);
+              defaultToast(msg: S.of(context).joinedGame);
             }
           },
           builder: (context, state) {
@@ -202,17 +193,12 @@ class GameItem extends StatelessWidget {
                 child: InkWell(
                     onTap: () {
                       if (ConstantsManager.userId == null) {
-                        errorToast(msg: S
-                            .of(context)
-                            .loginFirst);
+                        errorToast(msg: S.of(context).loginFirst);
                       } else {
                         bool isJoined = game.players.any(
-                                (element) =>
-                            element.id == ConstantsManager.userId);
+                            (element) => element.id == ConstantsManager.userId);
                         if (isJoined) {
-                          defaultToast(msg: S
-                              .of(context)
-                              .alreadyJoined);
+                          defaultToast(msg: S.of(context).alreadyJoined);
                         } else {
                           GamesBloc.get().add(JoinGameEvent(gameId: game.id));
                         }
@@ -221,16 +207,14 @@ class GameItem extends StatelessWidget {
                     child: Center(
                         child: state is JoinGameLoading
                             ? const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              ColorManager.white),
-                        )
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorManager.white),
+                              )
                             : Text(
-                          S
-                              .of(context)
-                              .bookNow,
-                          style: TextStyleManager.getRegularStyle(
-                              color: ColorManager.white),
-                        ))),
+                                S.of(context).bookNow,
+                                style: TextStyleManager.getRegularStyle(
+                                    color: ColorManager.white),
+                              ))),
               ),
             );
           },
@@ -252,7 +236,10 @@ class GamePlayerItem extends StatelessWidget {
       width: 90.w,
       child: InkWell(
         onTap: () {
-          context.push(Routes.profile, arguments: {"id": player.id});
+          context.push(
+            Routes.profile,
+            arguments: {'id': player.id, "userType": "Player"},
+          );
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,7 +248,7 @@ class GamePlayerItem extends StatelessWidget {
             CircleAvatar(
               radius: 6.h,
               backgroundImage:
-              NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
+                  NetworkImage(ApiManager.handleImageUrl(player.imageUrl)),
             ),
             SizedBox(width: 3.w),
             Expanded(
@@ -273,9 +260,7 @@ class GamePlayerItem extends StatelessWidget {
                   const SizedBox(height: 2),
                   if (player.isHost)
                     Text(
-                      S
-                          .of(context)
-                          .host,
+                      S.of(context).host,
                       style: TextStyleManager.getCaptionStyle(),
                     )
                 ],

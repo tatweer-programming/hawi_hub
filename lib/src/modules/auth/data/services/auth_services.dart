@@ -4,8 +4,11 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
+import 'package:hawihub/src/modules/auth/data/models/owner.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
@@ -256,13 +259,21 @@ class AuthService {
     }
   }
 
-  Future<Either<String, Player>> getProfile(int id) async {
+  Future<Either<String, User>> getProfile(int id, String userType) async {
     try {
       Response response = await DioHelper.getData(
-        path: "/Player/$id",
+        path: "/$userType/$id",
       );
-      Player player = Player.fromJson(response.data);
-      return Right(player);
+      if (userType == "Player") {
+        Player player = Player.fromJson(response.data);
+        if (ConstantsManager.userId == id) {
+          ConstantsManager.appUser = player;
+        }
+        return Right(player);
+      } else {
+        Owner owner = Owner.fromJson(response.data);
+        return Right(owner);
+      }
     } on DioException catch (e) {
       return Left(e.response.toString());
     }

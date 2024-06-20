@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import '../services/auth_services.dart';
 
@@ -76,7 +77,7 @@ class AuthRepository {
     return _service.verifyCode(email: email, code: code, password: password);
   }
 
-  Future<Either<String, Player>> getProfile(int id) async {
-    return _service.getProfile(id);
+  Future<Either<String, User>> getProfile(int id,String userType) async {
+    return _service.getProfile(id,userType);
   }
 }

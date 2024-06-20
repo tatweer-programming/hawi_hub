@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +13,7 @@ import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
+import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
@@ -245,27 +245,34 @@ class GameDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                  child: DefaultButton(
-                    isLoading: state is JoinGameLoading,
-                    text: S.of(context).join,
-                    onPressed: () {
-                      if (ConstantsManager.userId == null) {
-                        errorToast(msg: S.of(context).loginFirst);
-                      } else {
-                        bool isJoined = game.players.any((element) =>
-                                element.id == ConstantsManager.userId) ||
-                            game.host.id == ConstantsManager.userId;
-                        if (isJoined) {
-                          defaultToast(msg: S.of(context).alreadyJoined);
-                        } else {
-                          bloc.add(JoinGameEvent(gameId: game.id));
-                        }
-                      }
-                    },
-                    height: 6.h,
-                  ),
+                BlocBuilder<PaymentCubit, PaymentState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                      child: DefaultButton(
+                        isLoading: state is JoinGameLoading,
+                        text: S.of(context).join,
+                        onPressed: () {
+                          if (ConstantsManager.userId == null) {
+                            errorToast(msg: S.of(context).loginFirst);
+                          } else {
+                            bool isJoined = game.players.any((element) =>
+                                    element.id == ConstantsManager.userId) ||
+                                game.host.id == ConstantsManager.userId;
+                            if (isJoined) {
+                              defaultToast(msg: S.of(context).alreadyJoined);
+                            } else {
+                              PaymentCubit paymentCubit = PaymentCubit.get();
+                              bloc.add(JoinGameEvent(gameId: game.id));
+                              paymentCubit.joinToGame(game.price);
+                            }
+                          }
+                        },
+                        height: 6.h,
+                      ),
+                    );
+                  },
                 )
               ],
             );
@@ -273,11 +280,16 @@ class GameDetailsScreen extends StatelessWidget {
     ));
   }
 
-  Widget _buildHost(context, GamePlayer player) {
+  Widget _buildHost(BuildContext context, GamePlayer player) {
     return SizedBox(
       height: 6.h,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push(
+            Routes.profile,
+            arguments: {'id': player.id, "userType": "Player"},
+          );
+        },
         child: Row(
           children: [
             CircleAvatar(

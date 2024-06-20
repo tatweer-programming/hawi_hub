@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
 
 class Chat extends Equatable {
-  final int ownerId;
+  final int playerId;
   final int conversationId;
   final LastMessage lastMessage;
 
   const Chat({
-    required this.ownerId,
+    required this.playerId,
     required this.conversationId,
     required this.lastMessage,
   });
@@ -15,7 +15,7 @@ class Chat extends Equatable {
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
       conversationId: json["conversationId"],
-      ownerId: json["ownerId"],
+      playerId: json["playerId"],
       lastMessage: LastMessage.fromJson(json["lastMessage"]),
     );
   }

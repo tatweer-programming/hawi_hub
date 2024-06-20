@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/apis/dio_helper.dart';
+import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../../core/utils/constance_manager.dart';
 
 class PaymentService {
-  Future<PaymentResponse> pay({
+  Future<PaymentResponse> addWallet({
     required BuildContext context,
     required double totalPrice,
   }) async {
@@ -25,7 +32,70 @@ class PaymentService {
     );
   }
 
-  Future<double> getAccountBalance()async{
-    return 6;
+  Future<Either<String, double>> getPaymentStatus(String key) async {
+    try {
+      Response response = await Dio(BaseOptions(
+        baseUrl: ApiManager.myFatoorahBaseUrl,
+        headers: {
+          "Authorization": ApiManager.myFatoorahToken,
+          "Connection": "keep-alive",
+        },
+      )).post(EndPoints.getPaymentStatus, data: {
+        "Key": key,
+        "KeyType": "PaymentId",
+      });
+      double dueDeposit = response.data["Data"]["DueDeposit"] ?? 0.0;
+      print(dueDeposit);
+      await _updateWallet(ConstantsManager.appUser!.myWallet + dueDeposit);
+      return Right(dueDeposit);
+    } on DioException catch (e) {
+      return Left(e.response.toString());
+    }
+  }
+
+  Future<Either<String, String>> joinToGame(double pendingWallet) async {
+    try {
+      await DioHelper.postData(
+        path: "/Player/${ConstantsManager.userId}",
+        data: {
+          "pendingWallet": pendingWallet,
+        },
+      ).then((value) async {
+        await _updateWallet(ConstantsManager.appUser!.myWallet - pendingWallet);
+        await _updatePendingWallet(pendingWallet);
+      });
+      return const Right("Your balance has been successfully suspended");
+    } on DioException catch (e) {
+      return Left(e.message.toString());
+    }
+  }
+
+  Future<String> _updateWallet(double amount) async {
+    try {
+      Response response = await DioHelper.postData(
+        path: EndPoints.updateWallet + ConstantsManager.userId.toString(),
+        data: {
+          "amount": amount,
+        },
+      );
+      return response.data["message"];
+    } on DioException catch (e) {
+      return e.response.toString();
+    }
+  }
+
+  Future<String> _updatePendingWallet(double amount) async {
+    try {
+      Response response = await DioHelper.postData(
+        path:
+            EndPoints.updatePendingWallet + ConstantsManager.userId.toString(),
+        data: {
+          "amount": amount,
+        },
+      );
+      return response.data["message"];
+    } on DioException catch (e) {
+      return e.response.toString();
+    }
   }
 }

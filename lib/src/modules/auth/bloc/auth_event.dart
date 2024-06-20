@@ -59,8 +59,9 @@ class OpenPdfEvent extends AuthEvent {}
 
 class GetProfileEvent extends AuthEvent {
   final int id;
+  final String userType;
 
-  GetProfileEvent(this.id);
+  GetProfileEvent(this.id,this.userType);
 }
 
 class ResetPasswordEvent extends AuthEvent {

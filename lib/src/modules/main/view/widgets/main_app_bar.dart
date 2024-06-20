@@ -7,6 +7,7 @@ import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -29,10 +30,10 @@ class MainAppBar extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                context.push(Routes.notifications);
+                context.pushWithTransition(const ChatsScreen());
               },
               icon: const ImageIcon(
-                AssetImage("assets/images/icons/notification.webp"),
+                AssetImage("assets/images/icons/chat.png"),
                 color: ColorManager.golden,
               )),
           InkWell(
@@ -40,7 +41,10 @@ class MainAppBar extends StatelessWidget {
             onTap: () {
               context.push(
                 Routes.profile,
-                arguments: {'id': ConstantsManager.userId},
+                arguments: {
+                  'id': ConstantsManager.userId,
+                  "userType": "Player"
+                },
               );
             },
             child: CircleAvatar(
@@ -52,6 +56,14 @@ class MainAppBar extends StatelessWidget {
                       as ImageProvider<Object>,
             ),
           ),
+          IconButton(
+              onPressed: () {
+                context.push(Routes.notifications);
+              },
+              icon: const ImageIcon(
+                AssetImage("assets/images/icons/notification.webp"),
+                color: ColorManager.golden,
+              )),
         ],
         leading: BlocBuilder<MainCubit, MainState>(
           bloc: mainCubit,
@@ -67,34 +79,41 @@ class MainAppBar extends StatelessWidget {
                 cities: LocalizationManager.getSaudiCities);
           },
         ),
-        child:  BlocBuilder<MainCubit, MainState>(
+        child: BlocBuilder<MainCubit, MainState>(
           bloc: mainCubit,
-  builder: (context, state) {
-    return Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5.w,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: ColorManager.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            height: 7.h,
-            child: dropdownBuilder(
-                text: mainCubit.selectedSport == null ? S.of(context).chooseSport : mainCubit.selectedSport!,
-                 images: MainCubit.get().sportsList.map((e) => e.image).toList()..add(ImagesManager.allSports),
-                onChanged: (val) {
-                  if (val == S.of(context).all) {
-                    mainCubit.selectSport("all");
-                  } else {
-                    mainCubit.selectSport(val!);
-                  }
-                },
-                items:  [...MainCubit.get().sportsList.map((e) => e.name) , S.of(context).all]),
-          ),
-        );
-  },
-),
+          builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 5.w,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorManager.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                height: 7.h,
+                child: dropdownBuilder(
+                    text: mainCubit.selectedSport == null
+                        ? S.of(context).chooseSport
+                        : mainCubit.selectedSport!,
+                    images:
+                        MainCubit.get().sportsList.map((e) => e.image).toList()
+                          ..add(ImagesManager.allSports),
+                    onChanged: (val) {
+                      if (val == S.of(context).all) {
+                        mainCubit.selectSport("all");
+                      } else {
+                        mainCubit.selectSport(val!);
+                      }
+                    },
+                    items: [
+                      ...MainCubit.get().sportsList.map((e) => e.name),
+                      S.of(context).all
+                    ]),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

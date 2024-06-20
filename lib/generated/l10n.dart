@@ -1550,6 +1550,16 @@ class S {
     );
   }
 
+  /// `Rates`
+  String get rates {
+    return Intl.message(
+      'Rates',
+      name: 'rates',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More`
   String get more {
     return Intl.message(

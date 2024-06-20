@@ -383,8 +383,13 @@ class PlaceScreen extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            context.push(Routes.profile,
-                                arguments: {"id": place.ownerId});
+                            context.push(
+                              Routes.profile,
+                              arguments: {
+                                'id': place.ownerId,
+                                "userType": "Owner"
+                              },
+                            );
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

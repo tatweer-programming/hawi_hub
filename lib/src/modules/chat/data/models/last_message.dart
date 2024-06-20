@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../../auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/owner.dart';
+import 'package:hawihub/src/modules/chat/data/models/owner_chat.dart';
 
 
 class LastMessage extends Equatable {
@@ -8,7 +9,7 @@ class LastMessage extends Equatable {
   final String? messageAttachmentUrl;
   final bool? playerToOwner;
   final String? timestamp;
-  final Player player;
+  final OwnerChat owner;
 
   const LastMessage({
     required this.messageId,
@@ -16,7 +17,7 @@ class LastMessage extends Equatable {
     required this.messageAttachmentUrl,
     required this.playerToOwner,
     required this.timestamp,
-    required this.player,
+    required this.owner,
   });
 
   factory LastMessage.fromJson(Map<String, dynamic> json) {
@@ -26,7 +27,7 @@ class LastMessage extends Equatable {
       messageAttachmentUrl: json["messageAttachmentUrl"],
       playerToOwner: json["playerToOwner"],
       timestamp: json["timestamp"],
-      player: Player.fromJson(json["player"]),
+      owner: OwnerChat.fromJson(json["owner"]),
     );
   }
 

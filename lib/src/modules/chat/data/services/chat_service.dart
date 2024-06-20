@@ -39,7 +39,7 @@ class ChatService {
       Response response = await DioHelper.postData(
         path: EndPoints.addConnectionId + ConstantsManager.userId.toString(),
         data: {
-          "ownerConnectionId": ConstantsManager.connectionId.toString(),
+          "playerConnectionId": ConstantsManager.connectionId.toString(),
         },
       );
       if (response.statusCode == 200) {
@@ -126,7 +126,6 @@ class ChatService {
       }
       return Left(response.data.toString());
     } catch (e) {
-      print(e);
       return Left(e.toString());
     }
   }
@@ -154,5 +153,13 @@ class ChatService {
     socket = await WebSocket.connect(
         "${ApiManager.webSocket}?id=${ConstantsManager.connectionToken!}");
     socket!.add(messageWithTrailingChars);
+  }
+
+  Future<void> closeConnection() async {
+    if (socket != null) {
+      await socket!
+          .close(WebSocketStatus.normalClosure, 'Disconnected by client');
+      socket = null;
+    }
   }
 }

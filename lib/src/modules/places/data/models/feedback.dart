@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
-import 'package:hawihub/src/core/utils/images_manager.dart';
 
 class AppFeedBack extends Equatable {
   final int? id;
@@ -24,12 +23,11 @@ class AppFeedBack extends Equatable {
   ) {
     return AppFeedBack(
       id: json['id'],
-      userId: json['reviewerId'],
+      userId: json['user_id'],
       comment: json['comment'],
-      userName: json['reviewerName'],
-      userImageUrl:
-          json['reviewerProfilePictureUrl'] ?? ImagesManager.defaultProfile,
-      rating: json['rate'],
+      userName: json['user_name'],
+      userImageUrl: json['user_image_url'],
+      rating: json['rating'],
     );
   }
 

@@ -10,6 +10,7 @@ import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
@@ -156,7 +157,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } else if (event is GetProfileEvent) {
         emit(GetProfileLoadingState());
-        var res = await _repository.getProfile(event.id);
+        var res = await _repository.getProfile(event.id,event.userType);
         res.fold((l) {
           emit(GetProfileErrorState(l));
         }, (r) {

@@ -24,6 +24,7 @@ class ChatsScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is GetAllChatsSuccessState) {
           chats = state.chats;
+          print(chats);
         }
       },
       builder: (context, state) {
@@ -83,7 +84,9 @@ Widget _appBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          backIcon(context),
+          backIcon(
+            context: context,
+          ),
           SizedBox(
             width: 8.w,
           ),
@@ -105,7 +108,8 @@ Widget _appBar(
 
 Widget _chatWidget(
     {required LastMessage lastMessage, required VoidCallback onTap}) {
-  String formattedDate = utcToLocal(lastMessage.timestamp ?? "");
+  String formattedDate =
+      utcToLocal(lastMessage.timestamp ?? "${DateTime.now()}");
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 7.w,
@@ -118,9 +122,9 @@ Widget _chatWidget(
           CircleAvatar(
             backgroundColor: ColorManager.grey3,
             radius: 22.sp,
-            backgroundImage: lastMessage.player.profilePictureUrl == null
+            backgroundImage: lastMessage.owner.profilePictureUrl == null
                 ? null
-                : NetworkImage(lastMessage.player.profilePictureUrl!),
+                : NetworkImage(lastMessage.owner.profilePictureUrl!),
           ),
           SizedBox(
             width: 4.w,
@@ -135,7 +139,7 @@ Widget _chatWidget(
                   children: [
                     Expanded(
                       child: Text(
-                        lastMessage.player.userName,
+                        lastMessage.owner.userName,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
