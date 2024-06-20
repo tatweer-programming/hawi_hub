@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,9 +14,11 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/theme_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
+import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
+import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'firebase_options.dart';
@@ -33,6 +36,7 @@ Future<void> main() async {
   NotificationServices.init();
   ServiceLocator.init();
   ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
+  print(ConstantsManager.userId);
   await LocalizationManager.init();
   runApp(const MyApp());
 }
@@ -51,10 +55,14 @@ class MyApp extends StatelessWidget {
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
           BlocProvider<AuthBloc>(
               create: (BuildContext context) => AuthBloc(AuthInitial())),
+          BlocProvider<ChatBloc>(
+              create: (BuildContext context) => ChatBloc(ChatInitial())),
           BlocProvider<GamesBloc>(
               create: (BuildContext context) => GamesBloc.get()),
           BlocProvider<PlaceBloc>(
               create: (BuildContext context) => PlaceBloc.get()),
+          BlocProvider<PaymentCubit>(
+              create: (BuildContext context) => PaymentCubit.get()),
         ],
         child: Sizer(builder: (context, orientation, deviceType) {
           AppRouter appRouter = AppRouter();

@@ -1,36 +1,30 @@
 import 'dart:io';
 
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
-class Player {
-  final int id;
-  final int approvalStatus;
-  final String userName;
-  final double? rate;
+class Player extends User {
   final int games;
   final int bookings;
   final String email;
-  final String? profilePictureUrl;
   final double myWallet;
-  final List<AppFeedBack> feedbacks;
   File? profilePictureFile;
-  String? proofOfIdentityUrl;
   List<int> favoritePlaces;
 
   Player({
-    required this.id,
-    required this.userName,
     required this.bookings,
     required this.games,
     required this.email,
-    required this.approvalStatus,
-    required this.profilePictureUrl,
     this.profilePictureFile,
-    this.proofOfIdentityUrl,
     required this.myWallet,
-    required this.feedbacks,
-    required this.rate,
     this.favoritePlaces = const [],
+    required super.id,
+    required super.userName,
+    required super.profilePictureUrl,
+    required super.feedbacks,
+    super.proofOfIdentityUrl,
+    required super.rate,
+    required super.approvalStatus,
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
@@ -47,22 +41,9 @@ class Player {
       email: json['email'],
       approvalStatus: json['approvalStatus'],
       myWallet: json['wallet'].toDouble(),
-      rate: _calculateAverage(feedbacks),
+      rate: json['rate'],
       feedbacks: feedbacks,
-      favoritePlaces: json['favoriteStadiums'] ?? [],
+      favoritePlaces:  [],
     );
-  }
-
-  static double _calculateAverage(List<AppFeedBack>? feedbacks) {
-    List<double> numbers =
-        List.from(feedbacks!.map((feedBack) => feedBack.rating));
-    if (numbers.isEmpty) {
-      return 0.0;
-    }
-    double sum = 0.0;
-    for (double number in numbers) {
-      sum += number;
-    }
-    return sum / numbers.length;
   }
 }

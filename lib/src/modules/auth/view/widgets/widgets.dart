@@ -40,7 +40,7 @@ Widget authBackGround(double height) => Stack(
           alignment: AlignmentDirectional.topCenter,
           heightFactor: 0.9,
           child: ClipPath(
-            clipper: HalfCircleCurve(height / 3),
+            clipper: HalfCircleCurve(height / 4),
             child: Container(
               height: height,
               width: double.infinity,
@@ -162,11 +162,14 @@ class HalfCircleCurve extends CustomClipper<Path> {
   }
 }
 
-Widget backIcon(BuildContext context) {
+Widget backIcon({
+  required BuildContext context, Function()? onTap
+}) {
   return InkWell(
-    onTap: () {
-      context.pop();
-    },
+    onTap: onTap ??
+        () {
+          context.pop();
+        },
     child: CircleAvatar(
       radius: 12.sp,
       backgroundColor: ColorManager.white,

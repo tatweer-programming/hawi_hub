@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
 
 class MyWallet extends StatelessWidget {
-  final Player player;
 
-  const MyWallet({super.key, required this.player});
+  const MyWallet({super.key,});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+    Player player = ConstantsManager.appUser!;
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
             width: double.infinity,
             child: AuthAppBar(
-              player: player,
+              user: player,
               context: context,
               title: S.of(context).myWallet,
             ),
@@ -49,7 +53,7 @@ class MyWallet extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    "My Wallet",
+                    S.of(context).myWallet,
                     style:
                         TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
@@ -58,7 +62,49 @@ class MyWallet extends StatelessWidget {
                   height: 2.h,
                 ),
                 if (ConstantsManager.userId == player.id)
-                  walletWidget(() {}, player.myWallet.toString()),
+                  BlocBuilder<PaymentCubit, PaymentState>(
+                    builder: (context, state) {
+                      return walletWidget(() {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    controller.clear();
+                                    context.pop();
+                                  },
+                                  child: Text(S.of(context).cancel),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.pop();
+                                    PaymentCubit.get().addWallet(
+                                        context: context,
+                                        totalPrice:
+                                            double.parse(controller.text));
+                                    controller.clear();
+                                  },
+                                  child: Text(S.of(context).confirm),
+                                ),
+                              ],
+                              title: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  mainFormField(
+                                    controller: controller,
+                                    width: 60.w,
+                                    type: TextInputType.number,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }, player.myWallet.toString());
+                    },
+                  ),
               ],
             ),
           ),

@@ -98,6 +98,6 @@ class NotificationServices {
 
   Future subscribeToTopic() async {
     await _firebaseMessaging.subscribeToTopic(
-        "player:${ConstantsManager.userId}");
+        "player_${ConstantsManager.userId}");
   }
 }

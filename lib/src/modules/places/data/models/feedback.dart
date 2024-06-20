@@ -3,29 +3,27 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 
 class AppFeedBack extends Equatable {
   final int? id;
-  final int userId;
+  final int? userId;
   final String? comment;
-  final String userName;
-  final String? userImageUrl;
+  String? userName;
+  String? userImageUrl;
   final double rating;
 
-  const AppFeedBack({
+  AppFeedBack({
     this.id,
     required this.userId,
     this.comment,
-    required this.userName,
+    this.userName,
     this.userImageUrl,
     required this.rating,
   });
 
   factory AppFeedBack.fromJson(Map<String, dynamic> json) {
     return AppFeedBack(
-      id: json['id'],
-      userId: json['user_id'],
+      id: json['reviewId'],
+      userId: json['playerId'],
       comment: json['comment'],
-      userName: json['user_name'],
-      userImageUrl: json['user_image_url'],
-      rating: json['rating'],
+      rating: json['rate'],
     );
   }
 

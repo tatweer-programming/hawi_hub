@@ -34,6 +34,7 @@ dependencies:
   open_file_plus: ^3.4.1+1
   file_picker: ^8.0.2
   firebase_messaging:
+  intl:
 
 
   # AUTH PACKAGES
@@ -53,7 +54,7 @@ dependencies:
   # CHATS PACKAGES
   voice_message_package: ^2.1.4
   audioplayers: any
-#  record: ^5.0.5
+  #  record: ^5.0.5
   path_provider:
   permission_handler:
 

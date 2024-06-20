@@ -178,6 +178,7 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
             ),
           ),
           _buildSaveButton(),
+          SizedBox(height: 2.h,)
         ],
       ),
     );

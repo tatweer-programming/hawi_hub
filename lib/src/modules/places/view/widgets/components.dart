@@ -275,7 +275,7 @@ class FeedBackWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  feedBack.userName,
+                  feedBack.userName??"",
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: Colors.green,

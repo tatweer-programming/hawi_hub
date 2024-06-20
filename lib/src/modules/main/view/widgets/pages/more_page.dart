@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -23,7 +24,7 @@ class MorePage extends StatelessWidget {
     return BlocConsumer<MainCubit, MainState>(
       listener: (context, state) {
         if (state is ShowDialogState) {
-          _showDialogForLanguage(context, mainCubit);
+          showDialogForLanguage(context, mainCubit);
         }
       },
       builder: (context, state) {
@@ -205,7 +206,10 @@ Widget _appBar(
                 onTap: () {
                   context.push(
                     Routes.profile,
-                    arguments: {"id": ConstantsManager.userId},
+                    arguments: {
+                      'id': ConstantsManager.userId,
+                      "userType": "Player"
+                    },
                   );
                 },
                 child: CircleAvatar(
@@ -257,30 +261,4 @@ showLogoutDialog(BuildContext context, AuthBloc bloc) {
       );
     },
   );
-}
-
-_showDialogForLanguage(BuildContext context, MainCubit mainCubit) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            title: Row(
-          children: [
-            Expanded(
-                child: TextButton(
-                    onPressed: () {
-                      mainCubit.changeLanguage(0);
-                      context.pop();
-                    },
-                    child: const Text("Arabic"))),
-            Expanded(
-                child: TextButton(
-                    onPressed: () {
-                      mainCubit.changeLanguage(1);
-                      context.pop();
-                    },
-                    child: const Text("English"))),
-          ],
-        ));
-      });
 }

@@ -69,9 +69,9 @@ class VerifyCodeErrorState extends AuthState {
 class GetProfileLoadingState extends AuthState {}
 
 class GetProfileSuccessState extends AuthState {
-  final Player player;
+  final User user;
 
-  GetProfileSuccessState(this.player);
+  GetProfileSuccessState(this.user);
 }
 
 class GetProfileErrorState extends AuthState {

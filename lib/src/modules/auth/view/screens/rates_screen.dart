@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
@@ -9,9 +10,9 @@ import '../../../main/view/widgets/custom_app_bar.dart';
 import '../widgets/widgets.dart';
 
 class RatesScreen extends StatelessWidget {
-  final Player player;
+  final User user;
 
-  const RatesScreen({super.key, required this.player});
+  const RatesScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +21,7 @@ class RatesScreen extends StatelessWidget {
         children: [
           SizedBox(
             width: double.infinity,
-            child: Stack(
-              children: [
-                _appBar(context, player.profilePictureUrl),
-              ],
-            ),
+            child: _appBar(context, user.profilePictureUrl),
           ),
           Padding(
             padding: EdgeInsetsDirectional.symmetric(
@@ -37,7 +34,7 @@ class RatesScreen extends StatelessWidget {
                   height: 2.h,
                 ),
                 Text(
-                  player.userName,
+                  user.userName,
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
@@ -47,24 +44,24 @@ class RatesScreen extends StatelessWidget {
                   height: 2.h,
                 ),
                 Text(
-                  "People Rate",
+                  S.of(context).peopleRate,
                   style:
                       TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
-                if (player.feedbacks.isNotEmpty)
+                if (user.feedbacks.isNotEmpty)
                   Expanded(
                     child: ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => _peopleRateBuilder(
-                            player.feedbacks[index], context),
+                            user.feedbacks[index], context),
                         separatorBuilder: (context, index) => SizedBox(
                               height: 2.h,
                             ),
-                        itemCount: player.feedbacks.length),
+                        itemCount: user.feedbacks.length),
                   ),
               ],
             ),
@@ -94,12 +91,13 @@ Widget _appBar(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              backIcon(context),
-              SizedBox(
+              backIcon(
+                context: context,
+              ),              SizedBox(
                 width: 20.w,
               ),
               Text(
-                "Rates",
+                S.of(context).rates,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: ColorManager.white,
@@ -177,7 +175,7 @@ Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
           child: Row(
             children: [
               Text(
-                feedBack.userName,
+                feedBack.userName??"",
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.green,

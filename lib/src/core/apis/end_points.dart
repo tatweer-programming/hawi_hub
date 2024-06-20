@@ -15,6 +15,8 @@ class EndPoints {
 
   /// payment
   static const String getPaymentStatus = '/v2/GetPaymentStatus';
+  static const String updateWallet = '/Player/UpdateWallet/';
+  static const String updatePendingWallet = '/Player/UpdatePendingWallet/';
 
   static const String getBanners = '/Banner';
   static const String getSports = '/Category';

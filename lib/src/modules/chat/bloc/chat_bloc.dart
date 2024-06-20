@@ -30,11 +30,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         }
       } else if (event is RemovePickedImageEvent) {
         emit(RemovePickedImageState());
-      }  else if (event is GetConnectionEvent) {
+      } else if (event is GetConnectionEvent) {
         var response = await _service.connection();
         response.fold((l) {}, (r) {
           emit(GetConnectionSuccessState());
         });
+      } else if (event is CloseConnectionEvent) {
+        await _service.closeConnection();
+        emit(CloseConnectionSuccessState());
       } else if (event is GetAllChatsEvent) {
         emit(GetAllChatsLoadingState());
         var response = await _service.getAllChats();

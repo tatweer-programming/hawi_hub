@@ -14,10 +14,8 @@ import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
-
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../data/models/booking.dart';
 
 class AddBookingScreen extends StatefulWidget {
@@ -110,7 +108,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   Widget build(BuildContext context) {
     print("bookings: ${bookings.map((e) => "start: ${e.startTime}, end: ${e.endTime}").toString()}");
     return Scaffold(
-      body:  Column(
+      body: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(

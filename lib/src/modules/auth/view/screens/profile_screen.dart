@@ -8,7 +8,10 @@ import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
+import 'package:hawihub/src/modules/auth/data/models/owner.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
+import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/view/screens/rates_screen.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
@@ -20,21 +23,22 @@ import '../widgets/widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
   final int id;
+  final String userType;
 
-  const ProfileScreen({super.key, required this.id});
+  const ProfileScreen({super.key, required this.id, required this.userType});
 
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = AuthBloc.get(context);
-    bloc.add(GetProfileEvent(id));
-    Player? player;
+    bloc.add(GetProfileEvent(id, userType));
+    User? user;
     return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
       if (state is GetProfileSuccessState) {
-        player = state.player;
+        user = state.user;
       }
       if (state is UploadNationalIdSuccessState) {
         context.pop();
-        bloc.add(GetProfileEvent(id));
+        bloc.add(GetProfileEvent(id, userType));
         context.pop();
       } else if (state is UploadNationalIdErrorState) {
         context.pop();
@@ -58,9 +62,9 @@ class ProfileScreen extends StatelessWidget {
       }
     }, builder: (context, state) {
       return FutureBuilder(
-        future: _fetchProfile(bloc, id),
+        future: _fetchProfile(bloc, id, userType),
         builder: (context, snapshot) {
-          if (player == null) {
+          if (user == null) {
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
@@ -75,7 +79,7 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           AuthAppBar(
                             context: context,
-                            player: player!,
+                            user: user!,
                             title: S.of(context).profile,
                           ),
                         ],
@@ -92,37 +96,15 @@ class ProfileScreen extends StatelessWidget {
                             height: 2.h,
                           ),
                           Text(
-                            player!.userName,
+                            user!.userName,
                             style: TextStyle(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _pentagonalWidget(
-                                player!.games,
-                                S.of(context).games,
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              _pentagonalWidget(
-                                player!.bookings,
-                                S.of(context).booking,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
                           _emailConfirmed(
                               bloc: bloc,
-                              player: player!,
+                              user: user!,
                               context: context,
                               state: state),
                         ],
@@ -139,8 +121,8 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Future<void> _fetchProfile(AuthBloc bloc, int id) async {
-  bloc.add(GetProfileEvent(id));
+Future<void> _fetchProfile(AuthBloc bloc, int id, String userType) async {
+  bloc.add(GetProfileEvent(id, userType));
 }
 
 Widget _pentagonalWidget(int number, String text) {
@@ -256,7 +238,10 @@ Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
                 CircleAvatar(
                   radius: 20.sp,
                   backgroundColor: ColorManager.grey3,
-                  backgroundImage: NetworkImage(feedBack.userImageUrl!),
+                  backgroundImage: feedBack.userImageUrl != null
+                      ? NetworkImage(feedBack.userImageUrl!)
+                      : const AssetImage("assets/images/icons/user.png")
+                          as ImageProvider<Object>,
                 ),
                 SizedBox(
                   width: 4.w,
@@ -286,7 +271,7 @@ Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
           child: Row(
             children: [
               Text(
-                feedBack.userName,
+                feedBack.userName ?? "",
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.green,
@@ -316,18 +301,18 @@ Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
 }
 
 Widget _emailConfirmed({
-  required Player player,
+  required User user,
   required BuildContext context,
   required AuthState state,
   required AuthBloc bloc,
 }) {
-  if (player.proofOfIdentityUrl == null && player.approvalStatus == 0) {
+  if (user.proofOfIdentityUrl == null && user.approvalStatus == 0) {
     return _notVerified(bloc);
-  } else if (player.approvalStatus == 0) {
+  } else if (user.approvalStatus == 0) {
     return _pending(context, S.of(context).identificationPending);
-  } else if (player.approvalStatus == 1) {
+  } else if (user.approvalStatus == 1) {
     return _verified(
-      player: player,
+      user: user,
       context: context,
       state: state,
     );
@@ -467,20 +452,44 @@ Widget _rejectedAndTryAgain(BuildContext context, String text, AuthBloc bloc) {
 }
 
 Widget _verified({
-  required Player player,
+  required User user,
   required BuildContext context,
   required AuthState state,
 }) {
+  bool isPlayer = false;
+  if (user is Player) {
+    isPlayer = true;
+  }
   return Column(children: [
     SizedBox(
       height: 2.h,
     ),
+    if (isPlayer)
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _pentagonalWidget(
+            (user as Player).games,
+            S.of(context).games,
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+          _pentagonalWidget(
+            (user).bookings,
+            S.of(context).booking,
+          ),
+        ],
+      ),
+    SizedBox(
+      height: 2.h,
+    ),
     Text(
-      player.rate!.remainder(1).toString(),
+      user.rate!.remainder(1).toString(),
       style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
     ),
     RatingBar.builder(
-      initialRating: player.rate!,
+      initialRating: 5,
       minRating: 1,
       itemSize: 25.sp,
       direction: Axis.horizontal,
@@ -496,7 +505,7 @@ Widget _verified({
     SizedBox(
       height: 2.h,
     ),
-    player.feedbacks.isEmpty
+    user.feedbacks.isEmpty
         ? Container()
         : Column(
             children: [
@@ -510,7 +519,7 @@ Widget _verified({
                   const Spacer(),
                   _seeAll(() {
                     context.pushWithTransition(RatesScreen(
-                      player: player,
+                      user: user,
                     ));
                   }, context)
                 ],
@@ -518,39 +527,19 @@ Widget _verified({
               SizedBox(
                 height: 2.h,
               ),
-              state is GetProfileLoadingState
-                  ? ShimmerWidget(
-                      height: 13.h,
-                      width: double.infinity,
-                      placeholder: ShimmerPlaceHolder(
-                        borderRadius: 15.sp,
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => _peopleRateBuilder(
+                      (user as Owner).feedbacks[index], context),
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 2.h,
                       ),
-                    )
-                  : ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) =>
-                          _peopleRateBuilder(player.feedbacks[index], context),
-                      separatorBuilder: (context, index) => SizedBox(
-                            height: 2.h,
-                          ),
-                      itemCount: player.feedbacks.take(2).length),
+                  itemCount: user.feedbacks.take(2).length),
             ],
           ),
     SizedBox(
       height: 2.h,
     ),
-    Align(
-      alignment: AlignmentDirectional.centerStart,
-      child: Text(
-        S.of(context).myWallet,
-        style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-      ),
-    ),
-    SizedBox(
-      height: 2.h,
-    ),
-    if (ConstantsManager.userId == player.id)
-      walletWidget(() {}, player.myWallet.toString()),
   ]);
 }

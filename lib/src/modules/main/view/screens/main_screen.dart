@@ -12,8 +12,9 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainCubit mainCubit = MainCubit.get();
-    AuthBloc.get(context).add(GetProfileEvent(ConstantsManager.userId!));
-
+    if (ConstantsManager.userId != null) {
+      AuthBloc.get(context).add(GetProfileEvent(ConstantsManager.userId!,"Player"));
+    }
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
       body: BlocBuilder<MainCubit, MainState>(

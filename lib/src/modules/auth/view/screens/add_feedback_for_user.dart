@@ -21,7 +21,7 @@ class AddFeedbackForUser extends StatelessWidget {
           children: [
             AuthAppBar(
               context: context,
-              player: player,
+              user: player,
               title: S.of(context).profile,
             ),
             SizedBox(
