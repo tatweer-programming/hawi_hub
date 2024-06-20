@@ -157,12 +157,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } else if (event is GetProfileEvent) {
         emit(GetProfileLoadingState());
-        var res = await _repository.getProfile(event.id,event.userType);
+        var res = await _repository.getProfile(event.id, event.userType);
         res.fold((l) {
           emit(GetProfileErrorState(l));
         }, (r) {
           if (event.id == ConstantsManager.userId) {
-            ConstantsManager.appUser = r;
+            ConstantsManager.appUser = r as Player;
           }
           emit(GetProfileSuccessState(r));
         });
