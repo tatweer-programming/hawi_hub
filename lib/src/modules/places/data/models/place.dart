@@ -74,7 +74,7 @@ class Place extends Equatable {
         price: json['pricePerHour'],
         totalGames: json['totalGames'] ?? 0,
         totalRatings: json['totalRatings'] ?? 0,
-        rating: json['rating'],
+        rating: json['rete'],
         feedbacks: [],
         workingHours:
             List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),

@@ -86,9 +86,10 @@ class PlacesRemoteDataSource {
           path: EndPoints.getPlaceFeedbacks + placeId.toString(),
           query: {"stadiumId": placeId});
       if (response.statusCode == 200) {
-        appFeedBacks = (response.data as List)
+        appFeedBacks = (response.data["reviews"] as List)
             .map((e) => AppFeedBack.fromJson(e))
             .toList();
+        print(appFeedBacks);
       }
       return Right(appFeedBacks);
     } on Exception catch (e) {

@@ -8,6 +8,8 @@ import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -32,6 +34,12 @@ class HomePage extends StatelessWidget {
     MainCubit mainCubit = MainCubit.get()..initializeHomePage();
     GamesBloc gamesBloc = GamesBloc.get();
     PlaceBloc placeBloc = PlaceBloc.get();
+    AuthBloc authBloc = AuthBloc.get(context);
+    if (ConstantsManager.userId != null) {
+      print(
+          "userId : ${ConstantsManager.userId} , user : ${ConstantsManager.appUser}");
+      authBloc.add(GetProfileEvent(ConstantsManager.userId!));
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,6 +226,7 @@ class HomePage extends StatelessWidget {
 
   void retryConnecting() async {
     MainCubit.get().getBanner();
+    MainCubit.get().initializeHomePage();
   }
 }
 

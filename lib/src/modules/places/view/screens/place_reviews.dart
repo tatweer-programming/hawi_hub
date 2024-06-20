@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
 
@@ -19,11 +22,14 @@ class PlaceFeedbacksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlaceBloc placeCubit = PlaceBloc.get();
+
     Place currentPlace =
         placeCubit.allPlaces.firstWhere((element) => element.id == id);
+    List<AppFeedBack> feedbacks = currentPlace.feedbacks ?? [];
     if (currentPlace.feedbacks == null || currentPlace.feedbacks!.isEmpty) {
       placeCubit.add(GetPlaceReviewsEvent(id));
     }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -52,28 +58,41 @@ class PlaceFeedbacksScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: BlocBuilder<PlaceBloc, PlaceState>(
-                  bloc: placeCubit,
-                  builder: (context, state) {
-                    return state is GetPlaceReviewsLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : currentPlace.feedbacks!.isEmpty
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 20.h),
-                                child: Center(
-                                    child: SubTitle(S.of(context).noFeedbacks)),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: currentPlace.feedbacks!.length,
-                                itemBuilder: (context, index) {
-                                  return FeedBackWidget(
-                                      feedBack: currentPlace.feedbacks![index]);
-                                });
-                  }),
+              child: BlocListener<PlaceBloc, PlaceState>(
+                listener: (context, state) {
+                  if (state is PlaceError) {
+                    errorToast(
+                        msg: ExceptionManager(state.exception)
+                            .translatedMessage());
+                  }
+                  if (state is GetPlaceReviewsSuccess) {
+                    feedbacks = state.feedBacks;
+                  }
+                },
+                child: BlocBuilder<PlaceBloc, PlaceState>(
+                    bloc: placeCubit,
+                    builder: (context, state) {
+                      return state is GetPlaceReviewsLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : feedbacks.isEmpty
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 20.h),
+                                  child: Center(
+                                      child:
+                                          SubTitle(S.of(context).noFeedbacks)),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: feedbacks.length,
+                                  itemBuilder: (context, index) {
+                                    return FeedBackWidget(
+                                        feedBack: feedbacks[index]);
+                                  });
+                    }),
+              ),
             )
           ],
         ),

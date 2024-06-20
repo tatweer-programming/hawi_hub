@@ -26,9 +26,7 @@ class PlaceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        PlaceBloc
-            .get()
-            .currentPlace = place;
+        PlaceBloc.get().currentPlace = place;
         context.push(Routes.place, arguments: {"id": place.id});
       },
       child: Container(
@@ -56,79 +54,75 @@ class PlaceItem extends StatelessWidget {
                     ),
                     Expanded(
                         child: Row(children: [
-                          Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          place.name,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyleManager
-                                              .getSubTitleBoldStyle(),
-                                        ),
-                                      ),
-                                      Text(S
-                                          .of(context)
-                                          .viewDetails,
-                                          style: TextStyleManager
-                                              .getGoldenRegularStyle()),
-                                      const Icon(
-                                        Icons.arrow_forward,
-                                        color: ColorManager.golden,
-                                      )
-                                    ],
-                                  ),
                                   Expanded(
                                     child: Text(
-                                      maxLines: 2,
+                                      place.name,
+                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      place.address,
-                                      style: TextStyleManager.getCaptionStyle(),
+                                      style: TextStyleManager
+                                          .getSubTitleBoldStyle(),
                                     ),
                                   ),
-                                ]),
-                          ),
-                        ]))
+                                  Text(S.of(context).viewDetails,
+                                      style: TextStyleManager
+                                          .getGoldenRegularStyle()),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    color: ColorManager.golden,
+                                  )
+                                ],
+                              ),
+                              Expanded(
+                                child: Text(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  place.address,
+                                  style: TextStyleManager.getCaptionStyle(),
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ]))
                   ]),
             ),
-            Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: BlocBuilder<PlaceBloc, PlaceState>(
-                bloc: PlaceBloc.get(),
-                builder: (context, state) {
-                  return IconButton(
-                      onPressed: () {
-                        if (ConstantsManager.userId == null) {
-                          errorToast(msg: S
-                              .of(context)
-                              .loginFirst);
-                        } else {
-                          if (ConstantsManager.appUser!.favoritePlaces
-                              .contains(place.id)) {
-                            PlaceBloc.get()
-                                .add(DeletePlaceFromFavoriteEvent(place.id));
+            if (ConstantsManager.appUser != null)
+              Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: BlocBuilder<PlaceBloc, PlaceState>(
+                  bloc: PlaceBloc.get(),
+                  builder: (context, state) {
+                    return IconButton(
+                        onPressed: () {
+                          if (ConstantsManager.userId == null) {
+                            errorToast(msg: S.of(context).loginFirst);
                           } else {
-                            PlaceBloc.get()
-                                .add(AddPlaceToFavoriteEvent(place.id));
+                            if (ConstantsManager.appUser!.favoritePlaces
+                                .contains(place.id)) {
+                              PlaceBloc.get()
+                                  .add(DeletePlaceFromFavoriteEvent(place.id));
+                            } else {
+                              PlaceBloc.get()
+                                  .add(AddPlaceToFavoriteEvent(place.id));
+                            }
                           }
-                        }
-                      },
-
-                      icon: Icon(
-                        Icons.favorite_outlined,
-                        color: ConstantsManager.appUser != null &&
-                            ConstantsManager.appUser!.favoritePlaces
-                                .contains(place.id)
-                            ? ColorManager.error
-                            : ColorManager.grey2,
-                      ));
-                },
+                        },
+                        icon: Icon(
+                          Icons.favorite_outlined,
+                          color: ConstantsManager.appUser != null &&
+                                  ConstantsManager.appUser!.favoritePlaces
+                                      .contains(place.id)
+                              ? ColorManager.error
+                              : ColorManager.grey2,
+                        ));
+                  },
+                ),
               ),
-            ),
             Align(
               alignment: AlignmentDirectional.topStart,
               child: Padding(
@@ -148,15 +142,13 @@ class PlaceItem extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style:
-                            TextStyleManager.getBlackContainerTextStyle()),
+                                TextStyleManager.getBlackContainerTextStyle()),
                         SizedBox(
                           height: 1.h,
                         ),
                         if (place.location != null)
                           Text(
-                              "${LocationServices.calculateDistance(
-                                  place.location!.latitude,
-                                  place.location!.longitude)} ",
+                              "${LocationServices.calculateDistance(place.location!.latitude, place.location!.longitude)} ",
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -209,9 +201,7 @@ class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 5.h),
-      child: Center(child: SubTitle(S
-          .of(context)
-          .noItemsFound)),
+      child: Center(child: SubTitle(S.of(context).noItemsFound)),
     );
   }
 }
@@ -243,15 +233,14 @@ class FeedBackWidget extends StatelessWidget {
                   CircleAvatar(
                     radius: 20.sp,
                     backgroundColor: ColorManager.grey3,
-                    backgroundImage: NetworkImage(feedBack.userImageUrl!),
+                    backgroundImage: NetworkImage(
+                        ApiManager.handleImageUrl(feedBack.userImageUrl!)),
                   ),
                   SizedBox(
                     width: 4.w,
                   ),
                   Expanded(
-                    child: Text(feedBack.comment ?? S
-                        .of(context)
-                        .noComment,
+                    child: Text(feedBack.comment ?? S.of(context).noComment,
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: ColorManager.black.withOpacity(0.5),
@@ -290,8 +279,7 @@ class FeedBackWidget extends StatelessWidget {
                   ignoreGestures: true,
                   allowHalfRating: true,
                   itemPadding: EdgeInsets.zero,
-                  itemBuilder: (context, _) =>
-                  const Icon(
+                  itemBuilder: (context, _) => const Icon(
                     Icons.star,
                     color: ColorManager.golden,
                   ),

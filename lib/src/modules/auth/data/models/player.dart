@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
@@ -37,6 +38,13 @@ class Player {
     List<AppFeedBack> feedbacks = List.from(json['reviews'] ?? [])
         .map((feedback) => AppFeedBack.fromJson(feedback))
         .toList();
+    List<int> favoritePlaces = [];
+    List favoritePlacesJson = json['favoriteStadiums'] ?? [];
+    if (favoritePlacesJson.isNotEmpty) {
+      for (var element in favoritePlacesJson) {
+        favoritePlaces.add(element['stadiumId']);
+      }
+    }
     return Player(
       profilePictureUrl: json['profilePictureUrl'],
       proofOfIdentityUrl: json['proofOfIdentityUrl'],
@@ -49,7 +57,7 @@ class Player {
       myWallet: json['wallet'].toDouble(),
       rate: _calculateAverage(feedbacks),
       feedbacks: feedbacks,
-      favoritePlaces: json['favoriteStadiums'] ?? [],
+      favoritePlaces: favoritePlaces,
     );
   }
 

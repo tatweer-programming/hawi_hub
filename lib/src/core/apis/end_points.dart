@@ -23,7 +23,7 @@ class EndPoints {
   static const String bookPlace = '/Player/ReserveStadium/';
   static const String addPlaceToFavourites = '/Player/AddStadiumToFavorite/';
   static const String deletePlaceFromFavourites = "/Player/DeleteFromFavorite/";
-  static const String getPlaceFeedbacks = '/Stadium/StadiumReview/';
+  static const String getPlaceFeedbacks = '/Stadium/GetStadiumReviews/';
   static const String getPlace = "/Stadium/GetByStadiumId/";
   static const String addPlaceFeedback = '/Stadium/StadiumReview/';
 

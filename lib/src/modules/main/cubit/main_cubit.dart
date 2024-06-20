@@ -38,9 +38,11 @@ class MainCubit extends Cubit<MainState> {
   int currentIndex = 0;
   List<String> bannerList = [];
   List<Sport> sportsList = [];
-  String ? selectedSport ;
+  String? selectedSport;
+
   int? currentCityId;
   List<AppNotification> notifications = [];
+
   void changePage(int index) {
     currentIndex = index;
     emit(ChangePage(index));
@@ -82,23 +84,27 @@ class MainCubit extends Cubit<MainState> {
     currentCityId = cityId;
     await saveCurrentCity(cityId);
     PlaceBloc placeBloc = PlaceBloc.get();
+    GamesBloc gamesBloc = GamesBloc.get();
     emit(SelectCityState(cityId));
     placeBloc.add(GetAllPlacesEvent(cityId));
+    gamesBloc.add(GetGamesEvent(cityId));
   }
 
   void selectSport(String sport) {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
-      if (sport == "all") {
-        placeBloc.add(const SelectSport(-1));
-        gamesBloc.add(const SelectSportEvent(-1));
-        selectedSport = null;
-      } else {
-        placeBloc.add(SelectSport(sportsList.firstWhere((e) => e.name == sport).id));
-        gamesBloc.add(SelectSportEvent(sportsList.firstWhere((e) => e.name == sport).id, ));
-        selectedSport = sport;
-      }
-
+    if (sport == "all") {
+      placeBloc.add(const SelectSport(-1));
+      gamesBloc.add(const SelectSportEvent(-1));
+      selectedSport = null;
+    } else {
+      placeBloc
+          .add(SelectSport(sportsList.firstWhere((e) => e.name == sport).id));
+      gamesBloc.add(SelectSportEvent(
+        sportsList.firstWhere((e) => e.name == sport).id,
+      ));
+      selectedSport = sport;
+    }
 
     // placeBloc.add();
   }
@@ -128,13 +134,14 @@ class MainCubit extends Cubit<MainState> {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
 
-    await getCurrentCity().then((value) async{
+    await getCurrentCity().then((value) async {
       gamesBloc.add(GetGamesEvent(currentCityId!));
       placeBloc.add(GetAllPlacesEvent(currentCityId!));
     });
     await getBanner();
     await getSports();
   }
+
   getNotifications() async {
     emit(GetNotificationsLoading());
     NotificationServices notificationServices = NotificationServices();
@@ -146,6 +153,7 @@ class MainCubit extends Cubit<MainState> {
       emit(GetNotificationsSuccess(r));
     });
   }
+
   void markNotificationAsRead(int i) {
     NotificationServices().markAsRead(i);
   }
