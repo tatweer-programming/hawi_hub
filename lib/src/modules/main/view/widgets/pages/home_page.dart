@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
@@ -36,8 +37,10 @@ class HomePage extends StatelessWidget {
     PlaceBloc placeBloc = PlaceBloc.get();
     AuthBloc authBloc = AuthBloc.get(context);
     if (ConstantsManager.userId != null) {
-      print(
-          "userId : ${ConstantsManager.userId} , user : ${ConstantsManager.appUser}");
+      if (kDebugMode) {
+        print(
+            "userId: ${ConstantsManager.userId} , user: ${ConstantsManager.appUser}");
+      }
       authBloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
     }
     return Column(
