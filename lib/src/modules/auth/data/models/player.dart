@@ -7,26 +7,19 @@ class Player extends User {
   final int games;
   final int bookings;
   final String email;
-  final String? profilePictureUrl;
+
   final double myWallet;
-  final List<AppFeedBack> feedbacks;
+
   File? profilePictureFile;
-  String? proofOfIdentityUrl;
+
   List<int> favoritePlaces;
 
   Player({
-    required this.id,
-    required this.userName,
     required this.bookings,
     required this.games,
     required this.email,
-    required this.approvalStatus,
-    required this.profilePictureUrl,
     this.profilePictureFile,
-    this.proofOfIdentityUrl,
     required this.myWallet,
-    required this.feedbacks,
-    required this.rate,
     this.favoritePlaces = const [],
     required super.id,
     required super.userName,
