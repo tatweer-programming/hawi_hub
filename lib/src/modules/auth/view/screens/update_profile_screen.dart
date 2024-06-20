@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -17,11 +18,7 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
     AuthBloc bloc = AuthBloc.get(context);
-    nameController.text = player.userName;
-    emailController.text = player.email;
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is ChangePasswordSuccessState) {
@@ -35,14 +32,8 @@ class EditProfileScreen extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      _appBar(context: context, player: player, bloc: bloc),
-                    ],
-                  ),
-                ),
+                AuthAppBar(context: context, user: player, title:
+                S.of(context).updateProfile,),
                 Padding(
                   padding: EdgeInsetsDirectional.symmetric(
                     horizontal: 5.w,
@@ -52,28 +43,6 @@ class EditProfileScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         height: 4.h,
-                      ),
-                      mainFormField(
-                        controller: nameController,
-                        label: S.of(context).userName,
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      mainFormField(
-                        controller: emailController,
-                        label: S.of(context).email,
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      defaultButton(
-                        onPressed: () {},
-                        text: "Update",
-                        fontSize: 17.sp,
-                      ),
-                      SizedBox(
-                        height: 2.h,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 1.h),

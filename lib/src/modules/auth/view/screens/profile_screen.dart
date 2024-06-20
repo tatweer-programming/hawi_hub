@@ -12,8 +12,10 @@ import 'package:hawihub/src/modules/auth/data/models/owner.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
+import 'package:hawihub/src/modules/auth/view/screens/add_feedback_for_user.dart';
 import 'package:hawihub/src/modules/auth/view/screens/rates_screen.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/people_rate_builder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -61,68 +63,59 @@ class ProfileScreen extends StatelessWidget {
         );
       }
     }, builder: (context, state) {
-      return FutureBuilder(
-        future: _fetchProfile(bloc, id, userType),
-        builder: (context, snapshot) {
-          if (user == null) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          } else {
-            return Scaffold(
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Stack(
-                        children: [
-                          AuthAppBar(
-                            context: context,
-                            user: user!,
-                            title: S.of(context).profile,
-                          ),
-                        ],
+      if (user == null) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      } else {
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      AuthAppBar(
+                        context: context,
+                        user: user!,
+                        title: S.of(context).profile,
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.symmetric(
-                        horizontal: 5.w,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Text(
-                            user!.userName,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          _emailConfirmed(
-                              bloc: bloc,
-                              user: user!,
-                              context: context,
-                              state: state),
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-        },
-      );
+                Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 5.w,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Text(
+                        user!.userName,
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      _emailConfirmed(
+                          authBloc: bloc,
+                          user: user!,
+                          context: context,
+                          state: state),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
     });
   }
-}
-
-Future<void> _fetchProfile(AuthBloc bloc, int id, String userType) async {
-  bloc.add(GetProfileEvent(id, userType));
 }
 
 Widget _pentagonalWidget(int number, String text) {
@@ -217,107 +210,25 @@ Widget _seeAll(VoidCallback onTap, BuildContext context) {
   );
 }
 
-Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
-  return Stack(
-    children: [
-      Column(
-        children: [
-          SizedBox(
-            height: 1.h,
-          ),
-          Container(
-            height: 12.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.sp),
-                border: Border.all()),
-            child: Padding(
-              padding: EdgeInsetsDirectional.symmetric(
-                  horizontal: 3.w, vertical: 1.h),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 20.sp,
-                  backgroundColor: ColorManager.grey3,
-                  backgroundImage: feedBack.userImageUrl != null
-                      ? NetworkImage(feedBack.userImageUrl!)
-                      : const AssetImage("assets/images/icons/user.png")
-                          as ImageProvider<Object>,
-                ),
-                SizedBox(
-                  width: 4.w,
-                ),
-                Expanded(
-                  child: Text(feedBack.comment ?? S.of(context).noComment,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: ColorManager.black.withOpacity(0.5),
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ]),
-            ),
-          ),
-        ],
-      ),
-      Positioned(
-        left: 5.w,
-        top: -1.h,
-        child: Container(
-          padding: EdgeInsetsDirectional.symmetric(
-            vertical: 1.h,
-            horizontal: 2.w,
-          ),
-          color: Colors.white,
-          child: Row(
-            children: [
-              Text(
-                feedBack.userName ?? "",
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500),
-              ),
-              SizedBox(width: 1.w),
-              RatingBar.builder(
-                initialRating: feedBack.rating,
-                minRating: 1,
-                itemSize: 10.sp,
-                direction: Axis.horizontal,
-                ignoreGestures: true,
-                allowHalfRating: true,
-                itemPadding: EdgeInsets.zero,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: ColorManager.golden,
-                ),
-                onRatingUpdate: (rating) {},
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
 Widget _emailConfirmed({
   required User user,
   required BuildContext context,
   required AuthState state,
-  required AuthBloc bloc,
+  required AuthBloc authBloc,
 }) {
   if (user.proofOfIdentityUrl == null && user.approvalStatus == 0) {
-    return _notVerified(bloc);
+    return _notVerified(authBloc);
   } else if (user.approvalStatus == 0) {
     return _pending(context, S.of(context).identificationPending);
   } else if (user.approvalStatus == 1) {
     return _verified(
       user: user,
+      authBloc: authBloc,
       context: context,
       state: state,
     );
   } else {
-    return _rejectedAndTryAgain(context, S.of(context).rejectIdCard, bloc);
+    return _rejectedAndTryAgain(context, S.of(context).rejectIdCard, authBloc);
   }
 }
 
@@ -455,6 +366,7 @@ Widget _verified({
   required User user,
   required BuildContext context,
   required AuthState state,
+  required AuthBloc authBloc,
 }) {
   bool isPlayer = false;
   if (user is Player) {
@@ -485,11 +397,11 @@ Widget _verified({
       height: 2.h,
     ),
     Text(
-      user.rate!.remainder(1).toString(),
+      user.rate.toStringAsFixed(1),
       style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
     ),
     RatingBar.builder(
-      initialRating: 5,
+      initialRating: user.rate,
       minRating: 1,
       itemSize: 25.sp,
       direction: Axis.horizontal,
@@ -503,7 +415,7 @@ Widget _verified({
       onRatingUpdate: (rating) {},
     ),
     SizedBox(
-      height: 2.h,
+      height: 3.h,
     ),
     user.feedbacks.isEmpty
         ? Container()
@@ -524,20 +436,29 @@ Widget _verified({
                   }, context)
                 ],
               ),
-              SizedBox(
-                height: 2.h,
-              ),
               ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => _peopleRateBuilder(
-                      (user as Owner).feedbacks[index], context),
-                  separatorBuilder: (context, index) => SizedBox(
-                        height: 2.h,
-                      ),
-                  itemCount: user.feedbacks.take(2).length),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => PeopleRateBuilder(
+                  context: context,
+                  feedBack: user.feedbacks[index],
+                ),
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 2.h,
+                ),
+                itemCount: user.feedbacks.take(2).length,
+              ),
             ],
           ),
+    SizedBox(
+      height: 2.h,
+    ),
+    if(ConstantsManager.appUser!.playerReservation.contains(user.id))
+    defaultButton(onPressed: (){
+      context.pushWithTransition(AddFeedbackForUser(user: user,authBloc: authBloc));
+    }, text: S.of(context).addFeedback,
+      fontSize: 17.sp
+    ),
     SizedBox(
       height: 2.h,
     ),

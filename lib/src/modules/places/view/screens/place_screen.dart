@@ -229,7 +229,7 @@ class PlaceScreen extends StatelessWidget {
                                                               WrapAlignment
                                                                   .center,
                                                           initialRating:
-                                                              place.rating!,
+                                                              place.rating!.toDouble(),
                                                           itemCount: 5,
                                                           glowColor:
                                                               ColorManager

@@ -3,6 +3,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/people_rate_builder.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
@@ -19,53 +21,55 @@ class RatesScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          AuthAppBar(
+            context: context,
+            user: user,
+            title: S.of(context).rates,
+          ),
           SizedBox(
-            width: double.infinity,
-            child: _appBar(context, user.profilePictureUrl),
+            height: 2.h,
+          ),
+          Text(
+            user.userName,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 3.h,
           ),
           Padding(
             padding: EdgeInsetsDirectional.symmetric(
               horizontal: 5.w,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  user.userName,
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  S.of(context).peopleRate,
-                  style:
-                      TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                if (user.feedbacks.isNotEmpty)
-                  Expanded(
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => _peopleRateBuilder(
-                            user.feedbacks[index], context),
-                        separatorBuilder: (context, index) => SizedBox(
-                              height: 2.h,
-                            ),
-                        itemCount: user.feedbacks.length),
-                  ),
-              ],
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                S.of(context).peopleRate,
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+              ),
             ),
-          )
+          ),
+          if (user.feedbacks.isNotEmpty)
+            Expanded(
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: 5.w,
+                ),
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => PeopleRateBuilder(
+                          context: context,
+                          feedBack: user.feedbacks[index],
+                        ),
+                    separatorBuilder: (context, index) => SizedBox(
+                          height: 2.h,
+                        ),
+                    itemCount: user.feedbacks.length),
+              ),
+            ),
         ],
       ),
     );
@@ -93,7 +97,8 @@ Widget _appBar(
             children: [
               backIcon(
                 context: context,
-              ),              SizedBox(
+              ),
+              SizedBox(
                 width: 20.w,
               ),
               Text(
@@ -120,86 +125,6 @@ Widget _appBar(
           backgroundColor: ColorManager.grey3,
           backgroundImage: const AssetImage("assets/images/icons/user.png"),
         ),
-    ],
-  );
-}
-
-Widget _peopleRateBuilder(AppFeedBack feedBack, BuildContext context) {
-  return Stack(
-    children: [
-      Column(
-        children: [
-          SizedBox(
-            height: 1.h,
-          ),
-          Container(
-            height: 12.h,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.sp),
-                border: Border.all()),
-            child: Padding(
-              padding: EdgeInsetsDirectional.symmetric(
-                  horizontal: 3.w, vertical: 1.h),
-              child: Row(children: [
-                CircleAvatar(
-                  radius: 20.sp,
-                  backgroundColor: ColorManager.grey3,
-                  backgroundImage: NetworkImage(feedBack.userImageUrl!),
-                ),
-                SizedBox(
-                  width: 4.w,
-                ),
-                Expanded(
-                  child: Text(feedBack.comment ?? S.of(context).noComment,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: ColorManager.black.withOpacity(0.5),
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-              ]),
-            ),
-          ),
-        ],
-      ),
-      Positioned(
-        left: 5.w,
-        top: -1.h,
-        child: Container(
-          padding: EdgeInsetsDirectional.symmetric(
-            vertical: 1.h,
-            horizontal: 2.w,
-          ),
-          color: Colors.white,
-          child: Row(
-            children: [
-              Text(
-                feedBack.userName??"",
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500),
-              ),
-              SizedBox(width: 1.w),
-              RatingBar.builder(
-                initialRating: feedBack.rating,
-                minRating: 1,
-                itemSize: 10.sp,
-                direction: Axis.horizontal,
-                ignoreGestures: true,
-                allowHalfRating: true,
-                itemPadding: EdgeInsets.zero,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: ColorManager.golden,
-                ),
-                onRatingUpdate: (rating) {},
-              ),
-            ],
-          ),
-        ),
-      ),
     ],
   );
 }

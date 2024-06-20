@@ -53,6 +53,9 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         }, (r) {
           emit(GetPlaceBookingsSuccess(r));
         });
+      }else if (event is AddRatingEvent) {
+        print(event.rate);
+        emit(AddRatingState(event.rate));
       }
       // else if (event is GetDayBookingsEvent) {
       //   emit(GetDayBookingsLoading());

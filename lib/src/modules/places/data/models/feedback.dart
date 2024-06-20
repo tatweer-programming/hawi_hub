@@ -5,7 +5,7 @@ class AppFeedBack extends Equatable {
   final int? id;
   final int userId;
   final String? comment;
-  final String userName;
+  final String? userName;
   final String? userImageUrl;
   final double rating;
 
@@ -13,7 +13,7 @@ class AppFeedBack extends Equatable {
     this.id,
     required this.userId,
     this.comment,
-    required this.userName,
+    this.userName,
     this.userImageUrl,
     required this.rating,
   });
@@ -23,11 +23,11 @@ class AppFeedBack extends Equatable {
   ) {
     return AppFeedBack(
       id: json['id'],
-      userId: json['user_id'],
+      userId: json['reviewerId'],
       comment: json['comment'],
-      userName: json['user_name'],
-      userImageUrl: json['user_image_url'],
-      rating: json['rating'],
+      userName: json['reviewerName'],
+      userImageUrl: json['reviewerProfilePictureUrl'],
+      rating: json['rate'],
     );
   }
 
@@ -35,7 +35,7 @@ class AppFeedBack extends Equatable {
     return {
       '${userType}Id': userId,
       'comment': comment,
-      'rating': rating,
+      'rate': rating,
     };
   }
 

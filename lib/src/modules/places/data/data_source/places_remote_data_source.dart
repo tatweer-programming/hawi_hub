@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
@@ -122,15 +123,17 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> addOwnerFeedback(int ownerId,
+  Future<Either<Exception, Unit>> addOwnerFeedback(int playerId,
       {required AppFeedBack review}) async {
     try {
+      print("                             **************");
+      print(review.toJson(userType: "owner"));
       await DioHelper.postData(
-          data: review.toJson(userType: "player"),
-          path: EndPoints.addOwnerFeedback + ownerId.toString(),
-          query: {"id": ownerId});
+          data: review.toJson(userType: "owner"),
+          path: EndPoints.addOwnerFeedback + playerId.toString(), );
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
+      print(e.message);
       return Left(e);
     }
   }

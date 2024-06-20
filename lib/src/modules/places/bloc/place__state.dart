@@ -254,3 +254,12 @@ class AddOwnerFeedbackLoading extends PlaceLoading {
   @override
   List<Object> get props => [];
 }
+
+class AddRatingState extends PlaceLoading {
+  final double rating;
+
+  AddRatingState(this.rating);
+
+  @override
+  List<Object> get props => [rating];
+}

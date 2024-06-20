@@ -266,12 +266,16 @@ class AuthService {
       );
       if (userType == "Player") {
         Player player = Player.fromJson(response.data);
+        var res = await geFeedBacks(id);
+        res.fold((l) => print(l), (r) => player.feedbacks = r);
         if (ConstantsManager.userId == id) {
           ConstantsManager.appUser = player;
         }
         return Right(player);
       } else {
         Owner owner = Owner.fromJson(response.data);
+        var res = await geFeedBacks(id);
+        res.fold((l) => print(l), (r) => owner.feedbacks = r);
         return Right(owner);
       }
     } on DioException catch (e) {
@@ -289,6 +293,21 @@ class AuthService {
         sports.add(Sport.fromJson(category));
       }
       return Right(sports);
+    } on DioException catch (e) {
+      return Left(e.response.toString());
+    }
+  }
+
+  Future<Either<String, List<AppFeedBack>>> geFeedBacks(int id) async {
+    try {
+      Response response = await DioHelper.getData(
+        path: "${EndPoints.getFeedbacks}$id",
+      );
+      List<AppFeedBack> feedBacks = [];
+      for (var category in response.data["reviews"]) {
+        feedBacks.add(AppFeedBack.fromJson(category));
+      }
+      return Right(feedBacks);
     } on DioException catch (e) {
       return Left(e.response.toString());
     }

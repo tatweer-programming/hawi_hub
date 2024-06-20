@@ -161,9 +161,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         res.fold((l) {
           emit(GetProfileErrorState(l));
         }, (r) {
-          if (event.id == ConstantsManager.userId) {
-            ConstantsManager.appUser = r as Player;
-          }
           emit(GetProfileSuccessState(r));
         });
       } else if (event is AcceptConfirmTermsEvent) {

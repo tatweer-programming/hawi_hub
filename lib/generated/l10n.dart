@@ -1560,6 +1560,16 @@ class S {
     );
   }
 
+  /// `Add Feedback`
+  String get addFeedback {
+    return Intl.message(
+      'Add Feedback',
+      name: 'addFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More`
   String get more {
     return Intl.message(

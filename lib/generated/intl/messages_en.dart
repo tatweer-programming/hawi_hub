@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountCreatedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Account Created Successfully"),
         "addComment": MessageLookupByLibrary.simpleMessage("Add Comment"),
+        "addFeedback": MessageLookupByLibrary.simpleMessage("Add Feedback"),
         "addRate": MessageLookupByLibrary.simpleMessage("Add Rating"),
         "addRequiredPdf": MessageLookupByLibrary.simpleMessage(
             "Please add what is required below from the file"),

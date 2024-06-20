@@ -6,10 +6,10 @@ class User {
   final int id;
   final String userName;
   final int approvalStatus;
-  final double? rate;
+  final double rate;
   final String? profilePictureUrl;
   final String? proofOfIdentityUrl;
-  final List<AppFeedBack> feedbacks;
+  List<AppFeedBack> feedbacks;
 
   User({
     required this.id,

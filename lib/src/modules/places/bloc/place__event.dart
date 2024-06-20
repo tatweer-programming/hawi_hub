@@ -41,6 +41,17 @@ class GetDayBookingsEvent extends PlaceEvent {
   List<Object?> get props => [];
 }
 
+class AddRatingEvent extends PlaceEvent {
+  final double rate;
+
+  const AddRatingEvent(
+    this.rate,
+  );
+
+  @override
+  List<Object?> get props => [];
+}
+
 class RatePlaceEvent extends PlaceEvent {
   final int placeId;
   final double rate;

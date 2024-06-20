@@ -22,7 +22,7 @@ class Owner extends User {
       proofOfIdentityUrl: json['proofOfIdentityUrl'],
       userName: json['userName'],
       feedbacks: feedbacks,
-      rate: json['rate'],
+      rate: json["rate"].toDouble(),
     );
   }
 }
