@@ -57,10 +57,10 @@ android {
     }
     signingConfigs {
         debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'HawiHub_Tatweer'
-            storeFile file('keystore.jks')
-            storePassword 'HawiHub_Tatweer'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'HawiHub_Tatweer'
+//            storeFile file('keystore.jks')
+//            storePassword 'HawiHub_Tatweer'
         }
     }
     buildTypes {
@@ -70,6 +70,10 @@ android {
             signingConfig signingConfigs.debug
             crunchPngs false // or true
         }
+        release {
+            signingConfig signingConfigs.debug
+        }
+
     }
 }
 

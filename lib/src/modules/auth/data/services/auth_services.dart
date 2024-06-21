@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/owner.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
@@ -33,6 +35,7 @@ class AuthService {
       }
       return Right(response.data['message']);
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e);
     }
   }
@@ -59,6 +62,7 @@ class AuthService {
       }
       return response.data.toString();
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -83,6 +87,7 @@ class AuthService {
       }
       return const Right(null);
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -103,6 +108,7 @@ class AuthService {
       }
       return const Right("Something went wrong");
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -125,6 +131,7 @@ class AuthService {
       }
       return const Right(null);
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -142,6 +149,7 @@ class AuthService {
       }
       return const Right("Something went wrong");
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -156,6 +164,7 @@ class AuthService {
       );
       return response.data.toString();
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -180,6 +189,7 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -198,6 +208,7 @@ class AuthService {
       }
       return (response.data.toString());
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -214,6 +225,7 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -230,6 +242,7 @@ class AuthService {
       }
       return response.data.toString();
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -255,6 +268,7 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -279,6 +293,7 @@ class AuthService {
         return Right(owner);
       }
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -294,6 +309,7 @@ class AuthService {
       }
       return Right(sports);
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -309,6 +325,7 @@ class AuthService {
       }
       return Right(feedBacks);
     } on DioException catch (e) {
+      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }

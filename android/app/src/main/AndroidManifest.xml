@@ -41,7 +41,9 @@
                 <data
                     android:scheme="http"
                     android:host="hawihub.com" />
-                <data android:scheme="https" />
+                <data
+                    android:scheme="https"
+                    android:host="hawihub.com" />
             </intent-filter>
 
             <intent-filter>

@@ -58,7 +58,7 @@ class ExceptionManager implements Exception {
         case 308:
           return "Permanent Redirect";
         case 400:
-          return "Bad Request";
+          return "Bad Request: ${err.response?.statusMessage ?? ''}";
         case 401:
           return "Unauthorized";
         case 402:
@@ -76,7 +76,7 @@ class ExceptionManager implements Exception {
         case 408:
           return "Request Timeout";
         case 409:
-          return "Conflict";
+          return "Data conflict: ${err.response?.statusMessage ?? ''}";
         case 410:
           return "Gone";
         case 411:
