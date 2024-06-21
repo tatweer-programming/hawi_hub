@@ -453,12 +453,14 @@ Widget _verified({
     SizedBox(
       height: 2.h,
     ),
-    if(ConstantsManager.appUser!.playerReservation.contains(user.id))
-    defaultButton(onPressed: (){
-      context.pushWithTransition(AddFeedbackForUser(user: user,authBloc: authBloc));
-    }, text: S.of(context).addFeedback,
-      fontSize: 17.sp
-    ),
+    if (ConstantsManager.appUser!.playerReservation.contains(user.id))
+      defaultButton(
+          onPressed: () {
+            context.pushWithTransition(
+                AddFeedbackForUser(user: user, authBloc: authBloc));
+          },
+          text: S.of(context).addFeedback,
+          fontSize: 17.sp),
     SizedBox(
       height: 2.h,
     ),

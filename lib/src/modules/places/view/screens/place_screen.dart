@@ -11,6 +11,8 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/font_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/auth/view/screens/add_feedback_for_club.dart';
+import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -431,6 +433,20 @@ class PlaceScreen extends StatelessWidget {
                   debugPrint("Book Now");
                 }
               }),
+        ),
+        SizedBox(
+          height: 2.h,
+        ),
+        if (ConstantsManager.appUser!.stadiumReservation.contains(placeId))
+          defaultButton(
+              onPressed: () {
+                context.pushWithTransition(
+                    AddFeedbackForClub(place: place,));
+              },
+              text: S.of(context).addFeedback,
+              fontSize: 17.sp),
+        SizedBox(
+          height: 2.h,
         ),
       ],
     ));

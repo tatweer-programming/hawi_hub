@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/styles_manager.dart';
 import '../../../auth/view/widgets/widgets.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
+import '../../../places/data/models/place.dart';
 
 class AddFeedbackForClub extends StatelessWidget {
-  const AddFeedbackForClub({super.key});
+  final Place place;
+
+  const AddFeedbackForClub({super.key, required this.place});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController addCommentController = TextEditingController();
+    PlaceBloc bloc = PlaceBloc.get();
+    double rating = 5;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -40,11 +50,12 @@ class AddFeedbackForClub extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.sp),
                     color: ColorManager.grey1,
-                    image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"),
-                    ),
+                    image: place.images.isEmpty
+                        ? null
+                        : DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(place.images[0]),
+                          ),
                   ),
                 ),
               ],
@@ -53,7 +64,7 @@ class AddFeedbackForClub extends StatelessWidget {
               height: 3.h,
             ),
             Text(
-              "Cairo Stadium",
+              place.name,
               style: TextStyleManager.getTitleBoldStyle()
                   .copyWith(fontSize: 21.sp),
             ),
@@ -66,11 +77,19 @@ class AddFeedbackForClub extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _rateBuilder(
-                    rate: S.of(context).clubRate,
-                    initialRating: 5,
-                    onRatingUpdate: (rating) {},
-                  ),
+                  BlocConsumer<PlaceBloc, PlaceState>(
+                      listener: (context, state) {
+                    if (state is AddRatingState) {
+                      rating = state.rating;
+                    }
+                  }, builder: (context, state) {
+                    return _rateBuilder(
+                      rate: S.of(context).ownerRate,
+                      onRatingUpdate: (rating) {
+                        bloc.add(AddRatingEvent(rating));
+                      },
+                    );
+                  }),
                   SizedBox(
                     height: 3.h,
                   ),
@@ -86,10 +105,25 @@ class AddFeedbackForClub extends StatelessWidget {
                   SizedBox(
                     height: 3.h,
                   ),
-                  defaultButton(
-                    onPressed: () {},
-                    text: S.of(context).send,
-                    fontSize: 18.sp,
+                  BlocConsumer<PlaceBloc, PlaceState>(
+                    listener: (context, state) {
+                      if (state is AddOwnerFeedbackSuccess) {
+                        context.pop();
+                      }
+                    },
+                    builder: (context, state) {
+                      return defaultButton(
+                        onPressed: () {
+                          bloc.add(AddPlaceFeedbackEvent(place.id,
+                              review: AppFeedBack(
+                                  userId: ConstantsManager.userId!,
+                                  comment: addCommentController.text,
+                                  rating: rating)));
+                        },
+                        text: S.of(context).send,
+                        fontSize: 18.sp,
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 3.h,
@@ -106,7 +140,6 @@ class AddFeedbackForClub extends StatelessWidget {
 
 Widget _rateBuilder({
   required String rate,
-  required double initialRating,
   required Function(double) onRatingUpdate,
 }) {
   return Column(
@@ -122,7 +155,7 @@ Widget _rateBuilder({
         height: 1.h,
       ),
       RatingBar.builder(
-        initialRating: initialRating,
+        initialRating: 5,
         minRating: 1,
         itemSize: 25.sp,
         direction: Axis.horizontal,

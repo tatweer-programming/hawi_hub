@@ -35,7 +35,6 @@ class AuthService {
       }
       return Right(response.data['message']);
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e);
     }
   }
@@ -62,7 +61,6 @@ class AuthService {
       }
       return response.data.toString();
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -87,7 +85,6 @@ class AuthService {
       }
       return const Right(null);
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -108,7 +105,6 @@ class AuthService {
       }
       return const Right("Something went wrong");
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -131,7 +127,6 @@ class AuthService {
       }
       return const Right(null);
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -149,7 +144,6 @@ class AuthService {
       }
       return const Right("Something went wrong");
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -164,7 +158,6 @@ class AuthService {
       );
       return response.data.toString();
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -189,7 +182,6 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -208,7 +200,6 @@ class AuthService {
       }
       return (response.data.toString());
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -225,7 +216,6 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -242,7 +232,6 @@ class AuthService {
       }
       return response.data.toString();
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return e.response.toString();
     }
   }
@@ -268,7 +257,6 @@ class AuthService {
       }
       return Left(response.data.toString());
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -293,7 +281,6 @@ class AuthService {
         return Right(owner);
       }
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -309,7 +296,6 @@ class AuthService {
       }
       return Right(sports);
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }
@@ -325,7 +311,6 @@ class AuthService {
       }
       return Right(feedBacks);
     } on DioException catch (e) {
-      errorToast(msg: ExceptionManager(e).translatedMessage());
       return Left(e.response.toString());
     }
   }

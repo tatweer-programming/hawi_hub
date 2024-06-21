@@ -84,7 +84,7 @@ class AddFeedbackForUser extends StatelessWidget {
                   BlocConsumer<PlaceBloc, PlaceState>(
                     listener: (context, state) {
                        if(state is AddOwnerFeedbackSuccess){
-                         context.pop();
+                         authBloc.add(GetProfileEvent(user.id, "Owner"));
                          context.pop();
                        }
                     },
