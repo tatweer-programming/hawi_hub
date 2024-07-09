@@ -1,11 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/font_manager.dart';
@@ -17,7 +16,7 @@ import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:share_plus/share_plus.dart';
@@ -230,8 +229,9 @@ class PlaceScreen extends StatelessWidget {
                                                           wrapAlignment:
                                                               WrapAlignment
                                                                   .center,
-                                                          initialRating:
-                                                              place.rating!.toDouble(),
+                                                          initialRating: place
+                                                              .rating!
+                                                              .toDouble(),
                                                           itemCount: 5,
                                                           glowColor:
                                                               ColorManager
@@ -440,8 +440,9 @@ class PlaceScreen extends StatelessWidget {
         if (ConstantsManager.appUser!.stadiumReservation.contains(placeId))
           defaultButton(
               onPressed: () {
-                context.pushWithTransition(
-                    AddFeedbackForClub(place: place,));
+                context.pushWithTransition(AddFeedbackForClub(
+                  place: place,
+                ));
               },
               text: S.of(context).addFeedback,
               fontSize: 17.sp),

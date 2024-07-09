@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
 class User {
@@ -20,5 +18,4 @@ class User {
     this.proofOfIdentityUrl,
     required this.rate,
   });
-
 }

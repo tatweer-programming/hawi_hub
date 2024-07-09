@@ -1,29 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
-import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
 import '../data/data_source/games_remote_data_source.dart';
 
 part 'games_event.dart';
-
 part 'games_state.dart';
 
 class GamesBloc extends Bloc<GamesEvent, GamesState> {
   List<Game> games = [];
   List<Game> filteredGames = [];
   Game? currentGame;
+
   bool isPublic = false;
   int? selectedStadiumId;
+
   Booking? booking;
   GamesRemoteDataSource remoteDataSource = GamesRemoteDataSource();
 
@@ -51,8 +50,10 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
           emit(GetGameSuccess(r));
         });
       } else if (event is JoinGameEvent) {
+        double balance = _getBalance(event.gameId);
         emit(JoinGameLoading());
-        var result = await remoteDataSource.joinGame(gameId: event.gameId);
+        var result = await remoteDataSource.joinGame(
+            gameId: event.gameId, balance: balance);
         result.fold((l) {
           emit(JoinGameError(l));
         }, (r) async {
@@ -123,5 +124,10 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   static GamesBloc get() {
     bloc ??= GamesBloc();
     return bloc!;
+  }
+
+  double _getBalance(int gameId) {
+    Game game = games.firstWhere((e) => e.id == gameId);
+    return game.price / game.minPlayers;
   }
 }

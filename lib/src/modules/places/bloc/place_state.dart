@@ -1,4 +1,4 @@
-part of 'place__bloc.dart';
+part of 'place_bloc.dart';
 
 abstract class PlaceState extends Equatable {
   const PlaceState();

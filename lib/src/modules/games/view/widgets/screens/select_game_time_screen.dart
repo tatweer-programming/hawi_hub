@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -10,11 +10,11 @@ import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
-import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 class SelectGameTimeScreen extends StatefulWidget {
   final int placeId;
@@ -178,7 +178,9 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
             ),
           ),
           _buildSaveButton(),
-          SizedBox(height: 2.h,)
+          SizedBox(
+            height: 2.h,
+          )
         ],
       ),
     );

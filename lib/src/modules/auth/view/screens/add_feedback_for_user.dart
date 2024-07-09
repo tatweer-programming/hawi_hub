@@ -8,9 +8,11 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
+import 'package:hawihub/src/modules/places/data/proxy/data_source_proxy.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../core/utils/styles_manager.dart';
 import '../../../auth/view/widgets/widgets.dart';
 
@@ -18,7 +20,8 @@ class AddFeedbackForUser extends StatelessWidget {
   final User user;
   final AuthBloc authBloc;
 
-  const AddFeedbackForUser({super.key, required this.user, required this.authBloc});
+  const AddFeedbackForUser(
+      {super.key, required this.user, required this.authBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +55,18 @@ class AddFeedbackForUser extends StatelessWidget {
               child: Column(
                 children: [
                   BlocConsumer<PlaceBloc, PlaceState>(
-                    listener: (context, state) {
-                      if (state is AddRatingState) {
-                        rating = state.rating;
-                      }
-                    },
-                    builder: (context, state) {
-                     return _rateBuilder(
-                       rate: S.of(context).ownerRate,
-                       onRatingUpdate: (rating) {
-                         bloc.add(AddRatingEvent(rating));
-                       },
-                     );
+                      listener: (context, state) {
+                    if (state is AddRatingState) {
+                      rating = state.rating;
                     }
-                  ),
+                  }, builder: (context, state) {
+                    return _rateBuilder(
+                      rate: S.of(context).ownerRate,
+                      onRatingUpdate: (rating) {
+                        bloc.add(AddRatingEvent(rating));
+                      },
+                    );
+                  }),
                   SizedBox(
                     height: 3.h,
                   ),
@@ -83,20 +84,23 @@ class AddFeedbackForUser extends StatelessWidget {
                   ),
                   BlocConsumer<PlaceBloc, PlaceState>(
                     listener: (context, state) {
-                       if(state is AddOwnerFeedbackSuccess){
-                         authBloc.add(GetProfileEvent(user.id, "Owner"));
-                         context.pop();
-                       }
+                      if (state is AddOwnerFeedbackSuccess) {
+                        authBloc.add(GetProfileEvent(user.id, "Owner"));
+                        context.pop();
+                      }
                     },
                     builder: (context, state) {
                       return defaultButton(
                         onPressed: () {
-                          bloc.add(AddOwnerFeedbackEvent(
-                              ConstantsManager.userId!,
-                              review: AppFeedBack(
-                                  userId: user.id,
-                                  comment: addCommentController.text,
-                                  rating: rating)));
+                          UserAccessProxy(
+                                  bloc,
+                                  AddOwnerFeedbackEvent(
+                                      ConstantsManager.userId!,
+                                      review: AppFeedBack(
+                                          userId: user.id,
+                                          comment: addCommentController.text,
+                                          rating: rating)))
+                              .execute([AccessCheckType.login]);
                         },
                         text: S.of(context).send,
                         fontSize: 18.sp,

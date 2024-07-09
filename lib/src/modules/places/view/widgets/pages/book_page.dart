@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
-import 'package:hawihub/src/core/routing/navigation_manager.dart';
-import 'package:hawihub/src/core/routing/routes.dart';
-import 'package:hawihub/src/core/utils/localization_manager.dart';
-import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
-import 'package:hawihub/src/modules/main/view/widgets/components.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/main_app_bar.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
-import '../../../bloc/place__bloc.dart';
+
+import '../../../bloc/place_bloc.dart';
 
 class BookPage extends StatelessWidget {
   const BookPage({super.key});

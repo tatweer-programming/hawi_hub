@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
-import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
 class Player extends User {
   final int games;
   final int bookings;
   final String email;
   final double myWallet;
+  final DateTime birthDate;
   File? profilePictureFile;
   List<int> favoritePlaces;
   final List<int> stadiumReservation;
@@ -16,6 +16,7 @@ class Player extends User {
   Player({
     required this.bookings,
     required this.games,
+    required this.birthDate,
     required this.email,
     required this.stadiumReservation,
     required this.playerReservation,
@@ -32,14 +33,6 @@ class Player extends User {
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
-
-    // List<int> favoritePlaces = [];
-    // List favoritePlacesJson = json['favoriteStadiums'] ?? [];
-    // if (favoritePlacesJson.isNotEmpty) {
-    //   for (var element in favoritePlacesJson) {
-    //     favoritePlaces.add(element['stadiumId']);
-    //   }
-    // }
     return Player(
       profilePictureUrl: json['profilePictureUrl'],
       proofOfIdentityUrl: json['proofOfIdentityUrl'],
@@ -48,6 +41,7 @@ class Player extends User {
       bookings: json['numberOfBookings'],
       userName: json['userName'],
       email: json['email'],
+      birthDate: DateTime.parse(json['birthDate']),
       approvalStatus: json['approvalStatus'],
       myWallet: json['wallet'].toDouble(),
       rate: json["rate"].toDouble(),
@@ -56,5 +50,14 @@ class Player extends User {
       stadiumReservation: List.from(json['stadiumReservatation'] ?? []),
       playerReservation: List.from(json['playerReservatation'] ?? []),
     );
+  }
+
+  bool isVerified() {
+    return approvalStatus == 1;
+  }
+
+  double getAge() {
+    //TODO: calculate age
+    return 0;
   }
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -11,9 +10,9 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
-import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
+import 'package:hawihub/src/modules/places/data/proxy/data_source_proxy.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
@@ -263,9 +262,19 @@ class GameDetailsScreen extends StatelessWidget {
                             if (isJoined) {
                               defaultToast(msg: S.of(context).alreadyJoined);
                             } else {
-                              PaymentCubit paymentCubit = PaymentCubit.get();
-                              bloc.add(JoinGameEvent(gameId: game.id));
-                              paymentCubit.joinToGame(game.price);
+                              UserAccessProxy(
+                                bloc,
+                                JoinGameEvent(gameId: game.id),
+                                requiredBalance: game.price / game.minPlayers,
+                                requiredAgeRange: game.getHostAge(),
+                              ).execute([
+                                AccessCheckType.login,
+                                AccessCheckType.verification,
+                                AccessCheckType.age,
+                                AccessCheckType.balance
+                              ]);
+                              // PaymentCubit paymentCubit = PaymentCubit.get();
+                              // paymentCubit.joinToGame(game.price);
                             }
                           }
                         },

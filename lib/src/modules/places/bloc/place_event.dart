@@ -1,4 +1,4 @@
-part of 'place__bloc.dart';
+part of 'place_bloc.dart';
 
 abstract class PlaceEvent extends Equatable {
   const PlaceEvent();
@@ -52,16 +52,7 @@ class AddRatingEvent extends PlaceEvent {
   List<Object?> get props => [];
 }
 
-class RatePlaceEvent extends PlaceEvent {
-  final int placeId;
-  final double rate;
-  final String comment;
-
-  const RatePlaceEvent(this.placeId, this.rate, this.comment);
-
-  @override
-  List<Object?> get props => [];
-}
+//
 
 class GetPlaceReviewsEvent extends PlaceEvent {
   final int placeId;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
-import 'package:meta/meta.dart';
 
 part 'payment_state.dart';
 
@@ -19,7 +18,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   final PaymentService _paymentService = PaymentService();
 
   Future<void> joinToGame(double pendingWallet) async {
-    final result = await _paymentService.joinToGame(pendingWallet);
+    final result = await _paymentService.pendWalletBalance(pendingWallet);
     result.fold(
       (l) {
         emit(JoinToGameErrorState(l));

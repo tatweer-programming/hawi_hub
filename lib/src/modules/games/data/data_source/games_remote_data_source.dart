@@ -6,8 +6,7 @@ import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
-
-import '../models/player.dart';
+import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 
 class GamesRemoteDataSource {
   Future<Either<Exception, List<Game>>> getGames({required int cityId}) async {
@@ -34,6 +33,8 @@ class GamesRemoteDataSource {
           data: game.toJson(),
           path: EndPoints.createGame + ConstantsManager.userId.toString(),
           query: {"id": ConstantsManager.userId});
+      await PaymentService()
+          .pendWalletBalance(game.gamePrice / game.minPlayers);
       return Right(response.data['gameId'].toString());
     } on Exception catch (e) {
       DioException dioException = e as DioException;
@@ -44,7 +45,8 @@ class GamesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> joinGame({required int gameId}) async {
+  Future<Either<Exception, Unit>> joinGame(
+      {required int gameId, required double balance}) async {
     try {
       if (kDebugMode) {
         print(ConstantsManager.userId);
@@ -56,7 +58,7 @@ class GamesRemoteDataSource {
       if (response.statusCode == 200) {
         return const Right(unit);
       }
-
+      await PaymentService().pendWalletBalance(balance);
       return const Right(unit);
     } on Exception catch (e) {
       DioException dioException = e as DioException;

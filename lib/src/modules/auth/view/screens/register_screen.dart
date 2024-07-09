@@ -1,11 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../../generated/l10n.dart';
 import '../../../../core/routing/routes.dart';
 import '../widgets/widgets.dart';
@@ -38,8 +39,10 @@ class RegisterScreen extends StatelessWidget {
           defaultToast(msg: handleResponseTranslation(state.value, context));
           context.pushAndRemove(Routes.home);
         } else if (state is RegisterErrorState) {
-          ExceptionManager(state.error).translatedMessage();
-          // errorToast(msg: handleResponseTranslation(state.error, context));
+          // ExceptionManager(state.error).translatedMessage();
+          DioException e = state.error as DioException;
+          errorToast(
+              msg: handleResponseTranslation(e.response.toString(), context));
         }
         if (state is SignupWithGoogleSuccessState) {
           authPlayer = state.authPlayer;

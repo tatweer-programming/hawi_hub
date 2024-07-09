@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
-import 'package:http/http.dart' as http;
+
 import '../../../../core/utils/constance_manager.dart';
 
 class PaymentService {
@@ -53,7 +51,7 @@ class PaymentService {
     }
   }
 
-  Future<Either<String, String>> joinToGame(double pendingWallet) async {
+  Future<Either<String, String>> pendWalletBalance(double pendingWallet) async {
     try {
       await DioHelper.postData(
         path: "/Player/${ConstantsManager.userId}",

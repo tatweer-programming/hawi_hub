@@ -1,36 +1,29 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
-import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
-import 'package:hawihub/src/modules/places/data/models/place_location.dart';
 
-import '../../../games/data/data_source/games_remote_data_source.dart';
 import '../models/place.dart';
 
 class PlacesRemoteDataSource {
   Future<Either<Exception, List<Place>>> getAllPlaces(
       {required int cityId}) async {
     try {
-      List<Place> places = [];
       var response = await DioHelper.getData(
-          path: "${EndPoints.getPlaces}$cityId", query: {"cityId": cityId});
+        path: "${EndPoints.getPlaces}$cityId",
+        query: {"cityId": cityId},
+      );
       if (response.statusCode == 200) {
-        places = (response.data as List).map((e) => Place.fromJson(e)).toList();
-        print("places $places");
+        List<Place> places =
+            (response.data as List).map((e) => Place.fromJson(e)).toList();
+        return Right(places);
       }
-      return Right(places);
-    } on Exception catch (e) {
+      return Left(Exception('Failed to fetch places'));
+    } on DioException catch (e) {
       return Left(e);
     }
   }
@@ -38,9 +31,11 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, Place>> getPlace({required int id}) async {
     try {
       var response = await DioHelper.getData(path: "${EndPoints.getPlace}$id");
-
-      return Right(Place.fromJson(response.data));
-    } on Exception catch (e) {
+      if (response.statusCode == 200) {
+        return Right(Place.fromJson(response.data));
+      }
+      return Left(Exception('Failed to fetch place'));
+    } on DioException catch (e) {
       return Left(e);
     }
   }
@@ -48,52 +43,51 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, List<Booking>>> getPlaceBookings(
       {required int placeId}) async {
     try {
-      List<Booking> bookings = [];
       var response = await DioHelper.getData(
           path: "${EndPoints.getPlaceBookings}$placeId");
       if (response.statusCode == 200) {
-        bookings =
+        List<Booking> bookings =
             (response.data as List).map((e) => Booking.fromJson(e)).toList();
+        return Right(bookings);
       }
-      return Right(bookings);
-    } on Exception catch (e) {
+      return Left(Exception('Failed to fetch bookings'));
+    } on DioException catch (e) {
       return Left(e);
     }
   }
 
-  Future<Either<Exception, Unit>> addBooking(
-      {required Booking booking, required int placeId}) async {
+  Future<Either<Exception, Unit>> addBooking({
+    required Booking booking,
+    required int placeId,
+  }) async {
     try {
       await DioHelper.postData(
-          path: "${EndPoints.bookPlace}$placeId",
-          data: booking.toJson(
-              stadiumId: placeId, reservationPrice: booking.reservationPrice!));
+        path: "${EndPoints.bookPlace}$placeId",
+        data: booking.toJson(
+            stadiumId: placeId, reservationPrice: booking.reservationPrice!),
+      );
+      await PaymentService().pendWalletBalance(booking.reservationPrice!);
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
       return Left(e);
     }
-  }
-
-  Future<Either<Exception, Unit>> ratePlace(
-      {required AppFeedBack feedBack, required int placeId}) {
-    throw UnimplementedError();
   }
 
   Future<Either<Exception, List<AppFeedBack>>> getPlaceReviews(
       {required int placeId}) async {
     try {
-      List<AppFeedBack> appFeedBacks = [];
       var response = await DioHelper.getData(
-          path: EndPoints.getPlaceFeedbacks + placeId.toString(),
-          query: {"stadiumId": placeId});
+        path: EndPoints.getPlaceFeedbacks + placeId.toString(),
+        query: {"stadiumId": placeId},
+      );
       if (response.statusCode == 200) {
-        appFeedBacks = (response.data["reviews"] as List)
+        List<AppFeedBack> appFeedBacks = (response.data["reviews"] as List)
             .map((e) => AppFeedBack.fromJson(e))
             .toList();
-        print(appFeedBacks);
+        return Right(appFeedBacks);
       }
-      return Right(appFeedBacks);
-    } on Exception catch (e) {
+      return Left(Exception('Failed to fetch reviews'));
+    } on DioException catch (e) {
       return Left(e);
     }
   }
@@ -102,10 +96,11 @@ class PlacesRemoteDataSource {
       {required int placeId}) async {
     try {
       await DioHelper.postData(
-          path: "${EndPoints.addPlaceToFavourites}${ConstantsManager.userId}",
-          data: {"stadiumId": placeId});
+        path: "${EndPoints.addPlaceToFavourites}${ConstantsManager.userId}",
+        data: {"stadiumId": placeId},
+      );
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
       return Left(e);
     }
   }
@@ -114,11 +109,12 @@ class PlacesRemoteDataSource {
       {required int placeId}) async {
     try {
       await DioHelper.deleteData(
-          path:
-              "${EndPoints.deletePlaceFromFavourites}${ConstantsManager.userId}",
-          data: {"stadiumId": placeId});
+        path:
+            "${EndPoints.deletePlaceFromFavourites}${ConstantsManager.userId}",
+        data: {"stadiumId": placeId},
+      );
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
       return Left(e);
     }
   }
@@ -126,14 +122,12 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, Unit>> addOwnerFeedback(int playerId,
       {required AppFeedBack review}) async {
     try {
-      print("                             **************");
-      print(review.toJson(userType: "owner"));
       await DioHelper.postData(
-          data: review.toJson(userType: "owner"),
-          path: EndPoints.addOwnerFeedback + playerId.toString(), );
+        data: review.toJson(userType: "owner"),
+        path: EndPoints.addOwnerFeedback + playerId.toString(),
+      );
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.message);
       return Left(e);
     }
   }
@@ -142,11 +136,12 @@ class PlacesRemoteDataSource {
       {required AppFeedBack review}) async {
     try {
       await DioHelper.postData(
-          data: review.toJson(userType: "player"),
-          path: EndPoints.addPlaceFeedback + placeId.toString(),
-          query: {"stadiumId": placeId});
+        data: review.toJson(userType: "player"),
+        path: EndPoints.addPlaceFeedback + placeId.toString(),
+        query: {"stadiumId": placeId},
+      );
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
       return Left(e);
     }
   }

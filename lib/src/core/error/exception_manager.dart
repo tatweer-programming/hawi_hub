@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hawihub/src/core/error/user_access_error.dart';
 
 import '../utils/localization_manager.dart';
 
@@ -8,7 +9,12 @@ class ExceptionManager implements Exception {
   ExceptionManager(this.error);
 
   String translatedMessage() {
+    if (error is UserAccessException) {
+      UserAccessException userAccessException = error as UserAccessException;
+      return userAccessException.getErrorMessage();
+    }
     DioException err = error as DioException;
+
     if (LocalizationManager.getCurrentLocale().languageCode == "en") {
       print(
           "${err.message} ${err.response?.statusCode} - ${err.response?.statusMessage} ${err.response?.data}");

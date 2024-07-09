@@ -10,9 +10,10 @@ import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
+import 'package:hawihub/src/modules/places/data/proxy/data_source_proxy.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../main/view/widgets/components.dart';
@@ -99,16 +100,23 @@ class PlaceItem extends StatelessWidget {
                   builder: (context, state) {
                     return IconButton(
                         onPressed: () {
+                          // TODO: convert to Change Favorite Place status
                           if (ConstantsManager.userId == null) {
                             errorToast(msg: S.of(context).loginFirst);
                           } else {
                             if (ConstantsManager.appUser!.favoritePlaces
                                 .contains(place.id)) {
-                              PlaceBloc.get()
-                                  .add(DeletePlaceFromFavoriteEvent(place.id));
+                              UserAccessProxy(PlaceBloc.get(),
+                                      DeletePlaceFromFavoriteEvent(place.id))
+                                  .execute([
+                                AccessCheckType.login,
+                              ]);
                             } else {
-                              PlaceBloc.get()
-                                  .add(AddPlaceToFavoriteEvent(place.id));
+                              UserAccessProxy(PlaceBloc.get(),
+                                      AddPlaceToFavoriteEvent(place.id))
+                                  .execute([
+                                AccessCheckType.login,
+                              ]);
                             }
                           }
                         },
@@ -264,7 +272,7 @@ class FeedBackWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  feedBack.userName??"",
+                  feedBack.userName ?? "",
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: Colors.green,

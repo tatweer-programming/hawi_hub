@@ -1,11 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
-import 'package:hawihub/src/core/error/remote_error.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -15,16 +13,16 @@ import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/connectivity.dart';
-import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/main_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
 import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utils/styles_manager.dart';
 import '../../../../games/view/widgets/components.dart';
 import '../../../../games/view/widgets/shimmers/game_shimmers.dart';
-import '../../../../places/bloc/place__bloc.dart';
+import '../../../../places/bloc/place_bloc.dart';
 import '../../../../places/view/widgets/components.dart';
 
 class HomePage extends StatelessWidget {

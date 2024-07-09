@@ -1,6 +1,6 @@
 import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +19,12 @@ import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
-import 'package:hawihub/src/modules/places/bloc/place__bloc.dart';
+import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 Future<void> main() async {
   timeago.setLocaleMessages("ar", timeago.ArMessages());
@@ -89,9 +90,8 @@ class MyApp extends StatelessWidget {
         }));
   }
 }
-
-/*
-TODO:
-
-7. game players in owner app and notifications
- */
+/* TODO: what abdallah need to handle:
+    - handle wallet
+    - handle notification in background,
+    - add birthday to player,
+*/

@@ -1,10 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:equatable/equatable.dart';
-import 'package:hawihub/src/modules/games/data/data_source/games_remote_data_source.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
-
-import '../../../auth/data/models/player.dart';
 
 class Game extends Equatable {
   final int id;
@@ -114,5 +111,9 @@ class Game extends Equatable {
       players.add(GamePlayer.fromJson(playerJson));
     }
     return players;
+  }
+
+  double getHostAge() {
+    return 00;
   }
 }

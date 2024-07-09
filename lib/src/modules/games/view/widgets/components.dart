@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
@@ -11,12 +10,12 @@ import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
+import 'package:hawihub/src/modules/places/data/proxy/data_source_proxy.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/color_manager.dart';
-import '../../../auth/data/models/player.dart';
 import '../../data/models/player.dart';
 
 // Game game = Game(
@@ -200,7 +199,15 @@ class GameItem extends StatelessWidget {
                         if (isJoined) {
                           defaultToast(msg: S.of(context).alreadyJoined);
                         } else {
-                          GamesBloc.get().add(JoinGameEvent(gameId: game.id));
+                          UserAccessProxy(GamesBloc.get(),
+                                  JoinGameEvent(gameId: game.id),
+                                  requiredBalance: game.price / game.minPlayers,
+                                  requiredAgeRange: game.getHostAge())
+                              .execute([
+                            AccessCheckType.verification,
+                            AccessCheckType.balance,
+                            AccessCheckType.age,
+                          ]);
                         }
                       }
                     },
