@@ -194,20 +194,25 @@ class GameItem extends StatelessWidget {
                       if (ConstantsManager.userId == null) {
                         errorToast(msg: S.of(context).loginFirst);
                       } else {
-                        bool isJoined = game.players.any(
-                            (element) => element.id == ConstantsManager.userId);
+                        bool isJoined = game.players.any((element) =>
+                                element.id == ConstantsManager.userId) ||
+                            game.host.id == ConstantsManager.userId;
                         if (isJoined) {
                           defaultToast(msg: S.of(context).alreadyJoined);
                         } else {
-                          UserAccessProxy(GamesBloc.get(),
-                                  JoinGameEvent(gameId: game.id),
-                                  requiredBalance: game.price / game.minPlayers,
-                                  requiredAgeRange: game.getHostAge())
-                              .execute([
+                          UserAccessProxy(
+                            GamesBloc.get(),
+                            JoinGameEvent(gameId: game.id),
+                            requiredBalance: game.price / game.minPlayers,
+                            requiredAgeRange: game.getHostAge(),
+                          ).execute([
+                            AccessCheckType.login,
                             AccessCheckType.verification,
-                            AccessCheckType.balance,
                             AccessCheckType.age,
+                            AccessCheckType.balance
                           ]);
+                          // PaymentCubit paymentCubit = PaymentCubit.get();
+                          // paymentCubit.joinToGame(game.price);
                         }
                       }
                     },
