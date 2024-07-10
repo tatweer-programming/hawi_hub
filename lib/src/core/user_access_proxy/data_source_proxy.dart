@@ -3,7 +3,7 @@ import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/error/user_access_error.dart';
 
-import '../../../../core/utils/constance_manager.dart';
+import '../utils/constance_manager.dart';
 
 enum AccessCheckType {
   balance,
@@ -66,7 +66,10 @@ class UserAccessProxy {
   }
 
   bool _isBalanceEnough({required double price}) {
-    return ConstantsManager.appUser!.getAge() > requiredAgeRange!;
+    print(
+        "(((((((((((((((((((((((((((((((((((((((balance)))))))))))))))))))))))))))))))))))))))");
+    print(ConstantsManager.appUser!.myWallet.toString());
+    return ConstantsManager.appUser!.myWallet >= requiredBalance!;
   }
 
   bool _isAgeSuitable({required double ageRange}) {

@@ -68,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "conflictWithWorkingHours": MessageLookupByLibrary.simpleMessage(
+            "There is a conflict with working hours"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),

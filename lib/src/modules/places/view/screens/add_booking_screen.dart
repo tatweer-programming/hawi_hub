@@ -4,14 +4,12 @@ import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
-import 'package:hawihub/src/modules/places/data/models/day.dart';
-import 'package:hawihub/src/modules/places/data/proxy/data_source_proxy.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -76,6 +74,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         selectedDate.day, startTime.hour, startTime.minute);
     DateTime end = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, endTime.hour, endTime.minute);
+    print("start time: $start , \nend time:   $end");
     for (Booking booking in bookings) {
       // Check if the new booking overlaps with any existing booking
       if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
@@ -87,34 +86,25 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         return;
       }
     }
-    for (Day day in PlaceBloc.get().currentPlace!.workingHours ?? []) {
-      if (!day.isBookingAllowed(start, end)) {
-        errorToast(msg: S.of(context).bookingConflict);
-        return;
-      }
-    }
+    PlaceBloc.get().currentPlace!.isBookingAllowed(start, end);
     // Add the booking to the list (simulate the addition)
     setState(() {
       double reservationPrice = PlaceBloc.get().currentPlace!.price *
           (end.difference(start).inMinutes / 60);
-      if (ConstantsManager.appUser!.myWallet < reservationPrice) {
-        errorToast(msg: S.of(context).noEnoughBalance);
-      } else {
-        UserAccessProxy(
-          PlaceBloc.get(),
-          AddBookingEvent(
-            Booking(
-                startTime: start,
-                endTime: end,
-                reservationPrice: reservationPrice),
-            placeId: widget.placeId,
-          ),
-          requiredBalance: reservationPrice,
-        ).execute([
-          AccessCheckType.login,
-          AccessCheckType.balance,
-        ]);
-      }
+      UserAccessProxy(
+        PlaceBloc.get(),
+        AddBookingEvent(
+          Booking(
+              startTime: start,
+              endTime: end,
+              reservationPrice: reservationPrice),
+          placeId: widget.placeId,
+        ),
+        requiredBalance: 0,
+      ).execute([
+        AccessCheckType.login,
+        AccessCheckType.balance,
+      ]);
     });
   }
 

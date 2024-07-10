@@ -69,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة السر"),
+        "conflictWithWorkingHours": MessageLookupByLibrary.simpleMessage(
+            "الحجز يتعارض مع مواعيد عمل الملعب"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
         "date": MessageLookupByLibrary.simpleMessage("الموعد"),
         "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),

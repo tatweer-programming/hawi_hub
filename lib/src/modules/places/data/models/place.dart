@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/images_manager.dart';
-
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
@@ -97,7 +95,11 @@ class Place extends Equatable {
     // get day index
     // check if time is in working hours
     int dayIndex = getDayIndex(startTime);
-    return workingHours![dayIndex].isBookingAllowed(startTime, endTime);
+    int dayEndIndex = getDayIndex(endTime);
+    return workingHours![dayIndex].isBookingStartAllowed(
+          startTime,
+        ) &&
+        workingHours![dayEndIndex].isBookingEndAllowed(endTime);
   }
 
   int getDayIndex(DateTime startTime) {

@@ -6,6 +6,8 @@ import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 
 class GamesRemoteDataSource {
@@ -46,16 +48,24 @@ class GamesRemoteDataSource {
   }
 
   Future<Either<Exception, Unit>> joinGame(
-      {required int gameId, required double balance}) async {
+      {required  Game game, required double balance ,}) async {
     try {
       if (kDebugMode) {
         print(ConstantsManager.userId);
       }
       var response = await DioHelper.postData(
-          data: {"gameId": gameId},
+          data: {"gameId": game.id},
           path: "${EndPoints.joinGame}${ConstantsManager.userId}",
           query: {"id": ConstantsManager.userId});
       if (response.statusCode == 200) {
+        await NotificationServices().sendNotification(AppNotification(
+            title: "انضم ${ConstantsManager.appUser?.userName} الى حجزك",
+            body:
+            "انضم ${ConstantsManager.appUser?.userName} الى حجزك في  ${
+            game.placeName
+            }",
+            id: 1,
+            receiverId: game.host.id));
         return const Right(unit);
       }
       await PaymentService().pendWalletBalance(balance);

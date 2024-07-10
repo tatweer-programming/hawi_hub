@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -59,14 +61,16 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, Unit>> addBooking({
     required Booking booking,
     required int placeId,
+    required int ownerId
   }) async {
     try {
       await DioHelper.postData(
-        path: "${EndPoints.bookPlace}$placeId",
+        path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
         data: booking.toJson(
             stadiumId: placeId, reservationPrice: booking.reservationPrice!),
       );
       await PaymentService().pendWalletBalance(booking.reservationPrice!);
+      await _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);
     } on DioException catch (e) {
       return Left(e);
@@ -144,5 +148,19 @@ class PlacesRemoteDataSource {
     } on DioException catch (e) {
       return Left(e);
     }
+  }
+
+  Future _sendNotificationToOwner(int ownerId, int placeId) async {
+    AppNotification notification = AppNotification(
+       image: ConstantsManager.appUser!.profilePictureUrl ,
+      body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
+      receiverId:  ownerId,
+      title: "طلب حجز ملعب" ,
+      dateTime: DateTime.now(),
+      id: 0
+    );
+  await  NotificationServices().sendNotification(
+      notification
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -112,6 +114,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       AddBookingEvent event, Emitter<PlaceState> emit) async {
     emit(SendBookingRequestLoading());
     var result = await placesRemoteDataSource.addBooking(
+      ownerId: allPlaces.firstWhere((e) => e.id == event.placeId).ownerId,
       booking: event.booking,
       placeId: event.placeId,
     );

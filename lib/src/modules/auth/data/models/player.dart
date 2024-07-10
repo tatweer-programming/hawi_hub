@@ -41,7 +41,7 @@ class Player extends User {
       bookings: json['numberOfBookings'],
       userName: json['userName'],
       email: json['email'],
-      birthDate: DateTime.parse(json['birthDate']),
+      birthDate: DateTime.parse(json['birthDate'] ?? DateTime.now().toString()),
       approvalStatus: json['approvalStatus'],
       myWallet: json['wallet'].toDouble(),
       rate: json["rate"].toDouble(),

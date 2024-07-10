@@ -151,5 +151,7 @@
   "play": "لعب",
   "addFeedback": "إضافة تقييم",
   "rates": "التقيمات",
-  "more": "المزيد"
+  "more": "المزيد",
+  "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب"
+
 }

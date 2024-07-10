@@ -53,7 +53,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         double balance = _getBalance(event.gameId);
         emit(JoinGameLoading());
         var result = await remoteDataSource.joinGame(
-            gameId: event.gameId, balance: balance);
+            game: games.firstWhere((e) => e.id == event.gameId), balance: balance);
         result.fold((l) {
           emit(JoinGameError(l));
         }, (r) async {
@@ -62,15 +62,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
               .players
               .add(GamePlayer.currentPlayer());
           emit(const JoinGameSuccess());
-          await NotificationServices().sendNotification(AppNotification(
-              title: "${ConstantsManager.appUser?.userName} joined your game",
-              body:
-                  "${ConstantsManager.appUser?.userName} joined your game in ${games.firstWhere((element) => element.id == event.gameId).placeName}",
-              id: 1,
-              receiverId: games
-                  .firstWhere((element) => element.id == event.gameId)
-                  .host
-                  .id));
+
         });
       }
       if (event is ChangeGameAccessEvent) {

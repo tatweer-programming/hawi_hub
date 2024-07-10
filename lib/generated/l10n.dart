@@ -1579,6 +1579,16 @@ class S {
       args: [],
     );
   }
+
+  /// `There is a conflict with working hours`
+  String get conflictWithWorkingHours {
+    return Intl.message(
+      'There is a conflict with working hours',
+      name: 'conflictWithWorkingHours',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

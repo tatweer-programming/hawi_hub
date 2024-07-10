@@ -12,7 +12,6 @@ import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
-import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -87,7 +86,7 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
       return true;
     }
 
-    if (start.isBefore(now.add(Duration(hours: 1)))) {
+    if (start.isBefore(now.add(const Duration(hours: 2)))) {
       errorToast(msg: S.of(context).startTimeTooSoon);
       return true;
     }
@@ -107,17 +106,12 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
       }
     }
 
-    for (Day day in PlaceBloc.get()
-            .allPlaces
-            .firstWhere((e) => e.id == widget.placeId)
-            .workingHours ??
-        []) {
-      if (!day.isBookingAllowed(start, end)) {
-        errorToast(msg: S.of(context).bookingConflict);
-        return true;
-      }
-    }
-
+    PlaceBloc.get()
+        .allPlaces
+        .firstWhere(
+          (element) => element.id == widget.placeId,
+        )
+        .isBookingAllowed(start, end);
     return false;
   }
 

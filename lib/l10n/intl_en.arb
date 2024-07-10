@@ -151,5 +151,6 @@
   "play": "play",
   "rates": "Rates",
   "addFeedback": "Add Feedback",
-  "more": "More"
+  "more": "More",
+  "conflictWithWorkingHours" : "There is a conflict with working hours"
 }

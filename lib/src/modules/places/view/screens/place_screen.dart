@@ -437,7 +437,8 @@ class PlaceScreen extends StatelessWidget {
         SizedBox(
           height: 2.h,
         ),
-        if (ConstantsManager.appUser!.stadiumReservation.contains(placeId))
+        if (ConstantsManager.appUser != null &&
+            ConstantsManager.appUser!.stadiumReservation.contains(placeId))
           defaultButton(
               onPressed: () {
                 context.pushWithTransition(AddFeedbackForClub(
