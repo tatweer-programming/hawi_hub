@@ -47,8 +47,10 @@ class GamesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> joinGame(
-      {required  Game game, required double balance ,}) async {
+  Future<Either<Exception, Unit>> joinGame({
+    required Game game,
+    required double balance,
+  }) async {
     try {
       if (kDebugMode) {
         print(ConstantsManager.userId);
@@ -61,14 +63,12 @@ class GamesRemoteDataSource {
         await NotificationServices().sendNotification(AppNotification(
             title: "انضم ${ConstantsManager.appUser?.userName} الى حجزك",
             body:
-            "انضم ${ConstantsManager.appUser?.userName} الى حجزك في  ${
-            game.placeName
-            }",
+                "انضم ${ConstantsManager.appUser?.userName} الى حجزك في  ${game.placeName}",
             id: 1,
             receiverId: game.host.id));
+        await PaymentService().pendWalletBalance(balance);
         return const Right(unit);
       }
-      await PaymentService().pendWalletBalance(balance);
       return const Right(unit);
     } on Exception catch (e) {
       DioException dioException = e as DioException;

@@ -139,7 +139,7 @@ class GameDetailsScreen extends StatelessWidget {
                                   ),
                                   child: FloatingActionButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      context.pop();
                                     },
                                     mini: true,
                                     child: const Icon(Icons.arrow_back_ios),

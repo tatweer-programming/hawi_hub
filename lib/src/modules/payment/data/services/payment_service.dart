@@ -53,15 +53,8 @@ class PaymentService {
 
   Future<Either<String, String>> pendWalletBalance(double pendingWallet) async {
     try {
-      await DioHelper.postData(
-        path: "/Player/${ConstantsManager.userId}",
-        data: {
-          "pendingWallet": pendingWallet,
-        },
-      ).then((value) async {
-        await _updateWallet(ConstantsManager.appUser!.myWallet - pendingWallet);
-        await _updatePendingWallet(pendingWallet);
-      });
+      await _updateWallet(ConstantsManager.appUser!.myWallet - pendingWallet);
+      await _updatePendingWallet(pendingWallet);
       return const Right("Your balance has been successfully suspended");
     } on DioException catch (e) {
       print(e.response.toString());
@@ -71,6 +64,7 @@ class PaymentService {
 
   Future<String> _updateWallet(double amount) async {
     try {
+      ConstantsManager.appUser!.myWallet = amount;
       Response response = await DioHelper.postData(
         path: EndPoints.updateWallet + ConstantsManager.userId.toString(),
         data: {

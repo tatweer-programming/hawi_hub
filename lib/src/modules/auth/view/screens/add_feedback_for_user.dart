@@ -9,6 +9,7 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
+import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
@@ -90,7 +91,8 @@ class AddFeedbackForUser extends StatelessWidget {
                       }
                     },
                     builder: (context, state) {
-                      return defaultButton(
+                      return DefaultButton(
+                        isLoading: state is AddOwnerFeedbackLoading,
                         onPressed: () {
                           UserAccessProxy(
                                   bloc,
@@ -103,7 +105,6 @@ class AddFeedbackForUser extends StatelessWidget {
                               .execute([AccessCheckType.login]);
                         },
                         text: S.of(context).send,
-                        fontSize: 18.sp,
                       );
                     },
                   ),

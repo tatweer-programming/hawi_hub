@@ -114,6 +114,6 @@ class Game extends Equatable {
   }
 
   double getHostAge() {
-    return 00;
+    return 20;
   }
 }

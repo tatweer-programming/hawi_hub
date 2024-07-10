@@ -8,7 +8,7 @@ class LastMessage extends Equatable {
   final String? messageContent;
   final String? messageAttachmentUrl;
   final bool? playerToOwner;
-  final String? timestamp;
+  final DateTime? timestamp;
   final OwnerChat owner;
 
   const LastMessage({
@@ -26,7 +26,7 @@ class LastMessage extends Equatable {
       messageContent: json["messageContent"],
       messageAttachmentUrl: json["messageAttachmentUrl"],
       playerToOwner: json["playerToOwner"],
-      timestamp: json["timestamp"],
+      timestamp: DateTime.parse(json["timestamp"]),
       owner: OwnerChat.fromJson(json["owner"]),
     );
   }

@@ -8,6 +8,7 @@ import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/message.dart';
 import 'package:hawihub/src/modules/chat/view/components.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/styles_manager.dart';
 import '../../../auth/view/widgets/widgets.dart';
@@ -86,7 +87,8 @@ class ChatScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     String formattedDate = '';
                     if (messages[index].timeStamp != null) {
-                      formattedDate = utcToLocal(messages[index].timeStamp!);
+                      formattedDate = DateFormat('hh:mm a')
+                          .format(messages[index].timeStamp!);
                     }
                     bool? isOwner = messages[index].isOwner;
                     return Padding(
@@ -136,9 +138,7 @@ class ChatScreen extends StatelessWidget {
                           conversationId: chat!.conversationId,
                           attachmentUrl: imagePath,
                           isOwner: false,
-                          timeStamp: DateTime.now()
-                              .add(const Duration(hours: -3))
-                              .toString(),
+                          timeStamp: DateTime.now(),
                         ),
                       ));
                     }

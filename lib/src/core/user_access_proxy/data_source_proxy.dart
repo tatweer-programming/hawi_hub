@@ -73,7 +73,8 @@ class UserAccessProxy {
   }
 
   bool _isAgeSuitable({required double ageRange}) {
-    double userAge = ConstantsManager.appUser!.getAge();
+    int userAge = ConstantsManager.appUser!.getAge();
+    print(userAge);
     double minAge = ageRange - 3;
     double maxAge = ageRange + 3;
     return userAge >= minAge && userAge <= maxAge;

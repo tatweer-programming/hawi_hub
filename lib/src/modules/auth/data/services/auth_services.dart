@@ -267,7 +267,7 @@ class AuthService {
       );
       if (userType == "Player") {
         Player player = Player.fromJson(response.data);
-        var res = await geFeedBacks(id);
+        var res = await getFeedBacks(id,false);
         res.fold((l) => print(l), (r) => player.feedbacks = r);
         if (ConstantsManager.userId == id) {
           ConstantsManager.appUser = player;
@@ -275,7 +275,7 @@ class AuthService {
         return Right(player);
       } else {
         Owner owner = Owner.fromJson(response.data);
-        var res = await geFeedBacks(id);
+        var res = await getFeedBacks(id,true);
         res.fold((l) => print(l), (r) => owner.feedbacks = r);
         return Right(owner);
       }
@@ -299,10 +299,10 @@ class AuthService {
     }
   }
 
-  Future<Either<String, List<AppFeedBack>>> geFeedBacks(int id) async {
+  Future<Either<String, List<AppFeedBack>>> getFeedBacks(int id,bool isOwner) async {
     try {
       Response response = await DioHelper.getData(
-        path: "${EndPoints.getFeedbacks}$id",
+        path: "${isOwner ? EndPoints.getOwnerFeedbacks : EndPoints.getPlayerFeedbacks}$id",
       );
       List<AppFeedBack> feedBacks = [];
       for (var category in response.data["reviews"]) {

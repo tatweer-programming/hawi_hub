@@ -8,6 +8,7 @@ import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
 import 'package:hawihub/src/modules/chat/view/components.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/utils/color_manager.dart';
@@ -109,7 +110,7 @@ Widget _appBar(
 Widget _chatWidget(
     {required LastMessage lastMessage, required VoidCallback onTap}) {
   String formattedDate =
-      utcToLocal(lastMessage.timestamp ?? "${DateTime.now()}");
+  DateFormat('hh:mm a').format(lastMessage.timestamp??DateTime.now());
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 7.w,

@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
       if (state is UploadNationalIdSuccessState) {
         context.pop();
         bloc.add(GetProfileEvent(id, userType));
-        errorToast(msg: S.of(context).idCardUploaded);
+        defaultToast(msg: S.of(context).idCardUploaded);
         context.pop();
       } else if (state is UploadNationalIdErrorState) {
         context.pop();
@@ -443,7 +443,7 @@ Widget _verified({
     SizedBox(
       height: 2.h,
     ),
-    if (ConstantsManager.appUser!.playerReservation.contains(user.id))
+    if (ConstantsManager.appUser!.ownerReservatation.contains(user.id))
       defaultButton(
           onPressed: () {
             context.pushWithTransition(

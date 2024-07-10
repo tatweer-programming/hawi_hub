@@ -90,7 +90,7 @@ class AddFeedbackForClub extends StatelessWidget {
                     }
                   }, builder: (context, state) {
                     return _rateBuilder(
-                      rate: S.of(context).ownerRate,
+                      rate: S.of(context).clubRate,
                       onRatingUpdate: (rating) {
                         UserAccessProxy(bloc, AddRatingEvent(rating))
                             .execute([AccessCheckType.login]);

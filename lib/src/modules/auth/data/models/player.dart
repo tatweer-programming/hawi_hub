@@ -6,12 +6,12 @@ class Player extends User {
   final int games;
   final int bookings;
   final String email;
-  final double myWallet;
+  double myWallet;
   final DateTime birthDate;
   File? profilePictureFile;
   List<int> favoritePlaces;
   final List<int> stadiumReservation;
-  final List<int> playerReservation;
+  final List<int> ownerReservatation;
 
   Player({
     required this.bookings,
@@ -19,7 +19,7 @@ class Player extends User {
     required this.birthDate,
     required this.email,
     required this.stadiumReservation,
-    required this.playerReservation,
+    required this.ownerReservatation,
     this.profilePictureFile,
     required this.myWallet,
     this.favoritePlaces = const [],
@@ -48,7 +48,7 @@ class Player extends User {
       feedbacks: [],
       favoritePlaces: List.from(json['favoriteStadiums'] ?? []),
       stadiumReservation: List.from(json['stadiumReservatation'] ?? []),
-      playerReservation: List.from(json['playerReservatation'] ?? []),
+      ownerReservatation: List.from(json['ownerReservatation'] ?? []),
     );
   }
 
@@ -56,8 +56,8 @@ class Player extends User {
     return approvalStatus == 1;
   }
 
-  double getAge() {
-    double age = birthDate.difference(DateTime.now()).inDays / 365;
+  int getAge() {
+    int age = (DateTime.now().difference(birthDate).inDays / 365).ceil();
     return age;
   }
 }
