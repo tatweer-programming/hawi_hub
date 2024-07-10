@@ -26,7 +26,7 @@ class LastMessage extends Equatable {
       messageContent: json["messageContent"],
       messageAttachmentUrl: json["messageAttachmentUrl"],
       playerToOwner: json["playerToOwner"],
-      timestamp: DateTime.parse(json["timestamp"]),
+      timestamp: DateTime.parse(json["timestamp"]??DateTime.now().toString()),
       owner: OwnerChat.fromJson(json["owner"]),
     );
   }
