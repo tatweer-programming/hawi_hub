@@ -15,7 +15,7 @@ class RegisterSuccessState extends AuthState {
 }
 
 class RegisterErrorState extends AuthState {
-  final Exception error;
+  final String error;
 
   RegisterErrorState(this.error);
 }
@@ -211,3 +211,12 @@ class SelectSportState extends AuthState {
 
   SelectSportState({required this.sports});
 }
+
+// accept confirm terms
+class KeepMeLoggedInState extends AuthState {
+  final bool keepMeLoggedIn;
+
+  KeepMeLoggedInState(this.keepMeLoggedIn);
+}
+
+class ShowBirthDateDialogState extends AuthState {}

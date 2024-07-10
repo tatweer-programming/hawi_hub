@@ -113,7 +113,7 @@
   "logout": "Logout",
   "share": "Share",
   "commonQuestions": "Common Questions",
-  "addRequiredPdf": "Please add what is required below from the file",
+  "addIdCard": "Please add an identification card",
   "passMustContainLetter": "Password must contain at least one letter",
   "passMustContainLowerCase": "Password must contain at least one lowercase letter",
   "passMustContainUpperCase": "Password must contain at least one uppercase letter",
@@ -151,5 +151,12 @@
   "play": "play",
   "rates": "Rates",
   "addFeedback": "Add Feedback",
+  "letsGetPlaying": "Let's get playing!",
+  "getStarted": "Get your Squad to play together!",
+  "bookVenuesToPlay": "Book Venues to Play with Friends",
+  "readySteadyGo": "READY , SET , GO",
+  "idCardUploaded": "The attachment has been uploaded and will be reviewed",
+  "kwd": "KWD",
+  "birthDate": "BirthDate",
   "more": "More"
 }

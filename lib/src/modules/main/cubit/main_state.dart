@@ -8,6 +8,7 @@ final class MainInitial extends MainState {
   @override
   List<Object> get props => [];
 }
+
 class MainError extends MainState {
   final Exception exception;
 
@@ -45,6 +46,11 @@ class ShowDialogState extends MainState {
   List<Object> get props => [];
 }
 
+class ChangeLocaleLoading extends MainState {
+  @override
+  List<Object> get props => [];
+}
+
 class GetBannersSuccess extends MainState {
   final List<String> banners;
 
@@ -54,7 +60,7 @@ class GetBannersSuccess extends MainState {
   List<Object> get props => [];
 }
 
-class GetBannersError extends MainError  {
+class GetBannersError extends MainError {
   const GetBannersError(super.exception);
 
   @override
@@ -75,7 +81,7 @@ class GetSportsSuccess extends MainState {
   List<Object> get props => [];
 }
 
-class GetSportsError extends MainError  {
+class GetSportsError extends MainError {
   const GetSportsError(super.exception);
 
   @override
@@ -99,6 +105,7 @@ class SelectCityState extends MainState {
   @override
   List<Object> get props => [id];
 }
+
 class GetNotificationsLoading extends MainState {
   @override
   List<Object> get props => [];
@@ -113,7 +120,7 @@ class GetNotificationsSuccess extends MainState {
   List<Object> get props => [];
 }
 
-class GetNotificationsError extends MainError  {
+class GetNotificationsError extends MainError {
   const GetNotificationsError(super.exception);
 
   @override

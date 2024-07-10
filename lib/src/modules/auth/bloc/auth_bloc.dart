@@ -169,6 +169,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           emit(AcceptConfirmTermsState(true));
         }
+      } else if (event is KeepMeLoggedInEvent) {
+        if (event.keepMeLoggedIn) {
+          emit(KeepMeLoggedInState(false));
+        } else {
+          emit(KeepMeLoggedInState(true));
+        }
       } else if (event is ChangePasswordVisibilityEvent) {
         if (event.visible) {
           emit(ChangePasswordVisibilityState(false));
@@ -177,6 +183,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } else if (event is StartResendCodeTimerEvent) {
         _startResendCodeTimer(event.timeToResendCode);
+      }else if (event is ShowDialogEvent) {
+        emit(ShowBirthDateDialogState());
       } else if (event is ResetCodeTimerEvent) {
         timeToResendCodeTimer?.cancel();
         emit(ResetCodeTimerState(time: 0));
@@ -201,10 +209,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }, (r) {
           emit(GetSportsSuccessState(r));
         });
-      } else if (event is OpenPdfEvent) {
-        File pdfFile = await _loadPdfFromAssets();
-        OpenFile.open(pdfFile.path);
-        emit(OpenPdfState());
       } else if (event is AddImageEvent) {
         await _captureAndSaveGalleryImage().then((imagePicked) {
           emit(AddImageSuccessState(imagePicked: imagePicked!));
@@ -238,22 +242,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return image;
     } else {
       return null;
-    }
-  }
-
-  Future<File> _loadPdfFromAssets() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      status = await Permission.storage.request();
-    }
-    if (status.isGranted) {
-      final byteData = await rootBundle.load('assets/pdfs/Requirements.pdf');
-      final file =
-          File('${(await getTemporaryDirectory()).path}/Requirements.pdf');
-      await file.writeAsBytes(byteData.buffer.asUint8List());
-      return file;
-    } else {
-      throw Exception('Storage permission not granted');
     }
   }
 

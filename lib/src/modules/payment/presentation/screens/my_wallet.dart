@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
@@ -13,8 +14,9 @@ import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
 
 class MyWallet extends StatelessWidget {
-
-  const MyWallet({super.key,});
+  const MyWallet({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +66,11 @@ class MyWallet extends StatelessWidget {
                 if (ConstantsManager.userId == player.id)
                   BlocBuilder<PaymentCubit, PaymentState>(
                     builder: (context, state) {
+                      if (state is GetPaymentStatusSuccessState) {
+                        AuthBloc bloc = AuthBloc.get(context);
+                        bloc.add(GetProfileEvent(
+                            ConstantsManager.userId!, "Player"));
+                      }
                       return walletWidget(() {
                         showDialog(
                           context: context,

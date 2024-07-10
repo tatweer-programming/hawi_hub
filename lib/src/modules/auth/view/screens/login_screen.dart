@@ -9,6 +9,7 @@ import 'package:hawihub/src/modules/auth/view/screens/register_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../bloc/auth_bloc.dart';
 import '../widgets/widgets.dart';
@@ -23,17 +24,26 @@ class LoginScreen extends StatelessWidget {
     AuthBloc bloc = AuthBloc.get(context);
     MainCubit mainCubit = MainCubit.get();
     bool visible = false;
+    bool keepMeLoggedIn = false;
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is ChangePasswordVisibilityState) {
           visible = state.visible;
+        } else if (state is KeepMeLoggedInState) {
+          keepMeLoggedIn = state.keepMeLoggedIn;
         }
         if (state is LoginSuccessState && ConstantsManager.userId != null) {
           bloc.add(PlaySoundEvent("audios/start.wav"));
           defaultToast(msg: handleResponseTranslation(state.value, context));
           context.pushAndRemove(Routes.home);
+          if (keepMeLoggedIn) {
+            await CacheHelper.saveData(
+                key: 'userId', value: ConstantsManager.userId);
+          } else {
+            await CacheHelper.removeData(key: "userId");
+          }
         } else if (state is LoginErrorState) {
           errorToast(msg: handleResponseTranslation(state.error, context));
         }
@@ -128,8 +138,24 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              S.of(context).keepMeLoggedIn,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        bloc.add(KeepMeLoggedInEvent(
+                                            keepMeLoggedIn));
+                                      },
+                                      icon: Icon(keepMeLoggedIn
+                                          ? Icons.check_box
+                                          : Icons.check_box_outline_blank)),
+                                  Expanded(
+                                    child: Text(
+                                      S.of(context).keepMeLoggedIn,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             TextButton(
                               onPressed: () {
@@ -140,7 +166,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 S.of(context).forgotPassword,
                                 style:
-                                    const TextStyle(color: ColorManager.black),
+                                const TextStyle(color: ColorManager.black),
                               ),
                             ),
                           ],

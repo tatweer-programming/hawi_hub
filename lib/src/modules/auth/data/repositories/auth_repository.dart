@@ -33,7 +33,7 @@ class AuthRepository {
     return await _service.signupWithFacebook();
   }
 
-  Future<Either<Exception, String>> registerPlayer({
+  Future<Either<String, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     return _service.registerPlayer(
