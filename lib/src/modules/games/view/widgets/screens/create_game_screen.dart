@@ -349,18 +349,17 @@ class CreateGameScreen extends StatelessWidget {
                             bloc.selectedStadiumId != null &&
                             bloc.booking != null) {
                           UserAccessProxy(
-                              bloc,
-                              CreateGameEvent(
-                                minPlayers:
-                                    int.parse(minPlayersController.text),
-                                maxPlayers:
-                                    int.parse(maxPlayersController.text),
-                              )).execute(
+                            bloc,
+                            CreateGameEvent(
+                              minPlayers: int.parse(minPlayersController.text),
+                              maxPlayers: int.parse(maxPlayersController.text),
+                            ),
+                            requiredBalance: bloc.booking!.reservationPrice,
+                          ).execute(
                             [
                               AccessCheckType.login,
                               AccessCheckType.balance,
                               AccessCheckType.verification,
-                              AccessCheckType.age
                             ],
                           );
                         } else {

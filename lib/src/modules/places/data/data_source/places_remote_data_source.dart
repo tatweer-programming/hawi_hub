@@ -5,10 +5,10 @@ import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
-import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
+import '../../../payment/data/services/payment_service.dart';
 import '../models/place.dart';
 
 class PlacesRemoteDataSource {
@@ -25,7 +25,11 @@ class PlacesRemoteDataSource {
         return Right(places);
       }
       return Left(Exception('Failed to fetch places'));
-    } on DioException catch (e) {
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -37,7 +41,11 @@ class PlacesRemoteDataSource {
         return Right(Place.fromJson(response.data));
       }
       return Left(Exception('Failed to fetch place'));
-    } on DioException catch (e) {
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -54,15 +62,24 @@ class PlacesRemoteDataSource {
       }
       return Left(Exception('Failed to fetch bookings'));
     } on DioException catch (e) {
+      DioException dioException = e;
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(dioException);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
 
-  Future<Either<Exception, Unit>> addBooking({
-    required Booking booking,
-    required int placeId,
-    required int ownerId
-  }) async {
+  Future<Either<Exception, Unit>> addBooking(
+      {required Booking booking,
+      required int placeId,
+      required int ownerId}) async {
     try {
       await DioHelper.postData(
         path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
@@ -73,6 +90,15 @@ class PlacesRemoteDataSource {
       await _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -92,6 +118,15 @@ class PlacesRemoteDataSource {
       }
       return Left(Exception('Failed to fetch reviews'));
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -105,6 +140,15 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -119,6 +163,15 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -132,6 +185,15 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -146,21 +208,27 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
+      print(e.response!.data.toString() +
+          "    " +
+          e.response!.statusCode.toString());
+      return Left(e);
+    } on Exception catch (e) {
+      DioException dioException = e as DioException;
+      print(dioException.response!.data.toString() +
+          "    " +
+          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
 
   Future _sendNotificationToOwner(int ownerId, int placeId) async {
     AppNotification notification = AppNotification(
-       image: ConstantsManager.appUser!.profilePictureUrl ,
-      body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
-      receiverId:  ownerId,
-      title: "طلب حجز ملعب" ,
-      dateTime: DateTime.now(),
-      id: 0
-    );
-  await  NotificationServices().sendNotification(
-      notification
-    );
+        image: ConstantsManager.appUser!.profilePictureUrl,
+        body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
+        receiverId: ownerId,
+        title: "طلب حجز ملعب",
+        dateTime: DateTime.now(),
+        id: 0);
+    await NotificationServices().sendNotification(notification);
   }
 }

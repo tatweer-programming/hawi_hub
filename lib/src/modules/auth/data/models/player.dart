@@ -41,7 +41,7 @@ class Player extends User {
       bookings: json['numberOfBookings'],
       userName: json['userName'],
       email: json['email'],
-      birthDate: DateTime.parse(json['birthDate'] ?? DateTime.now().toString()),
+      birthDate: DateTime.parse(json['birthDate']),
       approvalStatus: json['approvalStatus'],
       myWallet: json['wallet'].toDouble(),
       rate: json["rate"].toDouble(),
@@ -57,7 +57,7 @@ class Player extends User {
   }
 
   double getAge() {
-    //TODO: calculate age
-    return 0;
+    double age = birthDate.difference(DateTime.now()).inDays / 365;
+    return age;
   }
 }

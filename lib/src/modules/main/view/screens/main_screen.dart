@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
-import 'package:hawihub/src/modules/places/data/models/place.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -12,26 +12,24 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainCubit mainCubit = MainCubit.get();
-    if (ConstantsManager.userId != null) {
-      AuthBloc.get(context).add(GetProfileEvent(ConstantsManager.userId!,"Player"));
-    }
+    UserAccessProxy(AuthBloc.get(context),
+            GetProfileEvent(ConstantsManager.userId!, "Player"))
+        .execute([AccessCheckType.login]);
     return Scaffold(
       bottomNavigationBar: const CustomBottomNavigationBar(),
       body: BlocBuilder<MainCubit, MainState>(
         bloc: mainCubit,
         builder: (context, state) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                mainCubit.pages[mainCubit.currentIndex],
-                // Center(
-                //   child: Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: PlaceItem(
-                //         place: place,
-                //       )),
-                // ),
-              ],
+          return RefreshIndicator(
+            onRefresh: () async {
+              mainCubit.initializeHomePage(refresh: true);
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  mainCubit.pages[mainCubit.currentIndex],
+                ],
+              ),
             ),
           );
         },

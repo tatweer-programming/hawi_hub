@@ -6,7 +6,8 @@ abstract class GamesEvent extends Equatable {
 
 class GetGamesEvent extends GamesEvent {
   final int cityId;
-  const GetGamesEvent(this.cityId);
+  final bool refresh;
+  const GetGamesEvent(this.cityId, {this.refresh = false});
   @override
   List<Object> get props => [];
 }
@@ -46,7 +47,7 @@ class CreateGameEvent extends GamesEvent {
 
 class SelectSportEvent extends GamesEvent {
   final int sportId;
-  const SelectSportEvent( this.sportId);
+  const SelectSportEvent(this.sportId);
   @override
   List<Object> get props => [sportId];
 }

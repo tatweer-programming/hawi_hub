@@ -11,7 +11,6 @@ import 'package:hawihub/src/core/utils/font_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/view/screens/add_feedback_for_club.dart';
-import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -35,6 +34,7 @@ class PlaceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     PlaceBloc cubit = PlaceBloc.get();
     Place place = cubit.currentPlace!;
+    print("place id: ${ConstantsManager.userId}");
 
     return Scaffold(
         body: Column(
@@ -439,14 +439,33 @@ class PlaceScreen extends StatelessWidget {
         ),
         if (ConstantsManager.appUser != null &&
             ConstantsManager.appUser!.stadiumReservation.contains(placeId))
-          defaultButton(
-              onPressed: () {
-                context.pushWithTransition(AddFeedbackForClub(
-                  place: place,
-                ));
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 5.w,
+            ),
+            child: BlocListener<PlaceBloc, PlaceState>(
+              bloc: PlaceBloc.get(),
+              listener: (context, state) {
+                if (state is AddPlaceFeedbackError) {
+                  errorToast(
+                      msg: ExceptionManager(state.exception)
+                          .translatedMessage());
+                }
+                if (state is AddPlaceFeedbackSuccess) {
+                  defaultToast(msg: S.of(context).saved);
+                }
               },
-              text: S.of(context).addFeedback,
-              fontSize: 17.sp),
+              child: DefaultButton(
+                isLoading: PlaceBloc.get().state is AddPlaceFeedbackLoading,
+                onPressed: () {
+                  context.pushWithTransition(AddFeedbackForClub(
+                    place: place,
+                  ));
+                },
+                text: S.of(context).addFeedback,
+              ),
+            ),
+          ),
         SizedBox(
           height: 2.h,
         ),

@@ -34,7 +34,7 @@ class AppFeedBack extends Equatable {
   Map<String, dynamic> toJson({required String userType}) {
     return {
       '${userType}Id': userId,
-      'comment': comment,
+      'comment': comment ?? "",
       'rate': rating,
     };
   }
@@ -52,7 +52,6 @@ class AppFeedBack extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        id,
-      ];
+  List<Object?> get props =>
+      [id, userId, comment, userName, userImageUrl, rating];
 }

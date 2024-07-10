@@ -86,8 +86,10 @@ class MainCubit extends Cubit<MainState> {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
     emit(SelectCityState(cityId));
-    placeBloc.add(GetAllPlacesEvent(cityId));
-    gamesBloc.add(GetGamesEvent(cityId));
+    placeBloc.add(
+      GetAllPlacesEvent(cityId, refresh: true),
+    );
+    gamesBloc.add(GetGamesEvent(cityId, refresh: true));
   }
 
   void selectSport(String sport) {
@@ -131,13 +133,13 @@ class MainCubit extends Cubit<MainState> {
     emit(ChangeLocaleState(index));
   }
 
-  Future initializeHomePage() async {
+  Future initializeHomePage({bool refresh = false}) async {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
 
     await getCurrentCity().then((value) async {
-      gamesBloc.add(GetGamesEvent(currentCityId!));
-      placeBloc.add(GetAllPlacesEvent(currentCityId!));
+      gamesBloc.add(GetGamesEvent(currentCityId!, refresh: refresh));
+      placeBloc.add(GetAllPlacesEvent(currentCityId!, refresh: refresh));
     });
     await getBanner();
     await getSports();

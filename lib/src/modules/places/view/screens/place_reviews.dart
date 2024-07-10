@@ -65,6 +65,7 @@ class PlaceFeedbacksScreen extends StatelessWidget {
                             .translatedMessage());
                   }
                   if (state is GetPlaceReviewsSuccess) {
+                    feedbacks.clear();
                     feedbacks = state.feedBacks;
                   }
                 },
@@ -82,7 +83,12 @@ class PlaceFeedbacksScreen extends StatelessWidget {
                                       child:
                                           SubTitle(S.of(context).noFeedbacks)),
                                 )
-                              : ListView.builder(
+                              : ListView.separated(
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: 2.h,
+                                    );
+                                  },
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: feedbacks.length,

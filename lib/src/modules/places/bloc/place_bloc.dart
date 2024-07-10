@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
-import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
-import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
@@ -51,17 +47,19 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
 
   Future<void> _handleGetAllPlacesEvent(
       GetAllPlacesEvent event, Emitter<PlaceState> emit) async {
-    emit(GetAllPlacesLoading());
-    var result =
-        await placesRemoteDataSource.getAllPlaces(cityId: event.cityId);
-    result.fold(
-      (error) => emit(GetAllPlacesError(error)),
-      (places) {
-        allPlaces = places;
-        viewedPlaces = places;
-        emit(GetAllPlacesSuccess(places));
-      },
-    );
+    if (allPlaces.isEmpty || event.refresh) {
+      emit(GetAllPlacesLoading());
+      var result =
+          await placesRemoteDataSource.getAllPlaces(cityId: event.cityId);
+      result.fold(
+        (error) => emit(GetAllPlacesError(error)),
+        (places) {
+          allPlaces = places;
+          viewedPlaces = places;
+          emit(GetAllPlacesSuccess(places));
+        },
+      );
+    }
   }
 
   Future<void> _handleGetPlaceEvent(
@@ -95,7 +93,9 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         await placesRemoteDataSource.getPlaceReviews(placeId: event.placeId);
     result.fold(
       (error) => emit(GetPlaceReviewsError(error)),
-      (reviews) => emit(GetPlaceReviewsSuccess(reviews)),
+      (reviews) {
+        emit(GetPlaceReviewsSuccess(reviews));
+      },
     );
   }
 
@@ -122,16 +122,6 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       (error) => emit(SendBookingRequestError(error)),
       (_) {
         emit(SendBookingRequestSuccess());
-        NotificationServices().sendNotification(
-          AppNotification(
-            title: "Booking Request",
-            body:
-                "You have a booking request from ${ConstantsManager.appUser!.userName}",
-            receiverId: currentPlace!.ownerId,
-            id: 1,
-            image: ConstantsManager.appUser!.profilePictureUrl,
-          ),
-        );
       },
     );
   }

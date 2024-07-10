@@ -5,7 +5,6 @@ import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
-import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -139,18 +138,10 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
               .firstWhere((e) => e.id == widget.placeId)
               .price *
           (end.difference(start).inMinutes / 60);
-      if (ConstantsManager.appUser!.myWallet < reservationPrice) {
-        errorToast(msg: S.of(context).noEnoughBalance);
-        GamesBloc.get().booking = Booking(
-            startTime: start, endTime: end, reservationPrice: reservationPrice);
-        defaultToast(msg: S.of(context).saved);
-        context.pop();
-      } else {
-        GamesBloc.get().booking = Booking(
-            startTime: start, endTime: end, reservationPrice: reservationPrice);
-        defaultToast(msg: S.of(context).saved);
-        context.pop();
-      }
+      GamesBloc.get().booking = Booking(
+          startTime: start, endTime: end, reservationPrice: reservationPrice);
+      defaultToast(msg: S.of(context).saved);
+      context.pop();
     });
   }
 

@@ -74,20 +74,13 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         selectedDate.day, startTime.hour, startTime.minute);
     DateTime end = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, endTime.hour, endTime.minute);
-    print("start time: $start , \nend time:   $end");
-    for (Booking booking in bookings) {
-      // Check if the new booking overlaps with any existing booking
-      if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
-          (start.isAtSameMomentAs(booking.startTime) &&
-              end.isAfter(booking.startTime)) ||
-          (end.isAtSameMomentAs(booking.endTime) &&
-              start.isBefore(booking.endTime))) {
-        errorToast(msg: S.of(context).bookingConflict);
-        return;
-      }
-    }
-    PlaceBloc.get().currentPlace!.isBookingAllowed(start, end);
-    // Add the booking to the list (simulate the addition)
+    DateTime now = DateTime.now();
+
+    if (_isBookingTimeInvalid(start, end, now)) return;
+
+    if (_isBookingConflict(start, end)) return;
+
+    if (_isBelowMinimumHours(start, end)) return;
     setState(() {
       double reservationPrice = PlaceBloc.get().currentPlace!.price *
           (end.difference(start).inMinutes / 60);
@@ -106,6 +99,65 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         AccessCheckType.balance,
       ]);
     });
+  }
+
+  bool _isBookingTimeInvalid(DateTime start, DateTime end, DateTime now) {
+    if (start.isBefore(now)) {
+      errorToast(msg: S.of(context).bookingTimeInPast);
+      return true;
+    }
+
+    if (end.isBefore(start) || end.isAtSameMomentAs(start)) {
+      errorToast(msg: S.of(context).endTimeBeforeStartTime);
+      return true;
+    }
+
+    if (start.isBefore(now.add(const Duration(hours: 2)))) {
+      errorToast(msg: S.of(context).startTimeTooSoon);
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isBookingConflict(DateTime start, DateTime end) {
+    for (Booking booking in bookings) {
+      if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
+          (start.isAtSameMomentAs(booking.startTime) &&
+              end.isAfter(booking.startTime)) ||
+          (end.isAtSameMomentAs(booking.endTime) &&
+              start.isBefore(booking.endTime))) {
+        errorToast(msg: S.of(context).bookingConflict);
+        return true;
+      }
+    }
+
+    PlaceBloc.get()
+        .allPlaces
+        .firstWhere(
+          (element) => element.id == widget.placeId,
+        )
+        .isBookingAllowed(start, end);
+    return false;
+  }
+
+  bool _isBelowMinimumHours(DateTime start, DateTime end) {
+    double reservationHours = (end.difference(start).inMinutes / 60).abs();
+    double placeMinHours = PlaceBloc.get()
+            .allPlaces
+            .firstWhere((e) => e.id == widget.placeId)
+            .minimumHours ??
+        0;
+    if (reservationHours < placeMinHours) {
+      errorToast(
+          msg:
+              "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
+      return true;
+    }
+
+    return false;
+
+// Add the booking to the list (simulate the addition)
   }
 
   @override

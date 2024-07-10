@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
@@ -56,7 +59,8 @@ class AddFeedbackForClub extends StatelessWidget {
                         ? null
                         : DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(place.images[0]),
+                            image: NetworkImage(
+                                ApiManager.handleImageUrl(place.images.first)),
                           ),
                   ),
                 ),
@@ -110,12 +114,14 @@ class AddFeedbackForClub extends StatelessWidget {
                   ),
                   BlocConsumer<PlaceBloc, PlaceState>(
                     listener: (context, state) {
-                      if (state is AddOwnerFeedbackSuccess) {
+                      if (state is AddPlaceFeedbackSuccess) {
+                        defaultToast(msg: S.of(context).saved);
                         context.pop();
                       }
                     },
                     builder: (context, state) {
-                      return defaultButton(
+                      return DefaultButton(
+                        isLoading: state is AddPlaceFeedbackLoading,
                         onPressed: () {
                           UserAccessProxy(
                             bloc,
@@ -127,7 +133,6 @@ class AddFeedbackForClub extends StatelessWidget {
                           ).execute([AccessCheckType.login]);
                         },
                         text: S.of(context).send,
-                        fontSize: 18.sp,
                       );
                     },
                   ),

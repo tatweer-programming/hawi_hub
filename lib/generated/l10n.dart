@@ -1650,6 +1650,16 @@ class S {
     );
   }
 
+  /// `Please add an identification card`
+  String get addIdCard {
+    return Intl.message(
+      'Please add an identification card',
+      name: 'addIdCard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There is a conflict with working hours`
   String get conflictWithWorkingHours {
     return Intl.message(

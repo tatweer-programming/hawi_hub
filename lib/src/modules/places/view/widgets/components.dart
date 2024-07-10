@@ -10,6 +10,7 @@ import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -241,8 +242,8 @@ class FeedBackWidget extends StatelessWidget {
                   CircleAvatar(
                     radius: 20.sp,
                     backgroundColor: ColorManager.grey3,
-                    backgroundImage: NetworkImage(
-                        ApiManager.handleImageUrl(feedBack.userImageUrl!)),
+                    backgroundImage: NetworkImage(ApiManager.handleImageUrl(
+                        feedBack.userImageUrl ?? ImagesManager.defaultProfile)),
                   ),
                   SizedBox(
                     width: 4.w,

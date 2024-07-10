@@ -64,6 +64,7 @@ class PaymentService {
       });
       return const Right("Your balance has been successfully suspended");
     } on DioException catch (e) {
+      print(e.response.toString());
       return Left(e.message.toString());
     }
   }

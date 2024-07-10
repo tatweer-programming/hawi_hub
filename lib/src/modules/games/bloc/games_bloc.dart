@@ -1,12 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
-import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
-import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
-import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 
@@ -29,7 +26,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   GamesBloc() : super(GamesInitial()) {
     on<GamesEvent>((event, emit) async {
       if (event is GetGamesEvent) {
-        if (games.isEmpty) {
+        if (games.isEmpty || event.refresh) {
           emit(GetGamesLoading());
           var result = await remoteDataSource.getGames(cityId: event.cityId);
           result.fold((l) {
@@ -53,7 +50,8 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         double balance = _getBalance(event.gameId);
         emit(JoinGameLoading());
         var result = await remoteDataSource.joinGame(
-            game: games.firstWhere((e) => e.id == event.gameId), balance: balance);
+            game: games.firstWhere((e) => e.id == event.gameId),
+            balance: balance);
         result.fold((l) {
           emit(JoinGameError(l));
         }, (r) async {
@@ -62,7 +60,6 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
               .players
               .add(GamePlayer.currentPlayer());
           emit(const JoinGameSuccess());
-
         });
       }
       if (event is ChangeGameAccessEvent) {

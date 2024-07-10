@@ -6,8 +6,8 @@ abstract class PlaceEvent extends Equatable {
 
 class GetAllPlacesEvent extends PlaceEvent {
   final int cityId;
-
-  const GetAllPlacesEvent(this.cityId);
+  final bool refresh;
+  const GetAllPlacesEvent(this.cityId, {this.refresh = false});
 
   @override
   List<Object> get props => [];

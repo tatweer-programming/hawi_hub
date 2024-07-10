@@ -18,8 +18,8 @@ class Booking {
           {required int stadiumId, required double reservationPrice}) =>
       {
         "stadiumId": stadiumId,
-        "reservationPrice": reservationPrice.toString(),
-        "reservationStartTime": startTime.toUtc().toIso8601String(),
-        "reservationEndTime": endTime.toUtc().toIso8601String()
+        "reservationPrice": reservationPrice,
+        "reservationStartTime": startTime.toIso8601String(),
+        "reservationEndTime": endTime.toIso8601String()
       };
 }
