@@ -1190,11 +1190,11 @@ class S {
     );
   }
 
-  /// `Please add an identification card`
-  String get addIdCard {
+  /// `Please add what is required below from the file`
+  String get addRequiredPdf {
     return Intl.message(
-      'Please add an identification card',
-      name: 'addIdCard',
+      'Please add what is required below from the file',
+      name: 'addRequiredPdf',
       desc: '',
       args: [],
     );
