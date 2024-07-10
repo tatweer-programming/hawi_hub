@@ -57,11 +57,13 @@ class SignupWithFacebookEvent extends AuthEvent {}
 
 class OpenPdfEvent extends AuthEvent {}
 
+class ShowDialogEvent extends AuthEvent {}
+
 class GetProfileEvent extends AuthEvent {
   final int id;
   final String userType;
 
-  GetProfileEvent(this.id,this.userType);
+  GetProfileEvent(this.id, this.userType);
 }
 
 class ResetPasswordEvent extends AuthEvent {
@@ -93,6 +95,12 @@ class AcceptConfirmTermsEvent extends AuthEvent {
   final bool accept;
 
   AcceptConfirmTermsEvent(this.accept);
+}
+
+class KeepMeLoggedInEvent extends AuthEvent {
+  final bool keepMeLoggedIn;
+
+  KeepMeLoggedInEvent(this.keepMeLoggedIn);
 }
 
 class ChangePasswordVisibilityEvent extends AuthEvent {

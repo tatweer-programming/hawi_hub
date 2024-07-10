@@ -39,12 +39,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       (value) async {
         if (value.isSuccess) {
           emit(AddWalletSuccessState());
-          await getBalance(value.paymentId!).then(
-            (value) {
-              AuthBloc bloc = AuthBloc.get(context);
-              bloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
-            },
-          );
+          await getBalance(value.paymentId!);
         }
       },
     );

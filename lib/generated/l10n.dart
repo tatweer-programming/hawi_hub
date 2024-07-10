@@ -1190,11 +1190,11 @@ class S {
     );
   }
 
-  /// `Please add what is required below from the file`
-  String get addRequiredPdf {
+  /// `Please add an identification card`
+  String get addIdCard {
     return Intl.message(
-      'Please add what is required below from the file',
-      name: 'addRequiredPdf',
+      'Please add an identification card',
+      name: 'addIdCard',
       desc: '',
       args: [],
     );
@@ -1565,6 +1565,76 @@ class S {
     return Intl.message(
       'Add Feedback',
       name: 'addFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let's get playing!`
+  String get letsGetPlaying {
+    return Intl.message(
+      'Let\'s get playing!',
+      name: 'letsGetPlaying',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get your Squad to play together!`
+  String get getStarted {
+    return Intl.message(
+      'Get your Squad to play together!',
+      name: 'getStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Book Venues to Play with Friends`
+  String get bookVenuesToPlay {
+    return Intl.message(
+      'Book Venues to Play with Friends',
+      name: 'bookVenuesToPlay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `READY , SET , GO`
+  String get readySteadyGo {
+    return Intl.message(
+      'READY , SET , GO',
+      name: 'readySteadyGo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The attachment has been uploaded and will be reviewed`
+  String get idCardUploaded {
+    return Intl.message(
+      'The attachment has been uploaded and will be reviewed',
+      name: 'idCardUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `KWD`
+  String get kwd {
+    return Intl.message(
+      'KWD',
+      name: 'kwd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BirthDate`
+  String get birthDate {
+    return Intl.message(
+      'BirthDate',
+      name: 'birthDate',
       desc: '',
       args: [],
     );

@@ -17,7 +17,7 @@ import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/constance_manager.dart';
 
 class AuthService {
-  Future<Either<Exception, String>> registerPlayer({
+  Future<Either<String, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     try {
@@ -32,7 +32,7 @@ class AuthService {
       }
       return Right(response.data['message']);
     } on DioException catch (e) {
-      return Left(e);
+      return Left(e.response.toString());
     }
   }
 
@@ -77,6 +77,7 @@ class AuthService {
           userName: googleUser.displayName!,
           profilePictureUrl: googleUser.photoUrl,
           password: '',
+          birthDate: '',
         );
         return Right(authPlayer);
       }
@@ -118,6 +119,7 @@ class AuthService {
           email: userData['email'],
           userName: userData['name'],
           profilePictureUrl: userData['picture']['data']['url']!,
+          birthDate: '',
           password: '',
         );
         return Right(authPlayer);

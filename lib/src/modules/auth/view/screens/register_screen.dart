@@ -1,12 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../../generated/l10n.dart';
 import '../../../../core/routing/routes.dart';
 import '../widgets/widgets.dart';
@@ -20,6 +19,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController userNameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
+    TextEditingController ageController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     bool acceptTerms = false;
@@ -27,11 +27,11 @@ class RegisterScreen extends StatelessWidget {
     TextEditingController confirmPasswordController = TextEditingController();
     AuthPlayer? authPlayer;
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AcceptConfirmTermsState) {
           acceptTerms = state.accept;
         }
-        if (state is ChangePasswordVisibilityState) {
+        else if (state is ChangePasswordVisibilityState) {
           visible = state.visible;
         }
         if (state is RegisterSuccessState) {
@@ -40,9 +40,7 @@ class RegisterScreen extends StatelessWidget {
           context.pushAndRemove(Routes.home);
         } else if (state is RegisterErrorState) {
           // ExceptionManager(state.error).translatedMessage();
-          DioException e = state.error as DioException;
-          errorToast(
-              msg: handleResponseTranslation(e.response.toString(), context));
+          errorToast(msg: handleResponseTranslation(state.error, context));
         }
         if (state is SignupWithGoogleSuccessState) {
           authPlayer = state.authPlayer;
@@ -56,6 +54,11 @@ class RegisterScreen extends StatelessWidget {
             state is SignupWithFacebookErrorState) {
           errorToast(
               msg: handleResponseTranslation("Something went wrong", context));
+        }else if (state is ShowBirthDateDialogState) {
+          DateTime? selectedDate = await showDate(context);
+          if (selectedDate != null) {
+            ageController.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
+          }
         }
       },
       builder: (context, state) {
@@ -103,6 +106,26 @@ class RegisterScreen extends StatelessWidget {
                               }
                               return null;
                             }),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            bloc.add(ShowDialogEvent());
+                          },
+                          child: mainFormField(
+                            controller: ageController,
+                            label: S.of(context).birthDate,
+                            enabled: false,
+                            // type: TextInputType.emailAddress,
+                            // validator: (value) {
+                            //   if (value.isEmpty) {
+                            //     return S.of(context).enterEmail;
+                            //   }
+                            //   return null;
+                            // },
+                          ),
+                        ),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -224,6 +247,7 @@ class RegisterScreen extends StatelessWidget {
                                             password: passwordController.text,
                                             userName: userNameController.text,
                                             email: emailController.text,
+                                            birthDate: ageController.text,
                                             profilePictureUrl:
                                                 authPlayer?.profilePictureUrl),
                                       ),
@@ -250,6 +274,17 @@ class RegisterScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<DateTime?> showDate(context) async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate:
+          DateTime(DateTime.now().year - 6), // set the initial date to today
+      firstDate: DateTime(1900, 1), // set the first allowed date
+      lastDate: DateTime(DateTime.now().year - 6), // set the last allowed date
+    );
+    return selectedDate;
   }
 }
 

@@ -113,7 +113,7 @@
   "share": "مشاركة",
   "commonQuestions": "الاسئلة الشائعة",
   "emailNotExists": "البريد الإلكتروني غير موجود",
-  "addRequiredPdf": "يرجي إلحاق المطلوب ادناه من الملف ",
+  "addIdCard": "يرجي إضافة صورة للبطاقة الشخصية",
   "passMustContainUpperCase": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
   "passMustContainLowerCase": "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل",
   "passMustContainLetter": "يجب أن تحتوي كلمة المرور على حرف واحد على الأقل",
@@ -151,7 +151,15 @@
   "play": "لعب",
   "addFeedback": "إضافة تقييم",
   "rates": "التقيمات",
+  "letsGetPlaying": "هيا بنا نلعب!",
+  "getStarted": "اجعل فريقك يلعب معًا!",
+  "bookVenuesToPlay": "حجز أماكن للعب مع الأصدقاء",
+  "readySteadyGo": "إستعد، تأهب، إذهب",
+  "idCardUploaded": "تم رفع المرفق وسيتم مراجعته ",
+  "kdw": "دينار كويتي",
+  "birthDate": "تاريخ ميلادك",
   "more": "المزيد",
+
   "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب"
 
 }

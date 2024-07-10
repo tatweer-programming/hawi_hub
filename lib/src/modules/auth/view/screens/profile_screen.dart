@@ -41,6 +41,7 @@ class ProfileScreen extends StatelessWidget {
       if (state is UploadNationalIdSuccessState) {
         context.pop();
         bloc.add(GetProfileEvent(id, userType));
+        errorToast(msg: S.of(context).idCardUploaded);
         context.pop();
       } else if (state is UploadNationalIdErrorState) {
         context.pop();
@@ -258,20 +259,9 @@ Widget _notVerified(AuthBloc bloc) {
           SizedBox(
             height: 2.h,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  S.of(context).addRequiredPdf,
-                  style: TextStyleManager.getSubTitleStyle(),
-                ),
-              ),
-              IconButton(
-                  onPressed: () {
-                    bloc.add(OpenPdfEvent());
-                  },
-                  icon: const Icon(Icons.picture_as_pdf))
-            ],
+          Text(
+            S.of(context).addIdCard,
+            style: TextStyleManager.getSubTitleStyle(),
           ),
           SizedBox(
             height: 3.h,

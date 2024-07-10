@@ -151,6 +151,13 @@
   "play": "play",
   "rates": "Rates",
   "addFeedback": "Add Feedback",
+  "letsGetPlaying": "Let's get playing!",
+  "getStarted": "Get your Squad to play together!",
+  "bookVenuesToPlay": "Book Venues to Play with Friends",
+  "readySteadyGo": "READY , SET , GO",
+  "idCardUploaded": "The attachment has been uploaded and will be reviewed",
+  "kwd": "KWD",
+  "birthDate": "BirthDate",
   "more": "More",
   "conflictWithWorkingHours" : "There is a conflict with working hours"
 }
