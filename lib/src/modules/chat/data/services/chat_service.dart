@@ -97,8 +97,8 @@ class ChatService {
           final Map<String, dynamic> jsonData = jsonDecode(message);
           print(jsonData);
           messageStreamController.add(Message(
-            message: jsonData["arguments"][0]["playerMessage"],
-            attachmentUrl: jsonData["arguments"][0]["playerAttachmentUrl"],
+            message: jsonData["arguments"][0]["ownerMessage"],
+            attachmentUrl: jsonData["arguments"][0]["ownerAttachmentUrl"],
             isOwner: true,
             timeStamp: DateTime.now(),
           ));

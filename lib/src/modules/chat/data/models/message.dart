@@ -37,7 +37,7 @@ class Message extends Equatable {
   String jsonBody() {
     print(toJson());
     String argumentsJson = jsonEncode([toJson()]);
-    return '{"type":1, "target":"SendMessageToPlayer", "arguments":$argumentsJson}';
+    return '{"type":1, "target":"SendMessageToOwner", "arguments":$argumentsJson}';
   }
 
   Map<String, dynamic> toJson() {
