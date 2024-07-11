@@ -43,7 +43,9 @@ class CreateGameError extends GamesError {
 
 class CreateGameSuccess extends GamesState {
   final int gameId;
+
   const CreateGameSuccess(this.gameId);
+
   @override
   List<Object> get props => [gameId];
 }
@@ -75,21 +77,25 @@ class GetGameError extends GamesError {
 
 class GetGameSuccess extends GamesState {
   final Game game;
+
   const GetGameSuccess(this.game);
+
   @override
   List<Object> get props => [game];
 }
 
 class ChangGameAvailabilitySuccess extends GamesState {
   final bool isPublic;
+
   const ChangGameAvailabilitySuccess(this.isPublic);
+
   @override
   List<Object> get props => [isPublic];
 }
 
 class JoinGameSuccess extends GamesState {
-
   const JoinGameSuccess();
+
   @override
   List<Object> get props => [];
 }
@@ -99,12 +105,19 @@ class JoinGameError extends GamesError {
 }
 
 class JoinGameLoading extends GamesLoading {
+  final int gameId;
+
+  JoinGameLoading(this.gameId);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [gameId];
 }
+
 class SelectSportSuccess extends GamesState {
   final int sportId;
+
   const SelectSportSuccess(this.sportId);
+
   @override
-  List<Object> get props => [ sportId];
+  List<Object> get props => [sportId];
 }

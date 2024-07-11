@@ -217,16 +217,17 @@ class GameItem extends StatelessWidget {
                       }
                     },
                     child: Center(
-                        child: state is JoinGameLoading
-                            ? const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorManager.white),
-                              )
-                            : Text(
-                                S.of(context).bookNow,
-                                style: TextStyleManager.getRegularStyle(
-                                    color: ColorManager.white),
-                              ))),
+                        child:
+                            state is JoinGameLoading && state.gameId == game.id
+                                ? const CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        ColorManager.white),
+                                  )
+                                : Text(
+                                    S.of(context).bookNow,
+                                    style: TextStyleManager.getRegularStyle(
+                                        color: ColorManager.white),
+                                  ))),
               ),
             );
           },

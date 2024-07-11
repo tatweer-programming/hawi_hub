@@ -48,7 +48,9 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         });
       } else if (event is JoinGameEvent) {
         double balance = _getBalance(event.gameId);
-        emit(JoinGameLoading());
+        emit(JoinGameLoading(
+          event.gameId,
+        ));
         var result = await remoteDataSource.joinGame(
             game: games.firstWhere((e) => e.id == event.gameId),
             balance: balance);

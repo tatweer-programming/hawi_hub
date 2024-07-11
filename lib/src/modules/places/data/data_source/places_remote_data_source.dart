@@ -86,6 +86,7 @@ class PlacesRemoteDataSource {
         data: booking.toJson(
             stadiumId: placeId, reservationPrice: booking.reservationPrice!),
       );
+
       await PaymentService().pendWalletBalance(booking.reservationPrice!);
       await _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);

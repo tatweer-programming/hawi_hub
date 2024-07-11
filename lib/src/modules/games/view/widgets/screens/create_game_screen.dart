@@ -332,6 +332,7 @@ class CreateGameScreen extends StatelessWidget {
                 return BlocListener<GamesBloc, GamesState>(
                   listener: (context, state) {
                     if (state is CreateGameSuccess) {
+                      context.pop();
                       Uri uri = Uri.parse(
                           "${ApiManager.domain}game/?id=${state.gameId}");
                       _showBookingDialog(context, uri.toString());
