@@ -42,12 +42,14 @@ class AppNotification {
 
   String jsonBody() {
     return jsonEncode({
-      "to": "/topics/owner_$receiverId",
-      "notification": {
-        "body": body,
-        "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        "title": title,
-        "image": image,
+      'message': {
+        'topic': "owner_$receiverId",
+        'notification': {
+          "body": body,
+          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          "title": title,
+          "image": image,
+        },
       }
     });
   }

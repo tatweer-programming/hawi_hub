@@ -34,6 +34,7 @@ dependencies:
   open_file_plus: ^3.4.1+1
   file_picker: ^8.0.2
   firebase_messaging:
+  googleapis_auth:
   intl:
 
 
@@ -84,6 +85,7 @@ flutter:
     - assets/audios/
     - assets/images/icons/
     - assets/images/app_bar_backgrounds/
+    - assets/notification/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

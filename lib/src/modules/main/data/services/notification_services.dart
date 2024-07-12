@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
+import 'package:hawihub/src/core/utils/notification_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
-import 'package:http/http.dart' as http;
-
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/constance_manager.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
 
 class NotificationServices {
   static final FirebaseMessaging _firebaseMessaging =
@@ -45,22 +49,22 @@ class NotificationServices {
     }
   }
 
-  Future sendNotification(AppNotification notification) async {
-    try {
-      await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
-          body: notification.jsonBody(),
-          headers: {
-            "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
-            "Content-Type": "application/json"
-          }).then((value) {
-        print(
-            "Notification sent successfully ${value.body} \n ${value.headers}");
-      });
-      await _saveNotification(notification);
-    } catch (e) {
-      print("Error in sending notification: $e");
-    }
-  }
+  // Future sendNotification(AppNotification notification) async {
+  //   try {
+  //     await http.post(Uri.parse(ConstantsManager.baseUrlNotification),
+  //         body: notification.jsonBody(),
+  //         headers: {
+  //           "Authorization": "key=${ConstantsManager.firebaseMessagingAPI}",
+  //           "Content-Type": "application/json"
+  //         }).then((value) {
+  //       print(
+  //           "Notification sent successfully ${value.body} \n ${value.headers}");
+  //     });
+  //     await _saveNotification(notification);
+  //   } catch (e) {
+  //     print("Error in sending notification: $e");
+  //   }
+  // }
 
   Future<bool> markAsRead(int id) async {
     try {
@@ -102,5 +106,28 @@ class NotificationServices {
   Future subscribeToTopic() async {
     await _firebaseMessaging
         .subscribeToTopic("player_${ConstantsManager.userId}");
+  }
+
+  Future sendNotification(AppNotification notification) async {
+    try {
+      final String jsonCredentials =
+          await rootBundle.loadString('assets/notifications_key.json');
+      final ServiceAccountCredentials cred =
+          ServiceAccountCredentials.fromJson(jsonCredentials);
+      final client = await clientViaServiceAccount(
+          cred, [NotificationManager.clientViaServiceAccount]);
+      final response = await client.post(
+        Uri.parse(NotificationManager.notificationUrl),
+        headers: {'content-type': 'application/json'},
+        body: jsonEncode(
+          notification.jsonBody(),
+        ),
+      ).then((value) async {
+        await _saveNotification(notification);
+      },);
+      client.close();
+    } catch (e) {
+      print("Error in sending notification: $e");
+    }
   }
 }
