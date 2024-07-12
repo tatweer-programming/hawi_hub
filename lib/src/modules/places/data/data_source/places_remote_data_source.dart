@@ -87,7 +87,7 @@ class PlacesRemoteDataSource {
             stadiumId: placeId, reservationPrice: booking.reservationPrice!),
       );
 
-      await PaymentService().pendWalletBalance(booking.reservationPrice!);
+      // await PaymentService().pendWalletBalance(booking.reservationPrice!);
       _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);
     } on DioException catch (e) {
@@ -230,6 +230,6 @@ class PlacesRemoteDataSource {
         title: "طلب حجز ملعب",
         dateTime: DateTime.now(),
         id: 0);
-    await NotificationServices().sendNotification(notification);
+     NotificationServices().sendNotification(notification);
   }
 }

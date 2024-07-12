@@ -35,8 +35,8 @@ class GamesRemoteDataSource {
           data: game.toJson(),
           path: EndPoints.createGame + ConstantsManager.userId.toString(),
           query: {"id": ConstantsManager.userId});
-      await PaymentService()
-          .pendWalletBalance(game.gamePrice / game.minPlayers);
+      // await PaymentService()
+      //     .pendWalletBalance(game.gamePrice / game.minPlayers);
       return Right(response.data['gameId'].toString());
     } on Exception catch (e) {
       DioException dioException = e as DioException;
@@ -60,13 +60,13 @@ class GamesRemoteDataSource {
           path: "${EndPoints.joinGame}${ConstantsManager.userId}",
           query: {"id": ConstantsManager.userId});
       if (response.statusCode == 200) {
-        await NotificationServices().sendNotification(AppNotification(
+        NotificationServices().sendNotification(AppNotification(
             title: "انضم ${ConstantsManager.appUser?.userName} الى حجزك",
             body:
                 "انضم ${ConstantsManager.appUser?.userName} الى حجزك في  ${game.placeName}",
             id: 1,
             receiverId: game.host.id));
-        await PaymentService().pendWalletBalance(balance);
+        // await PaymentService().pendWalletBalance(balance);
         return const Right(unit);
       }
       return const Right(unit);

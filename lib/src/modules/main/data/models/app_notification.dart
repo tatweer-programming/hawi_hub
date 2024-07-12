@@ -46,9 +46,8 @@ class AppNotification {
         'topic': "owner_$receiverId",
         'notification': {
           "body": body,
-          // "click_action": "FLUTTER_NOTIFICATION_CLICK",
           "title": title,
-          // "image": image,
+          "image": image,
         },
       }
     });
