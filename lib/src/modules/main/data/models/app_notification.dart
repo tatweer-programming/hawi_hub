@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:hawihub/src/core/utils/images_manager.dart';
-
 import '../../../../core/utils/constance_manager.dart';
 
 class AppNotification {
@@ -48,9 +46,9 @@ class AppNotification {
         'topic': "owner_$receiverId",
         'notification': {
           "body": body,
-          "click_action": "FLUTTER_NOTIFICATION_CLICK",
+          // "click_action": "FLUTTER_NOTIFICATION_CLICK",
           "title": title,
-          "image": image ?? ImagesManager.defaultProfile,
+          // "image": image,
         },
       }
     });

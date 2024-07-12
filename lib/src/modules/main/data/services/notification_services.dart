@@ -8,9 +8,9 @@ import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/notification_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
-
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/constance_manager.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
 
 class NotificationServices {
   static final FirebaseMessaging _firebaseMessaging =
@@ -120,9 +120,7 @@ class NotificationServices {
           .post(
         Uri.parse(NotificationManager.notificationUrl),
         headers: {'content-type': 'application/json'},
-        body: jsonEncode(
-          notification.jsonBody(),
-        ),
+        body: notification.jsonBody(),
       )
           .then(
         (value) async {
