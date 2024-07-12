@@ -12,6 +12,7 @@ import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:open_file_plus/open_file_plus.dart';
@@ -234,7 +235,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<File?> _captureAndSaveGalleryImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf'],
+      allowedExtensions: ['png','jpeg','jpg','webp','tiff'],
       allowMultiple: false,
     );
     if (result != null) {
@@ -248,6 +249,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future _clearUserData() async {
     ConstantsManager.userId = null;
     ConstantsManager.appUser = null;
+    ConstantsManager.connectionId = null;
+    ConstantsManager.connectionToken = null;
+    MainCubit.get().currentIndex = 0;
     await CacheHelper.removeData(key: "userId");
   }
 }

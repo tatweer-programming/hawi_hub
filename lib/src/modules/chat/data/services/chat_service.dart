@@ -9,7 +9,9 @@ import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/connection.dart';
-import 'package:hawihub/src/modules/chat/data/models/message.dart';
+import 'package:hawihub/src/modules/chat/data/models/message_details.dart';
+
+import '../models/message.dart';
 
 class ChatService {
   WebSocket? socket;
@@ -71,7 +73,7 @@ class ChatService {
     }
   }
 
-  Future<Either<String, Unit>> sendMessage({required Message message}) async {
+  Future<Either<String, Unit>> sendMessage({required MessageDetails message}) async {
     try {
       if (message.attachmentUrl != null) {
         message.attachmentUrl =
@@ -85,43 +87,37 @@ class ChatService {
     }
   }
 
-  Stream<Message> streamMessage() {
+  Stream<MessageDetails> streamMessage() {
     try {
-      StreamController<Message> messageStreamController =
-          StreamController<Message>.broadcast();
+      StreamController<MessageDetails> messageStreamController =
+          StreamController<MessageDetails>.broadcast();
       socket!.listen((data) {
-        print("data  $data");
         if (data != '{"type":6}' && data != '{}') {
           String message =
               data.toString().replaceAll(RegExp(r'[\x00-\x1F]+'), '');
           final Map<String, dynamic> jsonData = jsonDecode(message);
-          print(jsonData);
-          messageStreamController.add(Message(
+          messageStreamController.add(MessageDetails(
             message: jsonData["arguments"][0]["ownerMessage"],
             attachmentUrl: jsonData["arguments"][0]["ownerAttachmentUrl"],
-            isOwner: true,
+            isPlayer: false,
             timeStamp: DateTime.now(),
           ));
         }
       });
       return messageStreamController.stream;
     } catch (e) {
-      print(e);
       return const Stream.empty();
     }
   }
 
-  Future<Either<String, List<Message>>> getChatMessages(
+  Future<Either<String, Message>> getChatMessages(
       int conversationId) async {
     try {
       Response response = await DioHelper.getData(
         path: EndPoints.getConversation + conversationId.toString(),
       );
       if (response.statusCode == 200) {
-        List<Message> messages = [];
-        for (var item in response.data["messages"]) {
-          messages.add(Message.fromJson(item));
-        }
+        Message messages = Message.fromJson(response.data);
         return Right(messages);
       }
       return Left(response.data.toString());
