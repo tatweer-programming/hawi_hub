@@ -177,46 +177,42 @@ class GameItem extends StatelessWidget {
             )),
           ]),
         )),
-        BlocConsumer<GamesBloc, GamesState>(
-          listener: (context, state) {
-            if (state is JoinGameSuccess) {
-              defaultToast(msg: S.of(context).joinedGame);
-            }
-          },
-          builder: (context, state) {
-            return Container(
-              width: 10.w,
-              color: ColorManager.primary,
-              child: RotatedBox(
-                quarterTurns: 1,
-                child: InkWell(
-                    onTap: () {
-                      if (ConstantsManager.userId == null) {
-                        errorToast(msg: S.of(context).loginFirst);
-                      } else {
-                        bool isJoined = game.players.any((element) =>
-                                element.id == ConstantsManager.userId) ||
-                            game.host.id == ConstantsManager.userId;
-                        if (isJoined) {
-                          defaultToast(msg: S.of(context).alreadyJoined);
-                        } else {
-                          UserAccessProxy(
-                            GamesBloc.get(),
-                            JoinGameEvent(gameId: game.id),
-                            requiredBalance: game.price / game.minPlayers,
-                            requiredAgeRange: game.getHostAge(),
-                          ).execute([
-                            AccessCheckType.login,
-                            AccessCheckType.verification,
-                            AccessCheckType.age,
-                            AccessCheckType.balance
-                          ]);
-                          // PaymentCubit paymentCubit = PaymentCubit.get();
-                          // paymentCubit.joinToGame(game.price);
-                        }
-                      }
-                    },
-                    child: Center(
+        Container(
+          width: 10.w,
+          color: ColorManager.primary,
+          child: RotatedBox(
+            quarterTurns: 1,
+            child: InkWell(
+                onTap: () {
+                  if (ConstantsManager.userId == null) {
+                    errorToast(msg: S.of(context).loginFirst);
+                  } else {
+                    bool isJoined = game.players.any((element) =>
+                            element.id == ConstantsManager.userId) ||
+                        game.host.id == ConstantsManager.userId;
+                    if (isJoined) {
+                      defaultToast(msg: S.of(context).alreadyJoined);
+                    } else {
+                      UserAccessProxy(
+                        GamesBloc.get(),
+                        JoinGameEvent(gameId: game.id),
+                        requiredBalance: game.price / game.minPlayers,
+                        requiredAgeRange: game.getHostAge(),
+                      ).execute([
+                        AccessCheckType.login,
+                        AccessCheckType.verification,
+                        AccessCheckType.age,
+                        AccessCheckType.balance
+                      ]);
+                      // PaymentCubit paymentCubit = PaymentCubit.get();
+                      // paymentCubit.joinToGame(game.price);
+                    }
+                  }
+                },
+                child: BlocBuilder<GamesBloc, GamesState>(
+                  bloc: GamesBloc.get(),
+                  builder: (context, state) {
+                    return Center(
                         child:
                             state is JoinGameLoading && state.gameId == game.id
                                 ? const CircularProgressIndicator(
@@ -227,10 +223,10 @@ class GameItem extends StatelessWidget {
                                     S.of(context).bookNow,
                                     style: TextStyleManager.getRegularStyle(
                                         color: ColorManager.white),
-                                  ))),
-              ),
-            );
-          },
+                                  ));
+                  },
+                )),
+          ),
         )
       ]),
     );

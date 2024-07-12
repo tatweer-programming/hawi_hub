@@ -35,7 +35,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationServices.init();
-  await NotificationServices().subscribeToTopic();
   ServiceLocator.init();
   ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
   print(ConstantsManager.userId);
@@ -96,3 +95,5 @@ class MyApp extends StatelessWidget {
     - handle notification in background,
     - add birthday to player,
 */
+
+/// update place rating after editing

@@ -160,5 +160,7 @@
   "birthDate": "BirthDate",
   "more": "More",
   "addIdCard": "Please add an identification card",
-  "conflictWithWorkingHours" : "There is a conflict with working hours"
+  "conflictWithWorkingHours" : "There is a conflict with working hours",
+  "gameTotalPrice": "Game Total Price",
+  "youWillPay" :"You will pay"
 }

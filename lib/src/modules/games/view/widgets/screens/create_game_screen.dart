@@ -63,51 +63,51 @@ class CreateGameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Column(
-                          children: [
-                            dropdownBuilder(
-                              text: S.of(context).chooseSport,
-                              images: [
-                                ...MainCubit.get()
-                                    .sportsList
-                                    .map((e) => e.image)
-                              ],
-                              onChanged: (val) {
-                                MainCubit.get().selectSport(val!);
-                              },
-                              items: MainCubit.get()
-                                  .sportsList
-                                  .map((e) => e.name)
-                                  .toList(),
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            dropdownBuilder(
-                              images: PlaceBloc.get()
-                                  .viewedPlaces
-                                  .map((e) => e.images.first)
-                                  .toList(),
-                              text: S.of(context).place,
-                              onChanged: (value) {
-                                bloc.selectedStadiumId = PlaceBloc.get()
-                                    .viewedPlaces
-                                    .firstWhere((e) => e.name == value)
-                                    .id;
-                              },
-                              items: PlaceBloc.get()
-                                  .viewedPlaces
-                                  .map((e) => e.name)
-                                  .toList(),
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            BlocBuilder<GamesBloc, GamesState>(
-                              builder: (context, state) {
-                                return SizedBox(
+                    BlocBuilder<GamesBloc, GamesState>(
+                      bloc: bloc,
+                      builder: (context, state) {
+                        return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Column(
+                              children: [
+                                dropdownBuilder(
+                                  text: bloc.selectedStadiumId == null
+                                      ? S.of(context).chooseSport
+                                      : bloc.getSelectedPlaceSportName(),
+                                  images: [
+                                    ...MainCubit.get()
+                                        .sportsList
+                                        .map((e) => e.image)
+                                  ],
+                                  onChanged: (val) {
+                                    MainCubit.get().selectSport(val!);
+                                  },
+                                  items: MainCubit.get()
+                                      .sportsList
+                                      .map((e) => e.name)
+                                      .toList(),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                dropdownBuilder(
+                                  images: PlaceBloc.get()
+                                      .viewedPlaces
+                                      .map((e) => e.images.first)
+                                      .toList(),
+                                  text: S.of(context).place,
+                                  onChanged: (value) {
+                                    bloc.add(SelectPlaceEvent(value!));
+                                  },
+                                  items: PlaceBloc.get()
+                                      .viewedPlaces
+                                      .map((e) => e.name)
+                                      .toList(),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                SizedBox(
                                   height: 10.h,
                                   child: Stack(
                                     children: [
@@ -206,121 +206,129 @@ class CreateGameScreen extends StatelessWidget {
                                               ))),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            OutLineContainer(
-                                onPressed: () {
-                                  if (bloc.selectedStadiumId == null) {
-                                    errorToast(
-                                        msg: S.of(context).chooseStadium);
-                                  } else {
-                                    context.push(Routes.selectGameTime,
-                                        arguments: {
-                                          "id": bloc.selectedStadiumId
-                                        });
-                                  }
-                                },
-                                radius: 30,
-                                height: 7.h,
-                                child: Text(S.of(context).date)),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            SizedBox(
-                              height: 10.h,
-                              child: Stack(
-                                children: [
-                                  Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: OutLineContainer(
-                                          height: 9.h,
-                                          radius: 36,
-                                          child: const SizedBox())),
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: 30.w,
-                                      color: ColorManager.white,
-                                      child: Text(
-                                        S.of(context).players,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            backgroundColor: ColorManager.white,
-                                            color: ColorManager.primary),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                OutLineContainer(
+                                    onPressed: () {
+                                      if (bloc.selectedStadiumId == null) {
+                                        errorToast(
+                                            msg: S.of(context).chooseStadium);
+                                      } else {
+                                        context.push(Routes.selectGameTime,
+                                            arguments: {
+                                              "id": bloc.selectedStadiumId
+                                            });
+                                      }
+                                    },
+                                    radius: 30,
+                                    height: 7.h,
+                                    child: Text(S.of(context).date)),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                  child: Stack(
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: OutLineContainer(
+                                              height: 9.h,
+                                              radius: 36,
+                                              child: const SizedBox())),
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          width: 30.w,
+                                          color: ColorManager.white,
+                                          child: Text(
+                                            S.of(context).players,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                backgroundColor:
+                                                    ColorManager.white,
+                                                color: ColorManager.primary),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: SizedBox(
+                                              height: 8.h,
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 2.w,
+                                                    vertical: 1.h),
+                                                child: Row(children: [
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                        validator: (value) {
+                                                          if (value == null ||
+                                                              value.isEmpty ||
+                                                              int.tryParse(
+                                                                      value) ==
+                                                                  null) {
+                                                            return S
+                                                                .of(context)
+                                                                .maxPlayersRequired;
+                                                          }
+                                                          return null;
+                                                        },
+                                                        controller:
+                                                            minPlayersController,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: S
+                                                              .of(context)
+                                                              .minPlayers,
+                                                        )),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 3.w,
+                                                  ),
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                        controller:
+                                                            maxPlayersController,
+                                                        validator: (value) {
+                                                          if (value == null ||
+                                                              value.isEmpty ||
+                                                              int.tryParse(
+                                                                      value) ==
+                                                                  null) {
+                                                            return S
+                                                                .of(context)
+                                                                .maxPlayersRequired;
+                                                          }
+                                                          return null;
+                                                        },
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText: S
+                                                              .of(context)
+                                                              .maxPlayers,
+                                                        )),
+                                                  )
+                                                ]),
+                                              ))),
+                                    ],
                                   ),
-                                  Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: SizedBox(
-                                          height: 8.h,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 2.w, vertical: 1.h),
-                                            child: Row(children: [
-                                              Expanded(
-                                                child: TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty ||
-                                                          int.tryParse(value) ==
-                                                              null) {
-                                                        return S
-                                                            .of(context)
-                                                            .maxPlayersRequired;
-                                                      }
-                                                      return null;
-                                                    },
-                                                    controller:
-                                                        minPlayersController,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration: InputDecoration(
-                                                      hintText: S
-                                                          .of(context)
-                                                          .minPlayers,
-                                                    )),
-                                              ),
-                                              SizedBox(
-                                                width: 3.w,
-                                              ),
-                                              Expanded(
-                                                child: TextFormField(
-                                                    controller:
-                                                        maxPlayersController,
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty ||
-                                                          int.tryParse(value) ==
-                                                              null) {
-                                                        return S
-                                                            .of(context)
-                                                            .maxPlayersRequired;
-                                                      }
-                                                      return null;
-                                                    },
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration: InputDecoration(
-                                                      hintText: S
-                                                          .of(context)
-                                                          .maxPlayers,
-                                                    )),
-                                              )
-                                            ]),
-                                          ))),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                          ],
-                        )),
+                                ),
+                                SizedBox(
+                                  height: 3.h,
+                                ),
+                              ],
+                            ));
+                      },
+                    ),
                   ])),
             ),
           ),

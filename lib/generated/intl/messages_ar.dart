@@ -105,6 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "from": MessageLookupByLibrary.simpleMessage("من"),
         "gameCreated": MessageLookupByLibrary.simpleMessage(
             "تم انشاء الحجز الجماعي بنجاح"),
+        "gameTotalPrice":
+            MessageLookupByLibrary.simpleMessage("السعر الكلي للحجز"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
         "getStarted":
             MessageLookupByLibrary.simpleMessage("اجعل فريقك يلعب معًا!"),
@@ -254,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weekend": MessageLookupByLibrary.simpleMessage("عطلة"),
         "workingHours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "wrongPassword":
-            MessageLookupByLibrary.simpleMessage("كلمة المرور خاطئة.")
+            MessageLookupByLibrary.simpleMessage("كلمة المرور خاطئة."),
+        "youWillPay": MessageLookupByLibrary.simpleMessage("ستدفع")
       };
 }

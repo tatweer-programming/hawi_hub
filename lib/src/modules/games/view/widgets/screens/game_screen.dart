@@ -34,7 +34,6 @@ class GameDetailsScreen extends StatelessWidget {
       bloc: bloc,
       listener: (context, state) {
         if (state is JoinGameSuccess) {
-          defaultToast(msg: S.of(context).joinedGame);
           context.pop();
         } else {
           if (state is GamesError) {
@@ -219,6 +218,15 @@ class GameDetailsScreen extends StatelessWidget {
                                         )
                                     ]),
                                 SizedBox(height: 4.h),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
                                 SubTitle(S.of(context).sport),
                                 SizedBox(
                                   height: 2.h,
@@ -236,8 +244,11 @@ class GameDetailsScreen extends StatelessWidget {
                                 ),
                                 SubTitle(
                                     "${S.of(context).hours} : ${game.hours}"),
-
-                                // SizedBox(height: 2.h,),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
+                                SubTitle("${S.of(context).youWillPay}: "
+                                    "${game.getPriceAverage()} ${S.of(context).sar}"),
                               ]),
                         ),
                       ],

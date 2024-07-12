@@ -160,6 +160,8 @@
   "kdw": "دينار كويتي",
   "birthDate": "تاريخ ميلادك",
   "more": "المزيد",
-  "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب"
+  "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب",
+  "gameTotalPrice": "السعر الكلي للحجز",
+  "youWillPay": "ستدفع"
 
 }

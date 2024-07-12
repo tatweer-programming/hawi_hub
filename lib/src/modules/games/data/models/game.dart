@@ -20,7 +20,7 @@ class Game extends Equatable {
   final DateTime endTime;
   final DateTime deadline;
   List<GamePlayer> players;
-  GamePlayer host;
+  Host host;
   final int sportId;
 
   Game({
@@ -70,7 +70,7 @@ class Game extends Equatable {
       deadline: DateTime.parse(json['deadline']),
       sportId: json['stadium']['categoryId'],
       players: _extractPlayers(json['gamePlayers']),
-      host: GamePlayer.fromJson(json['host']),
+      host: Host.fromJson(json['host']),
     );
   }
 
@@ -91,7 +91,7 @@ class Game extends Equatable {
   }
 
   int getRemainingSlots() {
-    return (maxPlayers - players.length);
+    return (maxPlayers - (players.length + 1));
   }
 
   String getConvertedDate() {
@@ -114,6 +114,12 @@ class Game extends Equatable {
   }
 
   double getHostAge() {
-    return 20;
+    return host.getAge();
+  }
+
+  String getPriceAverage() {
+    String max = (price / minPlayers).toStringAsFixed(2);
+    String min = (price / maxPlayers).toStringAsFixed(2);
+    return "~ $min : $max";
   }
 }

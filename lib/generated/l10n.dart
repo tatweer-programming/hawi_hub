@@ -1669,6 +1669,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Game Total Price`
+  String get gameTotalPrice {
+    return Intl.message(
+      'Game Total Price',
+      name: 'gameTotalPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You will pay`
+  String get youWillPay {
+    return Intl.message(
+      'You will pay',
+      name: 'youWillPay',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

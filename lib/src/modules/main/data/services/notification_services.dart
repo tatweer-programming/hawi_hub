@@ -8,9 +8,9 @@ import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/notification_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/constance_manager.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
 
 class NotificationServices {
   static final FirebaseMessaging _firebaseMessaging =
@@ -110,21 +110,25 @@ class NotificationServices {
 
   Future sendNotification(AppNotification notification) async {
     try {
-      final String jsonCredentials =
-          await rootBundle.loadString('assets/notifications_key.json');
+      final String jsonCredentials = await rootBundle
+          .loadString('assets/notification/notifications_key.json');
       final ServiceAccountCredentials cred =
           ServiceAccountCredentials.fromJson(jsonCredentials);
       final client = await clientViaServiceAccount(
           cred, [NotificationManager.clientViaServiceAccount]);
-      final response = await client.post(
+      await client
+          .post(
         Uri.parse(NotificationManager.notificationUrl),
         headers: {'content-type': 'application/json'},
         body: jsonEncode(
           notification.jsonBody(),
         ),
-      ).then((value) async {
-        await _saveNotification(notification);
-      },);
+      )
+          .then(
+        (value) async {
+          await _saveNotification(notification);
+        },
+      );
       client.close();
     } catch (e) {
       print("Error in sending notification: $e");

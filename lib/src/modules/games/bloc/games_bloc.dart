@@ -4,8 +4,10 @@ import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/modules/games/data/models/game.dart';
 import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
+import 'package:hawihub/src/modules/places/data/models/place.dart';
 
 import '../data/data_source/games_remote_data_source.dart';
 
@@ -61,7 +63,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
               .firstWhere((e) => e.id == event.gameId)
               .players
               .add(GamePlayer.currentPlayer());
-          emit(const JoinGameSuccess());
+          emit(JoinGameSuccess(event.gameId));
         });
       }
       if (event is ChangeGameAccessEvent) {
@@ -106,6 +108,16 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
           print("games $games");
           emit(SelectSportSuccess(event.sportId));
         }
+      } else if (event is SelectPlaceEvent) {
+        selectedStadiumId = PlaceBloc.get()
+            .viewedPlaces
+            .firstWhere((e) => e.name == event.placeName)
+            .id;
+
+        emit(SelectPlaceSuccess(PlaceBloc.get()
+            .viewedPlaces
+            .firstWhere((e) => e.name == event.placeName)
+            .id));
       }
     });
   }
@@ -120,5 +132,16 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   double _getBalance(int gameId) {
     Game game = games.firstWhere((e) => e.id == gameId);
     return game.price / game.minPlayers;
+  }
+
+  String getSelectedPlaceSportName() {
+    Place selectedPlace = PlaceBloc.get()
+        .allPlaces
+        .firstWhere((element) => element.id == selectedStadiumId);
+    int sportId = selectedPlace.sport;
+    return MainCubit.get()
+        .sportsList
+        .firstWhere((element) => element.id == sportId)
+        .name;
   }
 }

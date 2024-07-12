@@ -105,6 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "from": MessageLookupByLibrary.simpleMessage("From"),
         "gameCreated":
             MessageLookupByLibrary.simpleMessage("Game Created Successfully"),
+        "gameTotalPrice":
+            MessageLookupByLibrary.simpleMessage("Game Total Price"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "getStarted": MessageLookupByLibrary.simpleMessage(
             "Get your Squad to play together!"),
@@ -253,6 +255,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
         "workingHours": MessageLookupByLibrary.simpleMessage("Working Hours"),
         "wrongPassword":
-            MessageLookupByLibrary.simpleMessage("Wrong password !")
+            MessageLookupByLibrary.simpleMessage("Wrong password !"),
+        "youWillPay": MessageLookupByLibrary.simpleMessage("You will pay")
       };
 }

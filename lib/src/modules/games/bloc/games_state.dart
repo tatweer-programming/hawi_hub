@@ -94,10 +94,12 @@ class ChangGameAvailabilitySuccess extends GamesState {
 }
 
 class JoinGameSuccess extends GamesState {
-  const JoinGameSuccess();
+  final int gameId;
+
+  const JoinGameSuccess(this.gameId);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [gameId];
 }
 
 class JoinGameError extends GamesError {
@@ -120,4 +122,13 @@ class SelectSportSuccess extends GamesState {
 
   @override
   List<Object> get props => [sportId];
+}
+
+class SelectPlaceSuccess extends GamesState {
+  final int placeName;
+
+  const SelectPlaceSuccess(this.placeName);
+
+  @override
+  List<Object> get props => [placeName];
 }

@@ -43,11 +43,13 @@ class GamePlayer {
 }
 
 class Host extends GamePlayer {
+  final String birthDate;
   Host(
       {required super.name,
       required super.id,
       required super.imageUrl,
-      super.isHost = true});
+      super.isHost = true,
+      required this.birthDate});
 
   @override
   factory Host.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,10 @@ class Host extends GamePlayer {
       name: json['userName'],
       id: json['playerId'],
       imageUrl: json['profilePictureUrl'] ?? ImagesManager.defaultProfile,
+      birthDate: json['birthDate'],
     );
+  }
+  double getAge() {
+    return DateTime.now().difference(DateTime.parse(birthDate)).inDays / 365;
   }
 }

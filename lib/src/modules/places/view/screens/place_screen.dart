@@ -194,6 +194,7 @@ class PlaceScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
+
                         if (place.location != null)
                           _buildShowMapWidget(context),
                         Divider(

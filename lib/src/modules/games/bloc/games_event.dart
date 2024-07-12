@@ -7,13 +7,16 @@ abstract class GamesEvent extends Equatable {
 class GetGamesEvent extends GamesEvent {
   final int cityId;
   final bool refresh;
+
   const GetGamesEvent(this.cityId, {this.refresh = false});
+
   @override
   List<Object> get props => [];
 }
 
 class GetGameEvent extends GamesEvent {
   final int gameId;
+
   const GetGameEvent(this.gameId);
 
   @override
@@ -31,6 +34,7 @@ class JoinGameEvent extends GamesEvent {
 
 class ChangeGameAccessEvent extends GamesEvent {
   final bool isPublic;
+
   const ChangeGameAccessEvent({required this.isPublic});
 
   @override
@@ -40,14 +44,27 @@ class ChangeGameAccessEvent extends GamesEvent {
 class CreateGameEvent extends GamesEvent {
   final int minPlayers;
   final int maxPlayers;
+
   const CreateGameEvent({required this.minPlayers, required this.maxPlayers});
+
   @override
   List<Object> get props => [minPlayers, maxPlayers];
 }
 
 class SelectSportEvent extends GamesEvent {
   final int sportId;
+
   const SelectSportEvent(this.sportId);
+
   @override
   List<Object> get props => [sportId];
+}
+
+class SelectPlaceEvent extends GamesEvent {
+  final String placeName;
+
+  const SelectPlaceEvent(this.placeName);
+
+  @override
+  List<Object> get props => [placeName];
 }

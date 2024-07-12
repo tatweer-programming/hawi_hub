@@ -88,7 +88,7 @@ class PlacesRemoteDataSource {
       );
 
       await PaymentService().pendWalletBalance(booking.reservationPrice!);
-      await _sendNotificationToOwner(ownerId, placeId);
+      _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);
     } on DioException catch (e) {
       print(e.response!.data.toString() +
