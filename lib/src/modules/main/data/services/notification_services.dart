@@ -108,6 +108,11 @@ class NotificationServices {
         .subscribeToTopic("player_${ConstantsManager.userId}");
   }
 
+  Future unsubscribeFromTopic() async {
+    await _firebaseMessaging
+        .unsubscribeFromTopic("player_${ConstantsManager.userId}");
+  }
+
   Future sendNotification(AppNotification notification) async {
     try {
       final String jsonCredentials = await rootBundle

@@ -42,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await _repository.registerPlayer(authPlayer: event.authPlayer);
         result.fold((l) => emit(RegisterErrorState(l)), (r) async {
           emit(RegisterSuccessState(value: r));
-          NotificationServices().subscribeToTopic();
+          await NotificationServices().subscribeToTopic();
         });
       } else if (event is LoginPlayerEvent) {
         emit(LoginLoadingState());
@@ -51,8 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 email: event.email,
                 password: event.password,
                 loginWithFBOrGG: false)
-            .then((value) {
+            .then((value) async{
           if (value == "Account LogedIn Successfully") {
+            await NotificationServices().subscribeToTopic();
             emit(LoginSuccessState(value));
           } else {
             emit(LoginErrorState(value));
@@ -252,6 +253,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     ConstantsManager.connectionId = null;
     ConstantsManager.connectionToken = null;
     MainCubit.get().currentIndex = 0;
+    await NotificationServices().unsubscribeFromTopic();
     await CacheHelper.removeData(key: "userId");
   }
 }
