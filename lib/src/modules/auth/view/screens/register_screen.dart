@@ -57,7 +57,7 @@ class RegisterScreen extends StatelessWidget {
         }else if (state is ShowBirthDateDialogState) {
           DateTime? selectedDate = await showDate(context);
           if (selectedDate != null) {
-            ageController.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
+            ageController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
           }
         }
       },

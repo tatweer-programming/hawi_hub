@@ -23,9 +23,7 @@ class MorePage extends StatelessWidget {
     MainCubit mainCubit = MainCubit.get();
     return BlocConsumer<MainCubit, MainState>(
       listener: (context, state) {
-        if (state is ShowDialogState) {
-          showDialogForLanguage(context, mainCubit);
-        }
+        if (state is ShowDialogState) {}
       },
       builder: (context, state) {
         return SingleChildScrollView(
@@ -66,7 +64,7 @@ class MorePage extends StatelessWidget {
                   ),
                   _settingWidget(
                     onTap: () {
-                      mainCubit.showDialog();
+                      showDialogForLanguage(context, mainCubit);
                     },
                     icon: "assets/images/icons/lang.png",
                     title: S.of(context).language,

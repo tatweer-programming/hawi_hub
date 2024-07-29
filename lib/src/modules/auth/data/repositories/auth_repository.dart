@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import '../services/auth_services.dart';

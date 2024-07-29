@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hawihub/src/core/utils/constance_manager.dart';
-import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/payment/data/services/payment_service.dart';
 
 part 'payment_state.dart';

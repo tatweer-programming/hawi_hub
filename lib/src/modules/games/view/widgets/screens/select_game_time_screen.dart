@@ -124,7 +124,7 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
     if (reservationHours < placeMinHours) {
       errorToast(
           msg:
-              "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
+              "${S.of(context).minimumBooking} $placeMinHours ${S.of(context).hours}");
       return true;
     }
 

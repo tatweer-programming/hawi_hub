@@ -162,6 +162,7 @@
   "more": "المزيد",
   "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب",
   "gameTotalPrice": "السعر الكلي للحجز",
-  "youWillPay": "ستدفع"
+  "youWillPay": "ستدفع",
+  "enterAmount" : "ادخل المبلغ"
 
 }

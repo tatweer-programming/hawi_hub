@@ -48,7 +48,7 @@ class Game extends Equatable {
     return Game(
       id: json['gameId'],
       sportName: "",
-      price: json['gamePrice'],
+      price: json['gamePrice'].toDouble(),
       date: DateTime.parse(json['gameStartTime']),
       placeId: json['stadium']['stadiumId'],
       maxPlayers: json['maxPlayers'],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -22,18 +21,19 @@ class DefaultButton extends StatelessWidget {
   final double? height;
   final double? radius;
   final bool isLoading;
+
   const DefaultButton(
       {super.key,
-        required this.text,
-        required this.onPressed,
-        this.color,
-        this.textColor,
-        this.borderColor,
-        this.icon,
-        this.width,
-        this.height,
-        this.radius,
-        this.isLoading = false});
+      required this.text,
+      required this.onPressed,
+      this.color,
+      this.textColor,
+      this.borderColor,
+      this.icon,
+      this.width,
+      this.height,
+      this.radius,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +59,15 @@ class DefaultButton extends StatelessWidget {
             SizedBox(width: 5.sp),
             isLoading
                 ? CircularProgressIndicator.adaptive(
-              valueColor: AlwaysStoppedAnimation<Color>(textColor ?? ColorManager.white),
-            )
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        textColor ?? ColorManager.white),
+                  )
                 : Text(text,
-                style: TextStyle(
-                  color: textColor ?? ColorManager.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeightManager.bold,
-                )),
+                    style: TextStyle(
+                      color: textColor ?? ColorManager.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeightManager.bold,
+                    )),
           ],
         ),
       ),
@@ -78,12 +79,15 @@ class TitleText extends StatelessWidget {
   final String text;
   final bool isBold;
   final Color? color;
+
   const TitleText(this.text, {super.key, this.isBold = true, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        style: isBold ? TextStyleManager.getTitleBoldStyle() : TextStyleManager.getTitleStyle());
+        style: isBold
+            ? TextStyleManager.getTitleBoldStyle()
+            : TextStyleManager.getTitleStyle());
   }
 }
 
@@ -100,8 +104,9 @@ class SubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        style:
-            isBold ? TextStyleManager.getSubTitleBoldStyle() : TextStyleManager.getSubTitleStyle());
+        style: isBold
+            ? TextStyleManager.getSubTitleBoldStyle()
+            : TextStyleManager.getSubTitleStyle());
   }
 }
 
@@ -159,19 +164,17 @@ class NotificationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.startToEnd,
-      background: Row(
-
+      background: const Row(
         children: [
           Icon(
             Icons.mark_chat_read,
             color: ColorManager.primary,
           ),
           Spacer(),
-
         ],
       ),
       key: UniqueKey(),
-      onDismissed:  (context) {
+      onDismissed: (context) {
         MainCubit.get().markNotificationAsRead(notification.id);
       },
       child: Container(
@@ -187,7 +190,8 @@ class NotificationWidget extends StatelessWidget {
             if (notification.image != null)
               CircleAvatar(
                 radius: 5.h,
-                backgroundImage: NetworkImage(ApiManager.handleImageUrl(notification.image!)),
+                backgroundImage: NetworkImage(
+                    ApiManager.handleImageUrl(notification.image!)),
                 backgroundColor: ColorManager.primary,
               ),
             Expanded(
@@ -195,34 +199,34 @@ class NotificationWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                              child: Text(notification.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyleManager.getSubTitleBoldStyle())),
-                          Text(
-                              timeago.format(notification.dateTime!,
-                                  locale: LocalizationManager.getCurrentLocale()
-                                      .languageCode),
-                              style: TextStyleManager.getSubTitleStyle()),
-                          SizedBox(width: 1.w),
-                          const FittedBox(
-                              child: Icon(
-                                Icons.access_time,
-                              )),
-                          SizedBox(width: 3.w),
-                        ],
-                      ),
-                      SizedBox(height: .5.h),
-                      Text(notification.body,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyleManager.getRegularStyle()),
-                    ]))
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                          child: Text(notification.title,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyleManager.getSubTitleBoldStyle())),
+                      Text(
+                          timeago.format(notification.dateTime!,
+                              locale: LocalizationManager.getCurrentLocale()
+                                  .languageCode),
+                          style: TextStyleManager.getSubTitleStyle()),
+                      SizedBox(width: 1.w),
+                      const FittedBox(
+                          child: Icon(
+                        Icons.access_time,
+                      )),
+                      SizedBox(width: 3.w),
+                    ],
+                  ),
+                  SizedBox(height: .5.h),
+                  Text(notification.body,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyleManager.getRegularStyle()),
+                ]))
           ],
         ),
       ),
@@ -235,7 +239,7 @@ Widget dropdownBuilder(
     IconData? icon,
     required Function(String? value) onChanged,
     required List<String> items,
-      List<String>? images,
+    List<Widget>? leadingIcons,
     Color? backgroundColor = ColorManager.white,
     Color? textColor = ColorManager.black}) {
   return DropdownMenu<String>(
@@ -254,8 +258,10 @@ Widget dropdownBuilder(
       fillColor: backgroundColor,
       filled: true,
       enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(22), borderSide: BorderSide(color: textColor!)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide(color: textColor!)),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
@@ -263,10 +269,11 @@ Widget dropdownBuilder(
 
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
       (String value) {
-        return DropdownMenuEntry<String>(value: value, label: value ,
-        leadingIcon:    images == null ? null : CircleAvatar(
-            backgroundImage: NetworkImage(ApiManager.handleImageUrl(images[items.indexOf(value)])),
-        ),
+        return DropdownMenuEntry<String>(
+          value: value,
+          label: value,
+          leadingIcon:
+              leadingIcons == null ? null : leadingIcons[items.indexOf(value)],
         );
       },
     ).toList(),

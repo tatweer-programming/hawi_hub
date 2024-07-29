@@ -73,7 +73,7 @@ class Place extends Equatable {
         totalGames: json['totalGames'] ?? 0,
         totalRatings: json['totalRatings'] ?? 0,
         rating: json['rate'].toDouble(),
-        feedbacks: [],
+        feedbacks: const [],
         workingHours:
             List<Day>.from(json["openTimes"].map((x) => Day.fromJson(x))),
         location: PlaceLocation.fromString(json['location'] ?? ""),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
+import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -9,7 +10,6 @@ import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
-import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
@@ -96,9 +96,17 @@ class MainAppBar extends StatelessWidget {
                     text: mainCubit.selectedSport == null
                         ? S.of(context).chooseSport
                         : mainCubit.selectedSport!,
-                    images:
-                        MainCubit.get().sportsList.map((e) => e.image).toList()
-                          ..add(ImagesManager.allSports),
+                    leadingIcons: MainCubit.get()
+                        .sportsList
+                        .map((e) => CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  ApiManager.handleImageUrl(e.image)),
+                            ))
+                        .toList()
+                      ..add(CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            ApiManager.handleImageUrl(ImagesManager.allSports)),
+                      )),
                     onChanged: (val) {
                       if (val == S.of(context).all) {
                         mainCubit.selectSport("all");

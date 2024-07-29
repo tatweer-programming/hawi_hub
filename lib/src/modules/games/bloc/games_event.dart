@@ -61,10 +61,10 @@ class SelectSportEvent extends GamesEvent {
 }
 
 class SelectPlaceEvent extends GamesEvent {
-  final String placeName;
+  final int placeId;
 
-  const SelectPlaceEvent(this.placeName);
+  const SelectPlaceEvent(this.placeId);
 
   @override
-  List<Object> get props => [placeName];
+  List<Object> get props => [placeId];
 }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
-import 'package:hawihub/src/modules/auth/view/screens/update_profile_screen.dart';
-import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';

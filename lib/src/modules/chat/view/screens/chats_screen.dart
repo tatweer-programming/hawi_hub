@@ -6,7 +6,6 @@ import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
-import 'package:hawihub/src/modules/chat/view/components.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';

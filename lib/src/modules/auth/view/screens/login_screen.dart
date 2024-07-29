@@ -8,6 +8,7 @@ import 'package:hawihub/src/modules/auth/view/screens/forget_password_screen.dar
 import 'package:hawihub/src/modules/auth/view/screens/register_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../../../generated/l10n.dart';
 import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/color_manager.dart';
@@ -58,11 +59,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     authBackGround(50.h),
                     BlocConsumer<MainCubit, MainState>(
-                      listener: (context, state) {
-                        if (state is ShowDialogState) {
-                          showDialogForLanguage(context, mainCubit);
-                        }
-                      },
+                      listener: (context, state) {},
                       builder: (context, state) {
                         return Padding(
                           padding: EdgeInsets.symmetric(
@@ -74,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                               size: 28.sp,
                             ),
                             onPressed: () {
-                              mainCubit.showDialog();
+                              showDialogForLanguage(context, mainCubit);
                             },
                           ),
                         );
@@ -166,7 +163,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 S.of(context).forgotPassword,
                                 style:
-                                const TextStyle(color: ColorManager.black),
+                                    const TextStyle(color: ColorManager.black),
                               ),
                             ),
                           ],

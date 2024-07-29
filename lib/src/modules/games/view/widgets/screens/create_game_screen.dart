@@ -19,7 +19,10 @@ import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateGameScreen extends StatelessWidget {
-  const CreateGameScreen({super.key});
+  final int? placeId;
+  final String? placeName;
+
+  const CreateGameScreen({super.key, this.placeId, this.placeName});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,8 @@ class CreateGameScreen extends StatelessWidget {
                       ),
                     ),
                     BlocBuilder<GamesBloc, GamesState>(
-                      bloc: bloc,
+                      bloc: placeId == null ? bloc : bloc
+                        ..add(SelectPlaceEvent(placeId ?? 0)),
                       builder: (context, state) {
                         return Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -74,10 +78,14 @@ class CreateGameScreen extends StatelessWidget {
                                   text: bloc.selectedStadiumId == null
                                       ? S.of(context).chooseSport
                                       : bloc.getSelectedPlaceSportName(),
-                                  images: [
+                                  leadingIcons: [
                                     ...MainCubit.get()
                                         .sportsList
-                                        .map((e) => e.image)
+                                        .map((e) => CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  ApiManager.handleImageUrl(
+                                                      e.image)),
+                                            ))
                                   ],
                                   onChanged: (val) {
                                     MainCubit.get().selectSport(val!);
@@ -91,13 +99,31 @@ class CreateGameScreen extends StatelessWidget {
                                   height: 3.h,
                                 ),
                                 dropdownBuilder(
-                                  images: PlaceBloc.get()
+                                  leadingIcons: PlaceBloc.get()
                                       .viewedPlaces
-                                      .map((e) => e.images.first)
+                                      .map((e) => CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                ApiManager.handleImageUrl(
+                                                    e.images.first)),
+                                            child: InkWell(
+                                              onTap: () {
+                                                context.push(Routes.place,
+                                                    arguments: {"id": e.id});
+                                              },
+                                            ),
+                                          ))
                                       .toList(),
-                                  text: S.of(context).place,
+                                  text: placeId == null
+                                      ? S.of(context).place
+                                      : PlaceBloc.get()
+                                          .viewedPlaces
+                                          .firstWhere((e) => e.id == placeId)
+                                          .name,
                                   onChanged: (value) {
-                                    bloc.add(SelectPlaceEvent(value!));
+                                    bloc.add(SelectPlaceEvent(PlaceBloc.get()
+                                        .viewedPlaces
+                                        .firstWhere((e) => e.name == value)
+                                        .id));
                                   },
                                   items: PlaceBloc.get()
                                       .viewedPlaces

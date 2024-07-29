@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:hawihub/src/modules/auth/data/models/owner.dart';
 import 'package:hawihub/src/modules/chat/data/models/owner_chat.dart';
 
 

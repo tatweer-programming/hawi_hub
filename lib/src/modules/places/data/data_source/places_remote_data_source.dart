@@ -8,7 +8,6 @@ import 'package:hawihub/src/modules/main/data/services/notification_services.dar
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
-import '../../../payment/data/services/payment_service.dart';
 import '../models/place.dart';
 
 class PlacesRemoteDataSource {
@@ -19,17 +18,10 @@ class PlacesRemoteDataSource {
         path: "${EndPoints.getPlaces}$cityId",
         query: {"cityId": cityId},
       );
-      if (response.statusCode == 200) {
-        List<Place> places =
-            (response.data as List).map((e) => Place.fromJson(e)).toList();
-        return Right(places);
-      }
-      return Left(Exception('Failed to fetch places'));
+      List<Place> places =
+          (response.data as List).map((e) => Place.fromJson(e)).toList();
+      return Right(places);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -37,15 +29,8 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, Place>> getPlace({required int id}) async {
     try {
       var response = await DioHelper.getData(path: "${EndPoints.getPlace}$id");
-      if (response.statusCode == 200) {
-        return Right(Place.fromJson(response.data));
-      }
-      return Left(Exception('Failed to fetch place'));
+      return Right(Place.fromJson(response.data));
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -55,23 +40,13 @@ class PlacesRemoteDataSource {
     try {
       var response = await DioHelper.getData(
           path: "${EndPoints.getPlaceBookings}$placeId");
-      if (response.statusCode == 200) {
-        List<Booking> bookings =
-            (response.data as List).map((e) => Booking.fromJson(e)).toList();
-        return Right(bookings);
-      }
-      return Left(Exception('Failed to fetch bookings'));
+      List<Booking> bookings =
+          (response.data as List).map((e) => Booking.fromJson(e)).toList();
+      return Right(bookings);
     } on DioException catch (e) {
       DioException dioException = e;
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(dioException);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -81,25 +56,19 @@ class PlacesRemoteDataSource {
       required int placeId,
       required int ownerId}) async {
     try {
-      await DioHelper.postData(
-        path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
-        data: booking.toJson(
-            stadiumId: placeId, reservationPrice: booking.reservationPrice!),
-      );
+      Future.wait([
+        DioHelper.postData(
+          path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
+          data: booking.toJson(
+              stadiumId: placeId, reservationPrice: booking.reservationPrice!),
+        ),
+        _sendNotificationToOwner(ownerId, placeId)
+      ]);
 
-      // await PaymentService().pendWalletBalance(booking.reservationPrice!);
-      _sendNotificationToOwner(ownerId, placeId);
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -111,23 +80,13 @@ class PlacesRemoteDataSource {
         path: EndPoints.getPlaceFeedbacks + placeId.toString(),
         query: {"stadiumId": placeId},
       );
-      if (response.statusCode == 200) {
-        List<AppFeedBack> appFeedBacks = (response.data["reviews"] as List)
-            .map((e) => AppFeedBack.fromJson(e))
-            .toList();
-        return Right(appFeedBacks);
-      }
-      return Left(Exception('Failed to fetch reviews'));
+      List<AppFeedBack> appFeedBacks = (response.data["reviews"] as List)
+          .map((e) => AppFeedBack.fromJson(e))
+          .toList();
+      return Right(appFeedBacks);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -141,15 +100,8 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -164,15 +116,8 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -186,15 +131,8 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -209,15 +147,8 @@ class PlacesRemoteDataSource {
       );
       return const Right(unit);
     } on DioException catch (e) {
-      print(e.response!.data.toString() +
-          "    " +
-          e.response!.statusCode.toString());
       return Left(e);
     } on Exception catch (e) {
-      DioException dioException = e as DioException;
-      print(dioException.response!.data.toString() +
-          "    " +
-          dioException.response!.statusCode.toString());
       return Left(e);
     }
   }
@@ -230,6 +161,6 @@ class PlacesRemoteDataSource {
         title: "طلب حجز ملعب",
         dateTime: DateTime.now(),
         id: 0);
-     NotificationServices().sendNotification(notification);
+    NotificationServices().sendNotification(notification);
   }
 }

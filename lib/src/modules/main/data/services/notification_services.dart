@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +6,9 @@ import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/notification_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+
 import '../../../../core/common widgets/common_widgets.dart';
 import '../../../../core/utils/constance_manager.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
 
 class NotificationServices {
   static final FirebaseMessaging _firebaseMessaging =
@@ -121,17 +119,14 @@ class NotificationServices {
           ServiceAccountCredentials.fromJson(jsonCredentials);
       final client = await clientViaServiceAccount(
           cred, [NotificationManager.clientViaServiceAccount]);
-      await client
-          .post(
-        Uri.parse(NotificationManager.notificationUrl),
-        headers: {'content-type': 'application/json'},
-        body: notification.jsonBody(),
-      )
-          .then(
-        (value) async {
-          await _saveNotification(notification);
-        },
-      );
+      Future.wait([
+        client.post(
+          Uri.parse(NotificationManager.notificationUrl),
+          headers: {'content-type': 'application/json'},
+          body: notification.jsonBody(),
+        ),
+        _saveNotification(notification)
+      ]);
       client.close();
     } catch (e) {
       print("Error in sending notification: $e");

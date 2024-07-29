@@ -37,9 +37,7 @@ class GetStartedScreen extends StatelessWidget {
                       child: FloatingActionButton(
                         mini: true,
                         backgroundColor: ColorManager.secondary,
-                        onPressed: () {
-                          mainCubit.showDialog();
-                        },
+                        onPressed: () {},
                         child: Icon(
                           Icons.language,
                           color: ColorManager.white,

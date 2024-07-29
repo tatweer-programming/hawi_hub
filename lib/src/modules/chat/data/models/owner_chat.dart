@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
 
 class OwnerChat {
   final int ownerId;

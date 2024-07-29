@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "End time must be after start time"),
         "endTimeMustBeAfterStartTime": MessageLookupByLibrary.simpleMessage(
             "End time must be after start time"),
+        "enterAmount": MessageLookupByLibrary.simpleMessage("Enter amount"),
         "enterCode": MessageLookupByLibrary.simpleMessage("Please enter code"),
         "enterConfirmPassword": MessageLookupByLibrary.simpleMessage(
             "Please enter confirm password"),

@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/shimmer_widget.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/place_holder.dart';
-import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../../../main/view/widgets/pages/home_page.dart';
 
 class VerticalPlacesShimmer extends StatelessWidget {
   const VerticalPlacesShimmer({super.key});

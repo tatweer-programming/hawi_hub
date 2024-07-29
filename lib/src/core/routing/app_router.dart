@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
 import 'package:hawihub/src/modules/games/view/widgets/screens/select_game_time_screen.dart';
@@ -12,6 +11,7 @@ import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart'
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_reviews.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
+
 import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
 import '../../modules/games/view/widgets/screens/all_players_screen.dart';
@@ -46,9 +46,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.profile:
         Map<String, dynamic> arguments =
-        settings.arguments as Map<String, dynamic>;
+            settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => ProfileScreen(id: arguments['id'],userType: arguments['userType']));
+            builder: (_) => ProfileScreen(
+                id: arguments['id'], userType: arguments['userType']));
       case Routes.wallet:
         return MaterialPageRoute(builder: (_) => const MyWallet());
       case Routes.home:
@@ -72,7 +73,13 @@ class AppRouter {
             builder: (_) => AllPlayersScreen(
                 players: arguments['players'] as List<GamePlayer>));
       case Routes.createGame:
-        return MaterialPageRoute(builder: (_) => const CreateGameScreen());
+        Map<String, dynamic>? arguments =
+            settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+            builder: (_) => CreateGameScreen(
+                  placeId: arguments?['placeId'],
+                  placeName: arguments?['placeName'],
+                ));
       case Routes.placeLocation:
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;

@@ -3,21 +3,16 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/repositories/auth_repository.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
-import 'package:open_file_plus/open_file_plus.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'auth_event.dart';
 

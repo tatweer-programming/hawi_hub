@@ -33,7 +33,7 @@ class PlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlaceBloc cubit = PlaceBloc.get();
-    Place place = cubit.currentPlace!;
+    Place place = cubit.viewedPlaces.firstWhere((e) => e.id == placeId);
     print("place id: ${ConstantsManager.userId}");
 
     return Scaffold(
@@ -194,7 +194,6 @@ class PlaceScreen extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
-
                         if (place.location != null)
                           _buildShowMapWidget(context),
                         Divider(
@@ -252,7 +251,7 @@ class PlaceScreen extends StatelessWidget {
                                                     )
                                                   : Text(
                                                       S.of(context).noRatings),
-                                            )
+                                            ),
                                           ],
                                         )
                                       : Center(
@@ -286,26 +285,6 @@ class PlaceScreen extends StatelessWidget {
                                 child: Text(S.of(context).viewFeedbacks,
                                     style: TextStyleManager
                                         .getGoldenRegularStyle()))),
-                        // Padding(
-                        //   padding: EdgeInsets.symmetric(vertical: 2.h),
-                        //   child: SizedBox(
-                        //     height: 7.h,
-                        //     child: Row(
-                        //       children: [
-                        //         Expanded(child: _buildUserRatingWidget(context, true)),
-                        //         SizedBox(
-                        //           width: 3.w,
-                        //         ),
-                        //         // Expanded(
-                        //         //     child: OutLineContainer(
-                        //         //       child: Text(
-                        //         //         "${cubit.currentPlac} ${S.of(context).upcoming}",
-                        //         //       ),
-                        //         //     )),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
                         SubTitle(S.of(context).sport),
                         SizedBox(
                           height: 1.h,
@@ -313,7 +292,8 @@ class PlaceScreen extends StatelessWidget {
                         _buildSportWidget(
                             MainCubit.get()
                                 .sportsList
-                                .firstWhere((element) => element == place.sport,
+                                .firstWhere(
+                                    (element) => place.sport == element.id,
                                     orElse: () => Sport.unKnown())
                                 .name,
                             context),
@@ -383,6 +363,20 @@ class PlaceScreen extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 2.h,
+                        ),
+                        OutLineContainer(
+                          color: ColorManager.grey1,
+                          child: SubTitle(
+                            S.of(context).createGame,
+                            isBold: false,
+                          ),
+                          onPressed: () {
+                            context.push(Routes.createGame,
+                                arguments: {"placeId": place.id});
+                          },
+                        ),
+                        SizedBox(
+                          height: 3.h,
                         ),
                         InkWell(
                           onTap: () {
@@ -506,31 +500,6 @@ class PlaceScreen extends StatelessWidget {
           ))),
     );
   }
-
-  // Widget _buildUserRatingWidget(BuildContext context, bool hasRated) {
-  //   return OutLineContainer(
-  //       child: Center(
-  //     child: SizedBox(
-  //       height: 20.sp,
-  //       child: RatingBar.builder(
-  //         glow: true,
-  //         itemSize: 20.sp,
-  //         direction: Axis.horizontal,
-  //         allowHalfRating: true,
-  //         wrapAlignment: WrapAlignment.center,
-  //         initialRating: 2.5,
-  //         // user rating
-  //         itemCount: 5,
-  //         glowColor: ColorManager.golden,
-  //         itemBuilder: (context, _) => const Icon(
-  //           Icons.star,
-  //           color: ColorManager.golden,
-  //         ),
-  //         onRatingUpdate: (r) {},
-  //       ),
-  //     ),
-  //   ));
-  // }
 
   Widget _buildSportWidget(String sport, BuildContext context) {
     return Container(

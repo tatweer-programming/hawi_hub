@@ -1689,6 +1689,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter amount`
+  String get enterAmount {
+    return Intl.message(
+      'Enter amount',
+      name: 'enterAmount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

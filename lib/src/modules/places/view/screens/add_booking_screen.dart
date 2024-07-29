@@ -32,55 +32,55 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   @override
   void initState() {
-    print("place id : ${widget.placeId}");
-    _fetchBookings();
     super.initState();
+    _fetchBookings();
   }
 
   Future<void> _fetchBookings() async {
     PlaceBloc.get().add(GetPlaceBookingsEvent(widget.placeId));
   }
 
-  Future<void> _selectStartTime() async {
+  Future<void> _selectTime(bool isStartTime) async {
     final pickedTime = await showTimePicker(
       context: context,
-      initialTime: startTime,
+      initialTime: isStartTime ? startTime : endTime,
       cancelText: S.of(context).cancel,
       confirmText: S.of(context).confirm,
     );
     if (pickedTime != null) {
       setState(() {
-        startTime = pickedTime;
-      });
-    }
-  }
-
-  Future<void> _selectEndTime() async {
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: endTime,
-      cancelText: S.of(context).cancel,
-      confirmText: S.of(context).confirm,
-    );
-    if (pickedTime != null) {
-      setState(() {
-        endTime = pickedTime;
+        if (isStartTime) {
+          startTime = pickedTime;
+        } else {
+          endTime = pickedTime;
+        }
       });
     }
   }
 
   Future<void> _makeBooking() async {
-    DateTime start = DateTime(selectedDate.year, selectedDate.month,
-        selectedDate.day, startTime.hour, startTime.minute);
-    DateTime end = DateTime(selectedDate.year, selectedDate.month,
-        selectedDate.day, endTime.hour, endTime.minute);
+    DateTime start = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      startTime.hour,
+      startTime.minute,
+    );
+    DateTime end = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      endTime.hour,
+      endTime.minute,
+    );
     DateTime now = DateTime.now();
 
-    if (_isBookingTimeInvalid(start, end, now)) return;
+    if (_isBookingTimeInvalid(start, end, now) ||
+        _isBookingConflict(start, end) ||
+        _isBelowMinimumHours(start, end)) {
+      return;
+    }
 
-    if (_isBookingConflict(start, end)) return;
-
-    if (_isBelowMinimumHours(start, end)) return;
     setState(() {
       double reservationPrice = PlaceBloc.get().currentPlace!.price *
           (end.difference(start).inMinutes / 60);
@@ -88,9 +88,10 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         PlaceBloc.get(),
         AddBookingEvent(
           Booking(
-              startTime: start,
-              endTime: end,
-              reservationPrice: reservationPrice),
+            startTime: start,
+            endTime: end,
+            reservationPrice: reservationPrice,
+          ),
           placeId: widget.placeId,
         ),
         requiredBalance: 0,
@@ -112,7 +113,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
       return true;
     }
 
-    if (start.isBefore(now.add(const Duration(hours: 2)))) {
+    if (start.isBefore(now.add(const Duration(minutes: 30)))) {
       errorToast(msg: S.of(context).startTimeTooSoon);
       return true;
     }
@@ -131,12 +132,9 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         return true;
       }
     }
-
     PlaceBloc.get()
         .allPlaces
-        .firstWhere(
-          (element) => element.id == widget.placeId,
-        )
+        .firstWhere((element) => element.id == widget.placeId)
         .isBookingAllowed(start, end);
     return false;
   }
@@ -150,20 +148,17 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
         0;
     if (reservationHours < placeMinHours) {
       errorToast(
-          msg:
-              "${S.of(context).minimumBooking} ${placeMinHours} ${S.of(context).hours}");
+        msg:
+            "${S.of(context).minimumBooking} $placeMinHours ${S.of(context).hours}",
+      );
       return true;
     }
 
     return false;
-
-// Add the booking to the list (simulate the addition)
   }
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "bookings: ${bookings.map((e) => "start: ${e.startTime}, end: ${e.endTime}").toString()}");
     return Scaffold(
       body: Column(
         children: [
@@ -172,11 +167,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
               child: Column(
                 children: [
                   CustomAppBar(
-                    actions: [
-                      SizedBox(
-                        height: 5.h,
-                      )
-                    ],
+                    actions: [SizedBox(height: 5.h)],
                     height: 33.h,
                     opacity: .15,
                     backgroundImage: "assets/images/app_bar_backgrounds/5.webp",
@@ -196,17 +187,14 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                     listener: (context, state) {
                       if (state is GetPlaceBookingsSuccess) {
                         setState(() {
-                          debugPrint(state.bookings
-                              .map((e) =>
-                                  "start: ${e.startTime}, end: ${e.endTime}")
-                              .toString());
                           bookings = state.bookings;
                         });
                       }
                       if (state is PlaceError) {
                         errorToast(
-                            msg: ExceptionManager(state.exception)
-                                .translatedMessage());
+                          msg: ExceptionManager(state.exception)
+                              .translatedMessage(),
+                        );
                       }
                       if (state is SendBookingRequestSuccess) {
                         defaultToast(msg: S.of(context).bookingSuccess);
@@ -222,123 +210,9 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                                 child: Column(
                                   children: [
-                                    SizedBox(
-                                      height: 50.h,
-                                      child: Stack(
-                                        children: [
-                                          Card(
-                                            color: ColorManager.white,
-                                            elevation: 5,
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  color: ColorManager.primary,
-                                                  height: 10.h,
-                                                  width: double.infinity,
-                                                  child: Align(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .bottomStart,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: TitleText(
-                                                        color:
-                                                            ColorManager.white,
-                                                        DateFormat.yMMMMEEEEd()
-                                                            .format(
-                                                                selectedDate),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: CalendarDatePicker(
-                                                    initialCalendarMode:
-                                                        DatePickerMode.day,
-                                                    currentDate: selectedDate,
-                                                    firstDate: DateTime.now(),
-                                                    lastDate: DateTime.now()
-                                                        .add(const Duration(
-                                                            days: 365)),
-                                                    initialDate: selectedDate,
-                                                    onDateChanged:
-                                                        (DateTime value) {
-                                                      setState(() {
-                                                        selectedDate = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 50.h,
-                                      width: 90.w,
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 43.w,
-                                            child: Stack(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    SubTitle(
-                                                        S.of(context).from),
-                                                    FittedBox(
-                                                      child: TimePickerDialog(
-                                                        initialTime: startTime,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Positioned.fill(
-                                                    child: InkWell(
-                                                        onTap:
-                                                            _selectStartTime))
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          SizedBox(
-                                            width: 43.w,
-                                            child: Stack(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    SubTitle(S.of(context).to),
-                                                    FittedBox(
-                                                      child: TimePickerDialog(
-                                                        initialTime: endTime,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Positioned.fill(
-                                                    child: InkWell(
-                                                        onTap: _selectEndTime))
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
+                                    _buildCalendarCard(),
+                                    _buildTimePickerRow(),
+                                    SizedBox(height: 2.h),
                                   ],
                                 ),
                               );
@@ -357,14 +231,101 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
                   : Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                       child: DefaultButton(
-                          isLoading: state is SendBookingRequestLoading,
-                          text: S.of(context).save,
-                          onPressed: () {
-                            _makeBooking();
-                          }),
+                        isLoading: state is SendBookingRequestLoading,
+                        text: S.of(context).save,
+                        onPressed: _makeBooking,
+                      ),
                     );
             },
-          )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCalendarCard() {
+    return SizedBox(
+      height: 50.h,
+      child: Stack(
+        children: [
+          Card(
+            color: ColorManager.white,
+            elevation: 5,
+            child: Column(
+              children: [
+                Container(
+                  color: ColorManager.primary,
+                  height: 10.h,
+                  width: double.infinity,
+                  child: Align(
+                    alignment: AlignmentDirectional.bottomStart,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TitleText(
+                        color: ColorManager.white,
+                        DateFormat.yMMMMEEEEd().format(selectedDate),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: CalendarDatePicker(
+                    initialCalendarMode: DatePickerMode.day,
+                    currentDate: selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                    initialDate: selectedDate,
+                    onDateChanged: (DateTime value) {
+                      setState(() {
+                        selectedDate = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimePickerRow() {
+    return SizedBox(
+      height: 50.h,
+      width: 90.w,
+      child: Row(
+        children: [
+          _buildTimePickerColumn(isStartTime: true),
+          const Spacer(),
+          _buildTimePickerColumn(isStartTime: false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimePickerColumn({required bool isStartTime}) {
+    return SizedBox(
+      width: 43.w,
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SubTitle(isStartTime ? S.of(context).from : S.of(context).to),
+              FittedBox(
+                child: TimePickerDialog(
+                  initialTime: isStartTime ? startTime : endTime,
+                ),
+              ),
+            ],
+          ),
+          Positioned.fill(
+            child: InkWell(
+              onTap: () => _selectTime(isStartTime),
+            ),
+          ),
         ],
       ),
     );

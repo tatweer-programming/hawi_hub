@@ -6,6 +6,11 @@ import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
 
+import '../../../games/view/widgets/pages/play_page.dart';
+import '../../../places/view/widgets/pages/book_page.dart';
+import '../widgets/pages/home_page.dart';
+import '../widgets/pages/more_page.dart';
+
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
@@ -19,6 +24,7 @@ class MainScreen extends StatelessWidget {
       bottomNavigationBar: const CustomBottomNavigationBar(),
       body: BlocBuilder<MainCubit, MainState>(
         bloc: mainCubit,
+        buildWhen: (previous, current) => current is ChangePage,
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: () async {
@@ -27,7 +33,7 @@ class MainScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  mainCubit.pages[mainCubit.currentIndex],
+                  pages[mainCubit.currentIndex],
                 ],
               ),
             ),
@@ -36,4 +42,11 @@ class MainScreen extends StatelessWidget {
       ),
     );
   }
+
+  static List<Widget> pages = const [
+    HomePage(),
+    PlayPage(),
+    BookPage(),
+    MorePage(),
+  ];
 }

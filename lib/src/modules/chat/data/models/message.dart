@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/modules/chat/data/models/message_details.dart';
 
 class Message extends Equatable {

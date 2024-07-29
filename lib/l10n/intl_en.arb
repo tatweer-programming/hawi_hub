@@ -162,5 +162,6 @@
   "addIdCard": "Please add an identification card",
   "conflictWithWorkingHours" : "There is a conflict with working hours",
   "gameTotalPrice": "Game Total Price",
-  "youWillPay" :"You will pay"
+  "youWillPay" :"You will pay",
+  "enterAmount" : "Enter amount"
 }

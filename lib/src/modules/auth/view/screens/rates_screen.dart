@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
-import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/people_rate_builder.dart';
-import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';

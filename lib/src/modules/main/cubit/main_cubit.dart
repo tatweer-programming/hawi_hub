@@ -2,23 +2,15 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_geolocation_service/flutter_geolocation_service.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/local/shared_prefrences.dart';
-import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/data/services/main_services.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
-import 'package:hawihub/src/modules/main/view/widgets/pages/home_page.dart';
-import 'package:hawihub/src/modules/main/view/widgets/pages/more_page.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
-import 'package:hawihub/src/modules/places/view/widgets/pages/book_page.dart';
-
-import '../../games/view/widgets/pages/play_page.dart';
 
 part 'main_state.dart';
 
@@ -29,31 +21,22 @@ class MainCubit extends Cubit<MainState> {
   MainServices mainServices = MainServices();
 
   MainCubit() : super(MainInitial());
-  List<Widget> pages = [
-    const HomePage(),
-    const PlayPage(),
-    const BookPage(),
-    const MorePage(),
-  ];
+
   int currentIndex = 0;
+
+  void changePage(int index) {
+    if (currentIndex != index) {
+      currentIndex = index;
+      emit(ChangePage(index));
+    }
+  }
+
   List<String> bannerList = [];
   List<Sport> sportsList = [];
   String? selectedSport;
 
   int? currentCityId;
   List<AppNotification> notifications = [];
-
-  void changePage(int index) {
-    currentIndex = index;
-    emit(ChangePage(index));
-  }
-
-  Future<void> init() async {
-    await LocationServices.determinePosition().then((value) {
-      print(value.toJson());
-      FlutterGeolocationService service = FlutterGeolocationService();
-    });
-  }
 
   Future<void> getBanner() async {
     emit(GetBannersLoading());
@@ -74,7 +57,6 @@ class MainCubit extends Cubit<MainState> {
       emit(GetSportsError(l));
     }, (r) {
       sportsList = r;
-      print("sports $r");
       emit(GetSportsSuccess(r));
     });
   }
@@ -113,18 +95,11 @@ class MainCubit extends Cubit<MainState> {
 
   Future<void> getCurrentCity() async {
     currentCityId = await CacheHelper.getData(key: "cityId") ?? 1;
-    print(" city id $currentCityId");
     emit(GetCitySuccessState(currentCityId!));
   }
 
   Future<void> saveCurrentCity(int cityId) async {
-    await CacheHelper.saveData(key: "cityId", value: cityId).then((value) {
-      print("city saved");
-    });
-  }
-
-  Future<void> showDialog() async {
-    emit(ShowDialogState());
+    await CacheHelper.saveData(key: "cityId", value: cityId).then((value) {});
   }
 
   Future<void> changeLanguage(int index) async {

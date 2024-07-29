@@ -8,7 +8,6 @@ import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:hawihub/src/modules/chat/data/models/chat.dart';
 import 'package:hawihub/src/modules/chat/data/models/message.dart';
 import 'package:hawihub/src/modules/chat/data/models/message_details.dart';
-import 'package:hawihub/src/modules/chat/view/components.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/styles_manager.dart';

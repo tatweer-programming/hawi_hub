@@ -5,7 +5,6 @@ import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
-import '../../../../../core/utils/color_manager.dart';
 import '../../../data/models/player.dart';
 
 class AllPlayersScreen extends StatelessWidget {

@@ -111,12 +111,11 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
       } else if (event is SelectPlaceEvent) {
         selectedStadiumId = PlaceBloc.get()
             .viewedPlaces
-            .firstWhere((e) => e.name == event.placeName)
+            .firstWhere((e) => e.id == event.placeId)
             .id;
-
         emit(SelectPlaceSuccess(PlaceBloc.get()
             .viewedPlaces
-            .firstWhere((e) => e.name == event.placeName)
+            .firstWhere((e) => e.id == event.placeId)
             .id));
       }
     });

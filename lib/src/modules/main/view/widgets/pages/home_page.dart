@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
@@ -30,17 +30,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MainCubit mainCubit = MainCubit.get()..initializeHomePage();
-    GamesBloc gamesBloc = GamesBloc.get();
-    PlaceBloc placeBloc = PlaceBloc.get();
     AuthBloc authBloc = AuthBloc.get(context);
-    if (ConstantsManager.userId != null) {
-      if (kDebugMode) {
-        print(
-            "userId: ${ConstantsManager.userId} , user: ${ConstantsManager.appUser}");
-      }
-      authBloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
-    }
+    UserAccessProxy(
+            authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
+        .execute([AccessCheckType.login]);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,16 +42,15 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
           child: ConnectionWidget(
-              onRetry: retryConnecting,
-              child: Column(children: [
+            onRetry: retryConnecting,
+            child: Column(
+              children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 2.h,
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 2.h),
                   child: DefaultButton(
                     text: S.of(context).createGame,
                     onPressed: () {
-                      context.push(Routes.createGame);
+                      context.push(Routes.createGame, arguments: {"id": null});
                     },
                   ),
                 ),
@@ -73,9 +66,6 @@ class HomePage extends StatelessWidget {
                           reverse: false,
                           autoPlayCurve: Curves.fastOutSlowIn,
                           autoPlay: true,
-                          pauseAutoPlayInFiniteScroll: true,
-                          pauseAutoPlayOnTouch: true,
-                          // aspectRatio: 90.w / 30.h,
                           viewportFraction: 0.87,
                           padEnds: false,
                           pauseAutoPlayOnManualNavigate: true,
@@ -90,13 +80,13 @@ class HomePage extends StatelessWidget {
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 5.0),
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: ColorManager.shimmerBaseColor,
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(i),
-                                          )),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: ColorManager.shimmerBaseColor,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(i),
+                                        ),
+                                      ),
                                     );
                                   },
                                 );
@@ -105,123 +95,104 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child:
-                            TitleText(S.of(context).nearByGames, isBold: true)),
-                    TextButton(
-                        onPressed: () {
-                          mainCubit.changePage(1);
-                        },
-                        child: Row(
-                          children: [
-                            Text(S.of(context).viewAll,
-                                style:
-                                    TextStyleManager.getGoldenRegularStyle()),
-                            const Icon(Icons.arrow_forward,
-                                color: ColorManager.golden)
-                          ],
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                SizedBox(
-                  height: 15.h,
-                  child: BlocBuilder<GamesBloc, GamesState>(
-                      bloc: gamesBloc,
-                      builder: (context, state) {
-                        print(state);
-                        return state is GetGamesLoading
-                            ? const HorizontalGamesShimmer()
-                            : gamesBloc.filteredGames.isEmpty
-                                ? const EmptyView()
-                                : ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) => GameItem(
-                                        game: gamesBloc.filteredGames[index]),
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                          width: 4.w,
-                                        ),
-                                    itemCount:
-                                        gamesBloc.filteredGames.length > 3
-                                            ? 3
-                                            : gamesBloc.filteredGames.length);
-                      }),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: TitleText(S.of(context).nearByVenues,
-                            isBold: true)),
-                    TextButton(
-                        onPressed: () {
-                          mainCubit.changePage(2);
-                        },
-                        child: Row(
-                          children: [
-                            Text(S.of(context).viewAll,
-                                style:
-                                    TextStyleManager.getGoldenRegularStyle()),
-                            const Icon(Icons.arrow_forward,
-                                color: ColorManager.golden)
-                          ],
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                SizedBox(
-                  height: 27.h,
-                  child: BlocListener<PlaceBloc, PlaceState>(
-                    bloc: placeBloc,
-                    listener: (context, state) {
-                      if (state is PlaceError) {
-                        errorToast(
-                            msg: ExceptionManager(state.exception)
-                                .translatedMessage());
-                      }
-                    },
-                    child: BlocBuilder<PlaceBloc, PlaceState>(
-                        bloc: placeBloc,
-                        builder: (context, state) {
-                          return state is GetAllPlacesLoading
-                              ? const HorizontalPlacesShimmer()
-                              : placeBloc.viewedPlaces.isEmpty
-                                  ? const EmptyView()
-                                  : ListView.separated(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) =>
-                                          PlaceItem(
-                                            place:
-                                                placeBloc.viewedPlaces[index],
-                                          ),
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(
-                                            width: 4.w,
-                                          ),
-                                      itemCount:
-                                          placeBloc.viewedPlaces.length > 3
-                                              ? 3
-                                              : placeBloc.viewedPlaces.length);
-                        }),
-                  ),
-                ),
-              ])),
+                SizedBox(height: 2.h),
+                buildSectionTitle(
+                    context, S.of(context).nearByGames, 1, mainCubit),
+                buildGameList(gamesBloc),
+                SizedBox(height: 2.h),
+                buildSectionTitle(
+                    context, S.of(context).nearByVenues, 2, mainCubit),
+                buildPlaceList(placeBloc),
+              ],
+            ),
+          ),
         ),
       ],
+    );
+  }
+
+  Widget buildSectionTitle(
+      BuildContext context, String title, int pageIndex, MainCubit mainCubit) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(child: TitleText(title, isBold: true)),
+        TextButton(
+          onPressed: () {
+            mainCubit.changePage(pageIndex);
+          },
+          child: Row(
+            children: [
+              Text(S.of(context).viewAll,
+                  style: TextStyleManager.getGoldenRegularStyle()),
+              const Icon(Icons.arrow_forward, color: ColorManager.golden)
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildGameList(GamesBloc gamesBloc) {
+    return SizedBox(
+      height: 15.h,
+      child: BlocBuilder<GamesBloc, GamesState>(
+        bloc: gamesBloc,
+        builder: (context, state) {
+          if (state is GetGamesLoading) {
+            return const HorizontalGamesShimmer();
+          } else if (gamesBloc.filteredGames.isEmpty) {
+            return const EmptyView();
+          } else {
+            return ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(
+                width: 3.w,
+              ),
+              scrollDirection: Axis.horizontal,
+              itemCount: gamesBloc.filteredGames.length.clamp(0, 3),
+              itemBuilder: (context, index) {
+                return GameItem(game: gamesBloc.filteredGames[index]);
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildPlaceList(PlaceBloc placeBloc) {
+    return SizedBox(
+      height: 27.h,
+      child: BlocListener<PlaceBloc, PlaceState>(
+        bloc: placeBloc,
+        listener: (context, state) {
+          if (state is PlaceError) {
+            errorToast(
+                msg: ExceptionManager(state.exception).translatedMessage());
+          }
+        },
+        child: BlocBuilder<PlaceBloc, PlaceState>(
+          bloc: placeBloc,
+          builder: (context, state) {
+            if (state is GetAllPlacesLoading) {
+              return const HorizontalPlacesShimmer();
+            } else if (placeBloc.viewedPlaces.isEmpty) {
+              return const EmptyView();
+            } else {
+              return ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                  width: 3.w,
+                ),
+                scrollDirection: Axis.horizontal,
+                itemCount: placeBloc.viewedPlaces.length.clamp(0, 3),
+                itemBuilder: (context, index) {
+                  return PlaceItem(place: placeBloc.viewedPlaces[index]);
+                },
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -229,6 +200,10 @@ class HomePage extends StatelessWidget {
     MainCubit.get().getBanner();
     MainCubit.get().initializeHomePage();
   }
+
+  static MainCubit mainCubit = MainCubit.get()..initializeHomePage();
+  static GamesBloc gamesBloc = GamesBloc.get();
+  static PlaceBloc placeBloc = PlaceBloc.get();
 }
 
 // Place place = Place(

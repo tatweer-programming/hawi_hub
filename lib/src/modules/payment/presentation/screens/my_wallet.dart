@@ -7,11 +7,9 @@ import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../../core/utils/color_manager.dart';
-import '../../../main/view/widgets/custom_app_bar.dart';
 
 class MyWallet extends StatelessWidget {
   const MyWallet({
@@ -99,6 +97,10 @@ class MyWallet extends StatelessWidget {
                               title: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  SubTitle(S.of(context).enterAmount),
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
                                   mainFormField(
                                     controller: controller,
                                     width: 60.w,

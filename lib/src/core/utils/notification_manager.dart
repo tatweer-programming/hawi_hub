@@ -1,6 +1,4 @@
-import 'package:hawihub/src/modules/auth/data/models/player.dart';
 
-import 'localization_manager.dart';
 
 class NotificationManager {
   static String clientViaServiceAccount =

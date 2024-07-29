@@ -16,8 +16,6 @@ class ExceptionManager implements Exception {
     DioException err = error as DioException;
 
     if (LocalizationManager.getCurrentLocale().languageCode == "en") {
-      print(
-          "${err.message} ${err.response?.statusCode} - ${err.response?.statusMessage} ${err.response?.data}");
       switch (err.response?.statusCode ?? 0) {
         case 100:
           return "Continue";
@@ -230,7 +228,7 @@ class ExceptionManager implements Exception {
       case 417:
         return "فشل في التوقعات";
       case 418:
-        return "أنا إبريق";
+        return "المحتوى غير قابل للمعالجة";
       case 421:
         return "طلب مخطئ";
       case 422:
