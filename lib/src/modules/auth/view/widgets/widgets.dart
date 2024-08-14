@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../core/utils/color_manager.dart';
+import '../../../../core/utils/constance_manager.dart';
 import '../../../../core/utils/styles_manager.dart';
 
 Widget defaultButton({
@@ -270,6 +271,7 @@ Widget walletWidget(VoidCallback onTap, String wallet) {
           ),
         ),
         const Spacer(),
+        if(ConstantsManager.appUser!.isVerified())
         InkWell(
           onTap: onTap,
           child: Container(

@@ -55,11 +55,18 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<MainCubit>(create: (context) => MainCubit.get()),
           BlocProvider<AuthBloc>(
-              create: (BuildContext context) => AuthBloc(AuthInitial())),
+            create: (BuildContext context) => AuthBloc(
+              AuthInitial(),
+            ),
+          ),
           BlocProvider<ChatBloc>(
-              create: (BuildContext context) => ChatBloc(ChatInitial())),
+            create: (BuildContext context) => ChatBloc(
+              ChatInitial(),
+            ),
+          ),
           BlocProvider<GamesBloc>(
-              create: (BuildContext context) => GamesBloc.get()),
+            create: (BuildContext context) => GamesBloc.get(),
+          ),
           BlocProvider<PlaceBloc>(
               create: (BuildContext context) => PlaceBloc.get()),
           BlocProvider<PaymentCubit>(

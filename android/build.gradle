@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '2.0.0'
+    ext.kotlin_version = '2.0.10'
     repositories {
         google()
         mavenCentral()
@@ -23,6 +23,9 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
+}
+tasks.withType(JavaCompile) {
+    options.release.set(22)
 }
 
 tasks.register("clean", Delete) {
