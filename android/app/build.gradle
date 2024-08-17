@@ -27,8 +27,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.tatweer.hawihub"
-    compileSdk flutter.compileSdkVersion
-    ndkVersion "25.1.8937393"
+    compileSdk 34
+    ndkVersion "26.1.10909125"
     compileSdkVersion 34
 
     compileOptions {
@@ -56,17 +56,17 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
-//        debug {
+        debug {
 //            keyAlias 'androiddebugkey'
 //            keyPassword 'HawiHub_Tatweer'
 //            storeFile file('keystore.jks')
 //            storePassword 'HawiHub_Tatweer'
-//        }
+        }
         release {
-            keyAlias 'androiddebugkey'
-            keyPassword 'HawiHub_Tatweer'
-            storeFile file('keystore.jks')
-            storePassword 'HawiHub_Tatweer'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'HawiHub_Tatweer'
+//            storeFile file('keystore.jks')
+//            storePassword 'HawiHub_Tatweer'
         }
     }
     buildTypes {
@@ -77,7 +77,7 @@ android {
 //            crunchPngs false // or true
 //        }
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
 
     }
