@@ -18,6 +18,8 @@ import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
+import 'package:hawihub/src/modules/places/data/models/place_location.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
@@ -471,8 +473,9 @@ class PlaceScreen extends StatelessWidget {
   Widget _buildShowMapWidget(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push(Routes.placeLocation,
-            arguments: {"location": PlaceBloc.get().currentPlace!.location});
+        PlaceLocation location = PlaceBloc.get().currentPlace!.location!;
+        MapsLauncher.launchCoordinates(location.latitude, location.longitude)
+            .catchError((e) => debugPrint(e.toString()));
       },
       child: Container(
           height: 4.h,
