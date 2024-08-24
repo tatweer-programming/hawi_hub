@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:hawihub/src/core/utils/images_manager.dart';
+
 import '../../../../core/utils/constance_manager.dart';
 
 class AppNotification {
@@ -36,7 +38,7 @@ class AppNotification {
     return {
       "title": title,
       "message": body,
-      "imageUrl": image,
+      "imageUrl": image ?? ImagesManager.defaultProfile,
     };
   }
 

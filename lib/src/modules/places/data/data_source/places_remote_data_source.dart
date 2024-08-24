@@ -63,10 +63,14 @@ class PlacesRemoteDataSource {
               stadiumId: placeId, reservationPrice: booking.reservationPrice!),
         ),
         _sendNotificationToOwner(ownerId, placeId)
-      ]);
+      ]).then((v) {
+        print(v.first);
+        print(v.last);
+      });
 
       return const Right(unit);
     } on DioException catch (e) {
+         print(e.response!.statusCode);
       return Left(e);
     } on Exception catch (e) {
       return Left(e);
@@ -155,12 +159,13 @@ class PlacesRemoteDataSource {
 
   Future _sendNotificationToOwner(int ownerId, int placeId) async {
     AppNotification notification = AppNotification(
-        image: ConstantsManager.appUser!.profilePictureUrl,
+        image: ConstantsManager.appUser!.profilePictureUrl ,
         body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
         receiverId: ownerId,
         title: "طلب حجز ملعب",
         dateTime: DateTime.now(),
         id: 0);
+
     NotificationServices().sendNotification(notification);
   }
 }
