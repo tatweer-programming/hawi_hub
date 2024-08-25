@@ -168,5 +168,5 @@
   "emailConfirmedSuccessfully": "Email confirmed successfully",
   "confirmationCodeSentSuccessfully": "Confirmation code sent successfully to",
   "invalidResetCode": "Invalid reset code.",
-  "noOwnerFound": "No owner was found with ID :"
+  "noPlayerFound": "No player was found with ID :"
 }

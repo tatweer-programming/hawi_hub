@@ -168,8 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("لا يوجد حد أدنى"),
-        "noOwnerFound":
-            MessageLookupByLibrary.simpleMessage("لم يتم العثور على مالك"),
+        "noPlayerFound":
+            MessageLookupByLibrary.simpleMessage("لم يتم العثور على اللاعب"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
         "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
         "only": MessageLookupByLibrary.simpleMessage("فقط"),

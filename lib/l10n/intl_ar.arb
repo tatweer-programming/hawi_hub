@@ -167,5 +167,5 @@
   "emailConfirmedSuccessfully": "تم تأكيد البريد الالكتروني بنجاح",
   "confirmationCodeSentSuccessfully": "تم ارسال رمز التأكيد بنجاح",
   "invalidResetCode": "رمز التأكيد غير صحيح",
-  "noOwnerFound": "لم يتم العثور على مالك"
+  "noPlayerFound": "لم يتم العثور على اللاعب"
 }
