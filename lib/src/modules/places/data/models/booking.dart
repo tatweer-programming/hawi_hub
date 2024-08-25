@@ -22,4 +22,14 @@ class Booking {
         "reservationStartTime": startTime.toIso8601String(),
         "reservationEndTime": endTime.toIso8601String()
       };
+
+  bool isConflicting(
+      Booking newBooking,
+      ) {
+    return (newBooking.startTime.isBefore(endTime) ||
+        newBooking.startTime.isAtSameMomentAs(endTime)) &&
+        (newBooking.endTime.isAfter(startTime) ||
+            newBooking.endTime.isAtSameMomentAs(startTime));
+  }
+
 }

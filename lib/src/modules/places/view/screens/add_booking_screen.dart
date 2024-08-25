@@ -123,11 +123,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
 
   bool _isBookingConflict(DateTime start, DateTime end) {
     for (Booking booking in bookings) {
-      if ((start.isBefore(booking.endTime) && end.isAfter(booking.startTime)) ||
-          (start.isAtSameMomentAs(booking.startTime) &&
-              end.isAfter(booking.startTime)) ||
-          (end.isAtSameMomentAs(booking.endTime) &&
-              start.isBefore(booking.endTime))) {
+      if (booking.isConflicting(Booking(startTime: start, endTime: end))) {
         errorToast(msg: S.of(context).bookingConflict);
         return true;
       }

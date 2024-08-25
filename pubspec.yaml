@@ -17,51 +17,49 @@ dependencies:
     sdk: flutter
 
   # CORE PACKAGES
-  cupertino_icons: ^1.0.6
-  shared_preferences: ^2.2.2
-  animated_splash_screen: ^1.3.0
+  cupertino_icons:
+  shared_preferences:
+  animated_splash_screen:
   sizer: ^2.0.15
-  flutter_bloc: ^8.1.1
-  bloc: ^8.1.1
-  equatable: ^2.0.5
-  dartz: ^0.10.1
-  get_it: ^7.2.0
-  dio: ^5.4.1
+  flutter_bloc:
+  bloc:
+  equatable:
+  dartz:
+  get_it:
+  dio:
   image_picker:
-  fluttertoast: ^8.2.8
-  shimmer: ^3.0.0
-  share_plus: ^10.0.2
-  open_file_plus: ^3.4.1+1
-  file_picker: ^8.1.2
-  firebase_messaging:
+  fluttertoast:
+  shimmer:
+  share_plus:
+  open_file_plus:
+  file_picker:
+  firebase_messaging: ^15.0.4
   googleapis_auth:
   intl:
 
   maps_launcher: ^2.2.1
   # AUTH PACKAGES
-  flutter_facebook_auth: ^6.2.0
-  google_sign_in: ^6.2.1
-
-
+  flutter_facebook_auth:
+  google_sign_in:
   # PLACES PACKAGES
-  flutter_rating_bar: ^4.0.1
-  carousel_slider: ^5.0.0
-  geolocator: ^10.0.0
+  flutter_rating_bar:
+  carousel_slider:
+  geolocator:
 
-  flutter_geolocation_service: ^0.1.0
-  connectivity_plus: ^6.0.1
+  flutter_geolocation_service:
+  connectivity_plus:
   timeago:
 
   # CHATS PACKAGES
-  voice_message_package: ^2.1.4
-  audioplayers: any
+  voice_message_package:
+  audioplayers:
   #  record: ^5.0.5
   path_provider:
   permission_handler:
 
   # PAYMENT PACKAGE
-  my_fatoorah: ^3.2.0
-  app_links: ^6.1.1
+  my_fatoorah:
+  app_links:
   firebase_core:
 
 dev_dependencies:

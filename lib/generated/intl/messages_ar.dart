@@ -72,6 +72,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة السر"),
+        "confirmationCodeSentSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم ارسال رمز التأكيد بنجاح"),
         "conflictWithWorkingHours": MessageLookupByLibrary.simpleMessage(
             "الحجز يتعارض مع مواعيد عمل الملعب"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
@@ -80,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage(" الإيميل"),
         "emailAlreadyExist": MessageLookupByLibrary.simpleMessage(
             "البريد الإلكتروني موجود مسبقا."),
+        "emailConfirmedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تم تأكيد البريد الالكتروني بنجاح"),
         "emailNotExists":
             MessageLookupByLibrary.simpleMessage("البريد الإلكتروني غير موجود"),
         "endTimeBeforeStartTime":
@@ -120,6 +124,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يتم مراجعة الملف الان"),
         "invalidEmailOrPassword": MessageLookupByLibrary.simpleMessage(
             "البريد الإلكتروني أو كلمة السر خاطئة."),
+        "invalidResetCode":
+            MessageLookupByLibrary.simpleMessage("رمز التأكيد غير صحيح"),
         "join": MessageLookupByLibrary.simpleMessage("انضمام"),
         "joinedGame": MessageLookupByLibrary.simpleMessage(
             "تم الانضمام الى الحجز الجماعي"),
@@ -162,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("لا يوجد حد أدنى"),
+        "noOwnerFound":
+            MessageLookupByLibrary.simpleMessage("لم يتم العثور على مالك"),
         "noRatings": MessageLookupByLibrary.simpleMessage("لا يوجد تقييمات"),
         "notifications": MessageLookupByLibrary.simpleMessage("التنبيهات"),
         "only": MessageLookupByLibrary.simpleMessage("فقط"),
@@ -201,6 +209,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "ما هو تطبيق هاوي هب؟\n\nهو تطبيق يربط أصحاب الملاعب مع المستأجرين، مما يسهل عملية حجز الملاعب بشكل فردي أو جماعي.\n\nمن يستطيع استخدام تطبيق هاوي هب؟\n\nيمكن لأي شخص تحميل التطبيق واستخدامه، لكنه يستهدف بشكل خاص الشباب في المملكة العربية السعودية.\n\nما هي الخدمات التي يقدمها التطبيق؟\n\nحجز الملاعب بشكل فردي:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nأكمل عملية الدفع.\nإنشاء حجوزات جماعية ومشاركتها مع الأصدقاء:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nحدد عدد اللاعبين.\nانشئ رابطًا للحجز وشارك أصدقائك.\nإنشاء حجوزات جماعية مفتوحة لجميع مستخدمي التطبيق:\nحدد الملعب الذي تريده.\nاختر التاريخ والوقت المناسبين.\nحدد عدد اللاعبين.\nانشئ رابطًا للحجز وشاركه مع الجميع.\nكيف يتم الدفع في تطبيق هاوي هب؟\n\nيتم الدفع من خلال بطاقة الائتمان أو بطاقة الدفع عبر الإنترنت.\n\nما هي نسبة الشركة المالكة للتطبيق من قيمة الحجز؟\n\nتختلف نسبة الشركة المالكة للتطبيق من قيمة الحجز حسب نوع الحجز.\n\nكيف يمكنني إضافة ملعب إلى التطبيق؟\n\nإذا كنت صاحب ملعب، يمكنك التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/ لمعرفة المزيد عن كيفية إضافة ملعبك إلى التطبيق.\n\nكيف يمكنني التواصل مع الشركة المالكة للتطبيق؟\n\nيمكنك التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/\n\nهل هناك أي قيود أو شروط محددة لاستخدام التطبيق؟\n\nلا يوجد أي قيود أو شروط لاستخدام التطبيق، لكن يجب عليك احترام جميع المستخدمين على التطبيق والامتناع عن أي سلوكيات مسيئة أو غير قانونية.\n\nهل هناك أي سلوكيات ممنوعة على التطبيق؟\n\nنعم، هناك بعض السلوكيات الممنوعة على التطبيق، مثل:\n\nالتنمر أو المضايقة.\nنشر خطاب الكراهية أو المحتوى المسيء.\nمشاركة المعلومات الشخصية أو الحساسة.\nاستخدام التطبيق لأغراض غير قانونية.\nماذا يحدث إذا انتهكت شروط الاستخدام؟\n\nإذا انتهكت شروط الاستخدام، فقد يتم حظر حسابك من التطبيق بشكل دائم.\n\nهل يمكنني إلغاء حسابي؟\n\nنعم، يمكنك إلغاء حسابك في أي وقت.\n\nهل يمكنني تغيير معلومات حسابي؟\n\nنعم، يمكنك تغيير معلومات حسابك في أي وقت.\n\nكيف يمكنني الحصول على مساعدة في استخدام التطبيق؟\n\nيمكنك مراجعة مركز المساعدة في التطبيق أو التواصل مع الشركة المالكة للتطبيق من خلال https://www.infohub.com/\n\nهل تطبيق هاوي هب آمن؟\n\nنعم، تطبيق هاوي هب آمن للغاية. نستخدم أحدث تقنيات الأمان لحماية بيانات المستخدمين.\n\nهل يتم مشاركة بياناتي مع أي شخص آخر؟\n\nلا، لا يتم مشاركة بياناتك مع أي شخص آخر إلا إذا كنت قد وافقت على ذلك صراحةً.\n\nما هي سياسة الخصوصية الخاصة بتطبيق هاوي هب؟\n\nيمكنك مراجعة سياسة الخصوصية الخاصة بتطبيق هاوي هب في https://www.infohub.com/\n\nهل هناك أي شيء آخر يجب أن أعرفه؟\n\nننصحك بقراءة شروط الاستخدام وسياسة الخصوصية بعناية قبل استخدام التطبيق.\n\nشكرًا لك على استخدام تطبيق هاوي هب!\n\nملاحظة:\nقد يتم تحديث هذه الأسئلة الشائعة من وقت لآخر. يرجى مراجعة هذه الصفحة بشكل دوري للاطلاع على أحدث التغييرات."),
         "rates": MessageLookupByLibrary.simpleMessage("التقيمات"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("عدد التقييمات"),
+        "reSendCode": MessageLookupByLibrary.simpleMessage("اعادة ارسال الرمز"),
         "readySteadyGo":
             MessageLookupByLibrary.simpleMessage("إستعد، تأهب، إذهب"),
         "receivedCode": MessageLookupByLibrary.simpleMessage("استلمت الرمز"),
