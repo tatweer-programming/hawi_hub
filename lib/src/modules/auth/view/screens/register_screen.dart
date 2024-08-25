@@ -30,16 +30,15 @@ class RegisterScreen extends StatelessWidget {
       listener: (context, state) async {
         if (state is AcceptConfirmTermsState) {
           acceptTerms = state.accept;
-        }
-        else if (state is ChangePasswordVisibilityState) {
+        } else if (state is ChangePasswordVisibilityState) {
           visible = state.visible;
         }
         if (state is RegisterSuccessState) {
-          bloc.add(PlaySoundEvent("audios/start.wav"));
+          bloc.add(ConfirmEmailEvent());
+          context.push(Routes.confirmEmail, arguments: {"bloc": bloc});
+        } else if (state is ConfirmEmailSuccessState) {
           defaultToast(msg: handleResponseTranslation(state.value, context));
-          context.pushAndRemove(Routes.home);
         } else if (state is RegisterErrorState) {
-          // ExceptionManager(state.error).translatedMessage();
           errorToast(msg: handleResponseTranslation(state.error, context));
         }
         if (state is SignupWithGoogleSuccessState) {
@@ -54,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
             state is SignupWithFacebookErrorState) {
           errorToast(
               msg: handleResponseTranslation("Something went wrong", context));
-        }else if (state is ShowBirthDateDialogState) {
+        } else if (state is ShowBirthDateDialogState) {
           DateTime? selectedDate = await showDate(context);
           if (selectedDate != null) {
             ageController.text = DateFormat('yyyy-MM-dd').format(selectedDate);

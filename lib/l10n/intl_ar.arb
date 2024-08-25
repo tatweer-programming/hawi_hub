@@ -148,7 +148,6 @@
   "startTimeTooSoon": "وقت البدء قبل الوقت المحدد",
   "home": "الرئيسية",
   "book": "احجز",
-
   "play": "لعب",
   "addFeedback": "إضافة تقييم",
   "rates": "التقيمات",
@@ -160,9 +159,13 @@
   "kdw": "دينار كويتي",
   "birthDate": "تاريخ ميلادك",
   "more": "المزيد",
-  "conflictWithWorkingHours" : "الحجز يتعارض مع مواعيد عمل الملعب",
+  "conflictWithWorkingHours": "الحجز يتعارض مع مواعيد عمل الملعب",
   "gameTotalPrice": "السعر الكلي للحجز",
   "youWillPay": "ستدفع",
-  "enterAmount" : "ادخل المبلغ"
-
+  "enterAmount": "ادخل المبلغ",
+  "reSendCode": "اعادة ارسال الرمز",
+  "emailConfirmedSuccessfully": "تم تأكيد البريد الالكتروني بنجاح",
+  "confirmationCodeSentSuccessfully": "تم ارسال رمز التأكيد بنجاح",
+  "invalidResetCode": "رمز التأكيد غير صحيح",
+  "noOwnerFound": "لم يتم العثور على مالك"
 }

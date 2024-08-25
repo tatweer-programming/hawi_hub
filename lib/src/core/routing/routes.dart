@@ -18,4 +18,5 @@ class Routes {
   static const String questions = '/questions';
   static const String selectGameTime = '/selectGameTime';
   static const String placeFeedbacks = "/placeFeedbacks";
+  static const String confirmEmail = "/confirmEmail";
 }

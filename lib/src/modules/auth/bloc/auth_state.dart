@@ -65,6 +65,38 @@ class VerifyCodeErrorState extends AuthState {
   VerifyCodeErrorState(this.error);
 }
 
+// verifyEmail
+
+class VerifyConfirmEmailLoadingState extends AuthState {}
+
+class VerifyConfirmEmailSuccessState extends AuthState {
+  final String value;
+
+  VerifyConfirmEmailSuccessState({required this.value});
+}
+
+class VerifyConfirmEmailErrorState extends AuthState {
+  final String error;
+
+  VerifyConfirmEmailErrorState(this.error);
+}
+
+// ConfirmEmail
+
+class ConfirmEmailLoadingState extends AuthState {}
+
+class ConfirmEmailSuccessState extends AuthState {
+  final String value;
+
+  ConfirmEmailSuccessState({required this.value});
+}
+
+class ConfirmEmailErrorState extends AuthState {
+  final String error;
+
+  ConfirmEmailErrorState(this.error);
+}
+
 // get My Profile
 class GetProfileLoadingState extends AuthState {}
 

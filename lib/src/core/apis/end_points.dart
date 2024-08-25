@@ -2,6 +2,8 @@ class EndPoints {
   /// auth
   static const String login = '/Player/Login';
   static const String register = '/Player/Signup';
+  static const String confirmEmail = '/Player/ConfirmEmail/';
+  static const String verifyConfirmEmail = '/Player/VerifyConfirmEmail/';
   static const String verifyResetCode = '/Player/VerifyResetCode';
   static const String resetPass = '/Player/ResetPassword';
   static const String changeImageProfile = '/Player/ChangeDetails';

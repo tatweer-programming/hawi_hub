@@ -31,6 +31,16 @@ class DeleteImageEvent extends AuthEvent {}
 
 class LogoutEvent extends AuthEvent {}
 
+class ConfirmEmailEvent extends AuthEvent {}
+
+class ResetCodeTimerEvent extends AuthEvent {}
+
+class VerifyConfirmEmailEvent extends AuthEvent {
+  final String code;
+
+  VerifyConfirmEmailEvent(this.code);
+}
+
 class VerifyCodeEvent extends AuthEvent {
   final String email;
   final String code;
@@ -77,12 +87,6 @@ class StartResendCodeTimerEvent extends AuthEvent {
   final int timeToResendCode;
 
   StartResendCodeTimerEvent(this.timeToResendCode);
-}
-
-class ResetCodeTimerEvent extends AuthEvent {
-  final int timeToResendCode;
-
-  ResetCodeTimerEvent(this.timeToResendCode);
 }
 
 class UploadNationalIdEvent extends AuthEvent {

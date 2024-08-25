@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/modules/auth/view/screens/confirm_email_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
 import 'package:hawihub/src/modules/games/view/widgets/screens/select_game_time_screen.dart';
@@ -109,6 +110,11 @@ class AppRouter {
             builder: (_) => SelectGameTimeScreen(
                   placeId: arguments['id'],
                 ));
+      case Routes.confirmEmail:
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => ConfirmEmailScreen(bloc: arguments['bloc']));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
