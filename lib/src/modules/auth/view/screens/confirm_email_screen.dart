@@ -67,7 +67,7 @@ class ConfirmEmailScreen extends StatelessWidget {
                               return null;
                             }),
                         SizedBox(
-                          height: 2.h,
+                          height: 1.h,
                         ),
                         timeToResendCode > 0
                             ? Column(
@@ -95,6 +95,9 @@ class ConfirmEmailScreen extends StatelessWidget {
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  SizedBox(
+                                    height: 1.h,
                                   ),
                                   state is VerifyConfirmEmailLoadingState
                                       ? const CircularProgressIndicator()

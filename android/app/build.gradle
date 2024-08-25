@@ -63,10 +63,10 @@ android {
 //            storePassword 'HawiHub_Tatweer'
         }
         release {
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'HawiHub_Tatweer'
-//            storeFile file('keystore.jks')
-//            storePassword 'HawiHub_Tatweer'
+            keyAlias 'androiddebugkey'
+            keyPassword 'HawiHub_Tatweer'
+            storeFile file('keystore.jks')
+            storePassword 'HawiHub_Tatweer'
         }
     }
     buildTypes {
@@ -88,5 +88,6 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.errorprone:error_prone_annotations:2.26.1'
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
