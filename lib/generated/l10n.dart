@@ -1740,11 +1740,11 @@ class S {
     );
   }
 
-  /// `No owner was found with ID :`
-  String get noOwnerFound {
+  /// `No player was found with ID :`
+  String get noPlayerFound {
     return Intl.message(
-      'No owner was found with ID :',
-      name: 'noOwnerFound',
+      'No player was found with ID :',
+      name: 'noPlayerFound',
       desc: '',
       args: [],
     );

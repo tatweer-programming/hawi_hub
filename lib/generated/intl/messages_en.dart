@@ -169,8 +169,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No Items Found"),
         "noMinimumBooking":
             MessageLookupByLibrary.simpleMessage("No Minimum Booking"),
-        "noOwnerFound": MessageLookupByLibrary.simpleMessage(
-            "No owner was found with ID :"),
+        "noPlayerFound": MessageLookupByLibrary.simpleMessage(
+            "No player was found with ID :"),
         "noRatings": MessageLookupByLibrary.simpleMessage("No ratings"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "only": MessageLookupByLibrary.simpleMessage("Only"),
