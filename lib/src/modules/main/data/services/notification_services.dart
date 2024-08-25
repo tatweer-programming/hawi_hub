@@ -90,13 +90,14 @@ class NotificationServices {
       AppNotification notification) async {
     try {
       var response = await DioHelper.postData(
-          path: EndPoints.saveNotificationToOwner, data: notification.toJson());
+          path: EndPoints.saveNotificationToOwner + notification.receiverId.toString(), data: notification.toJson());
       if (response.statusCode == 200) {
         return const Right(unit);
       }
       return const Right(unit);
     } on Exception catch (e) {
-      print(e.toString());
+      print("Error in saving notification: $e");
+      print(e.runtimeType);
       return Left(e);
     }
   }

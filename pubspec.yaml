@@ -30,9 +30,9 @@ dependencies:
   image_picker:
   fluttertoast: ^8.2.8
   shimmer: ^3.0.0
-  share_plus: any
+  share_plus: ^10.0.2
   open_file_plus: ^3.4.1+1
-  file_picker: ^8.0.2
+  file_picker: ^8.1.2
   firebase_messaging:
   googleapis_auth:
   intl:
@@ -62,7 +62,7 @@ dependencies:
   # PAYMENT PACKAGE
   my_fatoorah: ^3.2.0
   app_links: ^6.1.1
-  firebase_core: ^3.1.0
+  firebase_core:
 
 dev_dependencies:
   flutter_test:
