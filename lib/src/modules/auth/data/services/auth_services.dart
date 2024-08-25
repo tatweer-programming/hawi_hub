@@ -27,7 +27,6 @@ class AuthService {
       );
       if (response.statusCode == 200) {
         ConstantsManager.userId = response.data['id'];
-        await CacheHelper.saveData(key: 'userId', value: response.data['id']);
         return Right(response.data['message']);
       }
       return Right(response.data['message']);
@@ -57,6 +56,8 @@ class AuthService {
         path: EndPoints.verifyConfirmEmail + ConstantsManager.userId.toString(),
       );
       if (response.statusCode == 200) {
+        await CacheHelper.saveData(
+            key: 'userId', value: ConstantsManager.userId.toString());
         return Right(response.data['message']);
       }
       return Left(response.data.toString());
@@ -296,7 +297,7 @@ class AuthService {
       );
       if (userType == "Player") {
         Player player = Player.fromJson(response.data);
-        var res = await getFeedBacks(id,false);
+        var res = await getFeedBacks(id, false);
         res.fold((l) => print(l), (r) => player.feedbacks = r);
         if (ConstantsManager.userId == id) {
           ConstantsManager.appUser = player;
@@ -304,7 +305,7 @@ class AuthService {
         return Right(player);
       } else {
         Owner owner = Owner.fromJson(response.data);
-        var res = await getFeedBacks(id,true);
+        var res = await getFeedBacks(id, true);
         res.fold((l) => print(l), (r) => owner.feedbacks = r);
         return Right(owner);
       }
@@ -328,10 +329,12 @@ class AuthService {
     }
   }
 
-  Future<Either<String, List<AppFeedBack>>> getFeedBacks(int id,bool isOwner) async {
+  Future<Either<String, List<AppFeedBack>>> getFeedBacks(
+      int id, bool isOwner) async {
     try {
       Response response = await DioHelper.getData(
-        path: "${isOwner ? EndPoints.getOwnerFeedbacks : EndPoints.getPlayerFeedbacks}$id",
+        path:
+            "${isOwner ? EndPoints.getOwnerFeedbacks : EndPoints.getPlayerFeedbacks}$id",
       );
       List<AppFeedBack> feedBacks = [];
       for (var category in response.data["reviews"]) {
