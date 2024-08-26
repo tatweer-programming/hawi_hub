@@ -66,7 +66,7 @@ class ChatScreen extends StatelessWidget {
       builder: (context, state) {
         return PopScope(
           canPop: true,
-          onPopInvoked: (didPop) async {
+          onPopInvokedWithResult: (didPop, res) async {
             chatBloc.add(CloseConnectionEvent());
           },
           child: Scaffold(
@@ -124,7 +124,8 @@ class ChatScreen extends StatelessWidget {
                   _messageInput(imagePath, () {
                     chatBloc.add(RemovePickedImageEvent());
                   }),
-                if (message != null && message!.lastTimeToChat.compareTo(DateTime.now()) >= 0)
+                if (message != null &&
+                    message!.lastTimeToChat.compareTo(DateTime.now()) >= 0)
                   _sendButton(
                     onTap: (String? value) async {
                       if (value == 'image') {

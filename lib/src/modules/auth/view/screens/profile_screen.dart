@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
@@ -28,9 +29,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthBloc bloc = AuthBloc.get(context);
     User? user;
-    if(id != ConstantsManager.userId) {
+    if (id != ConstantsManager.userId) {
       bloc.add(GetProfileEvent(id, userType));
-    }else{
+    } else {
       user = ConstantsManager.appUser;
     }
     return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
@@ -67,6 +68,14 @@ class ProfileScreen extends StatelessWidget {
         return const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         );
+      } else if (state is GetProfileErrorState) {
+        return Scaffold(
+          body: Center(
+              child: Text(
+            S.of(context).somethingWentWrong,
+            style: TextStyleManager.getTitleBoldStyle(),
+          )),
+        );
       } else {
         return Scaffold(
           body: SingleChildScrollView(
@@ -101,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      _emailConfirmed(
+                      _accountVerified(
                           authBloc: bloc,
                           user: user!,
                           context: context,
@@ -210,13 +219,15 @@ Widget _seeAll(VoidCallback onTap, BuildContext context) {
   );
 }
 
-Widget _emailConfirmed({
+Widget _accountVerified({
   required User user,
   required BuildContext context,
   required AuthState state,
   required AuthBloc authBloc,
 }) {
-  if (user.proofOfIdentityUrl == null && user.approvalStatus == 0) {
+  if (!user.emailConfirmed!) {
+    return _emailNotConfirmed(context, authBloc);
+  } else if (user.proofOfIdentityUrl == null && user.approvalStatus == 0) {
     return _notVerified(authBloc);
   } else if (user.approvalStatus == 0) {
     return _pending(context, S.of(context).identificationPending);
@@ -230,6 +241,25 @@ Widget _emailConfirmed({
   } else {
     return _rejectedAndTryAgain(context, S.of(context).rejectIdCard, authBloc);
   }
+}
+
+Widget _emailNotConfirmed(
+  BuildContext context,
+  AuthBloc bloc,
+) {
+  return Column(
+    children: [
+      SizedBox(
+        height: 10.h,
+      ),
+      defaultButton(
+          onPressed: () {
+            context.push(Routes.confirmEmail, arguments: {'bloc': bloc});
+          },
+          text: S.of(context).verifyEmail,
+          fontSize: 17.sp),
+    ],
+  );
 }
 
 Widget _notVerified(AuthBloc bloc) {

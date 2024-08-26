@@ -4,6 +4,7 @@ class User {
   final int id;
   final String userName;
   final int approvalStatus;
+  final bool? emailConfirmed;
   final double rate;
   final String? profilePictureUrl;
   final String? proofOfIdentityUrl;
@@ -16,6 +17,7 @@ class User {
     required this.profilePictureUrl,
     required this.feedbacks,
     this.proofOfIdentityUrl,
+    this.emailConfirmed,
     required this.rate,
   });
 }

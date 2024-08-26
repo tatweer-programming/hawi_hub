@@ -5,6 +5,7 @@ import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -19,6 +20,7 @@ class ConfirmEmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController codeController = TextEditingController();
     int timeToResendCode = 0;
+    bloc.add(ConfirmEmailEvent());
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SingleChildScrollView(
@@ -34,6 +36,9 @@ class ConfirmEmailScreen extends StatelessWidget {
                     defaultToast(
                         msg: handleResponseTranslation(state.value, context));
                     context.pushAndRemove(Routes.home);
+                    ChatBloc chatBloc = ChatBloc.get(context);
+                    chatBloc.add(GetConnectionEvent());
+                    chatBloc.add(CloseConnectionEvent());
                   } else if (state is VerifyConfirmEmailErrorState) {
                     errorToast(
                         msg: handleResponseTranslation(state.error, context));
@@ -53,7 +58,7 @@ class ConfirmEmailScreen extends StatelessWidget {
                 builder: (context, state) {
                   return Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                    EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                     child: Column(
                       children: [
                         mainFormField(
@@ -67,65 +72,65 @@ class ConfirmEmailScreen extends StatelessWidget {
                               return null;
                             }),
                         SizedBox(
-                          height: 1.h,
+                          height: 2.h,
                         ),
-                        timeToResendCode > 0
-                            ? Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        S.of(context).sendCodeAfter,
-                                        style: const TextStyle(
-                                          color: ColorManager.black,
-                                        ),
-                                      ),
-                                      Text(
-                                        "$timeToResendCode ",
-                                        style: const TextStyle(
-                                          color: ColorManager.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        S.of(context).seconds,
-                                        style: const TextStyle(
-                                          color: ColorManager.black,
-                                        ),
-                                      ),
-                                    ],
+                        timeToResendCode <= 0
+                            ? state is ConfirmEmailLoadingState
+                            ? const CircularProgressIndicator()
+                            : defaultButton(
+                          onPressed: () {
+                            bloc.add(ConfirmEmailEvent());
+                          },
+                          text: S.of(context).reSendCode,
+                          fontSize: 17.sp,
+                        )
+                            : Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).sendCodeAfter,
+                                  style: const TextStyle(
+                                    color: ColorManager.black,
                                   ),
-                                  SizedBox(
-                                    height: 1.h,
+                                ),
+                                Text(
+                                  "$timeToResendCode ",
+                                  style: const TextStyle(
+                                    color: ColorManager.black,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  state is VerifyConfirmEmailLoadingState
-                                      ? const CircularProgressIndicator()
-                                      : defaultButton(
-                                          onPressed: () {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              bloc.add(
-                                                VerifyConfirmEmailEvent(
-                                                  codeController.text,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          text: S.of(context).confirm,
-                                          fontSize: 17.sp,
-                                        )
-                                ],
-                              )
-                            : state is VerifyConfirmEmailLoadingState
+                                ),
+                                Text(
+                                  S.of(context).seconds,
+                                  style: const TextStyle(
+                                    color: ColorManager.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            state is VerifyConfirmEmailLoadingState
                                 ? const CircularProgressIndicator()
                                 : defaultButton(
-                                    onPressed: () {
-                                      bloc.add(ConfirmEmailEvent());
-                                    },
-                                    text: S.of(context).reSendCode,
-                                    fontSize: 17.sp,
-                                  )
+                              onPressed: () {
+                                if (formKey.currentState!
+                                    .validate()) {
+                                  bloc.add(
+                                    VerifyConfirmEmailEvent(
+                                      codeController.text,
+                                    ),
+                                  );
+                                }
+                              },
+                              text: S.of(context).confirm,
+                              fontSize: 17.sp,
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   );

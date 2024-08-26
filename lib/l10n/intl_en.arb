@@ -168,5 +168,7 @@
   "emailConfirmedSuccessfully": "Email confirmed successfully",
   "confirmationCodeSentSuccessfully": "Confirmation code sent successfully to",
   "invalidResetCode": "Invalid reset code.",
+  "verifyEmail": "Verify Email",
+  "noChatsFound": "No Chats Found",
   "noPlayerFound": "No player was found with ID :"
 }

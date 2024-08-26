@@ -1740,6 +1740,26 @@ class S {
     );
   }
 
+  /// `Verify Email`
+  String get verifyEmail {
+    return Intl.message(
+      'Verify Email',
+      name: 'verifyEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Chats Found`
+  String get noChatsFound {
+    return Intl.message(
+      'No Chats Found',
+      name: 'noChatsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No player was found with ID :`
   String get noPlayerFound {
     return Intl.message(

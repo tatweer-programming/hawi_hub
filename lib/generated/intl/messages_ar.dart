@@ -160,6 +160,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "noAccount": MessageLookupByLibrary.simpleMessage("لا تمتلك حساب ؟"),
         "noAlerts": MessageLookupByLibrary.simpleMessage("لا توجد تنبيهات"),
+        "noChatsFound":
+            MessageLookupByLibrary.simpleMessage("لا يوجد لديك رسائل"),
         "noComment": MessageLookupByLibrary.simpleMessage("لا تعليق"),
         "noEnoughBalance":
             MessageLookupByLibrary.simpleMessage("الرصيد غير كافي"),
@@ -260,6 +262,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage(" الإسم"),
         "usernameAlreadyExist":
             MessageLookupByLibrary.simpleMessage("الأسم موجود مسبقا."),
+        "verifyEmail":
+            MessageLookupByLibrary.simpleMessage("تحقق من بريدك الالكتروني"),
         "viewAll": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),
         "viewFeedbacks": MessageLookupByLibrary.simpleMessage("عرض التعليقات"),

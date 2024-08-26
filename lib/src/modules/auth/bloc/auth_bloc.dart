@@ -193,6 +193,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(ChangePasswordVisibilityState(true));
         }
       } else if (event is StartResendCodeTimerEvent) {
+        timeToResendCodeTimer?.cancel();
         _startResendCodeTimer(event.timeToResendCode);
       }else if (event is ShowDialogEvent) {
         emit(ShowBirthDateDialogState());
