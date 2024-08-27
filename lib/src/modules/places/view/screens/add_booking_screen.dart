@@ -94,7 +94,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
           ),
           placeId: widget.placeId,
         ),
-        requiredBalance: 0,
+        requiredBalance: reservationPrice,
       ).execute([
         AccessCheckType.login,
         AccessCheckType.balance,

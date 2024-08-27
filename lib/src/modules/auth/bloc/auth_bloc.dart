@@ -139,8 +139,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         });
       } else if (event is LogoutEvent) {
         emit(LogoutLoadingState());
-        _clearUserData();
         emit(LogoutSuccessState());
+      await  _clearUserData();
       } else if (event is ChangePasswordEvent) {
         var result = await _repository.changePassword(
           oldPassword: event.oldPassword,

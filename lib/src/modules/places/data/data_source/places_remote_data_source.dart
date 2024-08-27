@@ -56,21 +56,13 @@ class PlacesRemoteDataSource {
       required int placeId,
       required int ownerId}) async {
     try {
-      Future.wait([
-        DioHelper.postData(
-          path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
-          data: booking.toJson(
-              stadiumId: placeId, reservationPrice: booking.reservationPrice!),
-        ),
-        _sendNotificationToOwner(ownerId, placeId)
-      ]).then((v) {
-        print(v.first);
-        print(v.last);
-      });
-
+      DioHelper.postData(
+        path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
+        data: booking.toJson(
+            stadiumId: placeId, reservationPrice: booking.reservationPrice!),
+      );
       return const Right(unit);
     } on DioException catch (e) {
-         print(e.response!.statusCode);
       return Left(e);
     } on Exception catch (e) {
       return Left(e);
