@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
@@ -130,7 +131,13 @@ class NotificationServices {
       ]);
       client.close();
     } catch (e) {
-      print("Error in sending notification: $e");
+      if (kDebugMode) {
+        print("Error in sending notification: $e");
+      }
     }
   }
 }
+
+/*
+
+ */
