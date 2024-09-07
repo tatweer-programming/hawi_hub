@@ -36,6 +36,8 @@ class ChatScreen extends StatelessWidget {
         if (state is GetChatMessagesSuccessState) {
           message = state.messages;
           messages = message!.message;
+          print( message!.lastTimeToChat);
+          print(DateTime.now());
           if (messages.isNotEmpty) {
             chatBloc.add(
                 ScrollingDownEvent(listScrollController: scrollController));
@@ -125,7 +127,7 @@ class ChatScreen extends StatelessWidget {
                     chatBloc.add(RemovePickedImageEvent());
                   }),
                 if (message != null &&
-                    message!.lastTimeToChat.compareTo(DateTime.now().add(const Duration(hours: 1))) >= 0)
+                    message!.lastTimeToChat.compareTo(DateTime.now().add(const Duration(hours: 3))) >= 0)
                   _sendButton(
                     onTap: (String? value) async {
                       if (value == 'image') {
@@ -141,7 +143,7 @@ class ChatScreen extends StatelessWidget {
                             conversationId: chat!.conversationId,
                             attachmentUrl: imagePath,
                             isOwner: true,
-                            timeStamp: DateTime.now(),
+                            timeStamp: DateTime.now().add(const Duration(hours: 3)),
                           ),
                         ));
                       }

@@ -13,7 +13,7 @@ class Message extends Equatable {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      lastTimeToChat: DateTime.parse(json["lastTimeToChat"]),
+      lastTimeToChat: DateTime.parse(json["lastTimeToChat"]).toLocal().add(const Duration(hours: 3)),
       message: List<MessageDetails>.from(
         json["messages"]
             .map((message) => MessageDetails.fromJson(message))
