@@ -20,6 +20,9 @@ class MyWallet extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
     Player player = ConstantsManager.appUser!;
+    String myWallet = player.myWallet.toString();
+    AuthBloc bloc = AuthBloc.get(context);
+    bloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
     return Scaffold(
       body: Column(
         children: [
@@ -65,9 +68,12 @@ class MyWallet extends StatelessWidget {
                   BlocBuilder<PaymentCubit, PaymentState>(
                     builder: (context, state) {
                       if (state is GetPaymentStatusSuccessState) {
-                        AuthBloc bloc = AuthBloc.get(context);
                         bloc.add(GetProfileEvent(
                             ConstantsManager.userId!, "Player"));
+                      }
+                      if (state is GetProfileSuccessState) {
+                        myWallet =
+                            ConstantsManager.appUser!.myWallet.toString();
                       }
                       return walletWidget(() {
                         showDialog(
@@ -111,7 +117,7 @@ class MyWallet extends StatelessWidget {
                             );
                           },
                         );
-                      }, player.myWallet.toString());
+                      }, myWallet.toString());
                     },
                   ),
               ],
