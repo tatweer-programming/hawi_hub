@@ -99,7 +99,7 @@ class ChatService {
           messageStreamController.add(MessageDetails(
             message: jsonData["arguments"][0]["ownerMessage"],
             attachmentUrl: jsonData["arguments"][0]["ownerAttachmentUrl"],
-            isPlayer: false,
+            isOwner: false,
             timeStamp: DateTime.now(),
           ));
         }
@@ -145,6 +145,7 @@ class ChatService {
   }
 
   Future<void> _startConnection() async {
+    await closeConnection();
     const String messageWithTrailingChars = '{"protocol":"json","version":1}';
     socket = await WebSocket.connect(
         "${ApiManager.webSocket}?id=${ConstantsManager.connectionToken!}");

@@ -34,6 +34,7 @@ class ChatsScreen extends StatelessWidget {
                 listener: (context, state) {
                   if (state is GetAllChatsSuccessState) {
                     chats = state.chats;
+                    Chat.sortChatsByDate(chats);
                   }
                 },
                 builder: (context, state) {

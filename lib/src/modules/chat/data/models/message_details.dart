@@ -7,7 +7,7 @@ import 'package:hawihub/src/core/apis/api.dart';
 class MessageDetails extends Equatable {
   final int? conversationId;
   final String? connectionId;
-  final bool? isPlayer;
+  final bool? isOwner;
   String? message;
   String? attachmentUrl;
   final DateTime? timeStamp;
@@ -19,7 +19,7 @@ class MessageDetails extends Equatable {
     this.conversationId,
     this.message,
     this.timeStamp,
-    this.isPlayer,
+    this.isOwner,
     this.attachmentUrl,
   });
 
@@ -30,7 +30,7 @@ class MessageDetails extends Equatable {
           ? ApiManager.handleImageUrl(json["messageAttachmentUrl"])
           : null,
       timeStamp: DateTime.parse(json["timestamp"]),
-      isPlayer: json["playerToOwner"],
+      isOwner: json["playerToOwner"],
     );
   }
 

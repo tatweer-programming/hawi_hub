@@ -91,7 +91,7 @@ class ChatScreen extends StatelessWidget {
                       formattedDate = DateFormat('hh:mm a')
                           .format(messages[index].timeStamp!);
                     }
-                    bool? isOwner = messages[index].isPlayer;
+                    bool? isOwner = messages[index].isOwner;
                     return Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 3.w,
@@ -125,7 +125,7 @@ class ChatScreen extends StatelessWidget {
                     chatBloc.add(RemovePickedImageEvent());
                   }),
                 if (message != null &&
-                    message!.lastTimeToChat.compareTo(DateTime.now()) >= 0)
+                    message!.lastTimeToChat.compareTo(DateTime.now().add(const Duration(hours: 1))) >= 0)
                   _sendButton(
                     onTap: (String? value) async {
                       if (value == 'image') {
@@ -140,7 +140,7 @@ class ChatScreen extends StatelessWidget {
                             message: messageController.text,
                             conversationId: chat!.conversationId,
                             attachmentUrl: imagePath,
-                            isPlayer: true,
+                            isOwner: true,
                             timeStamp: DateTime.now(),
                           ),
                         ));

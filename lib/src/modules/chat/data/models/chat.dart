@@ -20,6 +20,11 @@ class Chat extends Equatable {
     );
   }
 
+  static void sortChatsByDate(List<Chat> chats) {
+    chats.sort(
+        (a, b) => b.lastMessage.timestamp!.compareTo(a.lastMessage.timestamp!));
+  }
+
   @override
   List<Object?> get props => [];
 }
