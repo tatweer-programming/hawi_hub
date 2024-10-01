@@ -45,7 +45,7 @@ dependencies:
   geolocator:
 
   flutter_geolocation_service:
-  connectivity_plus:
+  connectivity_plus: ^6.0.5
   timeago:
 
   # CHATS PACKAGES
