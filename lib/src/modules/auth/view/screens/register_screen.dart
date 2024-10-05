@@ -7,20 +7,36 @@ import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../core/error/exception_manager.dart';
 import '../../../../core/routing/routes.dart';
 import '../widgets/widgets.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   final AuthBloc bloc;
 
   const RegisterScreen({super.key, required this.bloc});
 
   @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNameController.dispose();
+    emailController.dispose();
+    ageController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController userNameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController ageController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     bool acceptTerms = false;
     bool visible = false;
@@ -34,12 +50,13 @@ class RegisterScreen extends StatelessWidget {
           visible = state.visible;
         }
         if (state is RegisterSuccessState) {
-          bloc.add(ConfirmEmailEvent());
-          context.push(Routes.confirmEmail, arguments: {"bloc": bloc});
+          widget.bloc.add(ConfirmEmailEvent());
+          context.push(Routes.confirmEmail, arguments: {"bloc": widget.bloc});
         } else if (state is ConfirmEmailSuccessState) {
           defaultToast(msg: handleResponseTranslation(state.value, context));
         } else if (state is RegisterErrorState) {
-          errorToast(msg: handleResponseTranslation(state.error, context));
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
         }
         if (state is SignupWithGoogleSuccessState) {
           authPlayer = state.authPlayer;
@@ -110,7 +127,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            bloc.add(ShowDialogEvent());
+                            widget.bloc.add(ShowDialogEvent());
                           },
                           child: mainFormField(
                             controller: ageController,
@@ -134,7 +151,7 @@ class RegisterScreen extends StatelessWidget {
                           obscureText: visible,
                           suffix: IconButton(
                               onPressed: () {
-                                bloc.add(
+                                widget.bloc.add(
                                     ChangePasswordVisibilityEvent(visible));
                               },
                               icon: Icon(visible
@@ -171,7 +188,7 @@ class RegisterScreen extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  bloc.add(SignupWithFacebookEvent());
+                                  widget.bloc.add(SignupWithFacebookEvent());
                                 },
                                 child: Column(
                                   children: [
@@ -195,7 +212,7 @@ class RegisterScreen extends StatelessWidget {
                               const Spacer(),
                               InkWell(
                                 onTap: () async {
-                                  bloc.add(SignupWithGoogleEvent());
+                                  widget.bloc.add(SignupWithGoogleEvent());
                                 },
                                 child: Column(
                                   children: [
@@ -228,7 +245,8 @@ class RegisterScreen extends StatelessWidget {
                         _confirmTerms(
                             context: context,
                             onTap: () {
-                              bloc.add(AcceptConfirmTermsEvent(acceptTerms));
+                              widget.bloc
+                                  .add(AcceptConfirmTermsEvent(acceptTerms));
                             },
                             acceptTerms: acceptTerms),
                         SizedBox(
@@ -240,7 +258,7 @@ class RegisterScreen extends StatelessWidget {
                                 onPressed: () {
                                   if (formKey.currentState!.validate() &&
                                       acceptTerms) {
-                                    bloc.add(
+                                    widget.bloc.add(
                                       RegisterPlayerEvent(
                                         authPlayer: AuthPlayer(
                                             password: passwordController.text,

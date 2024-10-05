@@ -9,6 +9,7 @@ import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/error/exception_manager.dart';
 import '../../../../core/utils/color_manager.dart';
 
 class ConfirmEmailScreen extends StatelessWidget {
@@ -36,15 +37,17 @@ class ConfirmEmailScreen extends StatelessWidget {
                     defaultToast(
                         msg: handleResponseTranslation(state.value, context));
                     context.pushAndRemove(Routes.home);
-                    ChatBloc chatBloc = ChatBloc.get(context);
+                    ChatBloc chatBloc = context.read<ChatBloc>();
                     chatBloc.add(GetConnectionEvent());
                     chatBloc.add(CloseConnectionEvent());
                   } else if (state is VerifyConfirmEmailErrorState) {
                     errorToast(
-                        msg: handleResponseTranslation(state.error, context));
+                        msg: ExceptionManager(state.exception)
+                            .translatedMessage());
                   } else if (state is ConfirmEmailErrorState) {
                     errorToast(
-                        msg: handleResponseTranslation(state.error, context));
+                        msg: ExceptionManager(state.exception)
+                            .translatedMessage());
                   } else if (state is ConfirmEmailSuccessState) {
                     defaultToast(
                         msg: handleResponseTranslation(state.value, context));

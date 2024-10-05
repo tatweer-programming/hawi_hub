@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
@@ -9,7 +10,7 @@ import '../services/auth_services.dart';
 class AuthRepository {
   final AuthService _service = AuthService();
 
-  Future<String> loginPlayer(
+  Future<Either<Exception, String>> loginPlayer(
       {required String email,
       required String password,
       required bool loginWithFBOrGG}) async {
@@ -17,23 +18,23 @@ class AuthRepository {
         email: email, password: password, loginWithFBOrGG: loginWithFBOrGG);
   }
 
-  Future<Either<String, String>> loginWithGoogle() async {
+  Future<Either<Exception, String>> loginWithGoogle() async {
     return await _service.loginWithGoogle();
   }
 
-  Future<Either<String, String>> loginWithFacebook() async {
+  Future<Either<Exception, String>> loginWithFacebook() async {
     return await _service.loginWithFacebook();
   }
 
-  Future<Either<String, AuthPlayer?>> signupWithGoogle() async {
+  Future<Either<Exception, AuthPlayer?>> signupWithGoogle() async {
     return await _service.signupWithGoogle();
   }
 
-  Future<Either<String, AuthPlayer?>> signupWithFacebook() async {
+  Future<Either<Exception, AuthPlayer?>> signupWithFacebook() async {
     return await _service.signupWithFacebook();
   }
 
-  Future<Either<String, String>> registerPlayer({
+  Future<Either<Exception, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
     return _service.registerPlayer(
@@ -41,11 +42,11 @@ class AuthRepository {
     );
   }
 
-  Future<Either<String, String>> confirmEmail() async {
+  Future<Either<Exception, String>> confirmEmail() async {
     return await _service.confirmEmail();
   }
 
-  Future<Either<String, String>> verifyConfirmEmail(String code) async {
+  Future<Either<Exception, String>> verifyConfirmEmail(String code) async {
     return await _service.verifyConfirmEmail(code);
   }
 
@@ -53,19 +54,20 @@ class AuthRepository {
     return _service.resetPassword(email);
   }
 
-  Future<Either<String, List<Sport>>> getSports() async {
+  Future<Either<Exception, List<Sport>>> getSports() async {
     return _service.getSports();
   }
 
-  Future<String> changeProfileImage(File newProfileImage) async {
+  Future<Either<Exception, String>> changeProfileImage(
+      File newProfileImage) async {
     return _service.changeProfileImage(newProfileImage);
   }
 
-  Future<Either<String, String>> uploadNationalId(File nationalId) async {
+  Future<Either<Exception, String>> uploadNationalId(File nationalId) async {
     return _service.verificationNationalId(nationalId);
   }
 
-  Future<Either<String, String>> changePassword({
+  Future<Either<Exception, String>> changePassword({
     required String oldPassword,
     required String newPassword,
   }) async {
@@ -77,7 +79,7 @@ class AuthRepository {
   //   return _service.deleteProfileImage();
   // }
 
-  Future<Either<String, String>> verifyCode({
+  Future<Either<Exception, String>> verifyCode({
     required String email,
     required String code,
     required String password,
@@ -85,7 +87,7 @@ class AuthRepository {
     return _service.verifyCode(email: email, code: code, password: password);
   }
 
-  Future<Either<String, User>> getProfile(int id, String userType) async {
+  Future<Either<Exception, User>> getProfile(int id, String userType) async {
     return _service.getProfile(id, userType);
   }
 }

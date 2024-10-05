@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = AuthBloc.get(context);
+    AuthBloc authBloc = context.read<AuthBloc>();
     UserAccessProxy(
             authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
         .execute([AccessCheckType.login]);

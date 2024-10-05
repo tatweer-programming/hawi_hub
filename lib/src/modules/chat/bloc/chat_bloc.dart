@@ -11,12 +11,9 @@ part 'chat_state.dart';
 part 'chat_event.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  static ChatBloc get(BuildContext context) =>
-      BlocProvider.of<ChatBloc>(context);
-
   final ChatService _service = ChatService();
 
-  ChatBloc(ChatInitial chatInitial) : super(ChatInitial()) {
+  ChatBloc() : super(ChatInitial()) {
     on<ChatEvent>((event, emit) async {
       if (event is ScrollingDownEvent) {
         WidgetsBinding.instance.addPostFrameCallback((_) {

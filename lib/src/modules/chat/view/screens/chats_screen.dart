@@ -19,7 +19,7 @@ class ChatsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = ChatBloc.get(context)..add(GetAllChatsEvent());
+    ChatBloc chatBloc = context.read<ChatBloc>()..add(GetAllChatsEvent());
     List<Chat> chats = [];
     return RefreshIndicator(
       onRefresh: () async {
@@ -38,7 +38,11 @@ class ChatsScreen extends StatelessWidget {
                   }
                 },
                 builder: (context, state) {
-                  if (state is GetAllChatsSuccessState || chats.isNotEmpty) {
+                  if (state is GetAllChatsLoadingState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is GetAllChatsSuccessState && chats.isNotEmpty) {
                     return Column(
                       children: [
                         Expanded(
@@ -65,10 +69,6 @@ class ChatsScreen extends StatelessWidget {
                           height: 1.h,
                         ),
                       ],
-                    );
-                  } else if (state is GetAllChatsLoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
                     );
                   } else if (state is GetAllChatsErrorState) {
                     return Center(

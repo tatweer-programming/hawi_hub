@@ -21,7 +21,7 @@ class MyWallet extends StatelessWidget {
     TextEditingController controller = TextEditingController();
     Player player = ConstantsManager.appUser!;
     String myWallet = player.myWallet.toString();
-    AuthBloc bloc = AuthBloc.get(context);
+    AuthBloc bloc = context.read<AuthBloc>();
     bloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
     return Scaffold(
       body: Column(

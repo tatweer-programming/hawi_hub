@@ -15,7 +15,7 @@ class SelectSportsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Sport> sports = [];
     List<Sport> selectedSports = [];
-    final AuthBloc authBloc = AuthBloc.get(context)..add(GetSportsEvent());
+    final AuthBloc authBloc = context.read<AuthBloc>()..add(GetSportsEvent());
     return Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -27,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc bloc = AuthBloc.get(context);
+    AuthBloc bloc = context.read<AuthBloc>();
     User? user;
     if (id != ConstantsManager.userId) {
       bloc.add(GetProfileEvent(id, userType));
@@ -45,7 +46,9 @@ class ProfileScreen extends StatelessWidget {
         context.pop();
       } else if (state is UploadNationalIdErrorState) {
         context.pop();
-        errorToast(msg: handleResponseTranslation(state.error, context));
+        errorToast(
+            msg: ExceptionManager(state.exception)
+                .translatedMessage());
       }
       if (state is UploadNationalIdLoadingState) {
         showDialog(

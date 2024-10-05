@@ -8,6 +8,7 @@ import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/error/exception_manager.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final String email;
@@ -102,8 +103,8 @@ class ResetPasswordScreen extends StatelessWidget {
                           });
                         } else if (state is VerifyCodeErrorState) {
                           errorToast(
-                              msg: handleResponseTranslation(
-                                  state.error, context));
+                              msg: ExceptionManager(state.exception)
+                                  .translatedMessage());
                         }
                       },
                       builder: (context, state) {

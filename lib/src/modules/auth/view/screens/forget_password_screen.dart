@@ -9,6 +9,7 @@ import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/error/exception_manager.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   final AuthBloc bloc;
@@ -33,7 +34,9 @@ class ForgetPasswordScreen extends StatelessWidget {
             defaultToast(
                 msg: handleResponseTranslation(state.message, context));
           } else if (state is ResetPasswordErrorState) {
-            errorToast(msg: handleResponseTranslation(state.error, context));
+            errorToast(
+                msg: ExceptionManager(state.exception)
+                    .translatedMessage());
           }
         },
         builder: (context, state) {

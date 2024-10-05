@@ -7,6 +7,7 @@ import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../core/error/exception_manager.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
 import '../widgets/widgets.dart';
@@ -18,13 +19,15 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc bloc = AuthBloc.get(context);
+    AuthBloc bloc = context.read<AuthBloc>();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is ChangePasswordSuccessState) {
           defaultToast(msg: handleResponseTranslation(state.value, context));
         } else if (state is ChangePasswordErrorState) {
-          errorToast(msg: handleResponseTranslation(state.error, context));
+          errorToast(
+              msg: ExceptionManager(state.exception)
+                  .translatedMessage());
         }
       },
       builder: (context, state) {

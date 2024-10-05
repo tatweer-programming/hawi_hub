@@ -5,6 +5,12 @@ sealed class AuthState {}
 
 class AuthInitial extends AuthState {}
 
+class AuthError extends AuthState {
+  final Exception exception;
+
+  AuthError(this.exception);
+}
+
 // register player
 class RegisterLoadingState extends AuthState {}
 
@@ -14,10 +20,8 @@ class RegisterSuccessState extends AuthState {
   RegisterSuccessState({required this.value});
 }
 
-class RegisterErrorState extends AuthState {
-  final String error;
-
-  RegisterErrorState(this.error);
+class RegisterErrorState extends AuthError {
+  RegisterErrorState(super.exception);
 }
 // Signup google
 
@@ -29,12 +33,11 @@ class SignupWithGoogleSuccessState extends AuthState {
   SignupWithGoogleSuccessState(this.authPlayer);
 }
 
-class SignupWithGoogleErrorState extends AuthState {
-  final String error;
+class SignupWithGoogleErrorState extends AuthError {
+  SignupWithGoogleErrorState(super.exception);
+}
 
-  SignupWithGoogleErrorState(this.error);
-} // Signup facebook
-
+// Signup facebook
 class SignupWithFacebookLoadingState extends AuthState {}
 
 class SignupWithFacebookSuccessState extends AuthState {
@@ -43,10 +46,8 @@ class SignupWithFacebookSuccessState extends AuthState {
   SignupWithFacebookSuccessState(this.authPlayer);
 }
 
-class SignupWithFacebookErrorState extends AuthState {
-  final String error;
-
-  SignupWithFacebookErrorState(this.error);
+class SignupWithFacebookErrorState extends AuthError {
+  SignupWithFacebookErrorState(super.exception);
 }
 
 // verifyCode
@@ -59,10 +60,8 @@ class VerifyCodeSuccessState extends AuthState {
   VerifyCodeSuccessState({required this.value});
 }
 
-class VerifyCodeErrorState extends AuthState {
-  final String error;
-
-  VerifyCodeErrorState(this.error);
+class VerifyCodeErrorState extends AuthError {
+  VerifyCodeErrorState(super.exception);
 }
 
 // verifyEmail
@@ -75,10 +74,8 @@ class VerifyConfirmEmailSuccessState extends AuthState {
   VerifyConfirmEmailSuccessState({required this.value});
 }
 
-class VerifyConfirmEmailErrorState extends AuthState {
-  final String error;
-
-  VerifyConfirmEmailErrorState(this.error);
+class VerifyConfirmEmailErrorState extends AuthError {
+  VerifyConfirmEmailErrorState(super.exception);
 }
 
 // ConfirmEmail
@@ -91,10 +88,8 @@ class ConfirmEmailSuccessState extends AuthState {
   ConfirmEmailSuccessState({required this.value});
 }
 
-class ConfirmEmailErrorState extends AuthState {
-  final String error;
-
-  ConfirmEmailErrorState(this.error);
+class ConfirmEmailErrorState extends AuthError {
+  ConfirmEmailErrorState(super.exception);
 }
 
 // get My Profile
@@ -106,10 +101,8 @@ class GetProfileSuccessState extends AuthState {
   GetProfileSuccessState(this.user);
 }
 
-class GetProfileErrorState extends AuthState {
-  final String error;
-
-  GetProfileErrorState(this.error);
+class GetProfileErrorState extends AuthError {
+  GetProfileErrorState(super.exception);
 }
 
 // login player
@@ -121,17 +114,13 @@ class LoginSuccessState extends AuthState {
   LoginSuccessState(this.value);
 }
 
-class LoginErrorState extends AuthState {
-  final String error;
-
-  LoginErrorState(this.error);
+class LoginErrorState extends AuthError {
+  LoginErrorState(super.exception);
 }
 // Change pass
 
-class ChangePasswordErrorState extends AuthState {
-  final String error;
-
-  ChangePasswordErrorState(this.error);
+class ChangePasswordErrorState extends AuthError {
+  ChangePasswordErrorState(super.exception);
 }
 
 class ChangePasswordSuccessState extends AuthState {
@@ -154,10 +143,8 @@ class ResetPasswordSuccessState extends AuthState {
   ResetPasswordSuccessState(this.message);
 }
 
-class ResetPasswordErrorState extends AuthState {
-  final String error;
-
-  ResetPasswordErrorState(this.error);
+class ResetPasswordErrorState extends AuthError {
+  ResetPasswordErrorState(super.exception);
 }
 
 // accept confirm terms
@@ -172,7 +159,9 @@ class UpdateProfileLoadingState extends AuthState {}
 
 class UpdateProfileSuccessfulState extends AuthState {}
 
-class UpdateProfileErrorState extends AuthState {}
+class UpdateProfileErrorState extends AuthError {
+  UpdateProfileErrorState(super.exception);
+}
 
 class ChangePasswordVisibilityState extends AuthState {
   final bool visible;
@@ -195,10 +184,8 @@ class UploadNationalIdSuccessState extends AuthState {
 
 class UploadNationalIdLoadingState extends AuthState {}
 
-class UploadNationalIdErrorState extends AuthState {
-  final String error;
-
-  UploadNationalIdErrorState(this.error);
+class UploadNationalIdErrorState extends AuthError {
+  UploadNationalIdErrorState(super.exception);
 }
 
 // delete image
@@ -232,10 +219,8 @@ class GetSportsSuccessState extends AuthState {
   GetSportsSuccessState(this.sports);
 }
 
-class GetSportsErrorState extends AuthState {
-  final String error;
-
-  GetSportsErrorState(this.error);
+class GetSportsErrorState extends AuthError {
+  GetSportsErrorState(super.exception);
 }
 
 class SelectSportState extends AuthState {

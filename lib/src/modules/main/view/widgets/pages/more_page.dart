@@ -19,7 +19,7 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc bloc = AuthBloc.get(context);
+    AuthBloc bloc = context.read<AuthBloc>();
     MainCubit mainCubit = MainCubit.get();
     return BlocConsumer<MainCubit, MainState>(
       listener: (context, state) {

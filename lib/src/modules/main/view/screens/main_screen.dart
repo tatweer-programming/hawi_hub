@@ -17,7 +17,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainCubit mainCubit = MainCubit.get();
-    UserAccessProxy(AuthBloc.get(context),
+    UserAccessProxy(context.read<AuthBloc>(),
             GetProfileEvent(ConstantsManager.userId!, "Player"))
         .execute([AccessCheckType.login]);
     return Scaffold(
