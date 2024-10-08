@@ -4,7 +4,7 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
-import 'package:hawihub/src/modules/places/data/models/booking.dart';
+import 'package:hawihub/src/modules/places/data/models/place_booking.dart';
 
 import '../../../core/services/dep_injection.dart';
 import '../data/models/feedback.dart';

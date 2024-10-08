@@ -13,7 +13,7 @@ import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../data/models/booking.dart';
+import '../../data/models/place_booking.dart';
 
 class AddBookingScreen extends StatefulWidget {
   final int placeId;
@@ -28,7 +28,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
   TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0);
-  List<Booking> bookings = [];
+  List<PlaceBooking> bookings = [];
 
   @override
   void initState() {
@@ -87,7 +87,7 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
       UserAccessProxy(
         PlaceBloc.get(),
         AddBookingEvent(
-          Booking(
+          PlaceBooking(
             startTime: start,
             endTime: end,
             reservationPrice: reservationPrice,
@@ -122,8 +122,8 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
   }
 
   bool _isBookingConflict(DateTime start, DateTime end) {
-    for (Booking booking in bookings) {
-      if (booking.isConflicting(Booking(startTime: start, endTime: end))) {
+    for (PlaceBooking booking in bookings) {
+      if (booking.isConflicting(PlaceBooking(startTime: start, endTime: end))) {
         errorToast(msg: S.of(context).bookingConflict);
         return true;
       }

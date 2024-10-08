@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -19,6 +20,8 @@ import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
+import 'package:hawihub/src/modules/places/view/screens/view_image_screen.dart';
+import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -35,473 +38,380 @@ class PlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlaceBloc cubit = PlaceBloc.get();
-    Place place = cubit.viewedPlaces.firstWhere((e) => e.id == placeId);
-    print("place id: ${ConstantsManager.userId}");
+    late Place place;
+    if (cubit.allPlaces.any((e) => e.id == placeId)) {
+      place = cubit.viewedPlaces.firstWhere(
+        (e) => e.id == placeId,
+      );
+    } else {
+      cubit.add(GetPlaceEvent(placeId));
+    }
 
     return Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: BlocListener<PlaceBloc, PlaceState>(
-              bloc: cubit,
-              listener: (context, state) {
-                if (state is PlaceError) {
-                  errorToast(
-                      msg: ExceptionManager(state.exception)
-                          .translatedMessage());
-                }
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // app bar
-                  SizedBox(
-                    height: 40.h,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        CustomAppBar(
-                            blendMode: BlendMode.exclusion,
-                            backgroundImage:
-                                "assets/images/app_bar_backgrounds/6.webp",
-                            height: 35.h,
-                            child: const SizedBox()),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                              width: 95.w,
-                              height: 30.h,
-                              child: Stack(
+        body: BlocBuilder<PlaceBloc, PlaceState>(
+      bloc: cubit,
+      buildWhen: (previous, current) =>
+          current is PlaceError ||
+          current is GetPlaceSuccess ||
+          previous is GetPlaceSuccess,
+      builder: (context, state) {
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: BlocListener<PlaceBloc, PlaceState>(
+                  bloc: cubit,
+                  listener: (context, state) {
+                    if (state is PlaceError) {
+                      errorToast(
+                          msg: ExceptionManager(state.exception)
+                              .translatedMessage());
+                    }
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // app bar
+                      ImageSliderWithIndicators(
+                        imageUrls: place.images,
+                        placeId: place.id,
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TitleText(place.name),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            _buildCaptionWidget(
+                                place.description ?? "", context),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SubTitle(S.of(context).location),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Text(
+                              place.address,
+                              style: TextStyleManager.getCaptionStyle(),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            _buildShowMapWidget(context),
+                            ExpansionTile(
+                              tilePadding: EdgeInsets.zero,
+                              title: SubTitle(S.of(context).workingHours),
+                              childrenPadding: EdgeInsets.zero,
+                              children: [
+                                _buildWorkingHours(context),
+                              ],
+                            ),
+                            Divider(
+                              height: 5.h,
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                              child: Row(
                                 children: [
-                                  CarouselSlider(
-                                    options: CarouselOptions(
-                                      enableInfiniteScroll: false,
-                                      reverse: false,
-                                      autoPlayCurve: Curves.fastOutSlowIn,
-                                      autoPlay: true,
-                                      pauseAutoPlayInFiniteScroll: true,
-                                      pauseAutoPlayOnTouch: true,
-                                      // aspectRatio: 90.w / 30.h,
-                                      viewportFraction: 0.99,
-                                      padEnds: false,
-                                      pauseAutoPlayOnManualNavigate: true,
-                                      height: 30.h,
-                                    ),
-                                    items: place.images.map((i) {
-                                      return Builder(
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            width: 88.w,
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 5.0),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                color: Colors.grey,
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      ApiManager.handleImageUrl(
-                                                          i)),
-                                                )),
-                                          );
-                                        },
-                                      );
-                                    }).toList(),
-                                  ),
-                                  Align(
-                                    alignment: AlignmentDirectional.topStart,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          // focusColor: Colors.white,
-                                          color: ColorManager.primary,
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          icon: const CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              child: Icon(
-                                                  Icons.arrow_back_ios_new)),
-                                        ),
-                                        SizedBox(
-                                          height: 2.h,
-                                        ),
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          // focusColor: Colors.white,
-                                          color: ColorManager.primary,
-                                          onPressed: () {
-                                            Share.shareUri(Uri.parse(
-                                                "${ApiManager.domain}/place/?id=${place.id}"));
-                                          },
-                                          icon: const CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              child: Icon(Icons.share)),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(5.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleText(place.name),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        Text(
-                          place.address,
-                          style: TextStyleManager.getRegularStyle(),
-                        ),
-                        SizedBox(
-                          width: 45.w,
-                          child: Divider(
-                            height: 5.h,
-                          ),
-                        ),
-                        SubTitle(S.of(context).workingHours),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        _buildWorkingHours(context),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        SubTitle(S.of(context).location),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        Text(
-                          place.address,
-                          style: TextStyleManager.getCaptionStyle(),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        if (place.location != null)
-                          _buildShowMapWidget(context),
-                        Divider(
-                          height: 5.h,
-                        ),
-                        SizedBox(
-                          height: 4.h,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: (place.rating != null)
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              place.rating.toString(),
-                                              style: TextStyleManager
-                                                  .getBlackCaptionTextStyle(),
-                                            ),
-                                            Expanded(
-                                              child: place.rating != null
-                                                  ? Center(
-                                                      child: SizedBox(
-                                                        height: 20.sp,
-                                                        child:
-                                                            RatingBar.builder(
-                                                          glow: true,
-                                                          itemSize: 20.sp,
-                                                          direction:
-                                                              Axis.horizontal,
-                                                          allowHalfRating: true,
-                                                          wrapAlignment:
-                                                              WrapAlignment
-                                                                  .center,
-                                                          initialRating: place
-                                                              .rating!
-                                                              .toDouble(),
-                                                          itemCount: 5,
-                                                          glowColor:
-                                                              ColorManager
-                                                                  .golden,
-                                                          ignoreGestures: true,
-                                                          itemBuilder:
-                                                              (context, _) =>
-                                                                  const Icon(
-                                                            Icons.star,
-                                                            color: ColorManager
-                                                                .golden,
+                                  Expanded(
+                                      child: (place.rating != null)
+                                          ? Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  place.rating.toString(),
+                                                  style: TextStyleManager
+                                                      .getBlackCaptionTextStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: place.rating != null
+                                                      ? Center(
+                                                          child: SizedBox(
+                                                            height: 20.sp,
+                                                            child: RatingBar
+                                                                .builder(
+                                                              glow: true,
+                                                              itemSize: 20.sp,
+                                                              direction: Axis
+                                                                  .horizontal,
+                                                              allowHalfRating:
+                                                                  true,
+                                                              wrapAlignment:
+                                                                  WrapAlignment
+                                                                      .center,
+                                                              initialRating: place
+                                                                  .rating!
+                                                                  .toDouble(),
+                                                              itemCount: 5,
+                                                              glowColor:
+                                                                  ColorManager
+                                                                      .golden,
+                                                              ignoreGestures:
+                                                                  true,
+                                                              itemBuilder:
+                                                                  (context,
+                                                                          _) =>
+                                                                      const Icon(
+                                                                Icons.star,
+                                                                color:
+                                                                    ColorManager
+                                                                        .golden,
+                                                              ),
+                                                              onRatingUpdate:
+                                                                  (r) {},
+                                                            ),
                                                           ),
-                                                          onRatingUpdate:
-                                                              (r) {},
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      S.of(context).noRatings),
-                                            ),
-                                          ],
-                                        )
-                                      : Center(
-                                          child: Text(S.of(context).noRatings),
-                                        )),
-                              const VerticalDivider(),
-                              Expanded(
-                                  child: Row(
-                                children: [
-                                  Text(place.totalGames.toString()),
-                                  SizedBox(
-                                    width: 2.w,
-                                  ),
-                                  Text(S.of(context).totalGames,
-                                      style: TextStyleManager
-                                          .getBlackCaptionTextStyle()),
+                                                        )
+                                                      : Text(S
+                                                          .of(context)
+                                                          .noRatings),
+                                                ),
+                                              ],
+                                            )
+                                          : Center(
+                                              child:
+                                                  Text(S.of(context).noRatings),
+                                            )),
+                                  const VerticalDivider(),
+                                  Expanded(
+                                      child: Row(
+                                    children: [
+                                      Text(place.totalGames.toString()),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Text(S.of(context).totalGames,
+                                          style: TextStyleManager
+                                              .getBlackCaptionTextStyle()),
+                                    ],
+                                  )),
                                 ],
-                              )),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        Center(
-                            child: TextButton(
-                                onPressed: () {
-                                  context.push(Routes.placeFeedbacks,
-                                      arguments: {"id": place.id});
-                                },
-                                child: Text(S.of(context).viewFeedbacks,
-                                    style: TextStyleManager
-                                        .getGoldenRegularStyle()))),
-                        SubTitle(S.of(context).sport),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        _buildSportWidget(
-                            MainCubit.get()
-                                .sportsList
-                                .firstWhere(
-                                    (element) => place.sport == element.id,
-                                    orElse: () => Sport.unKnown())
-                                .name,
-                            context),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        SubTitle(S.of(context).details),
-                        SizedBox(
-                          height: 1.h,
-                        ),
-                        _buildCaptionWidget(place.description ?? ""),
-                        Divider(
-                          height: 4.h,
-                        ),
-                        SubTitle(S.of(context).booking),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      S.of(context).price,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Center(
+                                child: TextButton(
+                                    onPressed: () {
+                                      context.push(Routes.placeFeedbacks,
+                                          arguments: {"id": place.id});
+                                    },
+                                    child: Text(S.of(context).viewFeedbacks,
+                                        style: TextStyleManager
+                                            .getGoldenRegularStyle()))),
+                            SubTitle(S.of(context).sport),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            _buildSportWidget(
+                                MainCubit.get()
+                                    .sportsList
+                                    .firstWhere(
+                                        (element) => place.sport == element.id,
+                                        orElse: () => Sport.unKnown())
+                                    .name,
+                                context),
+                            Divider(
+                              height: 4.h,
+                            ),
+                            SubTitle(S.of(context).booking),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          S.of(context).price,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const VerticalDivider(),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      S.of(context).minimumBooking,
+                                    const VerticalDivider(),
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          S.of(context).minimumBooking,
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: OutLineContainer(
+                                        child: Text(
+                                          "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: OutLineContainer(
-                                    child: Text(
-                                      "${place.price}  ${S.of(context).sar} ${S.of(context).perHour}",
+                                    SizedBox(
+                                      width: 3.w,
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 3.w,
-                                ),
-                                Expanded(
-                                  child: OutLineContainer(
-                                    child: Text(
-                                      "${place.minimumHours ?? S.of(context).noMinimumBooking}  ${S.of(context).hours}",
-                                    ),
-                                  ),
-                                )
-                              ]),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        OutLineContainer(
-                          color: ColorManager.grey1,
-                          child: SubTitle(
-                            S.of(context).createGame,
-                            isBold: false,
-                          ),
-                          onPressed: () {
-                            context.push(Routes.createGame,
-                                arguments: {"placeId": place.id});
-                          },
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            context.push(
-                              Routes.profile,
-                              arguments: {
-                                'id': place.ownerId,
-                                "userType": "Owner"
+                                    Expanded(
+                                      child: OutLineContainer(
+                                        child: Text(
+                                          "${place.minimumHours ?? S.of(context).noMinimumBooking}  ${S.of(context).hours}",
+                                        ),
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            OutLineContainer(
+                              color: ColorManager.grey1,
+                              child: SubTitle(
+                                S.of(context).createGame,
+                                isBold: false,
+                              ),
+                              onPressed: () {
+                                context.push(Routes.createGame,
+                                    arguments: {"placeId": place.id});
                               },
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    ApiManager.handleImageUrl(
-                                        place.ownerImage)),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                context.push(
+                                  Routes.profile,
+                                  arguments: {
+                                    'id': place.ownerId,
+                                    "userType": "Owner"
+                                  },
+                                );
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        ApiManager.handleImageUrl(
+                                            place.ownerImage)),
+                                  ),
+                                  SizedBox(
+                                    width: 3.w,
+                                  ),
+                                  Expanded(child: SubTitle(place.ownerName)),
+                                ],
                               ),
-                              SizedBox(
-                                width: 3.w,
-                              ),
-                              Expanded(child: SubTitle(place.ownerName)),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
 
-                  SizedBox(
-                    height: 2.h,
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: DefaultButton(
-              text: S.of(context).bookNow,
-              onPressed: () {
-                if (ConstantsManager.appUser == null) {
-                  errorToast(msg: S.of(context).loginFirst);
-                } else {
-                  context.push(Routes.bookNow, arguments: {"id": place.id});
-                  debugPrint("Book Now");
-                }
-              }),
-        ),
-        SizedBox(
-          height: 2.h,
-        ),
-        if (ConstantsManager.appUser != null &&
-            ConstantsManager.appUser!.stadiumReservation.contains(placeId))
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 5.w,
-            ),
-            child: BlocListener<PlaceBloc, PlaceState>(
-              bloc: PlaceBloc.get(),
-              listener: (context, state) {
-                if (state is AddPlaceFeedbackError) {
-                  errorToast(
-                      msg: ExceptionManager(state.exception)
-                          .translatedMessage());
-                }
-                if (state is AddPlaceFeedbackSuccess) {
-                  defaultToast(msg: S.of(context).saved);
-                }
-              },
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: DefaultButton(
-                isLoading: PlaceBloc.get().state is AddPlaceFeedbackLoading,
-                onPressed: () {
-                  context.pushWithTransition(AddFeedbackForClub(
-                    place: place,
-                  ));
-                },
-                text: S.of(context).addFeedback,
-              ),
+                  text: S.of(context).bookNow,
+                  onPressed: () {
+                    if (ConstantsManager.appUser == null) {
+                      errorToast(msg: S.of(context).loginFirst);
+                    } else {
+                      context.push(Routes.bookNow, arguments: {"id": place.id});
+                      debugPrint("Book Now");
+                    }
+                  }),
             ),
-          ),
-        SizedBox(
-          height: 2.h,
-        ),
-      ],
+            SizedBox(
+              height: 2.h,
+            ),
+            if (ConstantsManager.appUser != null &&
+                ConstantsManager.appUser!.stadiumReservation.contains(placeId))
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 5.w,
+                ),
+                child: BlocListener<PlaceBloc, PlaceState>(
+                  bloc: PlaceBloc.get(),
+                  listener: (context, state) {
+                    if (state is AddPlaceFeedbackError) {
+                      errorToast(
+                          msg: ExceptionManager(state.exception)
+                              .translatedMessage());
+                    }
+                    if (state is AddPlaceFeedbackSuccess) {
+                      defaultToast(msg: S.of(context).saved);
+                    }
+                  },
+                  child: DefaultButton(
+                    isLoading: PlaceBloc.get().state is AddPlaceFeedbackLoading,
+                    onPressed: () {
+                      context.pushWithTransition(AddFeedbackForClub(
+                        place: place,
+                      ));
+                    },
+                    text: S.of(context).addFeedback,
+                  ),
+                ),
+              ),
+            SizedBox(
+              height: 2.h,
+            ),
+          ],
+        );
+      },
     ));
   }
 
   Widget _buildShowMapWidget(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        PlaceLocation location = PlaceBloc.get().currentPlace!.location!;
-        MapsLauncher.launchCoordinates(location.latitude, location.longitude)
-            .catchError((e) => debugPrint(e.toString()));
-      },
-      child: Container(
-          height: 4.h,
-          width: 35.w,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: ColorManager.secondary,
-            ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-              child: Row(
-            children: [
-              Icon(
-                color: ColorManager.error,
-                Icons.location_on,
-              ),
-              Expanded(
-                child: Text(
-                  S.of(context).showInMap,
-                  style: TextStyleManager.getSecondaryRegularStyle(),
+    PlaceLocation? location = PlaceBloc.get()
+        .allPlaces
+        .firstWhere(
+          (e) => e.id == placeId,
+        )
+        .location;
+    print(location);
+    return location == null
+        ? const SizedBox()
+        : InkWell(
+            onTap: () {
+              MapsLauncher.launchCoordinates(
+                      location.latitude, location.longitude)
+                  .catchError((e) => debugPrint(e.toString()));
+            },
+            child: Container(
+              height: 4.h,
+              width: 35.w,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: ColorManager.secondary,
                 ),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
-          ))),
-    );
+            ),
+          );
   }
 
   Widget _buildSportWidget(String sport, BuildContext context) {
@@ -522,12 +432,19 @@ class PlaceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCaptionWidget(String caption) {
-    return Text(caption, style: TextStyleManager.getCaptionStyle());
+  Widget _buildCaptionWidget(String caption, BuildContext context) {
+    return ExpandableText(
+      caption,
+      expandText: S.of(context).showMore,
+      animation: true,
+      collapseOnTextTap: true,
+    );
   }
 
   Widget _buildWorkingHours(BuildContext context) {
-    Place place = PlaceBloc.get().currentPlace!;
+    Place place = PlaceBloc.get().allPlaces.firstWhere(
+          (e) => e.id == placeId,
+        );
     if (_placeIsAlwaysOpen()) {
       return OutLineContainer(child: Text(S.of(context).alwaysOpen));
     } else {
@@ -603,7 +520,9 @@ class PlaceScreen extends StatelessWidget {
   }
 
   bool _placeIsAlwaysOpen() {
-    Place place = PlaceBloc.get().currentPlace!;
+    Place place = PlaceBloc.get().allPlaces.firstWhere(
+          (e) => e.id == placeId,
+        );
     // check if place working hours list is all open from 00:00 to 24:00
     return place.workingHours!.where((element) => element.isAllDay()).length ==
         place.workingHours!.length;
@@ -628,6 +547,173 @@ class PlaceScreen extends StatelessWidget {
               fontWeight: FontWeightManager.bold,
               fontSize: FontSizeManager.s10,
             )),
+      ),
+    );
+  }
+}
+
+class ImageSliderWithIndicators extends StatefulWidget {
+  final List<String> imageUrls;
+  final int initialIndex;
+  final int placeId;
+
+  ImageSliderWithIndicators({
+    super.key,
+    required this.imageUrls,
+    this.initialIndex = 0,
+    required this.placeId,
+  });
+
+  @override
+  _ImageSliderWithIndicatorsState createState() =>
+      _ImageSliderWithIndicatorsState();
+}
+
+class _ImageSliderWithIndicatorsState extends State<ImageSliderWithIndicators> {
+  int _currentIndex = 0;
+  CarouselSliderController _carouselController = CarouselSliderController();
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoPlayTimer();
+  }
+
+  void _startAutoPlayTimer() {
+    Future.delayed(Duration(seconds: 2), () {
+      if (mounted) {
+        _carouselController.nextPage();
+        _startAutoPlayTimer();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool isFavorite = false;
+    if (ConstantsManager.appUser != null) {
+      if (ConstantsManager.appUser!.favoritePlaces.contains(widget.placeId)) {
+        isFavorite = true;
+      }
+    }
+    return SizedBox(
+      width: 100.w,
+      height: 50.h,
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: Hero(
+                  tag: widget.placeId,
+                  child: CarouselSlider(
+                    carouselController: _carouselController,
+                    options: CarouselOptions(
+                      autoPlay: false,
+                      enlargeCenterPage: false,
+                      viewportFraction: 1.0,
+                      aspectRatio: 1 / 1,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                    ),
+                    items: widget.imageUrls.map((imageUrl) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return GestureDetector(
+                            onTap: () {
+                              context.push(Routes.viewImages, arguments: {
+                                "imageUrls": widget.imageUrls,
+                                "index": _currentIndex,
+                              });
+                            },
+                            child: Container(
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      ApiManager.handleImageUrl(imageUrl)),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              // LinearProgressIndicator(
+              //   value: _progress,
+              //   backgroundColor: Colors.black26,
+              //   color: Colors.white,
+              // )
+            ],
+          ),
+          // Indicator for current image number
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ColorManager.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Text(
+                  '  ${_currentIndex + 1} / ${widget.imageUrls.length}  ',
+                  style: const TextStyle(color: ColorManager.white),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              color: ColorManager.black.withOpacity(0.5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SafeArea(child: SizedBox()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios,
+                            color: ColorManager.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        // focusColor: Colors.white,
+
+                        onPressed: () {
+                          Share.shareUri(Uri.parse(
+                              "${ApiManager.domain}/place/?id=${widget.placeId}"));
+                        },
+                        icon: Icon(Icons.share, color: ColorManager.white),
+                      ),
+                      Spacer(),
+                      FavoriteIconButton(
+                        color: ColorManager.white,
+                        placeId: widget.placeId,
+                        isFavorite: false,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

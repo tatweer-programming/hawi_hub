@@ -45,8 +45,9 @@ class MainScreen extends StatelessWidget {
 
   static List<Widget> pages = const [
     HomePage(),
-    PlayPage(),
     BookPage(),
+    PlayPage(),
+    SizedBox(),
     MorePage(),
   ];
 }

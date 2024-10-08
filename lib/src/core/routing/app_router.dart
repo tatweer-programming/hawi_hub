@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawihub/main.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/modules/auth/view/screens/confirm_email_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
@@ -12,6 +13,8 @@ import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart'
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_reviews.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
+import 'package:hawihub/src/modules/places/view/widgets/components.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../modules/auth/view/screens/get_started_screen.dart';
 import '../../modules/games/data/models/player.dart';
@@ -20,6 +23,7 @@ import '../../modules/games/view/widgets/screens/create_game_screen.dart';
 import '../../modules/games/view/widgets/screens/game_screen.dart';
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
+import '../../modules/places/view/screens/view_image_screen.dart';
 import '../utils/constance_manager.dart';
 
 class AppRouter {
@@ -29,7 +33,7 @@ class AppRouter {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (_) => SplashScreen(
-            // nextScreen: MainScreen(),
+        //    nextScreen: EmptyScreen(),
             nextScreen: ConstantsManager.userId == null
                 ? (ConstantsManager.isFirstTime == true ||
                         ConstantsManager.isFirstTime == null
@@ -115,6 +119,11 @@ class AppRouter {
             settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => ConfirmEmailScreen(bloc: arguments['bloc']));
+        case Routes.viewImages:
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) => FullScreenImageGallery(imageUrls: arguments['imageUrls'], initialIndex: arguments['index'],));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
@@ -128,5 +137,22 @@ class AppRouter {
                   ),
                 )));
     }
+  }
+}
+class EmptyScreen extends StatelessWidget {
+  const EmptyScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(padding:
+      EdgeInsets.all(5.w),
+      child: ListView.builder(itemBuilder:  (context, index) => PlaceItem(place: dummyPlaces[index],
+      ),
+      itemCount: dummyPlaces.length,
+      scrollDirection: Axis.horizontal,
+      ),
+      ),
+    );
   }
 }

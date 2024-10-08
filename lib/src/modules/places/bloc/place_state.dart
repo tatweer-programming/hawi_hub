@@ -73,7 +73,7 @@ class GetPlaceSuccess extends PlaceState {
 }
 
 class GetPlaceBookingsSuccess extends PlaceState {
-  final List<Booking> bookings;
+  final List<PlaceBooking> bookings;
 
   const GetPlaceBookingsSuccess(this.bookings);
 

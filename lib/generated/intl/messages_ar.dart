@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم إضافة الحجز بنجاح"),
         "bookingTimeInPast":
             MessageLookupByLibrary.simpleMessage("الوقت الذي ادخلته في الماضي"),
+        "bookings": MessageLookupByLibrary.simpleMessage("الحجوزات"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "change": MessageLookupByLibrary.simpleMessage("تغير "),
         "changePassword":
@@ -226,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "saved": MessageLookupByLibrary.simpleMessage("تم الحفظ بنجاح"),
+        "search": MessageLookupByLibrary.simpleMessage("بحث"),
         "seconds": MessageLookupByLibrary.simpleMessage("ثواني"),
         "seeAll": MessageLookupByLibrary.simpleMessage("رؤية الكل"),
         "send": MessageLookupByLibrary.simpleMessage("إرسال"),
@@ -240,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shouldActivate":
             MessageLookupByLibrary.simpleMessage("يجب تفعيل الحساب أولا"),
         "showInMap": MessageLookupByLibrary.simpleMessage("اظهار في الخريطة"),
+        "showMore": MessageLookupByLibrary.simpleMessage("اظهار المزيد"),
         "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "slots": MessageLookupByLibrary.simpleMessage("أماكن"),
         "somethingWentWrong":

@@ -38,7 +38,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               label: S.of(context).play,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
+              icon: const ImageIcon(
+                  AssetImage('assets/images/icons/calendar.webp')),
               label: S.of(context).bookings,
             ),
             BottomNavigationBarItem(

@@ -58,6 +58,22 @@ class GamesRemoteDataSource {
     }
   }
 
+  Future<Either<Exception, Unit>> leaveGame({
+    required int gameId,
+  }) async {
+    try {
+      Future.wait([
+        DioHelper.postData(
+            data: {"gameId": gameId},
+            path: "${EndPoints.leaveGame}${ConstantsManager.userId}",
+            query: {"id": ConstantsManager.userId}),
+      ]);
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
   Future<Either<Exception, Game>> getGame({required int gameId}) async {
     try {
       var response = await DioHelper.getData(

@@ -170,5 +170,9 @@
   "invalidResetCode": "Invalid reset code.",
   "verifyEmail": "Verify Email",
   "noChatsFound": "No Chats Found",
-  "noPlayerFound": "No player was found with ID :"
+  "noPlayerFound": "No player was found with ID :",
+  "bookings": "Bookings",
+  "exploreBySports": "Explore By Sports",
+  "search": "Search",
+  "showMore": "Show More"
 }

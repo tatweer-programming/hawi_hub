@@ -6,6 +6,7 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/models/booking.dart';
+import 'package:hawihub/src/modules/places/data/models/place_booking.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
 import '../models/place.dart';
@@ -35,13 +36,13 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, List<Booking>>> getPlaceBookings(
+  Future<Either<Exception, List<PlaceBooking>>> getPlaceBookings(
       {required int placeId}) async {
     try {
       var response = await DioHelper.getData(
           path: "${EndPoints.getPlaceBookings}$placeId");
-      List<Booking> bookings =
-          (response.data as List).map((e) => Booking.fromJson(e)).toList();
+      List<PlaceBooking> bookings =
+          (response.data as List).map((e) => PlaceBooking.fromJson(e)).toList();
       return Right(bookings);
     } on DioException catch (e) {
       DioException dioException = e;
@@ -50,9 +51,22 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
+ Future <Either<Exception, List<Booking>>> getUpcomingBookings() async {
+   try{
+     var response = await DioHelper.getData(path: EndPoints.getUpcomingBookings);
+     List<Booking> bookings = (response.data as List).map((e) => Booking.fromJson(e)).toList();
+     return Right(bookings);
+   }
+   on DioException catch (e){
+     return Left(e);
+   }
+   on Exception catch (e){
+     return Left(e);
+   }
 
+ }
   Future<Either<Exception, Unit>> addBooking(
-      {required Booking booking,
+      {required PlaceBooking booking,
       required int placeId,
       required int ownerId}) async {
     try {
@@ -60,6 +74,20 @@ class PlacesRemoteDataSource {
         path: "${EndPoints.bookPlace}${ConstantsManager.userId}",
         data: booking.toJson(
             stadiumId: placeId, reservationPrice: booking.reservationPrice!),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(e);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+  Future<Either<Exception, Unit>> cancelBooking(
+      {required int bookingId}) async {
+    try {
+      DioHelper.postData(
+        path: "${EndPoints.bookPlace}$bookingId",
+        query: {"bookingId": bookingId},
       );
       return const Right(unit);
     } on DioException catch (e) {
@@ -133,6 +161,20 @@ class PlacesRemoteDataSource {
     }
   }
 
+  Future<Either<Exception, Unit>> addPlayerFeedback(int playerId,
+      {required AppFeedBack review}) async {
+    try {
+      await DioHelper.postData(
+        data: review.toJson(userType: "owner"),
+        path: EndPoints.addPlayerFeedback + playerId.toString(),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(e);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
   Future<Either<Exception, Unit>> addPlaceFeedback(int placeId,
       {required AppFeedBack review}) async {
     try {
@@ -148,6 +190,7 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
+
 
   Future _sendNotificationToOwner(int ownerId, int placeId) async {
     AppNotification notification = AppNotification(

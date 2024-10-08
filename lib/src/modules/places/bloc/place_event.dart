@@ -92,7 +92,7 @@ class SelectSport extends PlaceEvent {
 
 class AddBookingEvent extends PlaceEvent {
   final int placeId;
-  final Booking booking;
+  final PlaceBooking booking;
 
   const AddBookingEvent(this.booking, {required this.placeId});
 

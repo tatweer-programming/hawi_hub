@@ -169,5 +169,9 @@
   "invalidResetCode": "رمز التأكيد غير صحيح",
   "verifyEmail": "تحقق من بريدك الالكتروني",
   "noChatsFound": "لا يوجد لديك رسائل",
-  "noPlayerFound": "لم يتم العثور على اللاعب"
+  "noPlayerFound": "لم يتم العثور على اللاعب",
+  "bookings": "الحجوزات",
+  "exploreBySport": "تصفح حسب الرياضة",
+  "search": "بحث",
+  "showMore": "اظهار المزيد"
 }

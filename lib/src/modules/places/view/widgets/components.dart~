@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/core/services/location_services.dart';
 import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -14,6 +18,7 @@ import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
 import 'package:sizer/sizer.dart';
+
 import '../../../main/view/widgets/components.dart';
 
 class PlaceItem extends StatelessWidget {

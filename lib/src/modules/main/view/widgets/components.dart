@@ -5,6 +5,7 @@ import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -104,6 +105,8 @@ class SubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
+        maxLines: 2,
+        overflow: TextOverflow.fade,
         style: isBold
             ? TextStyleManager.getSubTitleBoldStyle()
             : TextStyleManager.getSubTitleStyle());
@@ -286,7 +289,7 @@ class CityDropdown extends StatefulWidget {
     required this.selectedCity,
     required this.onCitySelected,
     required this.cities,
-    this.color = ColorManager.white,
+    this.color = ColorManager.black,
   });
 
   final String selectedCity;
@@ -310,6 +313,7 @@ class _CityDropdownState extends State<CityDropdown> {
         ),
         const SizedBox(width: 8),
         PopupMenuButton<String>(
+          iconColor: ColorManager.black,
           icon: Icon(Icons.arrow_drop_down, color: widget.color),
           onSelected: (city) => widget.onCitySelected(city),
           itemBuilder: (context) => widget.cities
@@ -320,6 +324,42 @@ class _CityDropdownState extends State<CityDropdown> {
               .toList(),
         ),
       ],
+    );
+  }
+}
+
+class SportItemWidget extends StatelessWidget {
+  final Sport sport;
+
+  const SportItemWidget({super.key, required this.sport});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 30.w,
+      height: 30.w,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(ApiManager.handleImageUrl(sport.image)),
+          fit: BoxFit.cover,
+        ),
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(5.sp),
+      ),
+      child: Column(children: [
+        Spacer(),
+        Container(
+          width: double.maxFinite,
+          color: ColorManager.black.withOpacity(0.6),
+          child: Padding(
+            padding: EdgeInsets.all(2),
+            child: Center(
+              child: Text(" ${sport.name} ",
+                  style: TextStyleManager.getBlackContainerTextStyle()),
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }

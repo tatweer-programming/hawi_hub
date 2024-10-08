@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
+import 'package:hawihub/src/modules/places/data/models/place.dart';
 
 class Player extends User {
   final int games;
   final int bookings;
+  final Gender gender; // added by Mahmoud
   final String email;
   double myWallet;
   final DateTime birthDate;
@@ -14,6 +17,7 @@ class Player extends User {
   final List<int> ownerReservatation;
 
   Player({
+     this.gender = Gender.male, // make this required
     required this.bookings,
     required this.games,
     required this.birthDate,
@@ -35,6 +39,7 @@ class Player extends User {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
+      gender: json['gender'] == 1 ? Gender.male : Gender.female,
       profilePictureUrl: json['profilePictureUrl'],
       proofOfIdentityUrl: json['proofOfIdentityUrl'],
       id: json['id'],

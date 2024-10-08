@@ -3,7 +3,14 @@ import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
-
+enum Gender {
+  male(1),
+  female(2),
+  both(3);
+  final int value;
+  const Gender(this.value);
+}
+// TODO : add this To Ui
 class Place extends Equatable {
   int id;
   String name;
@@ -19,13 +26,14 @@ class Place extends Equatable {
   int totalGames;
   int totalRatings;
   double? rating;
-  List<AppFeedBack>? feedbacks;
+  List<AppFeedBack>? feedbacks; // []
   String ownerName;
   String ownerImage;
-
   int citId;
   int approvalStatus;
-
+  Gender availableGender;
+  int deposit ;
+  bool isShared ;
   Place(
       {required this.id,
       required this.name,
@@ -45,7 +53,12 @@ class Place extends Equatable {
       required this.citId,
       this.approvalStatus = 0,
       required this.ownerName,
-      required this.ownerImage});
+      required this.ownerImage,
+      this.availableGender = Gender.both,
+      this.deposit=0,
+        required this.isShared
+      });
+
 
   factory Place.fromJson(Map<String, dynamic> json) {
     List openTimesList = json["openTimes"];
@@ -61,11 +74,7 @@ class Place extends Equatable {
         name: json['name'],
         description: json['description'],
         address: json['address'],
-        images:
-            List<String>.from(json['images'].map((x) => x['stadiumImageUrl'])),
-        /*
-       json['images'].map((x) => x['url']).toList(),
-       */
+        images: List<String>.from(json['images'].map((x) => x['stadiumImageUrl'])),
         approvalStatus: json['approvalStatus'],
         ownerId: json['owner']['ownerId'],
         minimumHours: json['minHoursReservation'],
@@ -80,9 +89,22 @@ class Place extends Equatable {
         sport: json['categoryId'] ?? 0,
         ownerName: json['owner']['userName'] ?? "",
         ownerImage:
-            json['owner']['ownerImage'] ?? ImagesManager.defaultProfile);
+            json['owner']['ownerImage'] ?? ImagesManager.defaultProfile,
+    availableGender: _getGender(json["availableGender"]??0),
+     deposit: json["deposit"] ?? 0,
+     isShared: json["isShared"] ?? false
+    ) ;
   }
-
+ static Gender _getGender (int value){
+    switch(value){
+      case 1:
+        return Gender.male;
+      case 2:
+        return Gender.female;
+      default:
+        return Gender.both;
+    }
+  }
   static List<Day> getWeekDays(List<Map<String, dynamic>> weekDays) {
     List<Day> days = [];
     for (var element in weekDays) {

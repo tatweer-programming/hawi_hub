@@ -32,7 +32,11 @@ extension NavigationMethods on BuildContext {
       SlidePageRoute(child: route),
     );
   }
+
+
+
 }
+
 
 class SlidePageRoute extends PageRouteBuilder {
   final Widget child;

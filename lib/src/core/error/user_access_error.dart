@@ -75,3 +75,19 @@ class AgeNotSuitableException extends UserAccessException {
     }
   }
 }
+
+class GenderNotSuitableException extends UserAccessException {
+  @override
+  String getErrorMessage() {
+    String languageCode = getCurrentLanguageCode();
+    switch (languageCode) {
+      case 'en':
+        return 'Gender not suitable';
+      case 'ar':
+        return "النوع غير مناسب";
+      default:
+        return 'Gender not suitable for the team';
+    }
+  }
+
+}

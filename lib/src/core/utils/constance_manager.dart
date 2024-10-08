@@ -4,7 +4,6 @@ import 'localization_manager.dart';
 
 class ConstantsManager {
   static Player? appUser;
-
   static String? connectionId;
   static String? connectionToken;
   static bool? registrationSkipped;

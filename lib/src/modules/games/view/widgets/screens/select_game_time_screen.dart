@@ -10,7 +10,7 @@ import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
-import 'package:hawihub/src/modules/places/data/models/booking.dart';
+import 'package:hawihub/src/modules/places/data/models/place_booking.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,7 +27,7 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
   TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0);
-  List<Booking> bookings = [];
+  List<PlaceBooking> bookings = [];
 
   @override
   void initState() {
@@ -94,8 +94,8 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
   }
 
   bool _isBookingConflict(DateTime start, DateTime end) {
-    for (Booking booking in bookings) {
-      if (booking.isConflicting(Booking(startTime: start, endTime: end))) {
+    for (PlaceBooking booking in bookings) {
+      if (booking.isConflicting(PlaceBooking(startTime: start, endTime: end))) {
         errorToast(msg: S.of(context).bookingConflict);
         return true;
       }
@@ -134,7 +134,7 @@ class _SelectGameTimeScreenState extends State<SelectGameTimeScreen> {
               .firstWhere((e) => e.id == widget.placeId)
               .price *
           (end.difference(start).inMinutes / 60);
-      GamesBloc.get().booking = Booking(
+      GamesBloc.get().booking = PlaceBooking(
           startTime: start, endTime: end, reservationPrice: reservationPrice);
       defaultToast(msg: S.of(context).saved);
       context.pop();

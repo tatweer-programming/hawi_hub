@@ -27,48 +27,12 @@ class MainAppBar extends StatelessWidget {
         height: 33.h,
         opacity: .15,
         backgroundImage: "assets/images/app_bar_backgrounds/1.webp",
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.pushWithTransition(const ChatsScreen());
-              },
-              icon: const ImageIcon(
-                AssetImage("assets/images/icons/chat.png"),
-                color: ColorManager.golden,
-              )),
-          InkWell(
-            radius: 360,
-            onTap: () {
-              context.push(
-                Routes.profile,
-                arguments: {
-                  'id': ConstantsManager.userId,
-                  "userType": "Player"
-                },
-              );
-            },
-            child: CircleAvatar(
-              backgroundColor: ColorManager.grey3,
-              backgroundImage: ConstantsManager.appUser != null &&
-                      ConstantsManager.appUser!.profilePictureUrl != null
-                  ? NetworkImage(ConstantsManager.appUser!.profilePictureUrl!)
-                  : const AssetImage("assets/images/icons/user.png")
-                      as ImageProvider<Object>,
-            ),
-          ),
-          IconButton(
-              onPressed: () {
-                context.push(Routes.notifications);
-              },
-              icon: const ImageIcon(
-                AssetImage("assets/images/icons/notification.webp"),
-                color: ColorManager.golden,
-              )),
-        ],
+        actions: [],
         leading: BlocBuilder<MainCubit, MainState>(
           bloc: mainCubit,
           builder: (context, state) {
             return CityDropdown(
+                color: ColorManager.black,
                 selectedCity: mainCubit.currentCityId == null
                     ? S.of(context).chooseSport
                     : LocalizationManager

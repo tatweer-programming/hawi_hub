@@ -6,7 +6,7 @@ import 'package:hawihub/src/modules/games/data/models/game_creation_form.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
-import 'package:hawihub/src/modules/places/data/models/booking.dart';
+import 'package:hawihub/src/modules/places/data/models/place_booking.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 
 import '../data/data_source/games_remote_data_source.dart';
@@ -22,7 +22,7 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
   bool isPublic = false;
   int? selectedStadiumId;
 
-  Booking? booking;
+  PlaceBooking? booking;
   GamesRemoteDataSource remoteDataSource = GamesRemoteDataSource();
 
   GamesBloc() : super(GamesInitial()) {

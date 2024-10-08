@@ -56,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Booking Added Successfully"),
         "bookingTimeInPast":
             MessageLookupByLibrary.simpleMessage("Booking time is in the past"),
+        "bookings": MessageLookupByLibrary.simpleMessage("Bookings"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "change": MessageLookupByLibrary.simpleMessage("Change "),
         "changePassword":
@@ -104,6 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter password"),
         "enterUsername":
             MessageLookupByLibrary.simpleMessage("Please enter username"),
+        "exploreBySports":
+            MessageLookupByLibrary.simpleMessage("Explore By Sports"),
         "feedbacks": MessageLookupByLibrary.simpleMessage("Feedbacks"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("File Uploaded"),
         "forgotPassword":
@@ -226,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "saved": MessageLookupByLibrary.simpleMessage("Saved"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
         "seconds": MessageLookupByLibrary.simpleMessage("seconds"),
         "seeAll": MessageLookupByLibrary.simpleMessage("See all"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
@@ -240,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shouldActivate": MessageLookupByLibrary.simpleMessage(
             "Please Activate Your Account"),
         "showInMap": MessageLookupByLibrary.simpleMessage("Show in map"),
+        "showMore": MessageLookupByLibrary.simpleMessage("Show More"),
         "signUp": MessageLookupByLibrary.simpleMessage("SIGN UP"),
         "slots": MessageLookupByLibrary.simpleMessage("Slots"),
         "somethingWentWrong":

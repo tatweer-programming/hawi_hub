@@ -6,38 +6,45 @@ class EndPoints {
   static const String verifyConfirmEmail = '/Player/VerifyConfirmEmail/';
   static const String verifyResetCode = '/Player/VerifyResetCode';
   static const String resetPass = '/Player/ResetPassword';
-  static const String changeImageProfile = '/Player/ChangeDetails';
+  static const String changeImageProfile =
+      '/Player/UploadProfilePicture'; // Updated
   static const String changePassword = '/Player/ChangePassword';
   static const String verification = '/Player/Verification';
   static const String uploadProof = '/Player/UploadProofOfIdentity';
-  static const String verifyCode = '/verifycode';
 
   /// profile
-  static const String addOwnerFeedback = '/Player/AddOwnerReview/';
-  static const String getOwnerFeedbacks = '/Owner/GetOwnerReviews/';
-  static const String getPlayerFeedbacks = '/Player/GetPlayerReviews/';
+  static const String addOwnerFeedback = '/Player/ReviewOwner/'; // Updated
+  static const String addPlayerFeedback = '/Player/ReviewStadium/'; // Updated
+  static const String getOwnerFeedbacks = '/Player/OwnersReviews/'; // Updated
+  static const String getPlayerFeedbacks = '/Owner/PlayersReviews/'; // Updated
 
   /// payment
   static const String getPaymentStatus = '/v2/GetPaymentStatus';
   static const String updateWallet = '/Player/UpdateWallet/';
   static const String updatePendingWallet = '/Player/UpdatePendingWallet/';
 
+  /// banners and categories
   static const String getBanners = '/Banner';
   static const String getSports = '/Category';
-  static const String getPlaces = '/Stadium/GetByCity/';
+
+  /// places
+  static const String getPlaces = '/Stadium/City/';
   static const String getPlaceBookings = "/Stadium/StadiumReservationsTimes/";
   static const String bookPlace = '/Player/ReserveStadium/';
-  static const String addPlaceToFavourites = '/Player/AddStadiumToFavorite/';
-  static const String deletePlaceFromFavourites = "/Player/DeleteFromFavorite/";
-  static const String getPlaceFeedbacks = '/Stadium/GetStadiumReviews/';
-  static const String getPlace = "/Stadium/GetByStadiumId/";
-  static const String addPlaceFeedback = '/Stadium/StadiumReview/';
+  static const String addPlaceToFavourites = '/Player/Favorite/';
+  static const String deletePlaceFromFavourites = "/Player/Favorite/";
+  static const String getPlaceFeedbacks = '/Stadium/Reviews/'; // Updated
+  static const String getPlace = "/Stadium/{stadiumId}"; // Updated
+  static const String addPlaceFeedback = '/Player/ReviewStadium/'; // Updated
+  static const String getUpcomingBookings =
+      "/Player/StadiumGame/{playerId}"; // Updated
 
   /// games
   static const String getGames = '/Stadium/Games/City/';
-  static const String createGame = '/Player/AddStadiumGame/';
+  static const String getGame = '/Stadium/Games/';
+  static const String createGame = '/Player/StadiumGame/'; // Updated
   static const String joinGame = '/Player/JoinGame/';
-  static const String getGame = "/Stadium/Games/";
+  static const String leaveGame = "";
 
   /// chat
   static const String getConnection = '/Hub/negotiate?negotiateVersion=1';
@@ -48,7 +55,8 @@ class EndPoints {
   static const String uploadConversationAttachment =
       '/Hub/UploadConversationAttachment';
 
+  /// notifications
   static const String getNotifications = '/Hub/PlayerNotifications/';
-  static const String markAsRead = "/Hub/MarkPlayerNotificationAsRead/";
+  static const String markAsRead = '/Hub/MarkPlayerNotificationAsRead/';
   static const String saveNotificationToOwner = '/Hub/AddOwnerNotification/';
 }

@@ -19,4 +19,5 @@ class Routes {
   static const String selectGameTime = '/selectGameTime';
   static const String placeFeedbacks = "/placeFeedbacks";
   static const String confirmEmail = "/confirmEmail";
+  static const String viewImages = "/viewImages";
 }

@@ -9,27 +9,118 @@ import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/connectivity.dart';
 import 'package:hawihub/src/modules/main/view/widgets/main_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/shimmers/banner_shimmer.dart';
-import 'package:hawihub/src/modules/places/view/widgets/shimmers/place_shimmers.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../../main.dart';
+import '../../../../../core/utils/localization_manager.dart';
 import '../../../../../core/utils/styles_manager.dart';
 import '../../../../games/view/widgets/components.dart';
 import '../../../../games/view/widgets/shimmers/game_shimmers.dart';
 import '../../../../places/bloc/place_bloc.dart';
 import '../../../../places/view/widgets/components.dart';
 
+class CustomCarousel extends StatefulWidget {
+  const CustomCarousel({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _CustomCarouselState createState() => _CustomCarouselState();
+}
+
+class _CustomCarouselState extends State<CustomCarousel> {
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    MainCubit mainCubit = MainCubit.get();
+    return Column(
+      children: [
+        BlocBuilder<MainCubit, MainState>(
+          bloc: mainCubit,
+          builder: (context, state) {
+            return CarouselSlider(
+              options: CarouselOptions(
+                enableInfiniteScroll: false,
+                reverse: false,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                autoPlay: true,
+                viewportFraction: .95,
+                padEnds: false,
+                pauseAutoPlayOnManualNavigate: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
+              items: mainCubit.bannerList.isEmpty
+                  ? [const BannersShimmer()]
+                  : mainCubit.bannerList.map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: 88.w,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: ColorManager.shimmerBaseColor,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(i),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+            );
+          },
+        ),
+        // مؤشر الـ Carousel
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: mainCubit.bannerList.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => setState(() {
+                _currentIndex = entry.key;
+              }),
+              child: Container(
+                width: _currentIndex == entry.key ? 10.0 : 8.0,
+                height: _currentIndex == entry.key ? 10.0 : 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == entry.key
+                      ? ColorManager.golden
+                      : Colors.grey,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Widget heightSpacer = SizedBox(
+      height: 2.h,
+    );
     AuthBloc authBloc = context.read<AuthBloc>();
     UserAccessProxy(
             authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
@@ -38,13 +129,87 @@ class HomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MainAppBar(),
+        SafeArea(
+          child: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    context.pushWithTransition(const ChatsScreen());
+                  },
+                  icon: const ImageIcon(
+                    AssetImage("assets/images/icons/chat.png"),
+                    color: ColorManager.golden,
+                  )),
+              InkWell(
+                radius: 360,
+                onTap: () {
+                  context.push(
+                    Routes.profile,
+                    arguments: {
+                      'id': ConstantsManager.userId,
+                      "userType": "Player"
+                    },
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundColor: ColorManager.grey3,
+                  backgroundImage: ConstantsManager.appUser != null &&
+                          ConstantsManager.appUser!.profilePictureUrl != null
+                      ? NetworkImage(
+                          ConstantsManager.appUser!.profilePictureUrl!)
+                      : const AssetImage("assets/images/icons/user.png")
+                          as ImageProvider<Object>,
+                ),
+              ),
+              IconButton(
+                  onPressed: () {
+                    context.push(Routes.notifications);
+                  },
+                  icon: const ImageIcon(
+                    AssetImage("assets/images/icons/notification.webp"),
+                    color: ColorManager.golden,
+                  )),
+              const Spacer(),
+              BlocBuilder<MainCubit, MainState>(
+                bloc: mainCubit,
+                builder: (context, state) {
+                  return CityDropdown(
+                      selectedCity: mainCubit.currentCityId == null
+                          ? S.of(context).chooseSport
+                          : LocalizationManager
+                              .getSaudiCities[mainCubit.currentCityId! - 1],
+                      onCitySelected: (c) async {
+                        await mainCubit.selectCity(c);
+                      },
+                      cities: LocalizationManager.getSaudiCities);
+                },
+              )
+            ],
+          ),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
           child: ConnectionWidget(
             onRetry: retryConnecting,
             child: Column(
               children: [
+                const CustomCarousel(),
+                heightSpacer,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: TitleText(S.of(context).exploreBySports,
+                            isBold: true)),
+                    const SizedBox(),
+                  ],
+                ),
+                heightSpacer,
+                buildSportsList(mainCubit),
+                heightSpacer,
+                buildSectionTitle(
+                    context, S.of(context).nearByGames, 1, mainCubit),
+                buildGameList(gamesBloc),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.h),
                   child: DefaultButton(
@@ -54,52 +219,7 @@ class HomePage extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 20.h,
-                  width: 90.w,
-                  child: BlocBuilder<MainCubit, MainState>(
-                    bloc: mainCubit,
-                    builder: (context, state) {
-                      return CarouselSlider(
-                        options: CarouselOptions(
-                          enableInfiniteScroll: false,
-                          reverse: false,
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          autoPlay: true,
-                          viewportFraction: 0.87,
-                          padEnds: false,
-                          pauseAutoPlayOnManualNavigate: true,
-                        ),
-                        items: mainCubit.bannerList.isEmpty
-                            ? [const BannersShimmer()]
-                            : mainCubit.bannerList.map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      width: 88.w,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorManager.shimmerBaseColor,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(i),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                buildSectionTitle(
-                    context, S.of(context).nearByGames, 1, mainCubit),
-                buildGameList(gamesBloc),
-                SizedBox(height: 2.h),
+                heightSpacer,
                 buildSectionTitle(
                     context, S.of(context).nearByVenues, 2, mainCubit),
                 buildPlaceList(placeBloc),
@@ -160,9 +280,36 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget buildSportsList(MainCubit mainCubit) {
+    return SizedBox(
+      height: 15.h,
+      child: BlocBuilder<MainCubit, MainState>(
+        bloc: mainCubit,
+        builder: (context, state) {
+          if (mainCubit.sportsList.isEmpty) {
+            return const EmptyView();
+          } else {
+            return Skeletonizer(
+                enabled: state is GetSportsLoading,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(
+                    width: 3.w,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mainCubit.sportsList.length,
+                  itemBuilder: (context, index) {
+                    return SportItemWidget(sport: mainCubit.sportsList[index]);
+                  },
+                ));
+          }
+        },
+      ),
+    );
+  }
+
   Widget buildPlaceList(PlaceBloc placeBloc) {
     return SizedBox(
-      height: 27.h,
+      height: 45.h,
       child: BlocListener<PlaceBloc, PlaceState>(
         bloc: placeBloc,
         listener: (context, state) {
@@ -174,19 +321,35 @@ class HomePage extends StatelessWidget {
         child: BlocBuilder<PlaceBloc, PlaceState>(
           bloc: placeBloc,
           builder: (context, state) {
-            if (state is GetAllPlacesLoading) {
-              return const HorizontalPlacesShimmer();
-            } else if (placeBloc.viewedPlaces.isEmpty) {
+            if (placeBloc.viewedPlaces.isEmpty &&
+                state is! GetAllPlacesLoading) {
               return const EmptyView();
             } else {
-              return ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(
-                  width: 3.w,
-                ),
-                scrollDirection: Axis.horizontal,
-                itemCount: placeBloc.viewedPlaces.length.clamp(0, 3),
-                itemBuilder: (context, index) {
-                  return PlaceItem(place: placeBloc.viewedPlaces[index]);
+              return BlocBuilder<PlaceBloc, PlaceState>(
+                bloc: placeBloc,
+                builder: (context, state) {
+                  return Skeletonizer(
+                    justifyMultiLineText: true,
+                    ignorePointers: false,
+                    ignoreContainers: false,
+                    effect: const PulseEffect(),
+                    enabled: state is GetAllPlacesLoading,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: 3.w,
+                      ),
+                      itemBuilder: (context, index) =>
+                          state is GetAllPlacesLoading
+                              ? PlaceItem(place: dummyPlaces[index])
+                              : PlaceItem(
+                                  place: PlaceBloc.get().viewedPlaces[index]),
+                      itemCount: state is GetAllPlacesLoading
+                          ? dummyPlaces.length
+                          : placeBloc.viewedPlaces.length,
+                    ),
+                  );
                 },
               );
             }
