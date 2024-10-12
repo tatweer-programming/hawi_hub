@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
 
+import '../../../../../generated/l10n.dart';
 class User {
   final int id;
   final String userName;

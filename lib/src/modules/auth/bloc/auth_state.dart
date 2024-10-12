@@ -237,3 +237,9 @@ class KeepMeLoggedInState extends AuthState {
 }
 
 class ShowBirthDateDialogState extends AuthState {}
+
+class DetermineGenderState extends AuthState {
+  final bool isMale;
+
+  DetermineGenderState({required this.isMale});
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
+import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/data/models/auth_player.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     bool acceptTerms = false;
     bool visible = false;
+    bool isFemale = false;
     TextEditingController confirmPasswordController = TextEditingController();
     AuthPlayer? authPlayer;
     return BlocConsumer<AuthBloc, AuthState>(
@@ -75,6 +77,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (selectedDate != null) {
             ageController.text = DateFormat('yyyy-MM-dd').format(selectedDate);
           }
+        }
+        if (state is DetermineGenderState) {
+          isFemale = state.isMale;
+          print(isFemale);
         }
       },
       builder: (context, state) {
@@ -125,26 +131,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           height: 2.h,
                         ),
-                        InkWell(
-                          onTap: () {
-                            widget.bloc.add(ShowDialogEvent());
-                          },
-                          child: mainFormField(
-                            controller: ageController,
-                            label: S.of(context).birthDate,
-                            enabled: false,
-                            // type: TextInputType.emailAddress,
-                            // validator: (value) {
-                            //   if (value.isEmpty) {
-                            //     return S.of(context).enterEmail;
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2.h,
-                        ),
                         mainFormField(
                           controller: passwordController,
                           label: S.of(context).password,
@@ -175,6 +161,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                               return null;
                             }),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            widget.bloc.add(ShowDialogEvent());
+                          },
+                          child: mainFormField(
+                            controller: ageController,
+                            label: S.of(context).birthDate,
+                            enabled: false,
+                            // type: TextInputType.emailAddress,
+                            // validator: (value) {
+                            //   if (value.isEmpty) {
+                            //     return S.of(context).enterEmail;
+                            //   }
+                            //   return null;
+                            // },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: defaultButton(
+                                onPressed: () {
+                                  widget.bloc.add(DetermineGenderEvent(1));
+                                },
+                                text: S.of(context).male,
+                                buttonColor: isFemale
+                                    ? ColorManager.grey2
+                                    : ColorManager.primary,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 4.w,
+                            ),
+                            Expanded(
+                              child: defaultButton(
+                                onPressed: () {
+                                  widget.bloc.add(DetermineGenderEvent(0));
+                                },
+                                text: S.of(context).female,
+                                buttonColor: isFemale
+                                    ? ColorManager.primary
+                                    : ColorManager.grey2,
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 2.h,
                         ),
@@ -265,6 +303,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             userName: userNameController.text,
                                             email: emailController.text,
                                             birthDate: ageController.text,
+                                            gender: isFemale ? 1 : 0,
                                             profilePictureUrl:
                                                 authPlayer?.profilePictureUrl),
                                       ),

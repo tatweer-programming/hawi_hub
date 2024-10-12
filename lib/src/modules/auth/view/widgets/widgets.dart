@@ -269,7 +269,7 @@ Widget walletWidget(VoidCallback onTap, String wallet) {
           ),
         ),
         const Spacer(),
-        if (ConstantsManager.appUser!.isVerified())
+        if (ConstantsManager.appUser!.isVerified() && ConstantsManager.appUser!.isEmailConfirmed())
           InkWell(
             onTap: onTap,
             child: Container(
@@ -360,3 +360,40 @@ String handleResponseTranslation(String state, BuildContext context) {
   }
   return state;
 }
+
+Widget divider() => Container(
+      height: 0.2.h,
+      width: double.infinity,
+      color: ColorManager.grey2,
+    );
+
+
+Widget userInfoDisplay(
+    {required String value, required String key, Widget? trailing}) =>
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$key ",
+          style: TextStyleManager.getTitleBoldStyle(),
+        ),
+        SizedBox(
+          height: 1.h,
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                value,
+                style: TextStyleManager.getGreyTextStyle(),
+              ),
+            ),
+            trailing ?? Container()
+          ],
+        ),
+        SizedBox(
+          height: 2.h,
+        ),
+        divider(),
+      ],
+    );

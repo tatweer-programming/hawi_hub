@@ -51,7 +51,7 @@ class AuthService {
         path: EndPoints.verifyConfirmEmail + ConstantsManager.userId.toString(),
       );
       await CacheHelper.saveData(key: 'userId', value: ConstantsManager.userId);
-      return Right(response.data['message']);
+      return Right(response.data);
     } on Exception catch (e) {
       return Left(e);
     }
@@ -97,6 +97,7 @@ class AuthService {
           profilePictureUrl: googleUser.photoUrl,
           password: '',
           birthDate: '',
+          gender: 0,
         );
         return Right(authPlayer);
       }
@@ -150,6 +151,7 @@ class AuthService {
           profilePictureUrl: userData['picture']['data']['url']!,
           birthDate: '',
           password: '',
+          gender: 0,
         );
         return Right(authPlayer);
       }
@@ -221,7 +223,7 @@ class AuthService {
   Future<Either<Exception, String>> changeProfileImage(
       File newProfileImage) async {
     try {
-      Response response = await DioHelper.putDataFormData(
+      await DioHelper.putDataFormData(
         token: ConstantsManager.userId.toString(),
         data: FormData.fromMap({'ProfilePicture': newProfileImage}),
         path: EndPoints.changeImageProfile,
@@ -239,7 +241,7 @@ class AuthService {
       Response response = await DioHelper.postData(
           path: "${EndPoints.verification}/${ConstantsManager.userId}",
           data: {"proofOfIdentityUrl": nationalIdUrl});
-      return Right(response.data['message']);
+      return Right(response.data);
     } on Exception catch (e) {
       return Left(e);
     }
@@ -274,7 +276,7 @@ class AuthService {
       );
       await loginOwner(
           email: email, password: password, loginWithFBOrGG: false);
-      return Right(response.data['message']);
+      return Right(response.data);
     } on Exception catch (e) {
       return Left(e);
     }

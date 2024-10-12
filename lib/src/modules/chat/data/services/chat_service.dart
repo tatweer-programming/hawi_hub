@@ -57,7 +57,7 @@ class ChatService {
   Future<Either<String, List<Chat>>> getAllChats() async {
     try {
       Response response = await DioHelper.getData(
-        path: EndPoints.getPlayerConversations +
+        path: EndPoints.getPlayerConversationsWithOwners +
             ConstantsManager.userId.toString(),
       );
       if (response.statusCode == 200) {
@@ -69,6 +69,7 @@ class ChatService {
       }
       return Left(response.data.toString());
     } catch (e) {
+      print(e);
       return Left(e.toString());
     }
   }
@@ -114,7 +115,7 @@ class ChatService {
       int conversationId) async {
     try {
       Response response = await DioHelper.getData(
-        path: EndPoints.getConversation + conversationId.toString(),
+        path: EndPoints.getConversationOwnerWithPlayer + conversationId.toString(),
       );
       if (response.statusCode == 200) {
         Message messages = Message.fromJson(response.data);

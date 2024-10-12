@@ -24,26 +24,16 @@ class MyWallet extends StatelessWidget {
     AuthBloc bloc = context.read<AuthBloc>();
     bloc.add(GetProfileEvent(ConstantsManager.userId!, "Player"));
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         children: [
-          SizedBox(
-            width: double.infinity,
-            child: AuthAppBar(
-              user: player,
-              context: context,
-              title: S.of(context).myWallet,
-            ),
-          ),
-          SizedBox(
-            height: 2.h,
-          ),
-          Text(
-            player.userName,
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          // Text(
+          //   player.userName,
+          //   style: TextStyle(
+          //     fontSize: 20.sp,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
           SizedBox(
             height: 4.h,
           ),

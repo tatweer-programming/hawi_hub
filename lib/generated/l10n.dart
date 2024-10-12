@@ -540,10 +540,10 @@ class S {
     );
   }
 
-  /// ` Email`
+  /// `Email`
   String get email {
     return Intl.message(
-      ' Email',
+      'Email',
       name: 'email',
       desc: '',
       args: [],
@@ -1760,16 +1760,6 @@ class S {
     );
   }
 
-  /// `No player was found with ID :`
-  String get noPlayerFound {
-    return Intl.message(
-      'No player was found with ID :',
-      name: 'noPlayerFound',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Bookings`
   String get bookings {
     return Intl.message(
@@ -1815,6 +1805,126 @@ class S {
     return Intl.message(
       'venues',
       name: 'venues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate`
+  String get rate {
+    return Intl.message(
+      'Rate',
+      name: 'rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mix`
+  String get mix {
+    return Intl.message(
+      'Mix',
+      name: 'mix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createAccount {
+    return Intl.message(
+      'Create Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Email`
+  String get confirmEmail {
+    return Intl.message(
+      'Confirm Email',
+      name: 'confirmEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify Account`
+  String get verifyAccount {
+    return Intl.message(
+      'Verify Account',
+      name: 'verifyAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile Setup`
+  String get profileSetup {
+    return Intl.message(
+      'Profile Setup',
+      name: 'profileSetup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conversations`
+  String get conversations {
+    return Intl.message(
+      'Conversations',
+      name: 'conversations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to logout ?`
+  String get doYouWantToLogout {
+    return Intl.message(
+      'Do you want to logout ?',
+      name: 'doYouWantToLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No player was found with ID :`
+  String get noPlayerFound {
+    return Intl.message(
+      'No player was found with ID :',
+      name: 'noPlayerFound',
       desc: '',
       args: [],
     );

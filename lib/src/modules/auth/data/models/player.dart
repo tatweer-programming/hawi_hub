@@ -15,7 +15,7 @@ class Player extends User {
   final List<int> ownerReservatation;
 
   Player({
-    this.gender = Gender.male, // make this required
+    required this.gender, // make this required
     required this.bookings,
     required this.games,
     required this.birthDate,
@@ -59,6 +59,10 @@ class Player extends User {
 
   bool isVerified() {
     return approvalStatus == 1;
+  }
+
+  bool isEmailConfirmed() {
+    return emailConfirmed == true;
   }
 
   int getAge() {

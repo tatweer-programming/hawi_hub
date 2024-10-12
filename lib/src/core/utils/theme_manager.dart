@@ -33,7 +33,10 @@ final ThemeData customTheme = ThemeData(
     ),
     textTheme: ButtonTextTheme.normal,
   ),
-
+  appBarTheme: const AppBarTheme(
+    backgroundColor: ColorManager.white,
+    elevation: 0,
+  ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     foregroundColor: Color(0xFFFFFFFF),
   ),

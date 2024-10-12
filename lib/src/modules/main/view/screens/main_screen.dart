@@ -29,6 +29,11 @@ class MainScreen extends StatelessWidget {
           return RefreshIndicator(
             onRefresh: () async {
               mainCubit.initializeHomePage(refresh: true);
+              if (ConstantsManager.userId != null) {
+                context
+                    .read<AuthBloc>()
+                    .add(GetProfileEvent(ConstantsManager.userId!, "Player"));
+              }
             },
             child: SingleChildScrollView(
               child: Column(

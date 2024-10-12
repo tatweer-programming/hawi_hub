@@ -16,6 +16,7 @@ import 'package:hawihub/src/modules/auth/view/screens/add_feedback_for_user.dart
 import 'package:hawihub/src/modules/auth/view/screens/rates_screen.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/people_rate_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../core/utils/color_manager.dart';
 import '../widgets/widgets.dart';
@@ -46,9 +47,7 @@ class ProfileScreen extends StatelessWidget {
         context.pop();
       } else if (state is UploadNationalIdErrorState) {
         context.pop();
-        errorToast(
-            msg: ExceptionManager(state.exception)
-                .translatedMessage());
+        errorToast(msg: ExceptionManager(state.exception).translatedMessage());
       }
       if (state is UploadNationalIdLoadingState) {
         showDialog(
@@ -81,21 +80,19 @@ class ProfileScreen extends StatelessWidget {
         );
       } else {
         return Scaffold(
+          appBar: AppBar(),
           body: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      AuthAppBar(
-                        context: context,
-                        user: user!,
-                        title: S.of(context).profile,
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: AuthAppBar(
+                //     context: context,
+                //     user: user!,
+                //     title: S.of(context).profile,
+                //   ),
+                // ),
+
                 Padding(
                   padding: EdgeInsetsDirectional.symmetric(
                     horizontal: 5.w,
@@ -106,12 +103,9 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 2.h,
                       ),
-                      Text(
-                        user!.userName,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      userInfoDisplay(
+                        value: user!.userName,
+                        key: S.of(context).userName,
                       ),
                       _accountVerified(
                           authBloc: bloc,
@@ -130,74 +124,74 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Widget _pentagonalWidget(int number, String text) {
-  return Stack(
-    alignment: AlignmentDirectional.center,
-    children: [
-      ClipPath(
-        clipper: TriangleClipper(),
-        child: Container(
-          width: 30.w,
-          height: 15.h,
-          color: ColorManager.black,
-        ),
-      ),
-      ClipPath(
-        clipper: TriangleClipper(),
-        child: Container(
-          width: 29.w,
-          height: 14.5.h,
-          color: ColorManager.white,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 1.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  number.toString(),
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: ColorManager.primary,
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: ColorManager.grey3,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
+// Widget _pentagonalWidget(int number, String text) {
+//   return Stack(
+//     alignment: AlignmentDirectional.center,
+//     children: [
+//       ClipPath(
+//         clipper: TriangleClipper(),
+//         child: Container(
+//           width: 30.w,
+//           height: 15.h,
+//           color: ColorManager.black,
+//         ),
+//       ),
+//       ClipPath(
+//         clipper: TriangleClipper(),
+//         child: Container(
+//           width: 29.w,
+//           height: 14.5.h,
+//           color: ColorManager.white,
+//           child: Padding(
+//             padding: EdgeInsets.symmetric(horizontal: 1.w),
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Text(
+//                   number.toString(),
+//                   maxLines: 1,
+//                   style: TextStyle(
+//                     color: ColorManager.primary,
+//                     fontSize: 25.sp,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 SizedBox(
+//                   height: 1.h,
+//                 ),
+//                 Text(
+//                   text,
+//                   style: TextStyle(
+//                     color: ColorManager.grey3,
+//                     fontSize: 15.sp,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     ],
+//   );
+// }
 
-class TriangleClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0, 0);
-    path.lineTo(0, size.height * .7);
-    path.lineTo(size.width / 2, size.height);
-    path.lineTo(size.width, size.height * .7);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(TriangleClipper oldClipper) => false;
-}
+// class TriangleClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     final path = Path();
+//     path.lineTo(0, 0);
+//     path.lineTo(0, size.height * .7);
+//     path.lineTo(size.width / 2, size.height);
+//     path.lineTo(size.width, size.height * .7);
+//     path.lineTo(size.width, 0);
+//     path.close();
+//     return path;
+//   }
+//
+//   @override
+//   bool shouldReclip(TriangleClipper oldClipper) => false;
+// }
 
 Widget _seeAll(VoidCallback onTap, BuildContext context) {
   return InkWell(
@@ -228,9 +222,9 @@ Widget _accountVerified({
   required AuthState state,
   required AuthBloc authBloc,
 }) {
-  if (!user.emailConfirmed!) {
+  if (!(ConstantsManager.appUser as Player).isEmailConfirmed()) {
     return _emailNotConfirmed(context, authBloc);
-  } else if (user.proofOfIdentityUrl == null && user.approvalStatus == 0) {
+  } else if (user.proofOfIdentityUrl == null && !(ConstantsManager.appUser as Player).isVerified()) {
     return _notVerified(authBloc);
   } else if (user.approvalStatus == 0) {
     return _pending(context, S.of(context).identificationPending);
@@ -394,97 +388,122 @@ Widget _verified({
   if (user is Player) {
     isPlayer = true;
   }
-  return Column(children: [
-    SizedBox(
-      height: 2.h,
-    ),
-    if (isPlayer)
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _pentagonalWidget(
-            (user as Player).games,
-            S.of(context).games,
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-          _pentagonalWidget(
-            (user).bookings,
-            S.of(context).booking,
-          ),
-        ],
-      ),
-    SizedBox(
-      height: 2.h,
-    ),
-    Text(
-      user.rate.toStringAsFixed(1),
-      style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-    ),
-    RatingBar.builder(
-      initialRating: user.rate,
-      minRating: 1,
-      itemSize: 25.sp,
-      direction: Axis.horizontal,
-      ignoreGestures: true,
-      allowHalfRating: true,
-      itemPadding: EdgeInsets.zero,
-      itemBuilder: (context, _) => const Icon(
-        Icons.star,
-        color: ColorManager.golden,
-      ),
-      onRatingUpdate: (rating) {},
-    ),
-    SizedBox(
-      height: 3.h,
-    ),
-    user.feedbacks.isEmpty
-        ? Container()
-        : Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    S.of(context).peopleRate,
-                    style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+  return Column(
+    children: [
+      if (isPlayer)
+        Column(
+          children: [
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).email,
+              value: (user as Player).email,
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).booking,
+              value: (user).bookings.toString(),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).games,
+              value: user.games.toString(),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).rate,
+              value: user.rate.toStringAsFixed(1),
+              trailing: Expanded(
+                child: RatingBar.builder(
+                  initialRating: user.rate,
+                  minRating: 1,
+                  itemSize: 25.sp,
+                  direction: Axis.horizontal,
+                  ignoreGestures: true,
+                  allowHalfRating: true,
+                  itemPadding: EdgeInsets.zero,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: ColorManager.golden,
                   ),
-                  const Spacer(),
-                  _seeAll(() {
-                    context.pushWithTransition(RatesScreen(
-                      user: user,
-                    ));
-                  }, context)
-                ],
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => PeopleRateBuilder(
-                  context: context,
-                  feedBack: user.feedbacks[index],
+                  onRatingUpdate: (rating) {},
                 ),
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 2.h,
-                ),
-                itemCount: user.feedbacks.take(2).length,
               ),
-            ],
-          ),
-    SizedBox(
-      height: 2.h,
-    ),
-    if (ConstantsManager.appUser!.ownerReservatation.contains(user.id))
-      defaultButton(
-          onPressed: () {
-            context.pushWithTransition(
-                AddFeedbackForUser(user: user, authBloc: authBloc));
-          },
-          text: S.of(context).addFeedback,
-          fontSize: 17.sp),
-    SizedBox(
-      height: 2.h,
-    ),
-  ]);
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).gender,
+              value: user.gender.name,
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            userInfoDisplay(
+              key: S.of(context).birthDate,
+              value:
+                  (DateFormat('dd/MM/yyyy').format(user.birthDate)).toString(),
+            ),
+          ],
+        ),
+      SizedBox(
+        height: 3.h,
+      ),
+      user.feedbacks.isEmpty
+          ? Container()
+          : Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      S.of(context).peopleRate,
+                      style: TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.bold),
+                    ),
+                    const Spacer(),
+                    _seeAll(() {
+                      context.pushWithTransition(RatesScreen(
+                        user: user,
+                      ));
+                    }, context)
+                  ],
+                ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => PeopleRateBuilder(
+                    context: context,
+                    feedBack: user.feedbacks[index],
+                  ),
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 2.h,
+                  ),
+                  itemCount: user.feedbacks.take(2).length,
+                ),
+              ],
+            ),
+      SizedBox(
+        height: 2.h,
+      ),
+      if (ConstantsManager.appUser!.ownerReservatation.contains(user.id))
+        defaultButton(
+            onPressed: () {
+              context.pushWithTransition(
+                  AddFeedbackForUser(user: user, authBloc: authBloc));
+            },
+            text: S.of(context).addFeedback,
+            fontSize: 17.sp),
+      SizedBox(
+        height: 2.h,
+      ),
+    ],
+  );
 }

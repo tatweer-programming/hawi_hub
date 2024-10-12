@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "commonQuestions":
             MessageLookupByLibrary.simpleMessage("Common Questions"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "confirmEmail": MessageLookupByLibrary.simpleMessage("Confirm Email"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "confirmationCodeSentSuccessfully":
@@ -79,10 +80,14 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Confirmation code sent successfully to"),
         "conflictWithWorkingHours": MessageLookupByLibrary.simpleMessage(
             "There is a conflict with working hours"),
+        "conversations": MessageLookupByLibrary.simpleMessage("Conversations"),
+        "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
-        "email": MessageLookupByLibrary.simpleMessage(" Email"),
+        "doYouWantToLogout":
+            MessageLookupByLibrary.simpleMessage("Do you want to logout ?"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
         "emailAlreadyExist":
             MessageLookupByLibrary.simpleMessage("Email is already exists."),
         "emailConfirmedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -108,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "exploreBySports":
             MessageLookupByLibrary.simpleMessage("Explore By Sports"),
         "feedbacks": MessageLookupByLibrary.simpleMessage("Feedbacks"),
+        "female": MessageLookupByLibrary.simpleMessage("Female"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("File Uploaded"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password ?"),
@@ -117,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gameTotalPrice":
             MessageLookupByLibrary.simpleMessage("Game Total Price"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
+        "gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "getStarted": MessageLookupByLibrary.simpleMessage(
             "Get your Squad to play together!"),
         "home": MessageLookupByLibrary.simpleMessage("home"),
@@ -146,6 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Account LogedIn Successfully"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "male": MessageLookupByLibrary.simpleMessage("Male"),
         "maxPlayers": MessageLookupByLibrary.simpleMessage("Maximum Players"),
         "maxPlayersRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter number of players"),
@@ -154,6 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter number of players"),
         "minimumBooking":
             MessageLookupByLibrary.simpleMessage("Minimum Booking"),
+        "mix": MessageLookupByLibrary.simpleMessage("Mix"),
         "more": MessageLookupByLibrary.simpleMessage("More"),
         "mustVerifyAccount": MessageLookupByLibrary.simpleMessage(
             "You must verify your account first "),
@@ -207,12 +216,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "private": MessageLookupByLibrary.simpleMessage("Private"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "profileSetup": MessageLookupByLibrary.simpleMessage("Profile Setup"),
         "proofOfIdentityAddedSuccessfully":
             MessageLookupByLibrary.simpleMessage(
                 "Proof of identity has been added successfully"),
         "public": MessageLookupByLibrary.simpleMessage("Public"),
         "questions": MessageLookupByLibrary.simpleMessage(
             "What is the Howie Hub application?\n\nIt is an application that connects stadium owners with tenants, facilitating the process of booking stadiums individually or collectively.\n\nWho can use the Howie Hub application?\n\nAnyone can download and use the app, but it specifically targets young people in Saudi Arabia.\n\nWhat services does the application provide?\n\nBook pitches individually:\nSelect the stadium you want.\nChoose the appropriate date and time.\nComplete the payment process.\nCreate group bookings and share them with friends:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share with your friends.\nCreate group bookings open to all app users:\nSelect the stadium you want.\nChoose the appropriate date and time.\nDetermine the number of players.\nCreate a booking link and share it with everyone.\nHow is payment made in the Howie Hub application?\n\nPayment is made by credit card or online payment card.\n\nWhat is the percentage of the company that owns the application of the reservation value?\n\nThe percentage of the reservation value of the company that owns the application varies depending on the type of reservation.\n\nHow can I add a playground to the app?\n\nIf you are a stadium owner, you can contact the company that owns the application through https://www.infohub.com/ to learn more about how to add your stadium to the application.\n\nHow can I contact the company that owns the application?\n\nYou can contact the company that owns the application through https://www.infohub.com/\n\nAre there any restrictions or specific conditions for using the application?\n\nThere are no restrictions or conditions for using the app, but you must respect all users on the app and refrain from any abusive or illegal behavior.\n\nAre there any behaviors prohibited on the application?\n\nYes, there are some behaviors that are prohibited on the application, such as:\n\nBullying or harassment.\nPosting hate speech or offensive content.\nSharing personal or sensitive information.\nUse the application for illegal purposes.\nWhat happens if I violate the terms of use?\n\nIf you violate the Terms of Use, your account may be permanently banned from the application.\n\nCan I cancel my account?\n\nYes, you can cancel your account at any time.\n\nCan I change my account information?\n\nYes, you can change your account information at any time.\n\nHow can I get help using the application?\n\nYou can review the help center in the application or contact the company that owns the application through https://www.infohub.com/\n\nIs the Howie Hub application safe?\n\nYes, Howie Hub is very secure. We use the latest security technologies to protect users\' data.\n\nIs my data shared with anyone else?\n\nNo, your data is not shared with anyone else unless you have expressly agreed to this.\n\nWhat is the privacy policy of the Howie Hub application?\n\nYou can review the Howie Hub privacy policy at https://www.infohub.com/\n\nIs there anything else I should know?\n\nWe advise you to read the terms of use and privacy policy carefully before using the application.\n\nThank you for using Howie Hub!\n\nnote:\nThis FAQ may be updated from time to time. Please check this page periodically to see the latest changes."),
+        "rate": MessageLookupByLibrary.simpleMessage("Rate"),
         "rates": MessageLookupByLibrary.simpleMessage("Rates"),
         "ratingsCount": MessageLookupByLibrary.simpleMessage("Ratings"),
         "reSendCode": MessageLookupByLibrary.simpleMessage("Re-send code"),
@@ -267,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "usernameAlreadyExist":
             MessageLookupByLibrary.simpleMessage("Username is already exists."),
         "venues": MessageLookupByLibrary.simpleMessage("venues"),
+        "verifyAccount": MessageLookupByLibrary.simpleMessage("Verify Account"),
         "verifyEmail": MessageLookupByLibrary.simpleMessage("Verify Email"),
         "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),

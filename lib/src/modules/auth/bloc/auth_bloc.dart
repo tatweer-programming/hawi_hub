@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (event is ChangePasswordVisibilityEvent) {
         _changePassVisibility(event, emit);
       } else if (event is StartResendCodeTimerEvent) {
-        _startResendCodeTimer(event, emit);
+        await _startResendCodeTimer(event, emit);
       } else if (event is ShowDialogEvent) {
         emit(ShowBirthDateDialogState());
       } else if (event is ResetCodeTimerEvent) {
@@ -79,27 +79,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await _getSports(event, emit);
       } else if (event is AddImageEvent) {
         await _addImage(event, emit);
+      } else if (event is DetermineGenderEvent) {
+        _determineGender(event, emit);
       }
     });
   }
 
-  void _startResendCodeTimer(
+  Future<void> _startResendCodeTimer(
     StartResendCodeTimerEvent event,
     Emitter<AuthState> emit,
-  ) {
-    timeToResendCodeTimer?.cancel();
+  ) async {
+    timeToResendCodeTimer?.cancel(); // Cancel any previous timers
+
     int timeToResendCode = event.timeToResendCode;
-    timeToResendCode = 120;
+    timeToResendCode = 120; // Set the timer value
+
+    final completer =
+        Completer<void>(); // Use a completer to keep the function alive
+
     timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (emit.isDone) {
+        timer.cancel();
+        completer.complete(); // Completes the function if emitter is done
+        return;
+      }
+
       if (timeToResendCode > 0) {
         timeToResendCode--;
         emit(ChangeTimeToResendCodeState(time: timeToResendCode));
       } else {
-        timeToResendCodeTimer?.cancel();
-        timeToResendCode = 0;
+        timer.cancel();
         emit(ChangeTimeToResendCodeState(time: 0));
+        completer.complete(); // Complete when countdown is over
       }
     });
+
+    await completer.future; // Wait for the completer to complete
   }
 
   Future<File?> _captureAndSaveGalleryImage() async {
@@ -309,8 +324,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(GetProfileLoadingState());
     var res = await _repository.getProfile(event.id, event.userType);
     res.fold((l) {
+      print("LLLLLLLLLLLLL $l");
       emit(GetProfileErrorState(l));
     }, (r) {
+      print("r      $r");
       emit(GetProfileSuccessState(r));
     });
   }
@@ -377,5 +394,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await _captureAndSaveGalleryImage().then((imagePicked) {
       emit(AddImageSuccessState(imagePicked: imagePicked!));
     });
+  }
+
+  void _determineGender(DetermineGenderEvent event, Emitter<AuthState> emit) {
+    if(event.gender == 0) {
+      emit(DetermineGenderState(isMale: true));
+    }else{
+      emit(DetermineGenderState(isMale: false));
+    }
   }
 }

@@ -26,9 +26,12 @@ class ChatsScreen extends StatelessWidget {
         chatBloc.add(GetAllChatsEvent());
       },
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).conversations),
+        ),
         body: Column(
           children: [
-            _appBar(context),
+            // _appBar(context),
             Expanded(
               child: BlocConsumer<ChatBloc, ChatState>(
                 listener: (context, state) {
@@ -42,7 +45,8 @@ class ChatsScreen extends StatelessWidget {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is GetAllChatsSuccessState && chats.isNotEmpty) {
+                  } else if (state is GetAllChatsSuccessState &&
+                      chats.isNotEmpty) {
                     return Column(
                       children: [
                         Expanded(
@@ -115,7 +119,7 @@ Widget _appBar(
           ),
           Expanded(
             child: Text(
-              "Conversations",
+              S.of(context).conversations,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: ColorManager.white,

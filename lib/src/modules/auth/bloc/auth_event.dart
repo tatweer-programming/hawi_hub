@@ -124,3 +124,9 @@ class UpdateProfilePictureEvent extends AuthEvent {
 
   UpdateProfilePictureEvent(this.profileImage);
 }
+
+class DetermineGenderEvent extends AuthEvent {
+  final int gender;
+
+  DetermineGenderEvent(this.gender);
+}
