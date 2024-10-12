@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/main.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
+import 'package:hawihub/src/dummy/dummy_data.dart';
 import 'package:hawihub/src/modules/auth/view/screens/confirm_email_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/login_screen.dart';
 import 'package:hawihub/src/modules/auth/view/screens/profile_screen.dart';
@@ -10,6 +11,7 @@ import 'package:hawihub/src/modules/main/view/screens/questions_screen.dart';
 import 'package:hawihub/src/modules/main/view/screens/terms_conditions_screen.dart';
 import 'package:hawihub/src/modules/payment/presentation/screens/my_wallet.dart';
 import 'package:hawihub/src/modules/places/view/screens/add_booking_screen.dart';
+import 'package:hawihub/src/modules/main/view/screens/explore_by_sports.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_location_screen.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_reviews.dart';
 import 'package:hawihub/src/modules/places/view/screens/place_screen.dart';
@@ -32,62 +34,66 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
-          builder: (_) => SplashScreen(
-        //    nextScreen: EmptyScreen(),
-            nextScreen: ConstantsManager.userId == null
-                ? (ConstantsManager.isFirstTime == true ||
-                        ConstantsManager.isFirstTime == null
+          builder: (_) =>
+              SplashScreen(
+                //    nextScreen: EmptyScreen(),
+                nextScreen: ConstantsManager.userId == null
+                    ? (ConstantsManager.isFirstTime == true ||
+                    ConstantsManager.isFirstTime == null
                     ? const GetStartedScreen()
                     : const LoginScreen())
-                : const MainScreen(),
-          ),
+                    : const MainScreen(),
+              ),
         );
       case Routes.place:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.profile:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => ProfileScreen(
-                id: arguments['id'], userType: arguments['userType']));
+            builder: (_) =>
+                ProfileScreen(
+                    id: arguments['id'], userType: arguments['userType']));
       case Routes.wallet:
         return MaterialPageRoute(builder: (_) => const MyWallet());
       case Routes.home:
         return MaterialPageRoute(builder: (_) => const MainScreen());
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => PlaceScreen(placeId: arguments['id']));
       case Routes.notifications:
         return MaterialPageRoute(builder: (_) => const NotificationsScreen());
       case Routes.game:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => GameDetailsScreen(id: arguments['id']));
 
       case Routes.allPlayers:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => AllPlayersScreen(
-                players: arguments['players'] as List<GamePlayer>));
+            builder: (_) =>
+                AllPlayersScreen(
+                    players: arguments['players'] as List<GamePlayer>));
       case Routes.createGame:
         Map<String, dynamic>? arguments =
-            settings.arguments as Map<String, dynamic>?;
+        settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
-            builder: (_) => CreateGameScreen(
+            builder: (_) =>
+                CreateGameScreen(
                   placeId: arguments?['placeId'],
                   placeName: arguments?['placeName'],
                 ));
       case Routes.placeLocation:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) =>
                 PlaceLocationScreen(location: arguments['location']));
@@ -97,61 +103,80 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TermsConditionsScreen());
       case Routes.bookNow:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => AddBookingScreen(placeId: arguments['id']));
       case Routes.placeFeedbacks:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => PlaceFeedbacksScreen(
+            builder: (_) =>
+                PlaceFeedbacksScreen(
                   id: arguments['id'],
                 ));
       case Routes.selectGameTime:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => SelectGameTimeScreen(
+            builder: (_) =>
+                SelectGameTimeScreen(
                   placeId: arguments['id'],
                 ));
       case Routes.confirmEmail:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
             builder: (_) => ConfirmEmailScreen(bloc: arguments['bloc']));
-        case Routes.viewImages:
+      case Routes.viewImages:
         Map<String, dynamic> arguments =
-            settings.arguments as Map<String, dynamic>;
+        settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => FullScreenImageGallery(imageUrls: arguments['imageUrls'], initialIndex: arguments['index'],));
+            builder: (_) =>
+                FullScreenImageGallery(
+                  imageUrls: arguments['imageUrls'],
+                  initialIndex: arguments['index'],
+                ));
+      case Routes.exploreBySport:
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+            builder: (_) =>
+                ExploreBySportsScreen(
+                  sportId: arguments['sportId'],
+                ));
       default:
         return MaterialPageRoute(
-            builder: (_) => Scaffold(
+            builder: (_) =>
+                Scaffold(
                     body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.phonelink_erase_rounded),
-                      Text('No route defined for ${settings.name}'),
-                    ],
-                  ),
-                )));
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.phonelink_erase_rounded),
+                          Text('No route defined for ${settings.name}'),
+                        ],
+                      ),
+                    )));
     }
   }
 }
+
 class EmptyScreen extends StatelessWidget {
   const EmptyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(padding:
-      EdgeInsets.all(5.w),
-      child: ListView.builder(itemBuilder:  (context, index) => PlaceItem(place: dummyPlaces[index],
-      ),
-      itemCount: dummyPlaces.length,
-      scrollDirection: Axis.horizontal,
-      ),
+      body: Padding(
+        padding: EdgeInsets.all(5.w),
+        child: ListView.builder(
+          itemBuilder: (context, index) =>
+              PlaceItem(
+                place: dummyPlaces[index],
+              ),
+          itemCount: dummyPlaces.length,
+          scrollDirection: Axis.horizontal,
+        ),
       ),
     );
   }

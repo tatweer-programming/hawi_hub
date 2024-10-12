@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 
@@ -17,7 +15,7 @@ class Player extends User {
   final List<int> ownerReservatation;
 
   Player({
-     this.gender = Gender.male, // make this required
+    this.gender = Gender.male, // make this required
     required this.bookings,
     required this.games,
     required this.birthDate,

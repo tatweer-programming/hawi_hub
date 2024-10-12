@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -23,13 +24,6 @@ class PlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = false;
-    if (ConstantsManager.appUser != null) {
-      if (ConstantsManager.appUser!.favoritePlaces.contains(place.id)) {
-        isFavorite = true;
-      }
-    }
-
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -65,6 +59,8 @@ class PlaceItem extends StatelessWidget {
                             topRight: Radius.circular(30),
                           ),
                           image: DecorationImage(
+                            onError: (__, _) =>
+                                ColoredBox(color: ColorManager.grey1),
                             image: NetworkImage(
                                 ApiManager.handleImageUrl(place.images.first)),
                             fit: BoxFit.cover,
@@ -112,7 +108,8 @@ class PlaceItem extends StatelessWidget {
               Align(
                 alignment: AlignmentDirectional.topStart,
                 child: FavoriteIconButton(
-                    placeId: place.id, isFavorite: isFavorite),
+                  placeId: place.id,
+                ),
               )
             ],
           ),
@@ -124,14 +121,11 @@ class PlaceItem extends StatelessWidget {
 
 class FavoriteIconButton extends StatefulWidget {
   final int placeId;
-  final bool isFavorite;
+
   final Color color;
 
   const FavoriteIconButton(
-      {Key? key,
-      required this.placeId,
-      required this.isFavorite,
-      this.color = ColorManager.grey2})
+      {Key? key, required this.placeId, this.color = ColorManager.grey2})
       : super(key: key);
 
   @override
@@ -141,6 +135,7 @@ class FavoriteIconButton extends StatefulWidget {
 class _FavoriteIconButtonState extends State<FavoriteIconButton>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -150,7 +145,12 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton>
       lowerBound: 0.0,
       upperBound: 1.0,
     );
-    if (widget.isFavorite) {
+    if (ConstantsManager.appUser != null) {
+      if (ConstantsManager.appUser!.favoritePlaces.contains(widget.placeId)) {
+        isFavorite = true;
+      }
+    }
+    if (isFavorite) {
       controller.forward();
     }
     controller.addListener(() {
@@ -168,12 +168,13 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton>
           controller.reverse();
         } else if (state is DeletePlaceFromFavouritesError) {
           controller.forward();
-        }
+        } else if (state is AddPlaceToFavouritesSuccess ||
+            state is DeletePlaceFromFavouritesSuccess) {}
       },
       child: IconButton(
           onPressed: () {
             PlaceBloc bloc = PlaceBloc.get();
-            if (!widget.isFavorite) {
+            if (!isFavorite) {
               controller.forward();
               UserAccessProxy(bloc, AddPlaceToFavoriteEvent(widget.placeId))
                   .execute([AccessCheckType.login]);

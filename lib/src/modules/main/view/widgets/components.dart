@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
+import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/localization_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
@@ -9,6 +11,7 @@ import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:sizer/sizer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/utils/font_manager.dart';
 
 class DefaultButton extends StatelessWidget {
@@ -87,7 +90,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         style: isBold
-            ? TextStyleManager.getTitleBoldStyle()
+            ? TextStyleManager.getTitleBoldStyle(color: color)
             : TextStyleManager.getTitleStyle());
   }
 }
@@ -335,31 +338,77 @@ class SportItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 30.w,
-      height: 30.w,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(ApiManager.handleImageUrl(sport.image)),
-          fit: BoxFit.cover,
-        ),
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(5.sp),
-      ),
-      child: Column(children: [
-        Spacer(),
-        Container(
-          width: double.maxFinite,
-          color: ColorManager.black.withOpacity(0.6),
-          child: Padding(
-            padding: EdgeInsets.all(2),
-            child: Center(
-              child: Text(" ${sport.name} ",
-                  style: TextStyleManager.getBlackContainerTextStyle()),
+    return InkWell(
+      onTap: () {
+        context.push(Routes.exploreBySport, arguments: {"sportId": sport.id});
+      },
+      child: Hero(
+        tag: "sport_${sport.id}",
+        child: Container(
+          width: 30.w,
+          height: 30.w,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                ApiManager.handleImageUrl(sport.image),
+              ),
+              onError: (__, _) => ColoredBox(
+                color: ColorManager.grey1,
+              ),
+              fit: BoxFit.cover,
             ),
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(5.sp),
           ),
+          child: Column(children: [
+            const Spacer(),
+            Container(
+              width: double.maxFinite,
+              color: ColorManager.black.withOpacity(0.6),
+              child: Padding(
+                padding: EdgeInsets.all(2),
+                child: Center(
+                  child: Text(" ${sport.name} ",
+                      style: TextStyleManager.getBlackContainerTextStyle()),
+                ),
+              ),
+            ),
+          ]),
         ),
-      ]),
+      ),
+    );
+  }
+}
+
+class SportNameWidget extends StatelessWidget {
+  final String sport;
+  final int sportId;
+
+  const SportNameWidget(
+      {super.key, required this.sport, required this.sportId});
+
+  @override
+  Widget build(BuildContext context) {
+    return buildSportWidget(sport, context, sportId: sportId);
+  }
+
+  Widget buildSportWidget(String sport, BuildContext context,
+      {required int sportId}) {
+    return Container(
+      height: 5.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: ColorManager.grey1,
+      ),
+      child: InkWell(
+          onTap: () {
+            context
+                .push(Routes.exploreBySport, arguments: {"sportId": sportId});
+          },
+          child: Center(
+              child: Text(sport,
+                  style: TextStyleManager.getBlackCaptionTextStyle()))),
     );
   }
 }

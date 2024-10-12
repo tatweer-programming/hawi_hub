@@ -37,19 +37,19 @@ class PlaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PlaceBloc cubit = PlaceBloc.get();
+    PlaceBloc bloc = PlaceBloc.get();
     late Place place;
-    if (cubit.allPlaces.any((e) => e.id == placeId)) {
-      place = cubit.viewedPlaces.firstWhere(
+    if (bloc.allPlaces.any((e) => e.id == placeId)) {
+      place = bloc.allPlaces.firstWhere(
         (e) => e.id == placeId,
       );
     } else {
-      cubit.add(GetPlaceEvent(placeId));
+      bloc.add(GetPlaceEvent(placeId));
     }
 
     return Scaffold(
         body: BlocBuilder<PlaceBloc, PlaceState>(
-      bloc: cubit,
+      bloc: bloc,
       buildWhen: (previous, current) =>
           current is PlaceError ||
           current is GetPlaceSuccess ||
@@ -60,7 +60,7 @@ class PlaceScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: BlocListener<PlaceBloc, PlaceState>(
-                  bloc: cubit,
+                  bloc: bloc,
                   listener: (context, state) {
                     if (state is PlaceError) {
                       errorToast(
@@ -73,7 +73,9 @@ class PlaceScreen extends StatelessWidget {
                     children: [
                       // app bar
                       ImageSliderWithIndicators(
-                        imageUrls: place.images,
+                        imageUrls: place.images
+                            .map((e) => ApiManager.handleImageUrl(e))
+                            .toList(),
                         placeId: place.id,
                       ),
                       SizedBox(
@@ -212,7 +214,8 @@ class PlaceScreen extends StatelessWidget {
                             SizedBox(
                               height: 1.h,
                             ),
-                            _buildSportWidget(
+                            buildSportWidget(
+                                sportId: place.sport,
                                 MainCubit.get()
                                     .sportsList
                                     .firstWhere(
@@ -414,7 +417,8 @@ class PlaceScreen extends StatelessWidget {
           );
   }
 
-  Widget _buildSportWidget(String sport, BuildContext context) {
+  Widget buildSportWidget(String sport, BuildContext context,
+      {required int sportId}) {
     return Container(
       height: 5.h,
       width: double.infinity,
@@ -424,7 +428,8 @@ class PlaceScreen extends StatelessWidget {
       ),
       child: InkWell(
           onTap: () {
-            // TODO navigate to sport Screen
+            context
+                .push(Routes.exploreBySport, arguments: {"sportId": sportId});
           },
           child: Center(
               child: Text(sport,
@@ -633,8 +638,7 @@ class _ImageSliderWithIndicatorsState extends State<ImageSliderWithIndicators> {
                               width: 100.w,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: NetworkImage(
-                                      ApiManager.handleImageUrl(imageUrl)),
+                                  image: NetworkImage(imageUrl),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -701,11 +705,10 @@ class _ImageSliderWithIndicatorsState extends State<ImageSliderWithIndicators> {
                         },
                         icon: Icon(Icons.share, color: ColorManager.white),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       FavoriteIconButton(
                         color: ColorManager.white,
                         placeId: widget.placeId,
-                        isFavorite: false,
                       ),
                     ],
                   ),

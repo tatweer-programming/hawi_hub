@@ -6,26 +6,19 @@ import 'package:hawihub/src/modules/main/data/models/sport.dart';
 
 class MainServices {
   Future<Either<Exception, List<String>>> getBanners() async {
-    List<String> banners1 = [
-      "https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg?w=1060",
-      "https://img.freepik.com/free-photo/five-swimmers-racing-against-each-other-swiming-pool_171337-7818.jpg?w=1060",
-      "https://img.freepik.com/free-photo/basketball-player-throwing-ball-into-net_23-2148393872.jpg?size=626&ext=jpg"
-    ];
     try {
       List<String> banners = [];
       var response = await DioHelper.getData(path: EndPoints.getBanners);
 
       if (response.statusCode == 200 && response.data.isNotEmpty) {
         for (var item in response.data) {
-          banners.add(
-              ApiManager.handleImageUrl(item["bannerImageUrl"].toString()));
+          banners.add(ApiManager.handleImageUrl(
+              ApiManager.handleImageUrl(item["bannerImageUrl"].toString())));
         }
-        return Right(banners);
       }
-
-      return Right(banners1);
+      return Right(banners);
     } on Exception {
-      return Right(banners1);
+      return const Right([]);
     }
   }
 

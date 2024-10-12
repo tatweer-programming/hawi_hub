@@ -32,6 +32,15 @@ class JoinGameEvent extends GamesEvent {
   List<Object> get props => [gameId];
 }
 
+class LeaveGameEvent extends GamesEvent {
+  final int gameId;
+
+  const LeaveGameEvent({required this.gameId});
+
+  @override
+  List<Object> get props => [gameId];
+}
+
 class ChangeGameAccessEvent extends GamesEvent {
   final bool isPublic;
 

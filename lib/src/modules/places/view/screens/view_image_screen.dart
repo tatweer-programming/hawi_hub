@@ -33,7 +33,7 @@ class FullScreenImageGallery extends StatelessWidget {
                 color: ColorManager.black,
                 image: DecorationImage(
                   image: NetworkImage(
-                    ApiManager.handleImageUrl(imageUrls[index]),
+                    imageUrls[index],
                   ),
                   fit: BoxFit.contain,
                 ),

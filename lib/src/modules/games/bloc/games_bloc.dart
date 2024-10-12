@@ -12,6 +12,7 @@ import 'package:hawihub/src/modules/places/data/models/place.dart';
 import '../data/data_source/games_remote_data_source.dart';
 
 part 'games_event.dart';
+
 part 'games_state.dart';
 
 class GamesBloc extends Bloc<GamesEvent, GamesState> {
@@ -65,6 +66,20 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
               .add(GamePlayer.currentPlayer());
           emit(JoinGameSuccess(event.gameId));
         });
+      } else if (event is LeaveGameEvent) {
+        emit(LeaveGameLoading(
+          event.gameId,
+        ));
+        var result = await remoteDataSource.leaveGame(gameId: event.gameId);
+        result.fold((l) {
+          emit(LeaveGameError(l));
+        }, (r) async {
+          games
+              .firstWhere((e) => e.id == event.gameId)
+              .players
+              .remove(GamePlayer.currentPlayer());
+          emit(LeaveGameSuccess(event.gameId));
+        });
       }
       if (event is ChangeGameAccessEvent) {
         isPublic = event.isPublic;
@@ -97,17 +112,11 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
           emit(CreateGameSuccess(int.parse(r)));
         });
       } else if (event is SelectSportEvent) {
-        if (event.sportId == -1) {
-          filteredGames = games;
-          emit(const SelectSportSuccess(-1));
-          print("games $games");
-        } else {
-          filteredGames = games
-              .where((element) => element.sportId == event.sportId)
-              .toList();
-          print("games $games");
-          emit(SelectSportSuccess(event.sportId));
-        }
+        emit(SelectGamesSportLoading(event.sportId));
+        filteredGames =
+            games.where((element) => element.sportId == event.sportId).toList();
+        print("games $games");
+        emit(SelectGamesSportSuccess(event.sportId));
       } else if (event is SelectPlaceEvent) {
         selectedStadiumId = PlaceBloc.get()
             .viewedPlaces
@@ -144,3 +153,6 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
         .name;
   }
 }
+/*
+
+ */

@@ -13,9 +13,9 @@ class TextStyleManager {
     );
   }
 
-  static TextStyle getTitleBoldStyle() {
+  static TextStyle getTitleBoldStyle({Color? color}) {
     return TextStyle(
-      color: ColorManager.black,
+      color: color ?? ColorManager.black,
       fontSize: FontSizeManager.s16,
       fontWeight: FontWeightManager.bold,
     );
@@ -83,7 +83,9 @@ class TextStyleManager {
 
   static TextStyle getBlackCaptionTextStyle() {
     return TextStyle(
-        fontSize: 11.sp, color: ColorManager.black, fontWeight: FontWeightManager.bold);
+        fontSize: 11.sp,
+        color: ColorManager.black,
+        fontWeight: FontWeightManager.bold);
   }
 
   static TextStyle getBlackContainerTextStyle() {

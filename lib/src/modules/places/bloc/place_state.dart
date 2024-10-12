@@ -164,10 +164,21 @@ class SendBookingRequestError extends PlaceError {
   List<Object> get props => [exception];
 }
 
-class SelectSportSuccess extends PlaceState {
+class SelectPlaceSportSuccess extends PlaceState {
   final int sportId;
 
-  const SelectSportSuccess(this.sportId);
+  const SelectPlaceSportSuccess(this.sportId);
+
+  @override
+  List<Object> get props => [
+        sportId,
+      ];
+}
+
+class SelectPlacesSportLoading extends PlaceState {
+  final int sportId;
+
+  const SelectPlacesSportLoading(this.sportId);
 
   @override
   List<Object> get props => [

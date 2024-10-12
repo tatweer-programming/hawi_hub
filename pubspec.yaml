@@ -29,7 +29,7 @@ dependencies:
   dio:
   image_picker:
   fluttertoast:
-  shimmer:
+
   open_file_plus:
   file_picker:
   googleapis_auth:

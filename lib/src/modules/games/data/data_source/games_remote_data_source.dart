@@ -12,7 +12,8 @@ class GamesRemoteDataSource {
     try {
       List<Game> games = [];
       var response = await DioHelper.getData(
-          path: "${EndPoints.getGames}$cityId", query: {"cityId": cityId});
+          path: "${EndPoints.getGamesByCity}$cityId",
+          query: {"cityId": cityId});
 
       games = (response.data as List).map((e) => Game.fromJson(e)).toList();
       return Right(games);
@@ -77,7 +78,7 @@ class GamesRemoteDataSource {
   Future<Either<Exception, Game>> getGame({required int gameId}) async {
     try {
       var response = await DioHelper.getData(
-          path: "${EndPoints.getGame}$gameId", query: {"id": gameId});
+          path: "${EndPoints.getGameById}$gameId", query: {"id": gameId});
 
       return Right(Game.fromJson(response.data));
     } on Exception catch (e) {

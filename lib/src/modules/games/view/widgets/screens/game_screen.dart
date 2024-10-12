@@ -12,6 +12,7 @@ import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
+import 'package:hawihub/src/modules/main/view/widgets/image_widget.dart';
 import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,25 +56,25 @@ class GameDetailsScreen extends StatelessWidget {
                         SizedBox(
                           height: 50.h,
                           child: Stack(children: [
-                            Container(
+                            Hero(
+                              tag: "game_$id",
+                              child: Container(
                                 height: 50.h,
                                 width: double.infinity,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          ApiManager.handleImageUrl(
-                                            MainCubit.get()
-                                                .sportsList
-                                                .firstWhere(
-                                                    (sport) =>
-                                                        sport.id ==
-                                                        game.sportId,
-                                                    orElse: () =>
-                                                        Sport.unKnown())
-                                                .image,
-                                          ),
-                                        )))),
+                                child: ImageWidget(
+                                  ApiManager.handleImageUrl(
+                                    MainCubit.get()
+                                        .sportsList
+                                        .firstWhere(
+                                            (sport) => sport.id == game.sportId,
+                                            orElse: () => Sport.unKnown())
+                                        .image,
+                                  ),
+                                  width: 100.w,
+                                  height: 50.h,
+                                ),
+                              ),
+                            ),
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
@@ -146,8 +147,6 @@ class GameDetailsScreen extends StatelessWidget {
                                 ))
                           ]),
                         ),
-
-                        /// players section
                         Padding(
                           padding: EdgeInsets.all(6.5.w),
                           child: Column(
@@ -217,28 +216,25 @@ class GameDetailsScreen extends StatelessWidget {
                                           ),
                                         )
                                     ]),
-                                SizedBox(height: 4.h),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
+                                SizedBox(height: 2.h),
                                 SubTitle(S.of(context).sport),
                                 SizedBox(
                                   height: 2.h,
                                 ),
-                                _buildSportWidget(
-                                    MainCubit.get()
-                                        .sportsList
-                                        .firstWhere(
-                                            (sport) => sport.id == game.sportId,
-                                            orElse: () => Sport.unKnown())
-                                        .name,
-                                    context),
+                                SportNameWidget(
+                                  sport: MainCubit.get()
+                                      .sportsList
+                                      .firstWhere(
+                                          (sport) => sport.id == game.sportId,
+                                          orElse: () => Sport.unKnown())
+                                      .name,
+                                  sportId: MainCubit.get()
+                                      .sportsList
+                                      .firstWhere(
+                                          (sport) => sport.id == game.sportId,
+                                          orElse: () => Sport.unKnown())
+                                      .id,
+                                ),
                                 SizedBox(
                                   height: 2.h,
                                 ),
@@ -333,22 +329,6 @@ class GameDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildSportWidget(String sport, BuildContext context) {
-    return Container(
-      height: 5.h,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: ColorManager.grey1,
-      ),
-      child: InkWell(
-          onTap: () {},
-          child: Center(
-              child: Text(sport,
-                  style: TextStyleManager.getBlackCaptionTextStyle()))),
     );
   }
 }

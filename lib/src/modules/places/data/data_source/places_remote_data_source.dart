@@ -51,20 +51,21 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
- Future <Either<Exception, List<Booking>>> getUpcomingBookings() async {
-   try{
-     var response = await DioHelper.getData(path: EndPoints.getUpcomingBookings);
-     List<Booking> bookings = (response.data as List).map((e) => Booking.fromJson(e)).toList();
-     return Right(bookings);
-   }
-   on DioException catch (e){
-     return Left(e);
-   }
-   on Exception catch (e){
-     return Left(e);
-   }
 
- }
+  Future<Either<Exception, List<Booking>>> getUpcomingBookings() async {
+    try {
+      var response =
+          await DioHelper.getData(path: EndPoints.getUpcomingBookings);
+      List<Booking> bookings =
+          (response.data as List).map((e) => Booking.fromJson(e)).toList();
+      return Right(bookings);
+    } on DioException catch (e) {
+      return Left(e);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
   Future<Either<Exception, Unit>> addBooking(
       {required PlaceBooking booking,
       required int placeId,
@@ -82,6 +83,7 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
+
   Future<Either<Exception, Unit>> cancelBooking(
       {required int bookingId}) async {
     try {
@@ -118,12 +120,15 @@ class PlacesRemoteDataSource {
   Future<Either<Exception, Unit>> addPlaceToFavorite(
       {required int placeId}) async {
     try {
+      print(" \n Added to favorite $placeId \n ");
       await DioHelper.postData(
         path: "${EndPoints.addPlaceToFavourites}${ConstantsManager.userId}",
         data: {"stadiumId": placeId},
       );
+      print(" \n Added to favorite $placeId \n ");
       return const Right(unit);
     } on DioException catch (e) {
+      print(e);
       return Left(e);
     } on Exception catch (e) {
       return Left(e);
@@ -175,6 +180,7 @@ class PlacesRemoteDataSource {
       return Left(e);
     }
   }
+
   Future<Either<Exception, Unit>> addPlaceFeedback(int placeId,
       {required AppFeedBack review}) async {
     try {
@@ -191,10 +197,9 @@ class PlacesRemoteDataSource {
     }
   }
 
-
   Future _sendNotificationToOwner(int ownerId, int placeId) async {
     AppNotification notification = AppNotification(
-        image: ConstantsManager.appUser!.profilePictureUrl ,
+        image: ConstantsManager.appUser!.profilePictureUrl,
         body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
         receiverId: ownerId,
         title: "طلب حجز ملعب",

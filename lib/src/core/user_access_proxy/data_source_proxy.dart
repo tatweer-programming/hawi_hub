@@ -13,7 +13,6 @@ enum AccessCheckType {
   verification,
   emailVerification,
   gender
-
 }
 
 class UserAccessProxy {
@@ -24,7 +23,7 @@ class UserAccessProxy {
   final Object event;
 
   UserAccessProxy(this.bloc, this.event,
-      {this.requiredBalance, this.requiredAgeRange , this.requiredGender});
+      {this.requiredBalance, this.requiredAgeRange, this.requiredGender});
 
   void execute(List<AccessCheckType> accessCheckTypes) {
     UserAccessException? exception;
@@ -57,7 +56,7 @@ class UserAccessProxy {
         return _isUserLoggedIn() ? null : NotLoggedInException();
       case AccessCheckType.verification:
         return _isAccountVerified() ? null : AccountNotActivatedException();
-        case AccessCheckType.gender:
+      case AccessCheckType.gender:
         return _isGenderSuitable(requiredGender: requiredGender!)
             ? null
             : GenderNotSuitableException();
@@ -85,8 +84,10 @@ class UserAccessProxy {
     double maxAge = ageRange + 3;
     return userAge >= minAge && userAge <= maxAge;
   }
+
   bool _isGenderSuitable({required Gender requiredGender}) {
-    return ConstantsManager.appUser!.gender == requiredGender  || requiredGender == Gender.both;
+    return ConstantsManager.appUser!.gender == requiredGender ||
+        requiredGender == Gender.both;
   }
 
   void handleAccessException(

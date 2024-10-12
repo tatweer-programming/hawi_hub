@@ -90,3 +90,69 @@ class MainAppBar extends StatelessWidget {
     );
   }
 }
+
+class DefaultAppBar extends StatelessWidget {
+  const DefaultAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final MainCubit mainCubit = MainCubit.get();
+    return SafeArea(
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: () {
+                context.pushWithTransition(const ChatsScreen());
+              },
+              icon: const ImageIcon(
+                AssetImage("assets/images/icons/chat.png"),
+                color: ColorManager.golden,
+              )),
+          InkWell(
+            radius: 360,
+            onTap: () {
+              context.push(
+                Routes.profile,
+                arguments: {
+                  'id': ConstantsManager.userId,
+                  "userType": "Player"
+                },
+              );
+            },
+            child: CircleAvatar(
+              backgroundColor: ColorManager.grey3,
+              backgroundImage: ConstantsManager.appUser != null &&
+                      ConstantsManager.appUser!.profilePictureUrl != null
+                  ? NetworkImage(ConstantsManager.appUser!.profilePictureUrl!)
+                  : const AssetImage("assets/images/icons/user.png")
+                      as ImageProvider<Object>,
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                context.push(Routes.notifications);
+              },
+              icon: const ImageIcon(
+                AssetImage("assets/images/icons/notification.webp"),
+                color: ColorManager.golden,
+              )),
+          const Spacer(),
+          BlocBuilder<MainCubit, MainState>(
+            bloc: mainCubit,
+            builder: (context, state) {
+              return CityDropdown(
+                  selectedCity: mainCubit.currentCityId == null
+                      ? S.of(context).chooseSport
+                      : LocalizationManager
+                          .getSaudiCities[mainCubit.currentCityId! - 1],
+                  onCitySelected: (c) async {
+                    await mainCubit.selectCity(c);
+                  },
+                  cities: LocalizationManager.getSaudiCities);
+            },
+          )
+        ],
+      ),
+    );
+  }
+}

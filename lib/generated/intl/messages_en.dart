@@ -266,6 +266,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "username": MessageLookupByLibrary.simpleMessage(" Username"),
         "usernameAlreadyExist":
             MessageLookupByLibrary.simpleMessage("Username is already exists."),
+        "venues": MessageLookupByLibrary.simpleMessage("venues"),
         "verifyEmail": MessageLookupByLibrary.simpleMessage("Verify Email"),
         "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),

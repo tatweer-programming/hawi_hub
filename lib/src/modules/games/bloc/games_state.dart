@@ -115,10 +115,41 @@ class JoinGameLoading extends GamesLoading {
   List<Object> get props => [gameId];
 }
 
-class SelectSportSuccess extends GamesState {
+class LeaveGameSuccess extends GamesState {
+  final int gameId;
+
+  const LeaveGameSuccess(this.gameId);
+
+  @override
+  List<Object> get props => [gameId];
+}
+
+class LeaveGameError extends GamesError {
+  LeaveGameError(super.exception);
+}
+
+class LeaveGameLoading extends GamesLoading {
+  final int gameId;
+
+  LeaveGameLoading(this.gameId);
+
+  @override
+  List<Object> get props => [gameId];
+}
+
+class SelectGamesSportSuccess extends GamesState {
   final int sportId;
 
-  const SelectSportSuccess(this.sportId);
+  const SelectGamesSportSuccess(this.sportId);
+
+  @override
+  List<Object> get props => [sportId];
+}
+
+class SelectGamesSportLoading extends GamesState {
+  final int sportId;
+
+  const SelectGamesSportLoading(this.sportId);
 
   @override
   List<Object> get props => [sportId];

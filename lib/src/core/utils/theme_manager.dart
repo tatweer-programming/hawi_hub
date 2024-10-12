@@ -230,9 +230,10 @@ final ThemeData customTheme = ThemeData(
       letterSpacing: 0.1,
       textBaseline: TextBaseline.alphabetic,
     ),
-  ), colorScheme: const ColorScheme(
-  background:  Color(0xFFFFFFFF),
-    onBackground:  Color(0xFFFFFFFF),
+  ),
+  colorScheme: const ColorScheme(
+    background: Color(0xFFFFFFFF),
+    onBackground: Color(0xFFFFFFFF),
     brightness: Brightness.light,
     error: Color(0xFFB00020),
     errorContainer: Color(0xFFB00020),

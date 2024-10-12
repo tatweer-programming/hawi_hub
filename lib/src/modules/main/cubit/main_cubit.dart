@@ -46,6 +46,13 @@ class MainCubit extends Cubit<MainState> {
       emit(GetBannersError(l));
     }, (r) {
       bannerList = r;
+      if (r.isEmpty) {
+        bannerList = [
+          "https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg?w=1060",
+          "https://img.freepik.com/free-photo/five-swimmers-racing-against-each-other-swiming-pool_171337-7818.jpg?w=1060",
+          "https://img.freepik.com/free-photo/basketball-player-throwing-ball-into-net_23-2148393872.jpg?size=626&ext=jpg"
+        ];
+      }
       emit(GetBannersSuccess(r));
     });
   }
@@ -77,20 +84,15 @@ class MainCubit extends Cubit<MainState> {
   void selectSport(String sport) {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
-    if (sport == "all") {
-      placeBloc.add(const SelectSport(-1));
-      gamesBloc.add(const SelectSportEvent(-1));
-      selectedSport = null;
-    } else {
-      placeBloc
-          .add(SelectSport(sportsList.firstWhere((e) => e.name == sport).id));
-      gamesBloc.add(SelectSportEvent(
-        sportsList.firstWhere((e) => e.name == sport).id,
-      ));
-      selectedSport = sport;
-    }
-
-    // placeBloc.add();
+    placeBloc
+        .add(SelectSport(sportsList
+        .firstWhere((e) => e.name == sport)
+        .id));
+    gamesBloc.add(SelectSportEvent(
+      sportsList
+          .firstWhere((e) => e.name == sport)
+          .id,
+    ));
   }
 
   Future<void> getCurrentCity() async {

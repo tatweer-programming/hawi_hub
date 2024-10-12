@@ -34,14 +34,13 @@ class EndPoints {
   static const String addPlaceToFavourites = '/Player/Favorite/';
   static const String deletePlaceFromFavourites = "/Player/Favorite/";
   static const String getPlaceFeedbacks = '/Stadium/Reviews/'; // Updated
-  static const String getPlace = "/Stadium/{stadiumId}"; // Updated
+  static const String getPlace = "/Stadium/"; // Updated
   static const String addPlaceFeedback = '/Player/ReviewStadium/'; // Updated
-  static const String getUpcomingBookings =
-      "/Player/StadiumGame/{playerId}"; // Updated
+  static const String getUpcomingBookings = "/Player/StadiumGame/"; // Updated
 
   /// games
-  static const String getGames = '/Stadium/Games/City/';
-  static const String getGame = '/Stadium/Games/';
+  static const String getGamesByCity = '/Stadium/Games/City/';
+  static const String getGameById = '/Stadium/Games/';
   static const String createGame = '/Player/StadiumGame/'; // Updated
   static const String joinGame = '/Player/JoinGame/';
   static const String leaveGame = "";

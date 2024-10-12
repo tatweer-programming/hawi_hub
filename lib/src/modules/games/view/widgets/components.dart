@@ -64,6 +64,8 @@ class GameItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isJoined =
+        game.players.any((player) => player.id == ConstantsManager.userId);
     return Container(
       clipBehavior: Clip.antiAlias,
       height: 15.h,
@@ -80,21 +82,26 @@ class GameItem extends StatelessWidget {
             context.push(Routes.game, arguments: {"id": game.id});
           },
           child: Row(children: [
-            Container(
-                width: 25.w,
-                height: 15.h,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(ApiManager.handleImageUrl(
-                        MainCubit.get()
-                            .sportsList
-                            .firstWhere((sport) => sport.id == game.sportId,
-                                orElse: () => Sport.unKnown())
-                            .image,
-                      )),
-                    ))),
+            Hero(
+              tag: "game_${game.id}",
+              child: Container(
+                  width: 25.w,
+                  height: 15.h,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        onError: (__, _) =>
+                            ColoredBox(color: ColorManager.grey1),
+                        image: NetworkImage(ApiManager.handleImageUrl(
+                          MainCubit.get()
+                              .sportsList
+                              .firstWhere((sport) => sport.id == game.sportId,
+                                  orElse: () => Sport.unKnown())
+                              .image,
+                        )),
+                      ))),
+            ),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +186,7 @@ class GameItem extends StatelessWidget {
         )),
         Container(
           width: 10.w,
-          color: ColorManager.primary,
+          color: isJoined ? ColorManager.error : ColorManager.primary,
           child: RotatedBox(
             quarterTurns: 1,
             child: InkWell(
@@ -213,17 +220,19 @@ class GameItem extends StatelessWidget {
                   bloc: GamesBloc.get(),
                   builder: (context, state) {
                     return Center(
-                        child:
-                            state is JoinGameLoading && state.gameId == game.id
-                                ? const CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        ColorManager.white),
-                                  )
-                                : Text(
-                                    S.of(context).bookNow,
-                                    style: TextStyleManager.getRegularStyle(
-                                        color: ColorManager.white),
-                                  ));
+                        child: (state is JoinGameLoading &&
+                                    state.gameId == game.id) ||
+                                (state is LeaveGameLoading &&
+                                    state.gameId == game.id)
+                            ? const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorManager.white),
+                              )
+                            : Text(
+                                S.of(context).bookNow,
+                                style: TextStyleManager.getRegularStyle(
+                                    color: ColorManager.white),
+                              ));
                   },
                 )),
           ),

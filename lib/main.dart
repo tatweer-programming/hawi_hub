@@ -60,8 +60,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => AuthBloc(),
           ),
           BlocProvider<ChatBloc>(
-            create: (BuildContext context) => ChatBloc(
-            ),
+            create: (BuildContext context) => ChatBloc(),
           ),
           BlocProvider<GamesBloc>(
             create: (BuildContext context) => GamesBloc.get(),
@@ -96,97 +95,10 @@ class MyApp extends StatelessWidget {
         }));
   }
 }
-/* TODO: what abdallah need to handle:
-    - handle wallet
-    - handle notification in background,
-    - add birthday to player,
-*/
 
-/// update place rating after editing
-List<Place> dummyPlaces = [
-  Place(
-    id: 1,
-    name: "ملعب القاهرة الدولي",
-    address: "شارع 26 يوليو، قصر النيل، القاهرة",
-    workingHours: [],
-    //location: PlaceLocation(longitude: 31.2357, latitude: 30.0483),
-    location: PlaceLocation(longitude: 31.2357, latitude: 30.0483),
-    description: "ملعب متعدد الاستخدامات، يستضيف المباريات الدولية والمحلية.",
-    sport: 1,
-    price: 500.0,
-    ownerId: 1,
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s"
-    ],
-    totalGames: 100,
-    totalRatings: 250,
-    rating: 4.5,
-    feedbacks: [],
-    ownerName: "إتحاد الكرة المصري",
-    ownerImage:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-    citId: 1,
-    approvalStatus: 1,
-    availableGender: Gender.both,
-    deposit: 100,
-    isShared: false,
-  ),
-  Place(
-    id: 2,
-    name: "استاد برج العرب",
-    address: "الكيلو 21، طريق مصر إسكندرية الصحراوي",
-    workingHours: [],
-    //location: PlaceLocation(longitude: "29.8834", latitude: "31.1862"),
-    location: PlaceLocation(longitude: 31.2357, latitude: 30.0483),
-    description:
-        "أحد أكبر الملاعب في مصر، ويستضيف العديد من الفعاليات الرياضية.",
-    sport: 1,
-    price: 600.0,
-    ownerId: 2,
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s"
-    ],
-    totalGames: 80,
-    totalRatings: 150,
-    rating: 4.7,
-    feedbacks: [],
-    ownerName: "إتحاد الكرة المصري",
-    ownerImage:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-    citId: 2,
-    approvalStatus: 1,
-    availableGender: Gender.both,
-    deposit: 150,
-    isShared: true,
-  ),
-  Place(
-    id: 3,
-    name: "استاد القاهرة",
-    address: "شارع 26 يوليو، قصر النيل، القاهرة",
-    workingHours: [],
-    //location: PlaceLocation(longitude: "31.2357", latitude: "30.0483"),
-    location: PlaceLocation(longitude: 31.2357, latitude: 30.0483),
-    description: "يستضيف المباريات النهائية للكثير من البطولات.",
-    sport: 1,
-    price: 700.0,
-    ownerId: 3,
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s"
-    ],
-    totalGames: 90,
-    totalRatings: 300,
-    rating: 4.8,
-    feedbacks: [],
-    ownerName: "إتحاد الكرة المصري",
-    ownerImage:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBpdHgzRawHvkOWHFNOUfvKaR1tf6rvQ_TLA&s",
-    citId: 1,
-    approvalStatus: 1,
-    availableGender: Gender.both,
-    deposit: 200,
-    isShared: false,
-  ),
-];
+// TODO: Join and Leave game
+// TODO: Game Details Screen
+// TODO: Get Upcoming reservations
+// TODO: complete genders functionality
+// TODO: create game screen
+// TODO: complete shared places functionality

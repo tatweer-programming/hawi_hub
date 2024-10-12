@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
+import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
@@ -11,6 +13,7 @@ import '../data/models/feedback.dart';
 import '../data/models/place.dart';
 
 part 'place_event.dart';
+
 part 'place_state.dart';
 
 class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
@@ -102,14 +105,11 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
   }
 
   void _handleSelectSportEvent(SelectSport event, Emitter<PlaceState> emit) {
-    if (event.sportId == -1) {
-      viewedPlaces = allPlaces;
-      emit(const SelectSportSuccess(-1));
-    } else {
-      viewedPlaces =
-          allPlaces.where((place) => place.sport == event.sportId).toList();
-      emit(SelectSportSuccess(event.sportId));
-    }
+    emit(SelectPlacesSportLoading(event.sportId));
+    viewedPlaces =
+        allPlaces.where((place) => place.sport == event.sportId).toList();
+    emit(SelectPlaceSportSuccess(event.sportId));
+    print(viewedPlaces.length);
   }
 
   Future<void> _handleAddBookingEvent(
@@ -120,18 +120,19 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       booking: event.booking,
       placeId: event.placeId,
     );
-    result.fold((l){
+    result.fold((l) {
       emit(SendBookingRequestError(l));
     }, (r) async {
       emit(SendBookingRequestSuccess());
-     await
-     _sendNotificationToOwner(allPlaces.firstWhere((e) => e.id == event.placeId).ownerId, event.placeId);
+      await _sendNotificationToOwner(
+          allPlaces.firstWhere((e) => e.id == event.placeId).ownerId,
+          event.placeId);
     });
-
   }
+
   Future _sendNotificationToOwner(int ownerId, int placeId) async {
     AppNotification notification = AppNotification(
-        image: ConstantsManager.appUser!.profilePictureUrl ,
+        image: ConstantsManager.appUser!.profilePictureUrl,
         body: "طلب ${ConstantsManager.appUser!.userName} حجز ملعبك ",
         receiverId: ownerId,
         title: "طلب حجز ملعب",
@@ -139,6 +140,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         id: 0);
     NotificationServices().sendNotification(notification);
   }
+
   Future<void> _handleAddPlaceToFavoriteEvent(
       AddPlaceToFavoriteEvent event, Emitter<PlaceState> emit) async {
     emit(AddPlaceToFavouritesLoading());

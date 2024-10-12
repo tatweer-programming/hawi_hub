@@ -20,4 +20,5 @@ class Routes {
   static const String placeFeedbacks = "/placeFeedbacks";
   static const String confirmEmail = "/confirmEmail";
   static const String viewImages = "/viewImages";
+  static const String exploreBySport = "/explore";
 }

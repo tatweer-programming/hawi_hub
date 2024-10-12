@@ -7,7 +7,7 @@ class ConstantsManager {
   static String? connectionId;
   static String? connectionToken;
   static bool? registrationSkipped;
-  static int? userId;
+  static int? userId; //
   static bool? isFirstTime;
   static String? userToken;
   static const String successUrl =

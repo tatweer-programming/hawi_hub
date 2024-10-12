@@ -12,6 +12,7 @@ class CustomAppBar extends StatelessWidget {
   final BlendMode? blendMode;
   final Color? color;
   final Widget? leading;
+
   const CustomAppBar({
     super.key,
     required this.child,
@@ -58,7 +59,8 @@ class CustomAppBar extends StatelessWidget {
                     if (actions != null)
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.only(top: 2.h, right: 2.w, left: 2.w, bottom: 1.h),
+                          padding: EdgeInsets.only(
+                              top: 2.h, right: 2.w, left: 2.w, bottom: 1.h),
                           child: Align(
                             alignment: AlignmentDirectional.topEnd,
                             child: Row(
@@ -87,6 +89,7 @@ class CustomAppBar extends StatelessWidget {
     );
   }
 }
+
 class CustomAppBarClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -117,5 +120,68 @@ class CustomAppBarClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
+  }
+}
+
+class ImageAppBar extends StatelessWidget {
+  final String title;
+  final String imagePath;
+
+  const ImageAppBar({super.key, required this.title, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        height: 42.h,
+        width: 100.w,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Container(
+                height: 42.h,
+                width: 100.w,
+                decoration: BoxDecoration(
+                    color: ColorManager.grey1,
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: AssetImage(imagePath))),
+              ),
+            ),
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorManager.black.withOpacity(.2),
+                  // gradient: RadialGradient(
+                  //     tileMode: TileMode.clamp,
+                  //     center: Alignment.center,
+                  //     colors: [
+                  //       ColorManager.black.withOpacity(0.1),
+                  //       ColorManager.black.withOpacity(0.1),
+                  //       ColorManager.black.withOpacity(0.1),
+                  //       ColorManager.black.withOpacity(0.2),
+                  //       ColorManager.black.withOpacity(0.3),
+                  //       ColorManager.black.withOpacity(0.4),
+                  //       ColorManager.black.withOpacity(0.5),
+                  //       ColorManager.black.withOpacity(0.6),
+                  //       ColorManager.black.withOpacity(0.7),
+                  //       ColorManager.black.withOpacity(0.8),
+                  //     ]),
+                ),
+                child: Center(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        color: ColorManager.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
