@@ -26,18 +26,17 @@ class DefaultButton extends StatelessWidget {
   final double? radius;
   final bool isLoading;
 
-  const DefaultButton(
-      {super.key,
-      required this.text,
-      required this.onPressed,
-      this.color,
-      this.textColor,
-      this.borderColor,
-      this.icon,
-      this.width,
-      this.height,
-      this.radius,
-      this.isLoading = false});
+  const DefaultButton({super.key,
+    required this.text,
+    required this.onPressed,
+    this.color,
+    this.textColor,
+    this.borderColor,
+    this.icon,
+    this.width,
+    this.height,
+    this.radius,
+    this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +62,15 @@ class DefaultButton extends StatelessWidget {
             SizedBox(width: 5.sp),
             isLoading
                 ? CircularProgressIndicator.adaptive(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        textColor ?? ColorManager.white),
-                  )
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  textColor ?? ColorManager.white),
+            )
                 : Text(text,
-                    style: TextStyle(
-                      color: textColor ?? ColorManager.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeightManager.bold,
-                    )),
+                style: TextStyle(
+                  color: textColor ?? ColorManager.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeightManager.bold,
+                )),
           ],
         ),
       ),
@@ -99,8 +98,7 @@ class SubTitle extends StatelessWidget {
   final String text;
   final bool isBold;
 
-  const SubTitle(
-    this.text, {
+  const SubTitle(this.text, {
     this.isBold = true,
     super.key,
   });
@@ -125,15 +123,14 @@ class OutLineContainer extends StatelessWidget {
   final Color? color;
   final Color? borderColor;
 
-  const OutLineContainer(
-      {super.key,
-      required this.child,
-      this.onPressed,
-      this.radius,
-      this.height,
-      this.width,
-      this.color,
-      this.borderColor});
+  const OutLineContainer({super.key,
+    required this.child,
+    this.onPressed,
+    this.radius,
+    this.height,
+    this.width,
+    this.color,
+    this.borderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -205,34 +202,36 @@ class NotificationWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                          child: Text(notification.title,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyleManager.getSubTitleBoldStyle())),
-                      Text(
-                          timeago.format(notification.dateTime!,
-                              locale: LocalizationManager.getCurrentLocale()
-                                  .languageCode),
-                          style: TextStyleManager.getSubTitleStyle()),
-                      SizedBox(width: 1.w),
-                      const FittedBox(
-                          child: Icon(
-                        Icons.access_time,
-                      )),
-                      SizedBox(width: 3.w),
-                    ],
-                  ),
-                  SizedBox(height: .5.h),
-                  Text(notification.body,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyleManager.getRegularStyle()),
-                ]))
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                              child: Text(notification.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyleManager
+                                      .getSubTitleBoldStyle())),
+                          Text(
+                              timeago.format(notification.dateTime!,
+                                  locale: LocalizationManager
+                                      .getCurrentLocale()
+                                      .languageCode),
+                              style: TextStyleManager.getSubTitleStyle()),
+                          SizedBox(width: 1.w),
+                          const FittedBox(
+                              child: Icon(
+                                Icons.access_time,
+                              )),
+                          SizedBox(width: 3.w),
+                        ],
+                      ),
+                      SizedBox(height: .5.h),
+                      Text(notification.body,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyleManager.getRegularStyle()),
+                    ]))
           ],
         ),
       ),
@@ -240,14 +239,13 @@ class NotificationWidget extends StatelessWidget {
   }
 }
 
-Widget dropdownBuilder(
-    {required String text,
-    IconData? icon,
-    required Function(String? value) onChanged,
-    required List<String> items,
-    List<Widget>? leadingIcons,
-    Color? backgroundColor = ColorManager.white,
-    Color? textColor = ColorManager.black}) {
+Widget dropdownBuilder({required String text,
+  IconData? icon,
+  required Function(String? value) onChanged,
+  required List<String> items,
+  List<Widget>? leadingIcons,
+  Color? backgroundColor = ColorManager.white,
+  Color? textColor = ColorManager.black}) {
   return DropdownMenu<String>(
     // errorText: text,
     // controller: TextEditingController(),
@@ -267,19 +265,19 @@ Widget dropdownBuilder(
           borderRadius: BorderRadius.circular(22),
           borderSide: BorderSide(color: textColor!)),
       focusedBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
+      OutlineInputBorder(borderRadius: BorderRadius.circular(22)),
       contentPadding: EdgeInsets.symmetric(horizontal: 1.w),
     ),
     onSelected: onChanged,
     menuHeight: 50.h,
 
     dropdownMenuEntries: items.map<DropdownMenuEntry<String>>(
-      (String value) {
+          (String value) {
         return DropdownMenuEntry<String>(
           value: value,
           label: value,
           leadingIcon:
-              leadingIcons == null ? null : leadingIcons[items.indexOf(value)],
+          leadingIcons == null ? null : leadingIcons[items.indexOf(value)],
         );
       },
     ).toList(),
@@ -319,12 +317,14 @@ class _CityDropdownState extends State<CityDropdown> {
           iconColor: ColorManager.black,
           icon: Icon(Icons.arrow_drop_down, color: widget.color),
           onSelected: (city) => widget.onCitySelected(city),
-          itemBuilder: (context) => widget.cities
-              .map((city) => PopupMenuItem(
+          itemBuilder: (context) =>
+              widget.cities
+                  .map((city) =>
+                  PopupMenuItem(
                     value: city,
                     child: Text(city),
                   ))
-              .toList(),
+                  .toList(),
         ),
       ],
     );
@@ -352,9 +352,10 @@ class SportItemWidget extends StatelessWidget {
               image: NetworkImage(
                 ApiManager.handleImageUrl(sport.image),
               ),
-              onError: (__, _) => ColoredBox(
-                color: ColorManager.grey1,
-              ),
+              onError: (__, _) =>
+                  ColoredBox(
+                    color: ColorManager.grey1,
+                  ),
               fit: BoxFit.cover,
             ),
             border: Border.all(),
@@ -410,5 +411,28 @@ class SportNameWidget extends StatelessWidget {
               child: Text(sport,
                   style: TextStyleManager.getBlackCaptionTextStyle()))),
     );
+  }
+}
+
+class PrimaryBackButton extends StatelessWidget {
+  const PrimaryBackButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: AlignmentDirectional.topStart,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 5.h,
+            horizontal: 4.w,
+          ),
+          child: FloatingActionButton(
+            onPressed: () {
+              context.pop();
+            },
+            mini: true,
+            child: const Icon(Icons.arrow_back_ios),
+          ),
+        ));
   }
 }

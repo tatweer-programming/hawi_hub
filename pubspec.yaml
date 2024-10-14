@@ -34,7 +34,6 @@ dependencies:
   file_picker:
   googleapis_auth:
   intl:
-
   maps_launcher: ^2.2.1
   # AUTH PACKAGES
   flutter_facebook_auth:
@@ -58,7 +57,6 @@ dependencies:
   # PAYMENT PACKAGE
   my_fatoorah:
   app_links:
-
   share_plus: ^10.0.0
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.10
@@ -75,8 +73,8 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
+
 flutter:
 
   uses-material-design: true

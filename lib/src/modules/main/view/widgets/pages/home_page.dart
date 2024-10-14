@@ -56,6 +56,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
               justifyMultiLineText: false,
               ignorePointers: false,
               ignoreContainers: false,
+              containersColor: ColorManager.grey1,
               child: CarouselSlider(
                 options: CarouselOptions(
                   enableInfiniteScroll: false,
@@ -72,38 +73,38 @@ class _CustomCarouselState extends State<CustomCarousel> {
                   },
                 ),
                 items: state is GetBannersLoading ||
-                    mainCubit.bannerList.isEmpty
+                        mainCubit.bannerList.isEmpty
                     ? dummyBanners.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Container(
-                          width: 88.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList()
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Container(
+                                width: 88.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList()
                     : mainCubit.bannerList.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: ImageWidget(
-                          i,
-                          width: 88.w,
-                          borderRadius: 20,
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: ImageWidget(
+                                i,
+                                width: 88.w,
+                                borderRadius: 20,
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
               ),
             );
           },
@@ -112,20 +113,16 @@ class _CustomCarouselState extends State<CustomCarousel> {
         // مؤشر الـ Carousel
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: mainCubit.bannerList
-              .asMap()
-              .entries
-              .map((entry) {
+          children: mainCubit.bannerList.asMap().entries.map((entry) {
             return GestureDetector(
-              onTap: () =>
-                  setState(() {
-                    _currentIndex = entry.key;
-                  }),
+              onTap: () => setState(() {
+                _currentIndex = entry.key;
+              }),
               child: Container(
                 width: _currentIndex == entry.key ? 10.0 : 8.0,
                 height: _currentIndex == entry.key ? 10.0 : 8.0,
                 margin:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _currentIndex == entry.key
@@ -151,7 +148,7 @@ class HomePage extends StatelessWidget {
     );
     AuthBloc authBloc = context.read<AuthBloc>();
     UserAccessProxy(
-        authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
+            authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
         .execute([AccessCheckType.login]);
 
     return Column(
@@ -168,16 +165,12 @@ class HomePage extends StatelessWidget {
                 const ExploreSportsList(),
                 heightSpacer,
                 buildSectionTitle(
-                    context, S
-                    .of(context)
-                    .nearByGames, 1, mainCubit),
+                    context, S.of(context).nearByGames, 2, mainCubit),
                 buildGameList(gamesBloc),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 2.h),
                   child: DefaultButton(
-                    text: S
-                        .of(context)
-                        .createGame,
+                    text: S.of(context).createGame,
                     onPressed: () {
                       context.push(Routes.createGame, arguments: {"id": null});
                     },
@@ -185,9 +178,7 @@ class HomePage extends StatelessWidget {
                 ),
                 heightSpacer,
                 buildSectionTitle(
-                    context, S
-                    .of(context)
-                    .nearByVenues, 2, mainCubit),
+                    context, S.of(context).nearByVenues, 1, mainCubit),
                 buildPlaceList(placeBloc),
               ],
             ),
@@ -197,8 +188,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildSectionTitle(BuildContext context, String title, int pageIndex,
-      MainCubit mainCubit) {
+  Widget buildSectionTitle(
+      BuildContext context, String title, int pageIndex, MainCubit mainCubit) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -209,9 +200,7 @@ class HomePage extends StatelessWidget {
           },
           child: Row(
             children: [
-              Text(S
-                  .of(context)
-                  .viewAll,
+              Text(S.of(context).viewAll,
                   style: TextStyleManager.getGoldenRegularStyle()),
               const Icon(Icons.arrow_forward, color: ColorManager.golden)
             ],
@@ -237,22 +226,21 @@ class HomePage extends StatelessWidget {
             child: gamesBloc.games.isEmpty && state is! GetGamesLoading
                 ? const EmptyView()
                 : ListView.separated(
-              separatorBuilder: (context, index) =>
-                  SizedBox(
-                    width: 3.w,
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: 3.w,
+                    ),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state is GetGamesLoading
+                        ? dummyGames.length.clamp(0, 3)
+                        : gamesBloc.games.length.clamp(0, 3),
+                    itemBuilder: (context, index) {
+                      return GameItem(
+                        game: state is GetGamesLoading
+                            ? dummyGames[index]
+                            : gamesBloc.games[index],
+                      );
+                    },
                   ),
-              scrollDirection: Axis.horizontal,
-              itemCount: state is GetGamesLoading
-                  ? dummyGames.length.clamp(0, 3)
-                  : gamesBloc.games.length.clamp(0, 3),
-              itemBuilder: (context, index) {
-                return GameItem(
-                  game: state is GetGamesLoading
-                      ? dummyGames[index]
-                      : gamesBloc.games[index],
-                );
-              },
-            ),
           );
         },
       ),
@@ -288,17 +276,13 @@ class HomePage extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(
-                            width: 3.w,
-                          ),
-                      itemBuilder: (context, index) =>
-                      state
-                      is GetAllPlacesLoading
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: 3.w,
+                      ),
+                      itemBuilder: (context, index) => state
+                              is GetAllPlacesLoading
                           ? PlaceItem(place: dummyPlaces[index])
-                          : PlaceItem(place: PlaceBloc
-                          .get()
-                          .allPlaces[index]),
+                          : PlaceItem(place: PlaceBloc.get().allPlaces[index]),
                       itemCount: state is GetAllPlacesLoading
                           ? dummyPlaces.length
                           : placeBloc.allPlaces.length,
@@ -318,8 +302,7 @@ class HomePage extends StatelessWidget {
     MainCubit.get().initializeHomePage();
   }
 
-  static MainCubit mainCubit = MainCubit.get()
-    ..initializeHomePage();
+  static MainCubit mainCubit = MainCubit.get()..initializeHomePage();
   static GamesBloc gamesBloc = GamesBloc.get();
   static PlaceBloc placeBloc = PlaceBloc.get();
 }

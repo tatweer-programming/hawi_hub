@@ -11,15 +11,16 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/data/models/player.dart';
+import 'package:hawihub/src/modules/games/view/widgets/components.dart';
+import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
+import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/image_widget.dart';
 import 'package:hawihub/src/modules/payment/bloc/payment_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
-import '../../../../main/cubit/main_cubit.dart';
-import '../../../../main/data/models/sport.dart';
-import '../../../data/models/game.dart';
+import '../../data/models/game.dart';
 
 class GameDetailsScreen extends StatelessWidget {
   final int id;
@@ -130,21 +131,7 @@ class GameDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Align(
-                                alignment: AlignmentDirectional.topStart,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 5.h,
-                                    horizontal: 4.w,
-                                  ),
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-                                      context.pop();
-                                    },
-                                    mini: true,
-                                    child: const Icon(Icons.arrow_back_ios),
-                                  ),
-                                ))
+                            const PrimaryBackButton()
                           ]),
                         ),
                         Padding(
@@ -256,36 +243,10 @@ class GameDetailsScreen extends StatelessWidget {
                     return Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
-                      child: DefaultButton(
-                        isLoading: state is JoinGameLoading,
-                        text: S.of(context).join,
-                        onPressed: () {
-                          if (ConstantsManager.userId == null) {
-                            errorToast(msg: S.of(context).loginFirst);
-                          } else {
-                            bool isJoined = game.players.any((element) =>
-                                    element.id == ConstantsManager.userId) ||
-                                game.host.id == ConstantsManager.userId;
-                            if (isJoined) {
-                              defaultToast(msg: S.of(context).alreadyJoined);
-                            } else {
-                              UserAccessProxy(
-                                bloc,
-                                JoinGameEvent(gameId: game.id),
-                                requiredBalance: game.price / game.minPlayers,
-                                requiredAgeRange: game.getHostAge(),
-                              ).execute([
-                                AccessCheckType.login,
-                                AccessCheckType.verification,
-                                AccessCheckType.age,
-                                AccessCheckType.balance
-                              ]);
-                              // PaymentCubit paymentCubit = PaymentCubit.get();
-                              // paymentCubit.joinToGame(game.price);
-                            }
-                          }
-                        },
-                        height: 6.h,
+                      child: SizedBox(
+                        height: 5.h,
+                        width: double.infinity,
+                        child: JoinAndLeaveGameButton(game: game),
                       ),
                     );
                   },

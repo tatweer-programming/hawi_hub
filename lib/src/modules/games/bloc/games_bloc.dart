@@ -18,6 +18,7 @@ part 'games_state.dart';
 class GamesBloc extends Bloc<GamesEvent, GamesState> {
   List<Game> games = [];
   List<Game> filteredGames = [];
+  List<Game> upcomingGames = [];
   Game? currentGame;
 
   bool isPublic = false;
@@ -126,6 +127,17 @@ class GamesBloc extends Bloc<GamesEvent, GamesState> {
             .viewedPlaces
             .firstWhere((e) => e.id == event.placeId)
             .id));
+      } else if (event is GetUpcomingGamesEvent) {
+        if (event.refresh || upcomingGames.isEmpty) {
+          emit(GetUpcomingGamesLoading());
+          var result = await remoteDataSource.getUpcomingGames();
+          result.fold((l) {
+            emit(GetUpcomingGamesError(l));
+          }, (r) {
+            upcomingGames = r;
+            emit(GetUpcomingGamesSuccess(r));
+          });
+        }
       }
     });
   }

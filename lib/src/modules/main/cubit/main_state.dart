@@ -27,6 +27,15 @@ class ChangePage extends MainState {
   List<Object?> get props => [index];
 }
 
+class ChangeUpcomingTab extends MainState {
+  final int index;
+
+  const ChangeUpcomingTab(this.index);
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class GetBannersLoading extends MainState {
   @override
   List<Object> get props => [];

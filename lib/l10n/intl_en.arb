@@ -186,5 +186,10 @@
   "profileSetup": "Profile Setup",
   "conversations": "Conversations",
   "doYouWantToLogout": "Do you want to logout ?",
-  "noPlayerFound": "No player was found with ID :"
+  "noPlayerFound": "No player was found with ID :",
+  "leave": "Leave",
+  "cannotLeaveHost": "You cannot leave Game you created",
+  "leftGame": "Left Game Successfully",
+  "upcomingGames": "Upcoming Games",
+  "upcomingReservations": "Upcoming Reservations"
 }

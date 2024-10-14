@@ -14,6 +14,15 @@ class GetGamesEvent extends GamesEvent {
   List<Object> get props => [];
 }
 
+class GetUpcomingGamesEvent extends GamesEvent {
+  final bool refresh;
+
+  const GetUpcomingGamesEvent({this.refresh = false});
+
+  @override
+  List<Object> get props => [];
+}
+
 class GetGameEvent extends GamesEvent {
   final int gameId;
 

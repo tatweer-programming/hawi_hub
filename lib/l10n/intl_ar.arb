@@ -182,8 +182,13 @@
   "doYouWantToLogout": "هل تريد تسجيل الخروج؟",
   "noPlayerFound": "لم يتم العثور على اللاعب",
   "bookings": "الحجوزات",
-  "exploreBySport": "تصفح حسب الرياضة",
+  "exploreBySports": "تصفح حسب الرياضة",
   "search": "بحث",
   "showMore": "اظهار المزيد",
-  "venues": "ملاعب"
+  "venues": "ملاعب",
+  "leave": "مغادرة",
+  "cannotLeaveHost": "لا يمكنك مغادرة حجز أنت أنشأته",
+  "leftGame": "لقد قمت بمغادرة الحجز",
+  "upcomingGames": "الحجوزات الجماعية المقبلة",
+  "upcomingReservations": "الحجوزات المقبلة"
 }

@@ -7,6 +7,7 @@ abstract class PlaceEvent extends Equatable {
 class GetAllPlacesEvent extends PlaceEvent {
   final int cityId;
   final bool refresh;
+
   const GetAllPlacesEvent(this.cityId, {this.refresh = false});
 
   @override
@@ -133,6 +134,15 @@ class AddPlaceFeedbackEvent extends PlaceEvent {
   final AppFeedBack review;
 
   const AddPlaceFeedbackEvent(this.placeId, {required this.review});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GetUpcomingBookingsEvent extends PlaceEvent {
+  final bool refresh;
+
+  const GetUpcomingBookingsEvent({this.refresh = false});
 
   @override
   List<Object?> get props => [];

@@ -163,3 +163,21 @@ class SelectPlaceSuccess extends GamesState {
   @override
   List<Object> get props => [placeName];
 }
+
+class GetUpcomingGamesSuccess extends GamesState {
+  final List<Game> games; // upcoming games list
+
+  const GetUpcomingGamesSuccess(this.games);
+
+  @override
+  List<Object> get props => [games];
+}
+
+class GetUpcomingGamesError extends GamesError {
+  GetUpcomingGamesError(super.exception);
+}
+
+class GetUpcomingGamesLoading extends GamesLoading {
+  @override
+  List<Object> get props => [];
+}

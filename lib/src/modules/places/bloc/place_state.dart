@@ -274,3 +274,23 @@ class AddRatingState extends PlaceLoading {
   @override
   List<Object> get props => [rating];
 }
+
+class GetUpcomingReservationsSuccess extends PlaceState {
+  final List<Booking> reservations;
+
+  const GetUpcomingReservationsSuccess(this.reservations);
+
+  @override
+  List<Object> get props => [reservations];
+}
+
+class GetUpcomingReservationsError extends PlaceError {
+  const GetUpcomingReservationsError(super.exception);
+}
+
+class GetUpcomingReservationsLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}
+
+class Reservation {}

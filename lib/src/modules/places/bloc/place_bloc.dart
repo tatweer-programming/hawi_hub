@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/games/bloc/games_bloc.dart';
 import 'package:hawihub/src/modules/main/data/models/app_notification.dart';
 import 'package:hawihub/src/modules/main/data/services/notification_services.dart';
 import 'package:hawihub/src/modules/places/data/data_source/places_remote_data_source.dart';
+import 'package:hawihub/src/modules/places/data/models/booking.dart';
 import 'package:hawihub/src/modules/places/data/models/place_booking.dart';
 
 import '../../../core/services/dep_injection.dart';
@@ -44,6 +46,8 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         await _handleAddOwnerFeedbackEvent(event, emit);
       } else if (event is AddPlaceFeedbackEvent) {
         await _handleAddPlaceFeedbackEvent(event, emit);
+      } else if (event is GetUpcomingBookingsEvent) {
+        await _handleGetUpcomingBookingsEvent(event, emit);
       }
     });
   }
@@ -193,6 +197,17 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       (error) => emit(AddPlaceFeedbackError(error)),
       (_) => emit(AddPlaceFeedbackSuccess()),
     );
+  }
+
+  Future<void> _handleGetUpcomingBookingsEvent(
+      GetUpcomingBookingsEvent event, Emitter<PlaceState> emit) async {
+    // emit(GetUpcomingReservationsLoading());
+    // var result = await placesRemoteDataSource.getUpcomingBookings();
+    // result.fold(
+    //   (error) => emit(GetUpcomingReservationsError(error)),
+    //   (bookings) => emit(GetUpcomingReservationsSuccess(bookings)),
+    // );
+    DoNothingAction();
   }
 
   // Singleton pattern for accessing the bloc instance

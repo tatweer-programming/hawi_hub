@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -45,7 +46,7 @@ class GamesRemoteDataSource {
         DioHelper.postData(
             data: {"gameId": game.id},
             path: "${EndPoints.joinGame}${ConstantsManager.userId}",
-            query: {"id": ConstantsManager.userId}),
+            query: {"playerId": ConstantsManager.userId}),
         NotificationServices().sendNotification(AppNotification(
             title: "انضم ${ConstantsManager.appUser?.userName} الى حجزك",
             body:
@@ -63,14 +64,17 @@ class GamesRemoteDataSource {
     required int gameId,
   }) async {
     try {
-      Future.wait([
-        DioHelper.postData(
-            data: {"gameId": gameId},
-            path: "${EndPoints.leaveGame}${ConstantsManager.userId}",
-            query: {"id": ConstantsManager.userId}),
-      ]);
+      await DioHelper.postData(
+          data: {"gameId": gameId},
+          path: "${EndPoints.leaveGame}${ConstantsManager.userId}",
+          query: {"playerId": ConstantsManager.userId});
       return const Right(unit);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
+      print("Error in leave game: \n *****************\n " +
+          e.response.toString() +
+          " " +
+          e.message.toString() +
+          "\n *****************\n ");
       return Left(e);
     }
   }
@@ -81,6 +85,20 @@ class GamesRemoteDataSource {
           path: "${EndPoints.getGameById}$gameId", query: {"id": gameId});
 
       return Right(Game.fromJson(response.data));
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, List<Game>>> getUpcomingGames() async {
+    try {
+      List<Game> games = [];
+      var response = await DioHelper.postData(
+        path: "${EndPoints.getUpcomingGames}${ConstantsManager.userId}",
+      );
+
+      games = (response.data as List).map((e) => Game.fromJson(e)).toList();
+      return Right(games);
     } on Exception catch (e) {
       return Left(e);
     }

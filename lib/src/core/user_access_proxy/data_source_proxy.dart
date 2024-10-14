@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:hawihub/src/core/common%20widgets/common_widgets.dart';
 import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/error/user_access_error.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
 
 import '../../modules/places/data/models/place.dart';
 import '../utils/constance_manager.dart';
@@ -56,6 +57,8 @@ class UserAccessProxy {
         return _isUserLoggedIn() ? null : NotLoggedInException();
       case AccessCheckType.verification:
         return _isAccountVerified() ? null : AccountNotActivatedException();
+      case AccessCheckType.emailVerification:
+        return _isEmailVerified() ? null : EmailNotVerifiedException();
       case AccessCheckType.gender:
         return _isGenderSuitable(requiredGender: requiredGender!)
             ? null
@@ -88,6 +91,11 @@ class UserAccessProxy {
   bool _isGenderSuitable({required Gender requiredGender}) {
     return ConstantsManager.appUser!.gender == requiredGender ||
         requiredGender == Gender.both;
+  }
+
+  bool _isEmailVerified() {
+    Player player = ConstantsManager.appUser!;
+    return player.isEmailConfirmed();
   }
 
   void handleAccessException(

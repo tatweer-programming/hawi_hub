@@ -58,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Booking time is in the past"),
         "bookings": MessageLookupByLibrary.simpleMessage("Bookings"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cannotLeaveHost": MessageLookupByLibrary.simpleMessage(
+            "You cannot leave Game you created"),
         "change": MessageLookupByLibrary.simpleMessage("Change "),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
@@ -144,6 +146,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Keep me logged in"),
         "kwd": MessageLookupByLibrary.simpleMessage("KWD"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "leave": MessageLookupByLibrary.simpleMessage("Leave"),
+        "leftGame":
+            MessageLookupByLibrary.simpleMessage("Left Game Successfully"),
         "letsGetPlaying":
             MessageLookupByLibrary.simpleMessage("Let\'s get playing!"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
@@ -269,6 +274,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("To"),
         "totalGames": MessageLookupByLibrary.simpleMessage("Total Games"),
         "upcoming": MessageLookupByLibrary.simpleMessage("UPCOMING"),
+        "upcomingGames": MessageLookupByLibrary.simpleMessage("Upcoming Games"),
+        "upcomingReservations":
+            MessageLookupByLibrary.simpleMessage("Upcoming Reservations"),
         "updateProfile": MessageLookupByLibrary.simpleMessage("Update Profile"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "userName": MessageLookupByLibrary.simpleMessage("Username"),

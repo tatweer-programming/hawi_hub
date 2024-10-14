@@ -15,6 +15,7 @@ import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/data/models/sport.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
+import 'package:hawihub/src/modules/main/view/widgets/image_widget.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:sizer/sizer.dart';
@@ -47,21 +48,35 @@ class _ExploreBySportsScreenState extends State<ExploreBySportsScreen> {
         child: Padding(
           padding: EdgeInsets.all(5.w),
           child: Column(children: [
-            Hero(
-              tag: "sport_${widget.sportId}",
-              child: SafeArea(
-                child: Container(
-                  height: 30.h,
-                  width: 90.w,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                      color: ColorManager.grey1,
-                      borderRadius: BorderRadius.circular(25),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(
-                              ApiManager.handleImageUrl(sport.image)))),
-                ),
+            SizedBox(
+              height: 30.h,
+              width: 90.w,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Hero(
+                      tag: "sport_${widget.sportId}",
+                      child: SafeArea(
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  color: ColorManager.grey1,
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: ImageWidget(
+                                    ApiManager.handleImageUrl(sport.image)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const PrimaryBackButton()
+                ],
               ),
             ),
             SizedBox(height: 4.h),

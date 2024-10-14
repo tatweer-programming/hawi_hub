@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الوقت الذي ادخلته في الماضي"),
         "bookings": MessageLookupByLibrary.simpleMessage("الحجوزات"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
+        "cannotLeaveHost": MessageLookupByLibrary.simpleMessage(
+            "لا يمكنك مغادرة حجز أنت أنشأته"),
         "change": MessageLookupByLibrary.simpleMessage("تغير "),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
@@ -110,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال كلمة المرور"),
         "enterUsername":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال الإسم"),
+        "exploreBySports":
+            MessageLookupByLibrary.simpleMessage("تصفح حسب الرياضة"),
         "feedbacks": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "female": MessageLookupByLibrary.simpleMessage("انثى"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("تم رفع الملف "),
@@ -141,6 +145,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "keepMeLoggedIn":
             MessageLookupByLibrary.simpleMessage("أبقِ تسجيل دخولي"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "leave": MessageLookupByLibrary.simpleMessage("مغادرة"),
+        "leftGame":
+            MessageLookupByLibrary.simpleMessage("لقد قمت بمغادرة الحجز"),
         "letsGetPlaying": MessageLookupByLibrary.simpleMessage("هيا بنا نلعب!"),
         "location": MessageLookupByLibrary.simpleMessage("الموقع"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -269,6 +276,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("إلى"),
         "totalGames": MessageLookupByLibrary.simpleMessage("إجمالي الحجوزات "),
         "upcoming": MessageLookupByLibrary.simpleMessage("الحجوزات القادمة"),
+        "upcomingGames":
+            MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية المقبلة"),
+        "upcomingReservations":
+            MessageLookupByLibrary.simpleMessage("الحجوزات المقبلة"),
         "updateProfile":
             MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "upload": MessageLookupByLibrary.simpleMessage("رفع"),

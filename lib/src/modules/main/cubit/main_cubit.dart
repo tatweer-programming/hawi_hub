@@ -23,11 +23,19 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
   int currentIndex = 0;
+  int currentTab = 0;
 
   void changePage(int index) {
     if (currentIndex != index) {
       currentIndex = index;
       emit(ChangePage(index));
+    }
+  }
+
+  void changeUpcomingTab(int index) {
+    if (currentTab != index) {
+      currentTab = index;
+      emit(ChangeUpcomingTab(index));
     }
   }
 
@@ -85,13 +93,9 @@ class MainCubit extends Cubit<MainState> {
     PlaceBloc placeBloc = PlaceBloc.get();
     GamesBloc gamesBloc = GamesBloc.get();
     placeBloc
-        .add(SelectSport(sportsList
-        .firstWhere((e) => e.name == sport)
-        .id));
+        .add(SelectSport(sportsList.firstWhere((e) => e.name == sport).id));
     gamesBloc.add(SelectSportEvent(
-      sportsList
-          .firstWhere((e) => e.name == sport)
-          .id,
+      sportsList.firstWhere((e) => e.name == sport).id,
     ));
   }
 
@@ -120,6 +124,14 @@ class MainCubit extends Cubit<MainState> {
     });
     await getBanner();
     await getSports();
+  }
+
+  Future initializeUpcomingReservations({bool refresh = false}) async {
+    PlaceBloc placeBloc = PlaceBloc.get();
+    GamesBloc gamesBloc = GamesBloc.get();
+
+    gamesBloc.add(GetUpcomingGamesEvent(refresh: refresh));
+    placeBloc.add(GetUpcomingBookingsEvent(refresh: refresh));
   }
 
   getNotifications() async {

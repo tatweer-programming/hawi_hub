@@ -40,10 +40,11 @@ class EndPoints {
 
   /// games
   static const String getGamesByCity = '/Stadium/Games/City/';
+  static const String getUpcomingGames = '/Player/UpcomingGames/';
   static const String getGameById = '/Stadium/Games/';
   static const String createGame = '/Player/StadiumGame/'; // Updated
   static const String joinGame = '/Player/JoinGame/';
-  static const String leaveGame = "";
+  static const String leaveGame = "/Player/LeaveGame/";
 
   /// chat
   static const String getConnection = '/Hub/negotiate?negotiateVersion=1';

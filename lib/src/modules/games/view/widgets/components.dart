@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawihub/src/core/apis/api.dart';
+import 'package:hawihub/src/core/error/exception_manager.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/routing/routes.dart';
 import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
@@ -189,52 +190,7 @@ class GameItem extends StatelessWidget {
           color: isJoined ? ColorManager.error : ColorManager.primary,
           child: RotatedBox(
             quarterTurns: 1,
-            child: InkWell(
-                onTap: () {
-                  if (ConstantsManager.userId == null) {
-                    errorToast(msg: S.of(context).loginFirst);
-                  } else {
-                    bool isJoined = game.players.any((element) =>
-                            element.id == ConstantsManager.userId) ||
-                        game.host.id == ConstantsManager.userId;
-                    if (isJoined) {
-                      defaultToast(msg: S.of(context).alreadyJoined);
-                    } else {
-                      UserAccessProxy(
-                        GamesBloc.get(),
-                        JoinGameEvent(gameId: game.id),
-                        requiredBalance: game.price / game.minPlayers,
-                        requiredAgeRange: game.getHostAge(),
-                      ).execute([
-                        AccessCheckType.login,
-                        AccessCheckType.verification,
-                        AccessCheckType.age,
-                        AccessCheckType.balance
-                      ]);
-                      // PaymentCubit paymentCubit = PaymentCubit.get();
-                      // paymentCubit.joinToGame(game.price);
-                    }
-                  }
-                },
-                child: BlocBuilder<GamesBloc, GamesState>(
-                  bloc: GamesBloc.get(),
-                  builder: (context, state) {
-                    return Center(
-                        child: (state is JoinGameLoading &&
-                                    state.gameId == game.id) ||
-                                (state is LeaveGameLoading &&
-                                    state.gameId == game.id)
-                            ? const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    ColorManager.white),
-                              )
-                            : Text(
-                                S.of(context).bookNow,
-                                style: TextStyleManager.getRegularStyle(
-                                    color: ColorManager.white),
-                              ));
-                  },
-                )),
+            child: JoinAndLeaveGameButton(game: game),
           ),
         )
       ]),
@@ -287,6 +243,95 @@ class GamePlayerItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class JoinAndLeaveGameButton extends StatelessWidget {
+  final Game game;
+
+  const JoinAndLeaveGameButton({
+    super.key,
+    required this.game,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    GamesBloc gamesBloc = GamesBloc.get();
+    return BlocListener<GamesBloc, GamesState>(
+      listener: (context, state) {
+        if (state is JoinGameSuccess) {
+          defaultToast(msg: S.of(context).joinedGame);
+        } else if (state is LeaveGameSuccess) {
+          defaultToast(msg: S.of(context).leftGame);
+        } else if (state is GamesError) {
+          errorToast(
+              msg: ExceptionManager(state.exception).translatedMessage());
+        }
+      },
+      child: BlocBuilder<GamesBloc, GamesState>(
+          bloc: gamesBloc,
+          builder: (context, state) {
+            bool isJoined = game.players
+                    .any((element) => element.id == ConstantsManager.userId) ||
+                game.host.id == ConstantsManager.userId;
+
+            return Container(
+              decoration: BoxDecoration(
+                color: isJoined ? ColorManager.error : ColorManager.primary,
+              ),
+              child: InkWell(
+                  onTap: () {
+                    if (isJoined) {
+                      print(ConstantsManager.appUser!.id);
+                      if (game.host.id == ConstantsManager.appUser!.id) {
+                        errorToast(msg: S.of(context).cannotLeaveHost);
+                      } else {
+                        UserAccessProxy(
+                          GamesBloc.get(),
+                          LeaveGameEvent(gameId: game.id),
+                        ).execute([
+                          AccessCheckType.login,
+                        ]);
+                      }
+                    } else {
+                      UserAccessProxy(
+                        GamesBloc.get(),
+                        JoinGameEvent(gameId: game.id),
+                        requiredBalance: game.price / game.minPlayers,
+                        requiredAgeRange: game.getHostAge(),
+                      ).execute([
+                        AccessCheckType.login,
+                        AccessCheckType.verification,
+                        AccessCheckType.emailVerification,
+                        AccessCheckType.age,
+                        AccessCheckType.balance
+                      ]);
+                    }
+                  },
+                  child: BlocBuilder<GamesBloc, GamesState>(
+                    bloc: GamesBloc.get(),
+                    builder: (context, state) {
+                      return Center(
+                          child: (state is JoinGameLoading &&
+                                      state.gameId == game.id) ||
+                                  (state is LeaveGameLoading &&
+                                      state.gameId == game.id)
+                              ? const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      ColorManager.white),
+                                )
+                              : Text(
+                                  isJoined
+                                      ? S.of(context).leave
+                                      : S.of(context).bookNow,
+                                  style: TextStyleManager.getRegularStyle(
+                                      color: ColorManager.white),
+                                ));
+                    },
+                  )),
+            );
+          }),
     );
   }
 }

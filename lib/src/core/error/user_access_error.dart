@@ -89,5 +89,19 @@ class GenderNotSuitableException extends UserAccessException {
         return 'Gender not suitable for the team';
     }
   }
+}
 
+class EmailNotVerifiedException extends UserAccessException {
+  @override
+  String getErrorMessage() {
+    String languageCode = getCurrentLanguageCode();
+    switch (languageCode) {
+      case 'en':
+        return 'Email not verified';
+      case 'ar':
+        return "البريد الالكتروني غير مفعل";
+      default:
+        return 'Email not verified';
+    }
+  }
 }

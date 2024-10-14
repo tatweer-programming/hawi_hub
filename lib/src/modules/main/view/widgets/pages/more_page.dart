@@ -101,13 +101,14 @@ class MorePage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _checkProfile(
-                              true,
+                              ConstantsManager.appUser != null,
                               S.of(context).createAccount,
                             ),
                           ),
                           Expanded(
                             child: _checkProfile(
-                              (ConstantsManager.appUser as Player).isEmailConfirmed(),
+                              (ConstantsManager.appUser as Player)
+                                  .isEmailConfirmed(),
                               S.of(context).confirmEmail,
                             ),
                           ),
@@ -142,7 +143,10 @@ class MorePage extends StatelessWidget {
                     icon: "assets/images/icons/lang.png",
                     text: S.of(context).language,
                     trailing: Container(
-                      color: ColorManager.grey2,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          color: ColorManager.grey2,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Row(
                         children: [
                           InkWell(

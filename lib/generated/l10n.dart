@@ -1929,6 +1929,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Leave`
+  String get leave {
+    return Intl.message(
+      'Leave',
+      name: 'leave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot leave Game you created`
+  String get cannotLeaveHost {
+    return Intl.message(
+      'You cannot leave Game you created',
+      name: 'cannotLeaveHost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Left Game Successfully`
+  String get leftGame {
+    return Intl.message(
+      'Left Game Successfully',
+      name: 'leftGame',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upcoming Games`
+  String get upcomingGames {
+    return Intl.message(
+      'Upcoming Games',
+      name: 'upcomingGames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upcoming Reservations`
+  String get upcomingReservations {
+    return Intl.message(
+      'Upcoming Reservations',
+      name: 'upcomingReservations',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
+import 'package:hawihub/src/modules/games/data/models/player.dart';
 import 'package:hawihub/src/modules/games/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
-import '../../../data/models/player.dart';
 
 class AllPlayersScreen extends StatelessWidget {
   final List<GamePlayer> players;
+
   const AllPlayersScreen({super.key, required this.players});
 
   @override
@@ -27,7 +28,8 @@ class AllPlayersScreen extends StatelessWidget {
                   horizontal: 5.w,
                   vertical: 7.h,
                 ),
-                child: Text(S.of(context).allPlayers, style: TextStyleManager.getAppBarTextStyle()),
+                child: Text(S.of(context).allPlayers,
+                    style: TextStyleManager.getAppBarTextStyle()),
               ),
             ),
           ),

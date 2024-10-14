@@ -39,7 +39,6 @@ Future<void> main() async {
   NotificationServices.init();
   ServiceLocator.init();
   ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
-  // print(ConstantsManager.userId);
   await LocalizationManager.init();
   runApp(const MyApp());
 }
@@ -96,9 +95,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: Join and Leave game
-// TODO: Game Details Screen
-// TODO: Get Upcoming reservations
+// TODO: Join and Leave game -> done
+// TODO: Game Details Screen -> done
+// TODO: Get Upcoming reservations -> done
+// TODO: Get Upcoming games -> done
+// TODO: Upcoming reservations UI
 // TODO: complete genders functionality
 // TODO: create game screen
 // TODO: complete shared places functionality
