@@ -93,7 +93,7 @@ class GamesRemoteDataSource {
   Future<Either<Exception, List<Game>>> getUpcomingGames() async {
     try {
       List<Game> games = [];
-      var response = await DioHelper.postData(
+      var response = await DioHelper.getData(
         path: "${EndPoints.getUpcomingGames}${ConstantsManager.userId}",
       );
 

@@ -23,7 +23,7 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
   int currentIndex = 0;
-  int currentTab = 0;
+  int currentUpcomingTab = 0;
 
   void changePage(int index) {
     if (currentIndex != index) {
@@ -33,8 +33,8 @@ class MainCubit extends Cubit<MainState> {
   }
 
   void changeUpcomingTab(int index) {
-    if (currentTab != index) {
-      currentTab = index;
+    if (currentUpcomingTab != index) {
+      currentUpcomingTab = index;
       emit(ChangeUpcomingTab(index));
     }
   }

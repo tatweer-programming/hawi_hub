@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الوقت الذي ادخلته في الماضي"),
         "bookings": MessageLookupByLibrary.simpleMessage("الحجوزات"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
+        "cancelReservationWarning": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد من الغاء الحجز؟. في حال الغاء الحجز بعد موافقة المالك ستفقد العربون بشكل نهائي"),
         "cannotLeaveHost": MessageLookupByLibrary.simpleMessage(
             "لا يمكنك مغادرة حجز أنت أنشأته"),
         "change": MessageLookupByLibrary.simpleMessage("تغير "),
@@ -128,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gender": MessageLookupByLibrary.simpleMessage("الجنس"),
         "getStarted":
             MessageLookupByLibrary.simpleMessage("اجعل فريقك يلعب معًا!"),
+        "goBack": MessageLookupByLibrary.simpleMessage("عودة"),
         "home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "host": MessageLookupByLibrary.simpleMessage("المضيف"),
         "hours": MessageLookupByLibrary.simpleMessage("ساعات"),
@@ -296,6 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewAll": MessageLookupByLibrary.simpleMessage("اظهار الكل"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("عرض التفاصيل"),
         "viewFeedbacks": MessageLookupByLibrary.simpleMessage("عرض التعليقات"),
+        "warning": MessageLookupByLibrary.simpleMessage("تحذير"),
         "weekend": MessageLookupByLibrary.simpleMessage("عطلة"),
         "workingHours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "wrongPassword":

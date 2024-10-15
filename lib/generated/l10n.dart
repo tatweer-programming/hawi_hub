@@ -1979,6 +1979,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message(
+      'Warning',
+      name: 'warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel the reservation? If you cancel the reservation after the owner's approval, you will lose the deposit permanently.`
+  String get cancelReservationWarning {
+    return Intl.message(
+      'Are you sure you want to cancel the reservation? If you cancel the reservation after the owner\'s approval, you will lose the deposit permanently.',
+      name: 'cancelReservationWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `go back`
+  String get goBack {
+    return Intl.message(
+      'go back',
+      name: 'goBack',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

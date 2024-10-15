@@ -293,4 +293,16 @@ class GetUpcomingReservationsLoading extends PlaceLoading {
   List<Object> get props => [];
 }
 
-class Reservation {}
+class CancelReservationSuccess extends PlaceState {
+  @override
+  List<Object> get props => [];
+}
+
+class CancelReservationError extends PlaceError {
+  const CancelReservationError(super.exception);
+}
+
+class CancelReservationLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}

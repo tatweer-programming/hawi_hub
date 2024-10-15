@@ -58,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Booking time is in the past"),
         "bookings": MessageLookupByLibrary.simpleMessage("Bookings"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancelReservationWarning": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to cancel the reservation? If you cancel the reservation after the owner\'s approval, you will lose the deposit permanently."),
         "cannotLeaveHost": MessageLookupByLibrary.simpleMessage(
             "You cannot leave Game you created"),
         "change": MessageLookupByLibrary.simpleMessage("Change "),
@@ -128,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "getStarted": MessageLookupByLibrary.simpleMessage(
             "Get your Squad to play together!"),
+        "goBack": MessageLookupByLibrary.simpleMessage("go back"),
         "home": MessageLookupByLibrary.simpleMessage("home"),
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hours": MessageLookupByLibrary.simpleMessage("Hours"),
@@ -291,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
         "viewFeedbacks": MessageLookupByLibrary.simpleMessage("View Feedbacks"),
+        "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
         "workingHours": MessageLookupByLibrary.simpleMessage("Working Hours"),
         "wrongPassword":

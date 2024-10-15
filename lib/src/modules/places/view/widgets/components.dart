@@ -105,12 +105,45 @@ class PlaceItem extends StatelessWidget {
                       ))
                 ],
               )),
-              Align(
-                alignment: AlignmentDirectional.topStart,
-                child: FavoriteIconButton(
-                  placeId: place.id,
+              if (ConstantsManager.appUser != null)
+                Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: BlocBuilder<PlaceBloc, PlaceState>(
+                    bloc: PlaceBloc.get(),
+                    builder: (context, state) {
+                      return IconButton(
+                          onPressed: () {
+                            if (ConstantsManager.userId == null) {
+                              errorToast(msg: S.of(context).loginFirst);
+                            } else {
+                              if (ConstantsManager.appUser!.favoritePlaces
+                                  .contains(place.id)) {
+                                UserAccessProxy(PlaceBloc.get(),
+                                        DeletePlaceFromFavoriteEvent(place.id))
+                                    .execute([
+                                  AccessCheckType.login,
+                                ]);
+                              } else {
+                                UserAccessProxy(PlaceBloc.get(),
+                                        AddPlaceToFavoriteEvent(place.id))
+                                    .execute([
+                                  AccessCheckType.login,
+                                ]);
+                              }
+                            }
+                          },
+                          icon: Icon(
+                            size: 25.sp,
+                            Icons.favorite_outlined,
+                            color: ConstantsManager.appUser != null &&
+                                    ConstantsManager.appUser!.favoritePlaces
+                                        .contains(place.id)
+                                ? ColorManager.error
+                                : ColorManager.grey2,
+                          ));
+                    },
+                  ),
                 ),
-              )
             ],
           ),
         ),
@@ -146,9 +179,8 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton>
       upperBound: 1.0,
     );
     if (ConstantsManager.appUser != null) {
-      if (ConstantsManager.appUser!.favoritePlaces.contains(widget.placeId)) {
-        isFavorite = true;
-      }
+      ConstantsManager.appUser != null &&
+          ConstantsManager.appUser!.favoritePlaces.contains(widget.placeId);
     }
     if (isFavorite) {
       controller.forward();
@@ -162,49 +194,40 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PlaceBloc, PlaceState>(
-      listener: (context, state) {
-        if (state is AddPlaceToFavouritesError) {
-          controller.reverse();
-        } else if (state is DeletePlaceFromFavouritesError) {
-          controller.forward();
-        } else if (state is AddPlaceToFavouritesSuccess ||
-            state is DeletePlaceFromFavouritesSuccess) {}
+    return BlocBuilder<PlaceBloc, PlaceState>(
+      bloc: PlaceBloc.get(),
+      builder: (context, state) {
+        return IconButton(
+            onPressed: () {
+              if (ConstantsManager.userId == null) {
+                errorToast(msg: S.of(context).loginFirst);
+              } else {
+                if (ConstantsManager.appUser!.favoritePlaces
+                    .contains(widget.placeId)) {
+                  UserAccessProxy(PlaceBloc.get(),
+                          DeletePlaceFromFavoriteEvent(widget.placeId))
+                      .execute([
+                    AccessCheckType.login,
+                  ]);
+                } else {
+                  UserAccessProxy(PlaceBloc.get(),
+                          AddPlaceToFavoriteEvent(widget.placeId))
+                      .execute([
+                    AccessCheckType.login,
+                  ]);
+                }
+              }
+            },
+            icon: Icon(
+              size: 25.sp,
+              Icons.favorite_outlined,
+              color: ConstantsManager.appUser != null &&
+                      ConstantsManager.appUser!.favoritePlaces
+                          .contains(widget.placeId)
+                  ? ColorManager.error
+                  : ColorManager.grey2,
+            ));
       },
-      child: IconButton(
-          onPressed: () {
-            PlaceBloc bloc = PlaceBloc.get();
-            if (!isFavorite) {
-              controller.forward();
-              UserAccessProxy(bloc, AddPlaceToFavoriteEvent(widget.placeId))
-                  .execute([AccessCheckType.login]);
-            } else {
-              controller.reverse();
-              UserAccessProxy(
-                      bloc, DeletePlaceFromFavoriteEvent(widget.placeId))
-                  .execute([AccessCheckType.login]);
-            }
-          },
-          icon: TapParticle(
-            particleCount: 5,
-            particleLength: 10,
-            color: ColorManager.error,
-            syncAnimation: controller,
-            duration: const Duration(milliseconds: 300),
-            child: TapFillIcon(
-              animationController: controller,
-              borderIcon: Icon(
-                size: 25.sp,
-                Icons.favorite,
-                color: widget.color,
-              ),
-              fillIcon: Icon(
-                Icons.favorite,
-                size: 25.sp,
-                color: ColorManager.error,
-              ),
-            ),
-          )),
     );
   }
 }

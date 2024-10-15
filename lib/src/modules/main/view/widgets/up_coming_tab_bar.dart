@@ -28,7 +28,7 @@ class UpComingTabBar extends StatelessWidget {
                 child: Container(
                   height: 6.h,
                   decoration: BoxDecoration(
-                    color: mainCubit.currentTab == 0
+                    color: mainCubit.currentUpcomingTab == 0
                         ? ColorManager.primary
                         : ColorManager.grey2,
                     borderRadius: BorderRadius.circular(20),
@@ -55,7 +55,7 @@ class UpComingTabBar extends StatelessWidget {
                 child: Container(
                   height: 6.h,
                   decoration: BoxDecoration(
-                    color: mainCubit.currentTab == 1
+                    color: mainCubit.currentUpcomingTab == 1
                         ? ColorManager.primary
                         : ColorManager.grey2,
                     borderRadius: BorderRadius.circular(20),

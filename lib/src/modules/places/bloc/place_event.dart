@@ -147,3 +147,12 @@ class GetUpcomingBookingsEvent extends PlaceEvent {
   @override
   List<Object?> get props => [];
 }
+
+class CanselReservationEvent extends PlaceEvent {
+  final int bookingId;
+
+  const CanselReservationEvent(this.bookingId);
+
+  @override
+  List<Object?> get props => [];
+}

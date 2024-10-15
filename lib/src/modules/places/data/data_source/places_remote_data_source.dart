@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hawihub/src/core/apis/dio_helper.dart';
 import 'package:hawihub/src/core/apis/end_points.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
@@ -54,16 +55,37 @@ class PlacesRemoteDataSource {
 
   Future<Either<Exception, List<Booking>>> getUpcomingBookings() async {
     try {
-      var response =
-          await DioHelper.getData(path: EndPoints.getUpcomingBookings);
-      List<Booking> bookings =
-          (response.data as List).map((e) => Booking.fromJson(e)).toList();
+      List<Booking> bookings = await _getUpcomingPendingBookings();
+      List<Booking> approvedBookings = await _getUpcomingApprovedBookings();
+      bookings.addAll(approvedBookings);
       return Right(bookings);
     } on DioException catch (e) {
       return Left(e);
     } on Exception catch (e) {
       return Left(e);
     }
+  }
+
+  Future<List<Booking>> _getUpcomingPendingBookings() async {
+    var response = await DioHelper.getData(
+      path: "${EndPoints.getUpcomingBookings}${ConstantsManager.userId}",
+      query: {"playerId": ConstantsManager.userId, "approvalStatus": false},
+    );
+    debugPrint(response.data.toString());
+    List<Booking> bookings =
+        (response.data as List).map((e) => Booking.fromJson(e)).toList();
+    return bookings;
+  }
+
+  Future<List<Booking>> _getUpcomingApprovedBookings() async {
+    var response = await DioHelper.getData(
+      path: "${EndPoints.getUpcomingBookings}${ConstantsManager.userId}",
+      query: {"playerId": ConstantsManager.userId, "approvalStatus": true},
+    );
+    debugPrint(response.data.toString());
+    List<Booking> bookings =
+        (response.data as List).map((e) => Booking.fromJson(e)).toList();
+    return bookings;
   }
 
   Future<Either<Exception, Unit>> addBooking(
@@ -84,12 +106,12 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> cancelBooking(
-      {required int bookingId}) async {
+  Future<Either<Exception, Unit>> cancelReservation(
+      {required int reservation}) async {
     try {
       DioHelper.postData(
-        path: "${EndPoints.bookPlace}$bookingId",
-        query: {"bookingId": bookingId},
+        path: "${EndPoints.cancelUpcomingReservation}$reservation",
+        query: {"reservationId": reservation},
       );
       return const Right(unit);
     } on DioException catch (e) {

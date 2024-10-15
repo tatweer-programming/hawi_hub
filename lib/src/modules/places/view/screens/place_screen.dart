@@ -43,6 +43,7 @@ class PlaceScreen extends StatelessWidget {
       place = bloc.allPlaces.firstWhere(
         (e) => e.id == placeId,
       );
+      bloc.currentPlace = place;
     } else {
       bloc.add(GetPlaceEvent(placeId));
     }
@@ -706,10 +707,11 @@ class _ImageSliderWithIndicatorsState extends State<ImageSliderWithIndicators> {
                         icon: Icon(Icons.share, color: ColorManager.white),
                       ),
                       const Spacer(),
-                      FavoriteIconButton(
-                        color: ColorManager.white,
-                        placeId: widget.placeId,
-                      ),
+                      if (ConstantsManager.appUser != null)
+                        FavoriteIconButton(
+                          color: ColorManager.white,
+                          placeId: widget.placeId,
+                        ),
                     ],
                   ),
                 ],

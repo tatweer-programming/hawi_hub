@@ -17,57 +17,44 @@ class UpComingGamesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GamesBloc gamesBloc = GamesBloc.get();
-    List<Game> upcomingGames = [];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TitleText(S.of(context).upcomingGames, isBold: true),
-        SizedBox(height: 2.h),
-        SizedBox(
-          height: 15.h,
-          child: BlocConsumer<GamesBloc, GamesState>(
-            listener: (context, state) {
-              if (state is GetUpcomingGamesSuccess) {
-                upcomingGames = state.games;
-              }
-            },
-            builder: (context, state) {
-              return BlocBuilder<GamesBloc, GamesState>(
-                bloc: gamesBloc,
-                builder: (context, state) {
-                  return Skeletonizer(
-                    justifyMultiLineText: false,
-                    ignorePointers: false,
-                    ignoreContainers: false,
-                    containersColor: ColorManager.grey1,
-                    effect: const PulseEffect(),
-                    enabled: state is GetUpcomingGamesLoading,
-                    child: gamesBloc.upcomingGames.isEmpty &&
-                            state is! GetUpcomingGamesLoading
-                        ? const EmptyView()
-                        : ListView.separated(
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: 3.w,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state is GetUpcomingGamesLoading
-                                ? dummyGames.length.clamp(0, 3)
-                                : gamesBloc.upcomingGames.length,
-                            itemBuilder: (context, index) {
-                              return GameItem(
-                                game: state is GetUpcomingGamesLoading
-                                    ? dummyGames[index]
-                                    : gamesBloc.upcomingGames[index],
-                              );
-                            },
-                          ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
-      ],
+
+    return BlocConsumer<GamesBloc, GamesState>(
+      listener: (context, state) {
+        if (state is GetUpcomingGamesSuccess) {
+          debugPrint(state.games.toString());
+        }
+      },
+      builder: (context, state) {
+        return Skeletonizer(
+          justifyMultiLineText: true,
+          enableSwitchAnimation: true,
+          ignorePointers: false,
+          ignoreContainers: false,
+          containersColor: ColorManager.grey1,
+          effect: const PulseEffect(),
+          enabled: state is GetUpcomingGamesLoading,
+          child: gamesBloc.upcomingGames.isEmpty &&
+                  state is! GetUpcomingGamesLoading
+              ? const EmptyView()
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 2.h,
+                  ),
+                  itemCount: state is GetUpcomingGamesLoading
+                      ? dummyGames.length.clamp(0, 3)
+                      : gamesBloc.upcomingGames.length,
+                  itemBuilder: (context, index) {
+                    return GameItem(
+                      game: state is GetUpcomingGamesLoading
+                          ? dummyGames[index]
+                          : gamesBloc.upcomingGames[index],
+                    );
+                  },
+                ),
+        );
+      },
     );
     ;
   }

@@ -296,13 +296,14 @@ class JoinAndLeaveGameButton extends StatelessWidget {
                       }
                     } else {
                       UserAccessProxy(
-                        GamesBloc.get(),
-                        JoinGameEvent(gameId: game.id),
-                        requiredBalance: game.price / game.minPlayers,
-                        requiredAgeRange: game.getHostAge(),
-                      ).execute([
+                              GamesBloc.get(), JoinGameEvent(gameId: game.id),
+                              requiredBalance: game.price / game.minPlayers,
+                              requiredAgeRange: game.getHostAge(),
+                              requiredGender: game.host.gender)
+                          .execute([
                         AccessCheckType.login,
                         AccessCheckType.verification,
+                        AccessCheckType.gender,
                         AccessCheckType.emailVerification,
                         AccessCheckType.age,
                         AccessCheckType.balance

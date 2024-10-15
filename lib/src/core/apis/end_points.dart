@@ -36,7 +36,10 @@ class EndPoints {
   static const String getPlaceFeedbacks = '/Stadium/Reviews/'; // Updated
   static const String getPlace = "/Stadium/"; // Updated
   static const String addPlaceFeedback = '/Player/ReviewStadium/'; // Updated
-  static const String getUpcomingBookings = "/Player/StadiumGame/"; // Updated
+  static const String getUpcomingBookings =
+      "/Player/StadiumReservations/"; // Update
+  static const String cancelUpcomingReservation =
+      "/Player/CancelStadiumReservation/"; // Updated
 
   /// games
   static const String getGamesByCity = '/Stadium/Games/City/';

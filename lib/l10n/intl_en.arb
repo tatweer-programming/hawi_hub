@@ -191,5 +191,8 @@
   "cannotLeaveHost": "You cannot leave Game you created",
   "leftGame": "Left Game Successfully",
   "upcomingGames": "Upcoming Games",
-  "upcomingReservations": "Upcoming Reservations"
+  "upcomingReservations": "Upcoming Reservations",
+  "warning": "Warning",
+  "cancelReservationWarning": "Are you sure you want to cancel the reservation? If you cancel the reservation after the owner's approval, you will lose the deposit permanently.",
+  "goBack": "go back"
 }

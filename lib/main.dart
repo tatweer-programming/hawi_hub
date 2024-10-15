@@ -99,7 +99,7 @@ class MyApp extends StatelessWidget {
 // TODO: Game Details Screen -> done
 // TODO: Get Upcoming reservations -> done
 // TODO: Get Upcoming games -> done
-// TODO: Upcoming reservations UI
-// TODO: complete genders functionality
+// TODO: Upcoming reservations UI -> done
+// TODO: complete genders functionality -> done
 // TODO: create game screen
 // TODO: complete shared places functionality

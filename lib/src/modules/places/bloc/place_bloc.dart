@@ -22,6 +22,7 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
   List<Place> allPlaces = [];
   List<Place> viewedPlaces = [];
   Place? currentPlace;
+  List<Booking> placeBookings = [];
   final PlacesRemoteDataSource placesRemoteDataSource = sl();
 
   PlaceBloc() : super(PlaceInitial()) {
@@ -48,6 +49,8 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         await _handleAddPlaceFeedbackEvent(event, emit);
       } else if (event is GetUpcomingBookingsEvent) {
         await _handleGetUpcomingBookingsEvent(event, emit);
+      } else if (event is CanselReservationEvent) {
+        await _handleCancelUpcomingReservationEvent(event, emit);
       }
     });
   }
@@ -201,13 +204,29 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
 
   Future<void> _handleGetUpcomingBookingsEvent(
       GetUpcomingBookingsEvent event, Emitter<PlaceState> emit) async {
-    // emit(GetUpcomingReservationsLoading());
-    // var result = await placesRemoteDataSource.getUpcomingBookings();
-    // result.fold(
-    //   (error) => emit(GetUpcomingReservationsError(error)),
-    //   (bookings) => emit(GetUpcomingReservationsSuccess(bookings)),
-    // );
-    DoNothingAction();
+    if (event.refresh || placeBookings.isEmpty) {
+      emit(GetUpcomingReservationsLoading());
+      var result = await placesRemoteDataSource.getUpcomingBookings();
+      result.fold((l) {
+        emit(GetUpcomingReservationsError(l));
+      }, (r) {
+        placeBookings = r;
+        emit(GetUpcomingReservationsSuccess(r));
+      });
+    }
+  }
+
+  Future<void> _handleCancelUpcomingReservationEvent(
+      CanselReservationEvent event, Emitter<PlaceState> emit) async {
+    emit(CancelReservationLoading());
+    var result = await placesRemoteDataSource.cancelReservation(
+        reservation: event.bookingId);
+    result.fold((l) {
+      emit(CancelReservationError(l));
+    }, (r) {
+      placeBookings.removeWhere((e) => e.reservationId == event.bookingId);
+      emit(CancelReservationSuccess());
+    });
   }
 
   // Singleton pattern for accessing the bloc instance

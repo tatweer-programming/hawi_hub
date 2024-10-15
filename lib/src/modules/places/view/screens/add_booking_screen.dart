@@ -95,9 +95,11 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
           placeId: widget.placeId,
         ),
         requiredBalance: reservationPrice,
+        requiredGender: PlaceBloc.get().currentPlace!.availableGender,
       ).execute([
         AccessCheckType.login,
         AccessCheckType.balance,
+        AccessCheckType.gender,
       ]);
     });
   }

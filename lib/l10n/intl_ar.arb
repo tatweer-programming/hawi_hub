@@ -190,5 +190,8 @@
   "cannotLeaveHost": "لا يمكنك مغادرة حجز أنت أنشأته",
   "leftGame": "لقد قمت بمغادرة الحجز",
   "upcomingGames": "الحجوزات الجماعية المقبلة",
-  "upcomingReservations": "الحجوزات المقبلة"
+  "upcomingReservations": "الحجوزات المقبلة",
+  "warning": "تحذير",
+  "cancelReservationWarning": "هل أنت متأكد من الغاء الحجز؟. في حال الغاء الحجز بعد موافقة المالك ستفقد العربون بشكل نهائي",
+  "goBack": "عودة"
 }
