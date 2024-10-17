@@ -224,7 +224,8 @@ Widget _accountVerified({
 }) {
   if (!(ConstantsManager.appUser as Player).isEmailConfirmed()) {
     return _emailNotConfirmed(context, authBloc);
-  } else if (user.proofOfIdentityUrl == null && !(ConstantsManager.appUser as Player).isVerified()) {
+  } else if (user.proofOfIdentityUrl == null &&
+      !(ConstantsManager.appUser as Player).isVerified()) {
     return _notVerified(authBloc);
   } else if (user.approvalStatus == 0) {
     return _pending(context, S.of(context).identificationPending);
@@ -493,7 +494,8 @@ Widget _verified({
       SizedBox(
         height: 2.h,
       ),
-      if (ConstantsManager.appUser!.ownerReservatation.contains(user.id))
+      if ((ConstantsManager.appUser!.ownerReservation.contains(user.id)) ||
+          (ConstantsManager.appUser!.playerReservation.contains(user.id)))
         defaultButton(
             onPressed: () {
               context.pushWithTransition(

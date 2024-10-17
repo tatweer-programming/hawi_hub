@@ -14,7 +14,7 @@ class EndPoints {
 
   /// profile
   static const String addOwnerFeedback = '/Player/ReviewOwner/'; // Updated
-  static const String addPlayerFeedback = '/Player/ReviewStadium/'; // Updated
+  static const String addPlayerFeedback = '/Player/ReviewPlayer/'; // Updated
   static const String getOwnerFeedbacks = '/Player/OwnersReviews/'; // Updated
   static const String getPlayerFeedbacks = '/Owner/PlayersReviews/'; // Updated
 

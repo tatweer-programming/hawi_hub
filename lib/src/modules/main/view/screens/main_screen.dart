@@ -5,7 +5,6 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:hawihub/src/modules/main/view/widgets/bottom_nav_bar.dart';
-
 import '../../../games/view/widgets/pages/play_page.dart';
 import '../../../places/view/widgets/pages/book_page.dart';
 import '../widgets/pages/home_page.dart';

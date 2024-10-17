@@ -12,7 +12,8 @@ class Player extends User {
   File? profilePictureFile;
   List<int> favoritePlaces;
   final List<int> stadiumReservation;
-  final List<int> ownerReservatation;
+  final List<int> ownerReservation;
+  final List<int> playerReservation;
 
   Player({
     required this.gender, // make this required
@@ -21,7 +22,8 @@ class Player extends User {
     required this.birthDate,
     required this.email,
     required this.stadiumReservation,
-    required this.ownerReservatation,
+    required this.ownerReservation,
+    required this.playerReservation,
     this.profilePictureFile,
     super.emailConfirmed,
     required this.myWallet,
@@ -37,7 +39,7 @@ class Player extends User {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      gender: json['gender'] == 1 ? Gender.male : Gender.female,
+      gender: json['gender'] == 0 ? Gender.male : Gender.female,
       profilePictureUrl: json['profilePictureUrl'],
       proofOfIdentityUrl: json['proofOfIdentityUrl'],
       id: json['id'],
@@ -53,7 +55,11 @@ class Player extends User {
       feedbacks: [],
       favoritePlaces: List.from(json['favoriteStadiums'] ?? []),
       stadiumReservation: List.from(json['stadiumReservatation'] ?? []),
-      ownerReservatation: List.from(json['ownerReservatation'] ?? []),
+      ownerReservation: List.from(json['ownerReservatation'] ?? []),
+      playerReservation: List.from(
+        // json['playerReservatation'] ?? [],
+        [],
+      ),
     );
   }
 

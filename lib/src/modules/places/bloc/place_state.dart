@@ -266,6 +266,23 @@ class AddOwnerFeedbackLoading extends PlaceLoading {
   List<Object> get props => [];
 }
 
+class AddPlayerFeedbackSuccess extends PlaceState {
+  @override
+  List<Object> get props => [];
+}
+
+class AddPlayerFeedbackError extends PlaceError {
+  const AddPlayerFeedbackError(super.exception);
+
+  @override
+  List<Object> get props => [exception];
+}
+
+class AddPlayerFeedbackLoading extends PlaceLoading {
+  @override
+  List<Object> get props => [];
+}
+
 class AddRatingState extends PlaceLoading {
   final double rating;
 

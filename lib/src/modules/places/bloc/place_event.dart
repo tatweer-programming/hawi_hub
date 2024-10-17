@@ -119,10 +119,17 @@ class DeletePlaceFromFavoriteEvent extends PlaceEvent {
 }
 
 class AddOwnerFeedbackEvent extends PlaceEvent {
-  final int ownerId;
   final AppFeedBack review;
 
-  const AddOwnerFeedbackEvent(this.ownerId, {required this.review});
+  const AddOwnerFeedbackEvent( {required this.review});
+
+  @override
+  List<Object?> get props => [];
+}
+class AddPlayerFeedbackEvent extends PlaceEvent {
+  final AppFeedBack review;
+
+  const AddPlayerFeedbackEvent( {required this.review});
 
   @override
   List<Object?> get props => [];
