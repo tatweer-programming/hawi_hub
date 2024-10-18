@@ -28,7 +28,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.tatweer.hawihub"
     compileSdk 34
-    ndkVersion "26.1.10909125"
+    ndkVersion "27.0.12077973"
     compileSdkVersion 34
 
     compileOptions {
@@ -57,10 +57,10 @@ android {
     }
     signingConfigs {
         debug {
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'HawiHub_Tatweer'
-//            storeFile file('keystore.jks')
-//            storePassword 'HawiHub_Tatweer'
+            keyAlias 'androiddebugkey'
+            keyPassword 'HawiHub_Tatweer'
+            storeFile file('keystore.jks')
+            storePassword 'HawiHub_Tatweer'
         }
         release {
 //            keyAlias 'androiddebugkey'

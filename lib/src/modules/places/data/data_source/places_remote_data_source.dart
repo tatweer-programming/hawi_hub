@@ -173,12 +173,12 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> addOwnerFeedback(int playerId,
+  Future<Either<Exception, Unit>> addOwnerFeedback(
       {required AppFeedBack review}) async {
     try {
       await DioHelper.postData(
         data: review.toJson(userType: "owner"),
-        path: EndPoints.addOwnerFeedback + playerId.toString(),
+        path: EndPoints.addOwnerFeedback + ConstantsManager.userId.toString(),
       );
       return const Right(unit);
     } on DioException catch (e) {
@@ -188,28 +188,28 @@ class PlacesRemoteDataSource {
     }
   }
 
-  Future<Either<Exception, Unit>> addPlayerFeedback(int playerId,
-      {required AppFeedBack review}) async {
-    try {
-      await DioHelper.postData(
-        data: review.toJson(userType: "owner"),
-        path: EndPoints.addPlayerFeedback + playerId.toString(),
-      );
-      return const Right(unit);
-    } on DioException catch (e) {
-      return Left(e);
-    } on Exception catch (e) {
-      return Left(e);
-    }
-  }
-
-  Future<Either<Exception, Unit>> addPlaceFeedback(int placeId,
+  Future<Either<Exception, Unit>> addPlayerFeedback(
       {required AppFeedBack review}) async {
     try {
       await DioHelper.postData(
         data: review.toJson(userType: "player"),
-        path: EndPoints.addPlaceFeedback + placeId.toString(),
-        query: {"stadiumId": placeId},
+        path: EndPoints.addPlayerFeedback + ConstantsManager.userId.toString(),
+      );
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(e);
+    } on Exception catch (e) {
+      return Left(e);
+    }
+  }
+
+  Future<Either<Exception, Unit>> addPlaceFeedback(
+      {required AppFeedBack review}) async {
+    try {
+      await DioHelper.postData(
+        data: review.toJson(userType: "stadium"),
+        path: EndPoints.addPlaceFeedback + ConstantsManager.userId.toString(),
+        // query: {"stadiumId": placeId},
       );
       return const Right(unit);
     } on DioException catch (e) {

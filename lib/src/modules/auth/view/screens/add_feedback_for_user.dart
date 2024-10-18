@@ -7,6 +7,7 @@ import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
+import 'package:hawihub/src/modules/auth/data/models/player.dart';
 import 'package:hawihub/src/modules/auth/data/models/user.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/auth_app_bar.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
@@ -89,23 +90,43 @@ class AddFeedbackForUser extends StatelessWidget {
                         authBloc.add(GetProfileEvent(user.id, "Owner"));
                         context.pop();
                       }
+                      if (state is AddPlayerFeedbackSuccess) {
+                        authBloc.add(GetProfileEvent(user.id, "Player"));
+                        context.pop();
+                      }
                     },
                     builder: (context, state) {
-                      return DefaultButton(
-                        isLoading: state is AddOwnerFeedbackLoading,
-                        onPressed: () {
-                          UserAccessProxy(
-                                  bloc,
-                                  AddOwnerFeedbackEvent(
-                                      ConstantsManager.userId!,
-                                      review: AppFeedBack(
-                                          userId: user.id,
-                                          comment: addCommentController.text,
-                                          rating: rating)))
-                              .execute([AccessCheckType.login]);
-                        },
-                        text: S.of(context).send,
-                      );
+                      return user is Player
+                          ? DefaultButton(
+                              isLoading: state is AddPlayerFeedbackLoading,
+                              onPressed: () {
+                                UserAccessProxy(
+                                        bloc,
+                                        AddPlayerFeedbackEvent(
+                                            review: AppFeedBack(
+                                                userId: user.id,
+                                                comment:
+                                                    addCommentController.text,
+                                                rating: rating)))
+                                    .execute([AccessCheckType.login]);
+                              },
+                              text: S.of(context).send,
+                            )
+                          : DefaultButton(
+                              isLoading: state is AddOwnerFeedbackLoading,
+                              onPressed: () {
+                                UserAccessProxy(
+                                        bloc,
+                                        AddOwnerFeedbackEvent(
+                                            review: AppFeedBack(
+                                                userId: user.id,
+                                                comment:
+                                                    addCommentController.text,
+                                                rating: rating)))
+                                    .execute([AccessCheckType.login]);
+                              },
+                              text: S.of(context).send,
+                            );
                     },
                   ),
                   SizedBox(
