@@ -39,6 +39,7 @@ Future<void> main() async {
   NotificationServices.init();
   ServiceLocator.init();
   ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
+
   await LocalizationManager.init();
   runApp(const MyApp());
 }

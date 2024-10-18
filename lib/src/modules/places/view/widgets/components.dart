@@ -34,7 +34,7 @@ class PlaceItem extends StatelessWidget {
         );
       },
       child: SizedBox(
-        height: 40.h,
+        height: 42.h,
         width: 70.w,
         child: Card(
           color: ColorManager.white,
@@ -48,7 +48,7 @@ class PlaceItem extends StatelessWidget {
                   child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 5,
                     child: Hero(
                       tag: place.id,
                       transitionOnUserGestures: true,
@@ -73,32 +73,39 @@ class PlaceItem extends StatelessWidget {
                     height: 1.h,
                   ),
                   Expanded(
-                      flex: 1,
+                      flex: 3,
                       child: Padding(
-                        padding: EdgeInsets.all(2.w),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 3.w, vertical: .5.h),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SubTitle(
-                              place.name,
+                            Expanded(
+                              child: SubTitle(
+                                place.name,
+                              ),
                             ),
                             SizedBox(
-                              height: 1.h,
+                              height: .5.h,
                             ),
-                            Text(
-                              place.address,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyleManager.getCaptionStyle(),
+                            Flexible(
+                              child: Text(
+                                place.address,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyleManager.getCaptionStyle(),
+                              ),
                             ),
                             SizedBox(
-                              height: 1.h,
+                              height: .5.h,
                             ),
-                            Text(
-                              "${place.price} ${S.of(context).sar}/hour",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: TextStyleManager.getCaptionStyle(),
+                            Flexible(
+                              child: Text(
+                                "${place.price} ${S.of(context).sar}/hour",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyleManager.getCaptionStyle(),
+                              ),
                             )
                           ],
                         ),

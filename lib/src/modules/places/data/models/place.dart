@@ -36,7 +36,7 @@ class Place extends Equatable {
   int citId;
   int approvalStatus;
   Gender availableGender;
-  int deposit;
+  double deposit;
 
   bool isShared;
 
