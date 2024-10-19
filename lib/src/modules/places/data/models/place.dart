@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/utils/images_manager.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/feedback.dart';
@@ -12,6 +14,20 @@ enum Gender {
   final int value;
 
   const Gender(this.value);
+}
+
+extension gendersName on Gender {
+  String genderName(BuildContext context) {
+    switch (this) {
+      case Gender.male:
+        return S.of(context).males;
+
+      case Gender.female:
+        return S.of(context).females;
+      case Gender.both:
+        return S.of(context).bothMalesAndFemales;
+    }
+  }
 }
 
 // TODO : add this To Ui
@@ -96,7 +112,7 @@ class Place extends Equatable {
         ownerImage: json['owner']['ownerImage'] ?? ImagesManager.defaultProfile,
         availableGender: _getGender(json["availableGender"] ?? 2),
         deposit: json["deposit"] ?? 0,
-        isShared: json["isShared"] ?? false);
+        isShared: json["isShared"]);
   }
 
   static Gender _getGender(int value) {

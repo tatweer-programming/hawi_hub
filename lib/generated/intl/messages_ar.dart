@@ -55,6 +55,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "bookingTimeInPast":
             MessageLookupByLibrary.simpleMessage("الوقت الذي ادخلته في الماضي"),
         "bookings": MessageLookupByLibrary.simpleMessage("الحجوزات"),
+        "both": MessageLookupByLibrary.simpleMessage("كليهما"),
+        "bothMalesAndFemales":
+            MessageLookupByLibrary.simpleMessage("ذكور وإناث"),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "cancelReservationWarning": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد من الغاء الحجز؟. في حال الغاء الحجز بعد موافقة المالك ستفقد العربون بشكل نهائي"),
@@ -87,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "createGame": MessageLookupByLibrary.simpleMessage("انشاء حجز جماعي"),
         "date": MessageLookupByLibrary.simpleMessage("الموعد"),
+        "deposit": MessageLookupByLibrary.simpleMessage("العربون"),
         "details": MessageLookupByLibrary.simpleMessage("تفاصيل"),
         "doYouWantToLogout":
             MessageLookupByLibrary.simpleMessage("هل تريد تسجيل الخروج؟"),
@@ -118,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تصفح حسب الرياضة"),
         "feedbacks": MessageLookupByLibrary.simpleMessage("التعليقات"),
         "female": MessageLookupByLibrary.simpleMessage("انثى"),
+        "females": MessageLookupByLibrary.simpleMessage("إناث"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("تم رفع الملف "),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة السر ؟"),
@@ -128,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("السعر الكلي للحجز"),
         "games": MessageLookupByLibrary.simpleMessage("الحجوزات الجماعية"),
         "gender": MessageLookupByLibrary.simpleMessage("الجنس"),
+        "genders": MessageLookupByLibrary.simpleMessage("النوع"),
         "getStarted":
             MessageLookupByLibrary.simpleMessage("اجعل فريقك يلعب معًا!"),
         "goBack": MessageLookupByLibrary.simpleMessage("عودة"),
@@ -160,6 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "تم تسجيل الدخول إلى الحساب بنجاح"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "male": MessageLookupByLibrary.simpleMessage("ذكر"),
+        "males": MessageLookupByLibrary.simpleMessage("ذكور"),
         "maxPlayers":
             MessageLookupByLibrary.simpleMessage("الحد الاقصى للاعبين"),
         "maxPlayersRequired":

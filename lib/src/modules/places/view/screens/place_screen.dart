@@ -284,20 +284,48 @@ class PlaceScreen extends StatelessWidget {
                             SizedBox(
                               height: 2.h,
                             ),
-                            OutLineContainer(
-                              color: ColorManager.grey1,
-                              child: SubTitle(
-                                S.of(context).createGame,
-                                isBold: false,
-                              ),
-                              onPressed: () {
-                                context.push(Routes.createGame,
-                                    arguments: {"placeId": place.id});
-                              },
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: OutLineContainer(
+                                      child: Text(
+                                          "${S.of(context).deposit}: ${place.deposit} %"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3.w,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: OutLineContainer(
+                                        child: Text(place.availableGender
+                                            .genderName(context))),
+                                  ),
+                                )
+                              ],
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 2.h,
                             ),
+                            if (place.isShared)
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 3.h,
+                                ),
+                                child: OutLineContainer(
+                                  color: ColorManager.grey1,
+                                  child: SubTitle(
+                                    S.of(context).createGame,
+                                    isBold: false,
+                                  ),
+                                  onPressed: () {
+                                    context.push(Routes.createGame,
+                                        arguments: {"placeId": place.id});
+                                  },
+                                ),
+                              ),
                             InkWell(
                               onTap: () {
                                 context.push(
