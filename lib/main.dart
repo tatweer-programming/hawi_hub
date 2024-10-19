@@ -28,18 +28,25 @@ import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'src/modules/places/data/models/place_location.dart';
 
+class AppManager {
+  static Future<void> init() async {
+    timeago.setLocaleMessages("ar", timeago.ArMessages());
+    WidgetsFlutterBinding.ensureInitialized();
+    await CacheHelper.init();
+    DioHelper.init();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    NotificationServices.init();
+    ServiceLocator.init();
+    ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
+    await LocalizationManager.init();
+  }
+}
+
 Future<void> main() async {
-  timeago.setLocaleMessages("ar", timeago.ArMessages());
-  WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  DioHelper.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  NotificationServices.init();
-  ServiceLocator.init();
-  ConstantsManager.userId = await CacheHelper.getData(key: 'userId');
-  await LocalizationManager.init();
+  await AppManager
+      .init(); // حط الكلاس دا في فايل لوحده وضيف عليه الايفنت بتاع ال get user بمعرفتك و استدعيهم في ال splash
   runApp(const MyApp());
 }
 

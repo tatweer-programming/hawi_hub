@@ -2009,6 +2009,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Males`
+  String get males {
+    return Intl.message(
+      'Males',
+      name: 'males',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Females`
+  String get females {
+    return Intl.message(
+      'Females',
+      name: 'females',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Both`
+  String get both {
+    return Intl.message(
+      'Both',
+      name: 'both',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get genders {
+    return Intl.message(
+      'Gender',
+      name: 'genders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Males & Females`
+  String get bothMalesAndFemales {
+    return Intl.message(
+      'Males & Females',
+      name: 'bothMalesAndFemales',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit`
+  String get deposit {
+    return Intl.message(
+      'Deposit',
+      name: 'deposit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -20,7 +20,7 @@ import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:hawihub/src/modules/places/data/models/day.dart';
 import 'package:hawihub/src/modules/places/data/models/place.dart';
 import 'package:hawihub/src/modules/places/data/models/place_location.dart';
-import 'package:hawihub/src/modules/places/view/screens/view_image_screen.dart';
+import 'package:hawihub/src/modules/main/view/screens/view_image_screen.dart';
 import 'package:hawihub/src/modules/places/view/widgets/components.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:share_plus/share_plus.dart';
@@ -107,7 +107,8 @@ class PlaceScreen extends StatelessWidget {
                             SizedBox(
                               height: 2.h,
                             ),
-                            _buildShowMapWidget(context),
+                            if (place.location != null)
+                              _buildShowMapWidget(context),
                             ExpansionTile(
                               tilePadding: EdgeInsets.zero,
                               title: SubTitle(S.of(context).workingHours),
@@ -283,20 +284,48 @@ class PlaceScreen extends StatelessWidget {
                             SizedBox(
                               height: 2.h,
                             ),
-                            OutLineContainer(
-                              color: ColorManager.grey1,
-                              child: SubTitle(
-                                S.of(context).createGame,
-                                isBold: false,
-                              ),
-                              onPressed: () {
-                                context.push(Routes.createGame,
-                                    arguments: {"placeId": place.id});
-                              },
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: OutLineContainer(
+                                      child: Text(
+                                          "${S.of(context).deposit}: ${place.deposit} %"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 3.w,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: OutLineContainer(
+                                        child: Text(place.availableGender
+                                            .genderName(context))),
+                                  ),
+                                )
+                              ],
                             ),
                             SizedBox(
-                              height: 3.h,
+                              height: 2.h,
                             ),
+                            if (place.isShared)
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 3.h,
+                                ),
+                                child: OutLineContainer(
+                                  color: ColorManager.grey1,
+                                  child: SubTitle(
+                                    S.of(context).createGame,
+                                    isBold: false,
+                                  ),
+                                  onPressed: () {
+                                    context.push(Routes.createGame,
+                                        arguments: {"placeId": place.id});
+                                  },
+                                ),
+                              ),
                             InkWell(
                               onTap: () {
                                 context.push(
@@ -390,32 +419,40 @@ class PlaceScreen extends StatelessWidget {
   }
 
   Widget _buildShowMapWidget(BuildContext context) {
-    PlaceLocation? location = PlaceBloc.get()
-        .allPlaces
-        .firstWhere(
-          (e) => e.id == placeId,
-        )
-        .location;
-    print(location);
-    return location == null
-        ? const SizedBox()
-        : InkWell(
-            onTap: () {
-              MapsLauncher.launchCoordinates(
-                      location.latitude, location.longitude)
-                  .catchError((e) => debugPrint(e.toString()));
-            },
-            child: Container(
-              height: 4.h,
-              width: 35.w,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: ColorManager.secondary,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
+    print("location : ${PlaceBloc.get().currentPlace!.location}");
+    return InkWell(
+      onTap: () async {
+        PlaceLocation location = PlaceBloc.get().currentPlace!.location!;
+        MapsLauncher.launchCoordinates(location.latitude, location.longitude)
+            .catchError((e) {
+          debugPrint(e.toString());
+        });
+      },
+      child: Container(
+          height: 4.h,
+          width: 35.w,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: ColorManager.secondary,
             ),
-          );
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Center(
+              child: Row(
+            children: [
+              Icon(
+                color: ColorManager.error,
+                Icons.location_on,
+              ),
+              Expanded(
+                child: Text(
+                  S.of(context).showInMap,
+                  style: TextStyleManager.getSecondaryRegularStyle(),
+                ),
+              ),
+            ],
+          ))),
+    );
   }
 
   Widget buildSportWidget(String sport, BuildContext context,

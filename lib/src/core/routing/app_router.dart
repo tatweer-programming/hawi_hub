@@ -26,7 +26,7 @@ import '../../modules/games/data/models/player.dart';
 
 import '../../modules/main/view/screens/notifications_screen.dart';
 import '../../modules/main/view/screens/splash_screen.dart';
-import '../../modules/places/view/screens/view_image_screen.dart';
+import '../../modules/main/view/screens/view_image_screen.dart';
 import '../utils/constance_manager.dart';
 
 class AppRouter {

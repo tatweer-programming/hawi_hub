@@ -9,6 +9,7 @@ import 'package:hawihub/src/core/utils/color_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/main/view/widgets/components.dart';
 import 'package:hawihub/src/modules/main/view/widgets/custom_app_bar.dart';
+import 'package:hawihub/src/modules/main/view/widgets/screen_background.dart';
 import 'package:hawihub/src/modules/places/bloc/place_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
@@ -161,65 +162,59 @@ class _AddBookingScreenState extends State<AddBookingScreen> {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomAppBar(
-                    actions: [SizedBox(height: 5.h)],
-                    height: 33.h,
-                    opacity: .15,
-                    backgroundImage: "assets/images/app_bar_backgrounds/5.webp",
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child: SizedBox(
-                        height: 7.h,
-                        child: Text(
-                          S.of(context).save,
-                          style: TextStyleManager.getAppBarTextStyle(),
-                        ),
-                      ),
+            child: ScreenBackground(
+                screenImage: PlaceBloc.get().currentPlace!.images.first,
+                screenTitle: S.of(context).bookNow,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 2.h,
                     ),
-                  ),
-                  BlocListener<PlaceBloc, PlaceState>(
-                    bloc: PlaceBloc.get(),
-                    listener: (context, state) {
-                      if (state is GetPlaceBookingsSuccess) {
-                        setState(() {
-                          bookings = state.bookings;
-                        });
-                      }
-                      if (state is PlaceError) {
-                        errorToast(
-                          msg: ExceptionManager(state.exception)
-                              .translatedMessage(),
-                        );
-                      }
-                      if (state is SendBookingRequestSuccess) {
-                        defaultToast(msg: S.of(context).bookingSuccess);
-                        context.pop();
-                      }
-                    },
-                    child: BlocBuilder<PlaceBloc, PlaceState>(
-                      bloc: PlaceBloc.get(),
-                      builder: (context, state) {
-                        return state is GetPlaceBookingsLoading
-                            ? const Center(child: CircularProgressIndicator())
-                            : Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                child: Column(
-                                  children: [
-                                    _buildCalendarCard(),
-                                    _buildTimePickerRow(),
-                                    SizedBox(height: 2.h),
-                                  ],
-                                ),
+                    Column(
+                      children: [
+                        BlocListener<PlaceBloc, PlaceState>(
+                          bloc: PlaceBloc.get(),
+                          listener: (context, state) {
+                            if (state is GetPlaceBookingsSuccess) {
+                              setState(() {
+                                bookings = state.bookings;
+                              });
+                            }
+                            if (state is PlaceError) {
+                              errorToast(
+                                msg: ExceptionManager(state.exception)
+                                    .translatedMessage(),
                               );
-                      },
+                            }
+                            if (state is SendBookingRequestSuccess) {
+                              defaultToast(msg: S.of(context).bookingSuccess);
+                              context.pop();
+                            }
+                          },
+                          child: BlocBuilder<PlaceBloc, PlaceState>(
+                            bloc: PlaceBloc.get(),
+                            builder: (context, state) {
+                              return state is GetPlaceBookingsLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 5.w),
+                                      child: Column(
+                                        children: [
+                                          _buildCalendarCard(),
+                                          _buildTimePickerRow(),
+                                          SizedBox(height: 2.h),
+                                        ],
+                                      ),
+                                    );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                )),
           ),
           BlocBuilder<PlaceBloc, PlaceState>(
             bloc: PlaceBloc.get(),

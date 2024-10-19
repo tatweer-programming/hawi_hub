@@ -57,6 +57,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "bookingTimeInPast":
             MessageLookupByLibrary.simpleMessage("Booking time is in the past"),
         "bookings": MessageLookupByLibrary.simpleMessage("Bookings"),
+        "both": MessageLookupByLibrary.simpleMessage("Both"),
+        "bothMalesAndFemales":
+            MessageLookupByLibrary.simpleMessage("Males & Females"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelReservationWarning": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to cancel the reservation? If you cancel the reservation after the owner\'s approval, you will lose the deposit permanently."),
@@ -88,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createGame": MessageLookupByLibrary.simpleMessage("Create Game"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "deposit": MessageLookupByLibrary.simpleMessage("Deposit"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "doYouWantToLogout":
             MessageLookupByLibrary.simpleMessage("Do you want to logout ?"),
@@ -118,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Explore By Sports"),
         "feedbacks": MessageLookupByLibrary.simpleMessage("Feedbacks"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
+        "females": MessageLookupByLibrary.simpleMessage("Females"),
         "fileUploaded": MessageLookupByLibrary.simpleMessage("File Uploaded"),
         "forgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot password ?"),
@@ -128,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Game Total Price"),
         "games": MessageLookupByLibrary.simpleMessage("Games"),
         "gender": MessageLookupByLibrary.simpleMessage("Gender"),
+        "genders": MessageLookupByLibrary.simpleMessage("Gender"),
         "getStarted": MessageLookupByLibrary.simpleMessage(
             "Get your Squad to play together!"),
         "goBack": MessageLookupByLibrary.simpleMessage("go back"),
@@ -162,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Account LogedIn Successfully"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
+        "males": MessageLookupByLibrary.simpleMessage("Males"),
         "maxPlayers": MessageLookupByLibrary.simpleMessage("Maximum Players"),
         "maxPlayersRequired": MessageLookupByLibrary.simpleMessage(
             "Please enter number of players"),

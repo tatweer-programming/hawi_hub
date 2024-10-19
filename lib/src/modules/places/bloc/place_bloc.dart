@@ -45,6 +45,8 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
         await _handleDeletePlaceFromFavoriteEvent(event, emit);
       } else if (event is AddOwnerFeedbackEvent) {
         await _handleAddOwnerFeedbackEvent(event, emit);
+      } else if (event is AddPlayerFeedbackEvent) {
+        await _handleAddPlayerFeedbackEvent(event, emit);
       } else if (event is AddPlaceFeedbackEvent) {
         await _handleAddPlaceFeedbackEvent(event, emit);
       } else if (event is GetUpcomingBookingsEvent) {
@@ -180,7 +182,6 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       AddOwnerFeedbackEvent event, Emitter<PlaceState> emit) async {
     emit(AddOwnerFeedbackLoading());
     var result = await placesRemoteDataSource.addOwnerFeedback(
-      event.ownerId,
       review: event.review,
     );
     result.fold(
@@ -188,12 +189,22 @@ class PlaceBloc extends Bloc<PlaceEvent, PlaceState> {
       (_) => emit(AddOwnerFeedbackSuccess()),
     );
   }
+  Future<void> _handleAddPlayerFeedbackEvent(
+      AddPlayerFeedbackEvent event, Emitter<PlaceState> emit) async {
+    emit(AddPlayerFeedbackLoading());
+    var result = await placesRemoteDataSource.addPlayerFeedback(
+      review: event.review,
+    );
+    result.fold(
+      (error) => emit(AddPlayerFeedbackError(error)),
+      (_) => emit(AddPlayerFeedbackSuccess()),
+    );
+  }
 
   Future<void> _handleAddPlaceFeedbackEvent(
       AddPlaceFeedbackEvent event, Emitter<PlaceState> emit) async {
     emit(AddPlaceFeedbackLoading());
     var result = await placesRemoteDataSource.addPlaceFeedback(
-      event.placeId,
       review: event.review,
     );
     result.fold(

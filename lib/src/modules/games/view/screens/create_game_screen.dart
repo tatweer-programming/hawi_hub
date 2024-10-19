@@ -101,6 +101,7 @@ class CreateGameScreen extends StatelessWidget {
                                 dropdownBuilder(
                                   leadingIcons: PlaceBloc.get()
                                       .viewedPlaces
+                                      .where((e) => e.isShared)
                                       .map((e) => CircleAvatar(
                                             backgroundImage: NetworkImage(
                                                 ApiManager.handleImageUrl(
@@ -117,16 +118,19 @@ class CreateGameScreen extends StatelessWidget {
                                       ? S.of(context).place
                                       : PlaceBloc.get()
                                           .viewedPlaces
+                                          .where((e) => e.isShared)
                                           .firstWhere((e) => e.id == placeId)
                                           .name,
                                   onChanged: (value) {
                                     bloc.add(SelectPlaceEvent(PlaceBloc.get()
                                         .viewedPlaces
+                                        .where((e) => e.isShared)
                                         .firstWhere((e) => e.name == value)
                                         .id));
                                   },
                                   items: PlaceBloc.get()
                                       .viewedPlaces
+                                      .where((e) => e.isShared)
                                       .map((e) => e.name)
                                       .toList(),
                                 ),

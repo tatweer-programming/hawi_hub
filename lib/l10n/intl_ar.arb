@@ -193,5 +193,11 @@
   "upcomingReservations": "الحجوزات المقبلة",
   "warning": "تحذير",
   "cancelReservationWarning": "هل أنت متأكد من الغاء الحجز؟. في حال الغاء الحجز بعد موافقة المالك ستفقد العربون بشكل نهائي",
-  "goBack": "عودة"
+  "goBack": "عودة",
+  "males": "ذكور",
+  "females": "إناث",
+  "both": "كليهما",
+  "genders": "النوع",
+  "bothMalesAndFemales": "ذكور وإناث",
+  "deposit": "العربون"
 }
