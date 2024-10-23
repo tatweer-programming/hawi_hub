@@ -146,11 +146,6 @@ class HomePage extends StatelessWidget {
     final Widget heightSpacer = SizedBox(
       height: 2.h,
     );
-    AuthBloc authBloc = context.read<AuthBloc>();
-    UserAccessProxy(
-            authBloc, GetProfileEvent(ConstantsManager.userId!, "Player"))
-        .execute([AccessCheckType.login]);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

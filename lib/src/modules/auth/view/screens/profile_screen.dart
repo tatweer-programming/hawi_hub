@@ -224,11 +224,12 @@ Widget _accountVerified({
 }) {
   if (!(ConstantsManager.appUser as Player).isEmailConfirmed()) {
     return _emailNotConfirmed(context, authBloc);
-  } else if (user.proofOfIdentityUrl == null && !(ConstantsManager.appUser as Player).isVerified()) {
+  } else if (user.proofOfIdentityUrl == null &&
+      !(ConstantsManager.appUser as Player).isVerified()) {
     return _notVerified(authBloc);
-  } else if (user.approvalStatus == 0) {
+  } else if (!(ConstantsManager.appUser as Player).isVerified()) {
     return _pending(context, S.of(context).identificationPending);
-  } else if (user.approvalStatus == 1) {
+  } else if ((ConstantsManager.appUser as Player).isVerified()) {
     return _verified(
       user: user,
       authBloc: authBloc,

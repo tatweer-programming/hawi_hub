@@ -52,10 +52,6 @@ class EndPoints {
   /// chat
   static const String getConnection = '/Hub/negotiate?negotiateVersion=1';
   static const String addConnectionId = '/Hub/AddPlayerConnectionId/';
-  static const String addConversationBetweenPlayerAndOwner =
-      '/Hub/ConversationBetweenPlayerAndOwner';
-  static const String addConversationBetweenAdminAndPlayer =
-      '/Hub/ConversationBetweenAdminAndPlayer';
   static const String getPlayerConversationsWithOwners =
       '/Hub/PlayerConversationsWithOwners/';
   static const String getPlayerConversationsWithAdmins =

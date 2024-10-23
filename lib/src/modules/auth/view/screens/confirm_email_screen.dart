@@ -21,7 +21,6 @@ class ConfirmEmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController codeController = TextEditingController();
     int timeToResendCode = 0;
-    bloc.add(ConfirmEmailEvent());
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       body: SingleChildScrollView(

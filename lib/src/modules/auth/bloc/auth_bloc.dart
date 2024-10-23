@@ -86,35 +86,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _startResendCodeTimer(
-    StartResendCodeTimerEvent event,
-    Emitter<AuthState> emit,
-  ) async {
-    timeToResendCodeTimer?.cancel(); // Cancel any previous timers
-
+      StartResendCodeTimerEvent event,
+      Emitter<AuthState> emit,
+      ) async {
+    timeToResendCodeTimer?.cancel();
     int timeToResendCode = event.timeToResendCode;
-    timeToResendCode = 120; // Set the timer value
-
-    final completer =
-        Completer<void>(); // Use a completer to keep the function alive
-
+    timeToResendCode = 120;
+    final completer = Completer<void>();
     timeToResendCodeTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (emit.isDone) {
         timer.cancel();
-        completer.complete(); // Completes the function if emitter is done
+        completer.complete();
         return;
       }
-
       if (timeToResendCode > 0) {
         timeToResendCode--;
         emit(ChangeTimeToResendCodeState(time: timeToResendCode));
       } else {
         timer.cancel();
         emit(ChangeTimeToResendCodeState(time: 0));
-        completer.complete(); // Complete when countdown is over
+        completer.complete();
       }
     });
-
-    await completer.future; // Wait for the completer to complete
+    await completer.future;
   }
 
   Future<File?> _captureAndSaveGalleryImage() async {

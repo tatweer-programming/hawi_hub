@@ -8,14 +8,13 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utils/localization_manager.dart';
-import '../../../../auth/data/models/player.dart';
-import '../custom_app_bar.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
@@ -25,9 +24,7 @@ class MorePage extends StatelessWidget {
     AuthBloc bloc = context.read<AuthBloc>();
     MainCubit mainCubit = MainCubit.get();
     return BlocConsumer<MainCubit, MainState>(
-      listener: (context, state) {
-        if (state is ShowDialogState) {}
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return SingleChildScrollView(
           child: Padding(
@@ -76,58 +73,7 @@ class MorePage extends StatelessWidget {
                 //   title: S.of(context).myWallet,
                 // ),
 
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.w,
-                    vertical: 4.h,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        S.of(context).profileSetup,
-                        style: TextStyleManager.getTitleBoldStyle(),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _checkProfile(
-                              ConstantsManager.appUser != null,
-                              S.of(context).createAccount,
-                            ),
-                          ),
-                          Expanded(
-                            child: _checkProfile(
-                              (ConstantsManager.appUser as Player)
-                                  .isEmailConfirmed(),
-                              S.of(context).confirmEmail,
-                            ),
-                          ),
-                          Expanded(
-                            child: _checkProfile(
-                              (ConstantsManager.appUser as Player).isVerified(),
-                              S.of(context).verifyAccount,
-                            ),
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 25.sp,
-                            color: ColorManager.primary,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                _setupProfile(context),
                 _newSettingWidget(
                   onTap: () {
                     context.push(Routes.termsAndCondition);
@@ -215,6 +161,15 @@ class MorePage extends StatelessWidget {
                 // ),
                 _newSettingWidget(
                   onTap: () {
+                    context.pushWithTransition(const ChatsScreen(
+                      withOwner: false,
+                    ));
+                  },
+                  icon: "assets/images/icons/chat.png",
+                  text: S.of(context).technicalSupport,
+                ),
+                _newSettingWidget(
+                  onTap: () {
                     Share.share(
                       '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
                     );
@@ -279,7 +234,9 @@ Widget _appBar(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ConstantsManager.appUser!.userName,
+                ConstantsManager.appUser == null
+                    ? "New User"
+                    : ConstantsManager.appUser!.userName,
                 style: TextStyleManager.getTitleBoldStyle(),
               ),
               SizedBox(
@@ -484,7 +441,6 @@ Widget _settingWidget({
 //     ),
 //   );
 // }
-
 showLogoutDialog(BuildContext context, AuthBloc bloc) {
   return showDialog(
     context: context,
@@ -522,28 +478,88 @@ Widget _languageText({
   required String text,
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(
-      horizontal: 3.w,
-      vertical: 0.8.h,
-    ),
+    height: 5.h,
+    width: 20.w,
     decoration: BoxDecoration(
       color: isEnglish ? ColorManager.primary : ColorManager.grey2,
       borderRadius: isEnglish
-          ? BorderRadius.only(
-              topLeft: Radius.circular(5.sp),
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(10),
               bottomLeft: Radius.circular(
-                5.sp,
+                10,
               ),
             )
-          : BorderRadius.only(
-              bottomRight: Radius.circular(5.sp),
-              topRight: Radius.circular(5.sp),
+          : const BorderRadius.only(
+              bottomRight: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
     ),
-    child: Text(
-      text,
-      style: TextStyleManager.getRegularStyle()
-          .copyWith(color: ColorManager.white),
+    child: Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 3.w,
+        vertical: 0.9.h,
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyleManager.getRegularStyle()
+              .copyWith(color: ColorManager.white),
+        ),
+      ),
+    ),
+  );
+}
+
+_setupProfile(BuildContext context) {
+  return Container(
+    width: double.infinity,
+    padding: EdgeInsets.symmetric(
+      horizontal: 4.w,
+      vertical: 4.h,
+    ),
+    decoration: BoxDecoration(
+      border: Border.all(),
+      borderRadius: BorderRadius.circular(10.sp),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          S.of(context).profileSetup,
+          style: TextStyleManager.getTitleBoldStyle(),
+        ),
+        SizedBox(
+          height: 3.h,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: _checkProfile(
+                ConstantsManager.appUser != null,
+                S.of(context).createAccount,
+              ),
+            ),
+            Expanded(
+              child: _checkProfile(
+                (ConstantsManager.appUser)!.isEmailConfirmed(),
+                S.of(context).confirmEmail,
+              ),
+            ),
+            Expanded(
+              child: _checkProfile(
+                (ConstantsManager.appUser)!.isVerified(),
+                S.of(context).verifyAccount,
+              ),
+            ),
+            Icon(
+              Icons.star,
+              size: 25.sp,
+              color: ColorManager.primary,
+            )
+          ],
+        ),
+      ],
     ),
   );
 }

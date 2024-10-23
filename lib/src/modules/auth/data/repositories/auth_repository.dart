@@ -14,7 +14,7 @@ class AuthRepository {
       {required String email,
       required String password,
       required bool loginWithFBOrGG}) async {
-    return await _service.loginOwner(
+    return await _service.login(
         email: email, password: password, loginWithFBOrGG: loginWithFBOrGG);
   }
 
@@ -37,7 +37,7 @@ class AuthRepository {
   Future<Either<Exception, String>> registerPlayer({
     required AuthPlayer authPlayer,
   }) async {
-    return _service.registerPlayer(
+    return _service.register(
       authPlayer: authPlayer,
     );
   }

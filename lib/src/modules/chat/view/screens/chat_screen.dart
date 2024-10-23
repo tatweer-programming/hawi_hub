@@ -16,11 +16,13 @@ import '../../../auth/view/widgets/widgets.dart';
 class ChatScreen extends StatelessWidget {
   final ChatBloc chatBloc;
   final Chat? chat;
+  final bool withOwner;
 
   const ChatScreen({
     super.key,
     required this.chat,
     required this.chatBloc,
+    required this.withOwner,
   });
 
   @override
@@ -36,8 +38,6 @@ class ChatScreen extends StatelessWidget {
         if (state is GetChatMessagesSuccessState) {
           message = state.messages;
           messages = message!.message;
-          print( message!.lastTimeToChat);
-          print(DateTime.now());
           if (messages.isNotEmpty) {
             chatBloc.add(
                 ScrollingDownEvent(listScrollController: scrollController));
@@ -104,7 +104,9 @@ class ChatScreen extends StatelessWidget {
                             : CrossAxisAlignment.start,
                         children: [
                           _messageWidget(
-                              message: messages[index], isSender: isOwner),
+                            message: messages[index],
+                            isSender: isOwner,
+                          ),
                           SizedBox(
                             height: 0.5.h,
                           ),
@@ -127,7 +129,9 @@ class ChatScreen extends StatelessWidget {
                     chatBloc.add(RemovePickedImageEvent());
                   }),
                 if (message != null &&
-                    message!.lastTimeToChat.compareTo(DateTime.now().add(const Duration(hours: 3))) >= 0)
+                    message!.lastTimeToChat.compareTo(
+                            DateTime.now().add(const Duration(hours: 3))) >=
+                        0)
                   _sendButton(
                     onTap: (String? value) async {
                       if (value == 'image') {
@@ -143,7 +147,8 @@ class ChatScreen extends StatelessWidget {
                             conversationId: chat!.conversationId,
                             attachmentUrl: imagePath,
                             isOwner: true,
-                            timeStamp: DateTime.now().add(const Duration(hours: 3)),
+                            timeStamp:
+                                DateTime.now().add(const Duration(hours: 3)),
                           ),
                         ));
                       }

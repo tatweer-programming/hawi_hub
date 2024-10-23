@@ -18,7 +18,7 @@ import '../../../../core/local/shared_prefrences.dart';
 import '../../../../core/utils/constance_manager.dart';
 
 class AuthService {
-  Future<Either<Exception, String>> registerPlayer({
+  Future<Either<Exception, String>> register({
     required AuthPlayer authPlayer,
   }) async {
     try {
@@ -57,7 +57,7 @@ class AuthService {
     }
   }
 
-  Future<Either<Exception, String>> loginOwner(
+  Future<Either<Exception, String>> login(
       {required String email,
       required String password,
       required bool loginWithFBOrGG}) async {
@@ -117,7 +117,7 @@ class AuthService {
       await googleSignIn.signOut();
       var googleUser = await googleSignIn.signIn();
       if (googleUser != null) {
-        final message = await loginOwner(
+        final message = await login(
           email: googleUser.email,
           password: "string",
           loginWithFBOrGG: true,
@@ -167,7 +167,7 @@ class AuthService {
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.instance.getUserData();
 
-        final message = await loginOwner(
+        final message = await login(
           email: userData['email'],
           password: "string",
           loginWithFBOrGG: true,
@@ -274,7 +274,7 @@ class AuthService {
         },
         path: EndPoints.verifyResetCode,
       );
-      await loginOwner(
+      await login(
           email: email, password: password, loginWithFBOrGG: false);
       return Right(response.data);
     } on Exception catch (e) {

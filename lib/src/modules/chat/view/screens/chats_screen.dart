@@ -10,20 +10,22 @@ import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
 
 class ChatsScreen extends StatelessWidget {
-  const ChatsScreen({super.key});
+  final bool withOwner;
+
+  const ChatsScreen({super.key, required this.withOwner});
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = context.read<ChatBloc>()..add(GetAllChatsEvent());
+    ChatBloc chatBloc = context.read<ChatBloc>()
+      ..add(GetAllChatsEvent(withOwner: withOwner));
     List<Chat> chats = [];
     return RefreshIndicator(
       onRefresh: () async {
-        chatBloc.add(GetAllChatsEvent());
+        chatBloc.add(GetAllChatsEvent(withOwner: withOwner));
       },
       child: Scaffold(
         appBar: AppBar(
@@ -59,10 +61,12 @@ class ChatsScreen extends StatelessWidget {
                                       context.pushWithTransition(ChatScreen(
                                         chatBloc: chatBloc,
                                         chat: chats[index],
+                                        withOwner: withOwner,
                                       ));
                                       chatBloc.add(GetChatMessagesEvent(
                                         conversationId:
                                             chats[index].conversationId,
+                                        withOwner: withOwner,
                                         index: index,
                                       ));
                                     },

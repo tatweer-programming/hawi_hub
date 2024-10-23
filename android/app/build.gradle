@@ -27,17 +27,16 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.tatweer.hawihub"
-    compileSdk 34
     ndkVersion "26.1.10909125"
     compileSdkVersion 34
-
+    buildToolsVersion = "34.0.0"
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -57,10 +56,10 @@ android {
     }
     signingConfigs {
         debug {
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'HawiHub_Tatweer'
-//            storeFile file('keystore.jks')
-//            storePassword 'HawiHub_Tatweer'
+            keyAlias 'androiddebugkey'
+            keyPassword 'HawiHub_Tatweer'
+            storeFile file('keystore.jks')
+            storePassword 'HawiHub_Tatweer'
         }
         release {
 //            keyAlias 'androiddebugkey'
@@ -88,6 +87,6 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.google.errorprone:error_prone_annotations:2.26.1'
+    implementation 'com.google.errorprone:error_prone_annotations:2.28.0'
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }

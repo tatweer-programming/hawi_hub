@@ -2009,6 +2009,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Technical support`
+  String get technicalSupport {
+    return Intl.message(
+      'Technical support',
+      name: 'technicalSupport',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

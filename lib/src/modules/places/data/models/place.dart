@@ -30,14 +30,13 @@ class Place extends Equatable {
   int totalGames;
   int totalRatings;
   double? rating;
-  List<AppFeedBack>? feedbacks; // []
+  List<AppFeedBack>? feedbacks;
   String ownerName;
   String ownerImage;
   int citId;
   int approvalStatus;
   Gender availableGender;
-  int deposit;
-
+  double deposit;
   bool isShared;
 
   Place(
@@ -95,7 +94,7 @@ class Place extends Equatable {
         ownerName: json['owner']['userName'] ?? "",
         ownerImage: json['owner']['ownerImage'] ?? ImagesManager.defaultProfile,
         availableGender: _getGender(json["availableGender"] ?? 2),
-        deposit: json["deposit"] ?? 0,
+        deposit: json["deposit"].toDouble() ?? 0,
         isShared: json["isShared"] ?? false);
   }
 

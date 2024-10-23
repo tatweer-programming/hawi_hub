@@ -1,10 +1,16 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/src/core/user_access_proxy/data_source_proxy.dart';
+import 'package:hawihub/src/core/utils/constance_manager.dart';
+import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
   final Widget nextScreen;
+
   const SplashScreen({super.key, required this.nextScreen});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -12,6 +18,14 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    if (ConstantsManager.userId != null) {
+      UserAccessProxy(
+        context.read<AuthBloc>(),
+        GetProfileEvent(ConstantsManager.userId!, "Player"),
+      ).execute(
+        [AccessCheckType.login],
+      );
+    }
     super.initState();
   }
 
@@ -32,7 +46,8 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       splash: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage('assets/images/logo.png'))),
+            image:
+                DecorationImage(image: AssetImage('assets/images/logo.png'))),
       ),
       nextScreen: widget.nextScreen,
       animationDuration: const Duration(milliseconds: 2700),
