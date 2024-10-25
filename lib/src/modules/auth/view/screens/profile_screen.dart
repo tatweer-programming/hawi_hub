@@ -491,20 +491,29 @@ Widget _verified({
                 ),
               ],
             ),
-      SizedBox(
-        height: 2.h,
-      ),
-      if (ConstantsManager.appUser!.ownerReservatation.contains(user.id))
+      if (ConstantsManager.appUser!.ownerReservation.contains(user.id) ||
+          ConstantsManager.appUser!.playerReservation.contains(user.id))
+        _addFeedback(
+          context,
+          onPressed: () {
+            context.pushWithTransition(
+                AddFeedbackForUser(user: user, authBloc: authBloc));
+          },
+        ),
+    ],
+  );
+}
+
+_addFeedback(BuildContext context, {required Function() onPressed}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 2.h),
+    child: Column(
+      children: [
         defaultButton(
-            onPressed: () {
-              context.pushWithTransition(
-                  AddFeedbackForUser(user: user, authBloc: authBloc));
-            },
+            onPressed: onPressed,
             text: S.of(context).addFeedback,
             fontSize: 17.sp),
-      SizedBox(
-        height: 2.h,
-      ),
-    ],
+      ],
+    ),
   );
 }
