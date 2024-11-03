@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawihub/generated/l10n.dart';
 import 'package:hawihub/src/core/apis/api.dart';
 import 'package:hawihub/src/core/routing/navigation_manager.dart';
 import 'package:hawihub/src/core/utils/color_manager.dart';
@@ -16,11 +17,13 @@ import '../../../auth/view/widgets/widgets.dart';
 class ChatScreen extends StatelessWidget {
   final ChatBloc chatBloc;
   final Chat? chat;
+  final bool withOwner;
 
   const ChatScreen({
     super.key,
     required this.chat,
     required this.chatBloc,
+    required this.withOwner,
   });
 
   @override
@@ -29,6 +32,10 @@ class ChatScreen extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     String? imagePath;
     chatBloc.add(GetConnectionEvent());
+    chatBloc.add(GetChatMessagesEvent(
+      conversationId: chat!.conversationId,
+      withOwner: withOwner,
+    ));
     Message? message;
     List<MessageDetails> messages = [];
     return BlocConsumer<ChatBloc, ChatState>(
@@ -36,8 +43,6 @@ class ChatScreen extends StatelessWidget {
         if (state is GetChatMessagesSuccessState) {
           message = state.messages;
           messages = message!.message;
-          print( message!.lastTimeToChat);
-          print(DateTime.now());
           if (messages.isNotEmpty) {
             chatBloc.add(
                 ScrollingDownEvent(listScrollController: scrollController));
@@ -78,8 +83,10 @@ class ChatScreen extends StatelessWidget {
                 _appBar(
                     chatBloc: chatBloc,
                     context: context,
-                    receiverName: chat!.lastMessage.owner.userName,
-                    imageProfile: chat!.lastMessage.owner.profilePictureUrl),
+                    receiverName: chat!.lastMessage.owner == null
+                        ? S.of(context).technicalSupport
+                        : chat!.lastMessage.owner!.userName,
+                    imageProfile: chat!.lastMessage.owner?.profilePictureUrl),
                 SizedBox(
                   height: 1.h,
                 ),
@@ -93,18 +100,20 @@ class ChatScreen extends StatelessWidget {
                       formattedDate = DateFormat('hh:mm a')
                           .format(messages[index].timeStamp!);
                     }
-                    bool? isOwner = messages[index].isOwner;
+                    bool? isPlayer = messages[index].isPlayer;
                     return Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 3.w,
                       ),
                       child: Column(
-                        crossAxisAlignment: isOwner!
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.start,
+                        crossAxisAlignment: isPlayer!
+                            ? CrossAxisAlignment.start
+                            : CrossAxisAlignment.end,
                         children: [
                           _messageWidget(
-                              message: messages[index], isSender: isOwner),
+                            message: messages[index],
+                            isSender: isPlayer,
+                          ),
                           SizedBox(
                             height: 0.5.h,
                           ),
@@ -127,7 +136,8 @@ class ChatScreen extends StatelessWidget {
                     chatBloc.add(RemovePickedImageEvent());
                   }),
                 if (message != null &&
-                    message!.lastTimeToChat.compareTo(DateTime.now().add(const Duration(hours: 3))) >= 0)
+                    message!.lastTimeToChat.compareTo(DateTime.now().toUtc()) >=
+                        0)
                   _sendButton(
                     onTap: (String? value) async {
                       if (value == 'image') {
@@ -138,12 +148,13 @@ class ChatScreen extends StatelessWidget {
                       if (messageController.text.isNotEmpty ||
                           imagePath != null) {
                         chatBloc.add(SendMessageEvent(
+                          withOwner: withOwner,
                           message: MessageDetails(
                             message: messageController.text,
                             conversationId: chat!.conversationId,
                             attachmentUrl: imagePath,
-                            isOwner: true,
-                            timeStamp: DateTime.now().add(const Duration(hours: 3)),
+                            isPlayer: false,
+                            timeStamp: DateTime.now().toUtc(),
                           ),
                         ));
                       }
@@ -249,15 +260,15 @@ Widget _messageWidget(
 Widget _textWidget({required bool isSender, required String message}) {
   return Align(
     alignment:
-        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+        isSender ? AlignmentDirectional.topStart : AlignmentDirectional.topEnd,
     child: Container(
       decoration: BoxDecoration(
         color: ColorManager.grey3.withOpacity(0.4),
         borderRadius: BorderRadiusDirectional.only(
           topStart: Radius.circular(15.sp),
           topEnd: Radius.circular(15.sp),
-          bottomEnd: isSender ? Radius.zero : Radius.circular(15.sp),
-          bottomStart: isSender ? Radius.circular(15.sp) : Radius.zero,
+          bottomEnd: isSender ? Radius.circular(15.sp) : Radius.zero,
+          bottomStart: isSender ? Radius.zero : Radius.circular(15.sp),
         ),
       ),
       padding: EdgeInsetsDirectional.only(
@@ -279,7 +290,7 @@ Widget _textWidget({required bool isSender, required String message}) {
 Widget _imageWidget({required bool isSender, required String image}) {
   return Align(
     alignment:
-        isSender ? AlignmentDirectional.topEnd : AlignmentDirectional.topStart,
+        isSender ? AlignmentDirectional.topStart : AlignmentDirectional.topEnd,
     child: Container(
       height: 20.h,
       width: 60.w,
@@ -292,8 +303,8 @@ Widget _imageWidget({required bool isSender, required String image}) {
         borderRadius: BorderRadiusDirectional.only(
           topStart: Radius.circular(15.sp),
           topEnd: Radius.circular(15.sp),
-          bottomEnd: isSender ? Radius.zero : Radius.circular(15.sp),
-          bottomStart: isSender ? Radius.circular(15.sp) : Radius.zero,
+          bottomEnd: isSender ? Radius.circular(15.sp) : Radius.zero,
+          bottomStart: isSender ? Radius.zero : Radius.circular(15.sp),
         ),
       ),
     ),

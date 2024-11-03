@@ -10,20 +10,22 @@ import 'package:hawihub/src/modules/chat/data/models/last_message.dart';
 import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../core/utils/color_manager.dart';
 import '../../../main/view/widgets/custom_app_bar.dart';
 
 class ChatsScreen extends StatelessWidget {
-  const ChatsScreen({super.key});
+  final bool withOwner;
+
+  const ChatsScreen({super.key, required this.withOwner});
 
   @override
   Widget build(BuildContext context) {
-    ChatBloc chatBloc = context.read<ChatBloc>()..add(GetAllChatsEvent());
+    ChatBloc chatBloc = context.read<ChatBloc>()
+      ..add(GetAllChatsEvent(withOwner: withOwner));
     List<Chat> chats = [];
     return RefreshIndicator(
       onRefresh: () async {
-        chatBloc.add(GetAllChatsEvent());
+        chatBloc.add(GetAllChatsEvent(withOwner: withOwner));
       },
       child: Scaffold(
         appBar: AppBar(
@@ -59,11 +61,7 @@ class ChatsScreen extends StatelessWidget {
                                       context.pushWithTransition(ChatScreen(
                                         chatBloc: chatBloc,
                                         chat: chats[index],
-                                      ));
-                                      chatBloc.add(GetChatMessagesEvent(
-                                        conversationId:
-                                            chats[index].conversationId,
-                                        index: index,
+                                        withOwner: withOwner,
                                       ));
                                     },
                                   ),
@@ -149,9 +147,10 @@ Widget _chatWidget(
           CircleAvatar(
             backgroundColor: ColorManager.grey3,
             radius: 22.sp,
-            backgroundImage: lastMessage.owner.profilePictureUrl == null
+            backgroundImage: lastMessage.owner == null ||
+                    lastMessage.owner!.profilePictureUrl == null
                 ? null
-                : NetworkImage(lastMessage.owner.profilePictureUrl!),
+                : NetworkImage(lastMessage.owner!.profilePictureUrl!),
           ),
           SizedBox(
             width: 4.w,
@@ -166,7 +165,9 @@ Widget _chatWidget(
                   children: [
                     Expanded(
                       child: Text(
-                        lastMessage.owner.userName,
+                        lastMessage.owner == null
+                            ? ""
+                            : lastMessage.owner!.userName,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hawihub/src/modules/chat/data/models/message_details.dart';
 
@@ -11,12 +10,13 @@ class Message extends Equatable {
     required this.message,
   });
 
-  factory Message.fromJson(Map<String, dynamic> json) {
+  factory Message.fromJson(Map<String, dynamic> json,bool withOwner) {
     return Message(
-      lastTimeToChat: DateTime.parse(json["lastTimeToChat"]).toLocal().add(const Duration(hours: 3)),
+      lastTimeToChat:
+          DateTime.parse(json["lastTimeToChat"]).toLocal(),
       message: List<MessageDetails>.from(
         json["messages"]
-            .map((message) => MessageDetails.fromJson(message))
+            .map((message) => MessageDetails.fromJson(message,withOwner))
             .toList(),
       ),
     );

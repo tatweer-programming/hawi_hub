@@ -1850,6 +1850,16 @@ class S {
     );
   }
 
+  /// `Technical Support`
+  String get technicalSupport {
+    return Intl.message(
+      'Technical Support',
+      name: 'technicalSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Female`
   String get female {
     return Intl.message(

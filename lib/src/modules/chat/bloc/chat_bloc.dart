@@ -32,14 +32,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         var response = await _service.connection();
         response.fold((l) {}, (r) {
           emit(GetConnectionSuccessState());
-          add(StreamMessagesEvent());
         });
       } else if (event is CloseConnectionEvent) {
         await _service.closeConnection();
         emit(CloseConnectionSuccessState());
       } else if (event is GetAllChatsEvent) {
         emit(GetAllChatsLoadingState());
-        var response = await _service.getAllChats();
+        var response = await _service.getAllChats(withOwner: event.withOwner);
         response.fold((l) {
           emit(GetAllChatsErrorState(l));
         }, (chats) {
@@ -47,19 +46,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         });
       } else if (event is GetChatMessagesEvent) {
         emit(GetChatMessagesLoadingState());
-        var response = await _service.getChatMessages(event.conversationId);
+        var response = await _service.getChatMessages(
+            event.conversationId, event.withOwner);
         response.fold((l) {
           emit(GetChatMessagesErrorState(l));
         }, (messages) {
           emit(GetChatMessagesSuccessState(
             messages: messages,
-            index: event.index,
           ));
         });
       } else if (event is SendMessageEvent) {
         emit(GetChatMessagesLoadingState());
         var response = await _service.sendMessage(
           message: event.message,
+          withOwner: event.withOwner,
         );
         response.fold((l) {
           emit(SendMessageErrorState(l));
@@ -67,7 +67,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           emit(SendMessageSuccessState(event.message));
         });
       } else if (event is StreamMessagesEvent) {
-        var stream = _service.streamMessage();
+        var stream = _service.streamMessage(withOwner: event.withOwner);
         await for (MessageDetails message in stream) {
           emit(StreamMessagesSuccessState(message));
         }

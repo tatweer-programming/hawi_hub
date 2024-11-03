@@ -102,7 +102,7 @@ class DefaultAppBar extends StatelessWidget {
         children: [
           IconButton(
               onPressed: () {
-                context.pushWithTransition(const ChatsScreen());
+                context.pushWithTransition(const ChatsScreen(withOwner: true,));
               },
               icon: const ImageIcon(
                 AssetImage("assets/images/icons/chat.png"),

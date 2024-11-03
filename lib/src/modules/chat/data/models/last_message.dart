@@ -8,7 +8,7 @@ class LastMessage extends Equatable {
   final String? messageAttachmentUrl;
   final bool? playerToOwner;
   final DateTime? timestamp;
-  final OwnerChat owner;
+  final OwnerChat? owner;
 
   const LastMessage({
     required this.messageId,
@@ -19,14 +19,15 @@ class LastMessage extends Equatable {
     required this.owner,
   });
 
-  factory LastMessage.fromJson(Map<String, dynamic> json) {
+  factory LastMessage.fromJson(Map<String, dynamic> json,bool withOwner) {
     return LastMessage(
       messageId: json["messageId"],
       messageContent: json["messageContent"],
       messageAttachmentUrl: json["messageAttachmentUrl"],
-      playerToOwner: json["playerToOwner"],
-      timestamp: DateTime.parse(json["timestamp"]??DateTime.now().toString()).toLocal().add(const Duration(hours: 3)),
-      owner: OwnerChat.fromJson(json["owner"]),
+      playerToOwner: withOwner ? json["playerToOwner"] : json["adminToPlayer"],
+      timestamp: DateTime.parse(json["timestamp"]??DateTime.now().toLocal().toString()),
+      owner: withOwner ? OwnerChat.fromJson(json["owner"]) : null,
+
     );
   }
 

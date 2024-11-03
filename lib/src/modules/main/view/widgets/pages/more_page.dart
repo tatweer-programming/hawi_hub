@@ -8,14 +8,16 @@ import 'package:hawihub/src/core/utils/constance_manager.dart';
 import 'package:hawihub/src/core/utils/styles_manager.dart';
 import 'package:hawihub/src/modules/auth/bloc/auth_bloc.dart';
 import 'package:hawihub/src/modules/auth/view/widgets/widgets.dart';
+import 'package:hawihub/src/modules/chat/bloc/chat_bloc.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chat_screen.dart';
+import 'package:hawihub/src/modules/chat/view/screens/chats_screen.dart';
 import 'package:hawihub/src/modules/main/cubit/main_cubit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utils/localization_manager.dart';
-import '../../../../auth/data/models/player.dart';
-import '../custom_app_bar.dart';
+import '../../../../chat/data/models/chat.dart';
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
@@ -23,227 +25,188 @@ class MorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = context.read<AuthBloc>();
+    ChatBloc chatBloc = context.read<ChatBloc>();
     MainCubit mainCubit = MainCubit.get();
-    return BlocConsumer<MainCubit, MainState>(
+    List<Chat> chats = [];
+    chatBloc.add(const GetAllChatsEvent(withOwner: false));
+    return BlocListener<ChatBloc, ChatState>(
       listener: (context, state) {
-        if (state is ShowDialogState) {}
+        if (state is GetAllChatsSuccessState) {
+          chats = state.chats;
+          Chat.sortChatsByDate(chats);
+        }
       },
-      builder: (context, state) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 6.h),
-            child: Column(
-              children: [
-                // SizedBox(
-                //   width: double.infinity,
-                //   child: _appBar(
-                //     context,
-                //   ),
-                // ),
-                _appBar(context),
-                Padding(
-                  padding: EdgeInsetsDirectional.only(
-                    start: 3.w,
-                    end: 3.w,
-                    top: 5.h,
-                    bottom: 3.h,
+      child: BlocBuilder<MainCubit, MainState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 6.h),
+              child: Column(
+                children: [
+                  _appBar(context),
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(
+                      start: 3.w,
+                      end: 3.w,
+                      top: 5.h,
+                      bottom: 3.h,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        context.push(
+                          Routes.wallet,
+                          arguments: ConstantsManager.appUser,
+                        );
+                      },
+                      child: userInfoDisplay(
+                          value:
+                              "${ConstantsManager.appUser!.myWallet} ${S.of(context).sar}",
+                          key: S.of(context).myWallet,
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: ColorManager.grey2,
+                          )),
+                    ),
                   ),
-                  child: InkWell(
+                  // _settingWidget(
+                  //   onTap: () {
+                  //     context.push(
+                  //       Routes.wallet,
+                  //       arguments: ConstantsManager.appUser,
+                  //     );
+                  //   },
+                  //   icon: "assets/images/icons/money.webp",
+                  //   title: S.of(context).myWallet,
+                  // ),
+
+                  _setupProfile(context),
+                  _newSettingWidget(
                     onTap: () {
-                      context.push(
-                        Routes.wallet,
-                        arguments: ConstantsManager.appUser,
+                      context.push(Routes.termsAndCondition);
+                    },
+                    icon: "assets/images/icons/privacy.webp",
+                    text: S.of(context).preferenceAndPrivacy,
+                  ),
+                  _newSettingWidget(
+                      onTap: () {
+                        showDialogForLanguage(context, mainCubit);
+                      },
+                      icon: "assets/images/icons/lang.png",
+                      text: S.of(context).language,
+                      trailing: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                            color: ColorManager.grey2,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                mainCubit.changeLanguage(0);
+                              },
+                              child: _languageText(
+                                  text: "عربي",
+                                  isEnglish:
+                                      LocalizationManager.getCurrentLocale()
+                                              .languageCode ==
+                                          "ar"),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                mainCubit.changeLanguage(1);
+                              },
+                              child: _languageText(
+                                  text: "English",
+                                  isEnglish:
+                                      !(LocalizationManager.getCurrentLocale()
+                                              .languageCode ==
+                                          "ar")),
+                            ),
+                          ],
+                        ),
+                      )),
+                  // _settingWidget(
+                  //   onTap: () {
+                  //     context.push(Routes.termsAndCondition);
+                  //   },
+                  //   icon: "assets/images/icons/privacy.webp",
+                  //   title: S.of(context).preferenceAndPrivacy,
+                  // ),
+                  // _settingWidget(
+                  //   onTap: () {
+                  //     showDialogForLanguage(context, mainCubit);
+                  //   },
+                  //   icon: "assets/images/icons/lang.png",
+                  //   title: S.of(context).language,
+                  // ),
+                  // _settingWidget(
+                  //   onTap: () {
+                  //     context.push(Routes.questions);
+                  //   },
+                  //   color: ColorManager.grey1,
+                  //   icon: "assets/images/icons/question.webp",
+                  //   title: S.of(context).commonQuestions,
+                  // ),
+                  _newSettingWidget(
+                    onTap: () {
+                      context.push(Routes.questions);
+                    },
+                    icon: "assets/images/icons/question.webp",
+                    text: S.of(context).commonQuestions,
+                  ),
+                  // _settingWidget(
+                  //   onTap: () {
+                  //     Share.share(
+                  //       '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
+                  //     );
+                  //   },
+                  //   icon: "assets/images/icons/share_2.webp",
+                  //   title: S.of(context).share,
+                  //   color: ColorManager.grey1,
+                  // ),
+                  _newSettingWidget(
+                    onTap: () {
+                      context.pushWithTransition(ChatScreen(
+                        chatBloc: chatBloc,
+                        chat: chats[0],
+                        withOwner: false,
+                      ));
+                    },
+                    icon: "assets/images/icons/chat.png",
+                    text: S.of(context).technicalSupport,
+                  ),
+                  _newSettingWidget(
+                    onTap: () {
+                      Share.share(
+                        '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
                       );
                     },
-                    child: userInfoDisplay(
-                        value:
-                            "${ConstantsManager.appUser!.myWallet} ${S.of(context).sar}",
-                        key: S.of(context).myWallet,
-                        trailing: const Icon(
-                          Icons.arrow_forward_ios,
-                          color: ColorManager.grey2,
-                        )),
+                    icon: "assets/images/icons/share_2.webp",
+                    text: S.of(context).share,
                   ),
-                ),
-                // _settingWidget(
-                //   onTap: () {
-                //     context.push(
-                //       Routes.wallet,
-                //       arguments: ConstantsManager.appUser,
-                //     );
-                //   },
-                //   icon: "assets/images/icons/money.webp",
-                //   title: S.of(context).myWallet,
-                // ),
-
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.w,
-                    vertical: 4.h,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        S.of(context).profileSetup,
-                        style: TextStyleManager.getTitleBoldStyle(),
-                      ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: _checkProfile(
-                              ConstantsManager.appUser != null,
-                              S.of(context).createAccount,
-                            ),
-                          ),
-                          Expanded(
-                            child: _checkProfile(
-                              (ConstantsManager.appUser as Player)
-                                  .isEmailConfirmed(),
-                              S.of(context).confirmEmail,
-                            ),
-                          ),
-                          Expanded(
-                            child: _checkProfile(
-                              (ConstantsManager.appUser as Player).isVerified(),
-                              S.of(context).verifyAccount,
-                            ),
-                          ),
-                          Icon(
-                            Icons.star,
-                            size: 25.sp,
-                            color: ColorManager.primary,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                _newSettingWidget(
-                  onTap: () {
-                    context.push(Routes.termsAndCondition);
-                  },
-                  icon: "assets/images/icons/privacy.webp",
-                  text: S.of(context).preferenceAndPrivacy,
-                ),
-
-                _newSettingWidget(
-                    onTap: () {
-                      showDialogForLanguage(context, mainCubit);
+                  BlocConsumer<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is LogoutSuccessState) {
+                        bloc.add(PlaySoundEvent("audios/end.wav"));
+                        context.pushAndRemove(Routes.login);
+                      }
                     },
-                    icon: "assets/images/icons/lang.png",
-                    text: S.of(context).language,
-                    trailing: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                          color: ColorManager.grey2,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              mainCubit.changeLanguage(0);
-                            },
-                            child: _languageText(
-                                text: "عربي",
-                                isEnglish:
-                                    LocalizationManager.getCurrentLocale()
-                                            .languageCode ==
-                                        "ar"),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              mainCubit.changeLanguage(1);
-                            },
-                            child: _languageText(
-                                text: "English",
-                                isEnglish:
-                                    !(LocalizationManager.getCurrentLocale()
-                                            .languageCode ==
-                                        "ar")),
-                          ),
-                        ],
-                      ),
-                    )),
-                // _settingWidget(
-                //   onTap: () {
-                //     context.push(Routes.termsAndCondition);
-                //   },
-                //   icon: "assets/images/icons/privacy.webp",
-                //   title: S.of(context).preferenceAndPrivacy,
-                // ),
-                // _settingWidget(
-                //   onTap: () {
-                //     showDialogForLanguage(context, mainCubit);
-                //   },
-                //   icon: "assets/images/icons/lang.png",
-                //   title: S.of(context).language,
-                // ),
-                // _settingWidget(
-                //   onTap: () {
-                //     context.push(Routes.questions);
-                //   },
-                //   color: ColorManager.grey1,
-                //   icon: "assets/images/icons/question.webp",
-                //   title: S.of(context).commonQuestions,
-                // ),
-                _newSettingWidget(
-                  onTap: () {
-                    context.push(Routes.questions);
-                  },
-                  icon: "assets/images/icons/question.webp",
-                  text: S.of(context).commonQuestions,
-                ),
-                // _settingWidget(
-                //   onTap: () {
-                //     Share.share(
-                //       '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
-                //     );
-                //   },
-                //   icon: "assets/images/icons/share_2.webp",
-                //   title: S.of(context).share,
-                //   color: ColorManager.grey1,
-                // ),
-                _newSettingWidget(
-                  onTap: () {
-                    Share.share(
-                      '${S.of(context).shareApp}:https://play.google.com/store/apps/details?id=com.instagram.android',
-                    );
-                  },
-                  icon: "assets/images/icons/share_2.webp",
-                  text: S.of(context).share,
-                ),
-                BlocConsumer<AuthBloc, AuthState>(
-                  listener: (context, state) {
-                    if (state is LogoutSuccessState) {
-                      bloc.add(PlaySoundEvent("audios/end.wav"));
-                      context.pushAndRemove(Routes.login);
-                    }
-                  },
-                  builder: (context, state) {
-                    return _newSettingWidget(
-                      onTap: () {
-                        showLogoutDialog(context, bloc);
-                      },
-                      icon: "assets/images/icons/logout.webp",
-                      text: S.of(context).logout,
-                    );
-                  },
-                ),
-              ],
+                    builder: (context, state) {
+                      return _newSettingWidget(
+                        onTap: () {
+                          showLogoutDialog(context, bloc);
+                        },
+                        icon: "assets/images/icons/logout.webp",
+                        text: S.of(context).logout,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -279,7 +242,9 @@ Widget _appBar(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ConstantsManager.appUser!.userName,
+                ConstantsManager.appUser == null
+                    ? "New User"
+                    : ConstantsManager.appUser!.userName,
                 style: TextStyleManager.getTitleBoldStyle(),
               ),
               SizedBox(
@@ -484,7 +449,6 @@ Widget _settingWidget({
 //     ),
 //   );
 // }
-
 showLogoutDialog(BuildContext context, AuthBloc bloc) {
   return showDialog(
     context: context,
@@ -522,28 +486,88 @@ Widget _languageText({
   required String text,
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(
-      horizontal: 3.w,
-      vertical: 0.8.h,
-    ),
+    height: 5.h,
+    width: 20.w,
     decoration: BoxDecoration(
       color: isEnglish ? ColorManager.primary : ColorManager.grey2,
       borderRadius: isEnglish
-          ? BorderRadius.only(
-              topLeft: Radius.circular(5.sp),
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(10),
               bottomLeft: Radius.circular(
-                5.sp,
+                10,
               ),
             )
-          : BorderRadius.only(
-              bottomRight: Radius.circular(5.sp),
-              topRight: Radius.circular(5.sp),
+          : const BorderRadius.only(
+              bottomRight: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
     ),
-    child: Text(
-      text,
-      style: TextStyleManager.getRegularStyle()
-          .copyWith(color: ColorManager.white),
+    child: Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 3.w,
+        vertical: 0.9.h,
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyleManager.getRegularStyle()
+              .copyWith(color: ColorManager.white),
+        ),
+      ),
+    ),
+  );
+}
+
+_setupProfile(BuildContext context) {
+  return Container(
+    width: double.infinity,
+    padding: EdgeInsets.symmetric(
+      horizontal: 4.w,
+      vertical: 4.h,
+    ),
+    decoration: BoxDecoration(
+      border: Border.all(),
+      borderRadius: BorderRadius.circular(10.sp),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          S.of(context).profileSetup,
+          style: TextStyleManager.getTitleBoldStyle(),
+        ),
+        SizedBox(
+          height: 3.h,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: _checkProfile(
+                ConstantsManager.appUser != null,
+                S.of(context).createAccount,
+              ),
+            ),
+            Expanded(
+              child: _checkProfile(
+                (ConstantsManager.appUser)!.isEmailConfirmed(),
+                S.of(context).confirmEmail,
+              ),
+            ),
+            Expanded(
+              child: _checkProfile(
+                (ConstantsManager.appUser)!.isVerified(),
+                S.of(context).verifyAccount,
+              ),
+            ),
+            Icon(
+              Icons.star,
+              size: 25.sp,
+              color: ColorManager.primary,
+            )
+          ],
+        ),
+      ],
     ),
   );
 }

@@ -45,7 +45,6 @@ class ChatService {
         },
       );
       if (response.statusCode == 200) {
-        print(response.data['message']);
         return response.data['message'];
       }
       return const Right(unit);
@@ -54,16 +53,20 @@ class ChatService {
     }
   }
 
-  Future<Either<String, List<Chat>>> getAllChats() async {
+  Future<Either<String, List<Chat>>> getAllChats(
+      {required bool withOwner}) async {
     try {
       Response response = await DioHelper.getData(
-        path: EndPoints.getPlayerConversationsWithOwners +
+        path: (withOwner
+                ? EndPoints.getPlayerConversationsWithOwners
+                : EndPoints.getPlayerConversationsWithAdmins) +
             ConstantsManager.userId.toString(),
       );
       if (response.statusCode == 200) {
         List<Chat> chats = [];
         for (var item in response.data) {
-          chats.add(Chat.fromJson(item));
+          print(item);
+          chats.add(Chat.fromJson(item!, withOwner));
         }
         return Right(chats);
       }
@@ -74,21 +77,22 @@ class ChatService {
     }
   }
 
-  Future<Either<String, Unit>> sendMessage({required MessageDetails message}) async {
+  Future<Either<String, Unit>> sendMessage(
+      {required MessageDetails message, required bool withOwner}) async {
     try {
       if (message.attachmentUrl != null) {
         message.attachmentUrl =
             await uploadFile(message.attachmentUrl!, message.conversationId!);
         message.message = null;
       }
-      socket!.add(message.jsonBody());
+      socket!.add(message.jsonBody(withOwner));
       return const Right(unit);
     } catch (e) {
       return Left(e.toString());
     }
   }
 
-  Stream<MessageDetails> streamMessage() {
+  Stream<MessageDetails> streamMessage({required bool withOwner}) {
     try {
       StreamController<MessageDetails> messageStreamController =
           StreamController<MessageDetails>.broadcast();
@@ -97,12 +101,21 @@ class ChatService {
           String message =
               data.toString().replaceAll(RegExp(r'[\x00-\x1F]+'), '');
           final Map<String, dynamic> jsonData = jsonDecode(message);
-          messageStreamController.add(MessageDetails(
-            message: jsonData["arguments"][0]["ownerMessage"],
-            attachmentUrl: jsonData["arguments"][0]["ownerAttachmentUrl"],
-            isOwner: false,
-            timeStamp: DateTime.now().add(const Duration(hours: 3)),
-          ));
+          if (withOwner) {
+            messageStreamController.add(MessageDetails(
+              message: jsonData["arguments"][0]["ownerMessage"],
+              attachmentUrl: jsonData["arguments"][0]["ownerAttachmentUrl"],
+              isPlayer: false,
+              timeStamp: DateTime.now().toUtc(),
+            ));
+          } else {
+            messageStreamController.add(MessageDetails(
+              message: jsonData["arguments"][0]["adminMessage"],
+              attachmentUrl: jsonData["arguments"][0]["adminAttachmentUrl"],
+              isPlayer: false,
+              timeStamp: DateTime.now().toUtc(),
+            ));
+          }
         }
       });
       return messageStreamController.stream;
@@ -112,17 +125,21 @@ class ChatService {
   }
 
   Future<Either<String, Message>> getChatMessages(
-      int conversationId) async {
+      int conversationId, bool withOwner) async {
     try {
       Response response = await DioHelper.getData(
-        path: EndPoints.getConversationOwnerWithPlayer + conversationId.toString(),
+        path: (withOwner
+                ? EndPoints.getConversationOwnerWithPlayer
+                : EndPoints.getConversationAdminWithPlayer) +
+            conversationId.toString(),
       );
       if (response.statusCode == 200) {
-        Message messages = Message.fromJson(response.data);
+        Message messages = Message.fromJson(response.data, withOwner);
         return Right(messages);
       }
       return Left(response.data.toString());
     } catch (e) {
+      print(e);
       return Left(e.toString());
     }
   }

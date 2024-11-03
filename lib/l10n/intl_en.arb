@@ -179,6 +179,7 @@
   "gender": "Gender",
   "mix": "Mix",
   "male": "Male",
+  "technicalSupport": "Technical Support",
   "female": "Female",
   "createAccount": "Create Account",
   "confirmEmail": "Confirm Email",
